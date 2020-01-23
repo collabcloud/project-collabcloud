@@ -1,5 +1,5 @@
 # Definition of Done
-In this document, we define the Criteria of Satisfication that we will be using for user stories throughout our project in order to define "Definition of Done". We also use the term Acceptance Criteria interchangeably to define our "Definition of Done". We use our Acceptance Criteria to 
+In this document, we define the Acceptance Criteria that we will be using for user stories throughout our project in order to define "Definition of Done". We also use the term Acceptance Criteria interchangeably with "Criteria of Satisfaction" to define our "Definition of Done".
 
 
 ## :ballot_box_with_check: Acceptance Criteria :ballot_box_with_check:
