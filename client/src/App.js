@@ -1,13 +1,18 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { NavigationBar } from "./components/base/NavigationBar";
 import './App.css';
+
+// Router Imports
+import { BrowserRouter } from "react-router-dom";
+import Router from "./Routing/Router"
 
 function App() {
   return (
-    <div className="App">
-        <NavigationBar />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+          <Router />
+      </div>
+    </BrowserRouter>
   );
 }
 
