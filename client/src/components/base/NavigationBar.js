@@ -1,12 +1,14 @@
 import React from 'react';
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
-import "../../App.css";
+import { Link } from 'react-router-dom';
+import "../../css/NavigationBar.css";
 
 export class NavigationBar extends React.Component {
     render() {
       return (
+        <div>
         <Navbar bg="dark" variant="dark" className="d-flex">
-          <Navbar.Brand href="#home" className="p-2">
+          <Navbar.Brand href="/" className="p-2">
             <img
               alt=""
               src={require('../../logo.png')}
@@ -21,9 +23,9 @@ export class NavigationBar extends React.Component {
             <Button>Search</Button>
           </Form>
           <Nav className="ml-auto p-2">
-            <Nav.Link href="#home">Create a Project</Nav.Link>
-            <Nav.Link href="#explore">Explore</Nav.Link>
-            <Nav.Link href="#trending">Trending</Nav.Link>
+            <Link to="/create-project" className="p-2 link">Create a Project</Link>
+            <Link to="/register" className="p-2 link">Explore</Link>
+            <Link to="/" className="p-2 link">Trending</Link>
             <img
               alt=""
               src={require('../../avatar.png')}
@@ -32,8 +34,9 @@ export class NavigationBar extends React.Component {
               style={{marginTop: 10}}
               className="d-inline-block align-top"
             />{' '}
-          </Nav>
+            </Nav>
         </Navbar>
+        </div>
       );
     }
   }
