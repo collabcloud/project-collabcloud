@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { NavigationBar } from "../../../components/base/NavigationBar";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import ReactTags from "react-tag-autocomplete";
 import "./createproject.css";
 
 export default class CreateProjects extends Component {
@@ -9,14 +10,22 @@ export default class CreateProjects extends Component {
 
     this.state = {
       project_name: "",
-      technologies: [],
+      tags: [
+        { id: 1, name: "Apples" },
+        { id: 2, name: "Pears" }
+      ],
+      suggestions: [
+        { id: 3, name: "Bananas" },
+        { id: 4, name: "Mangos" },
+        { id: 5, name: "Lemons" },
+        { id: 6, name: "Apricots" }
+      ],
       description: "",
-      visibility: false,
-      links: []
+      visibility: false
     };
     this.handleChange = this.handleChange.bind(this);
-    this.onTechChange = this.onTechChange.bind(this);
-    this.onLinksChange = this.onLinksChange.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleAddition = this.handleAddition.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -28,17 +37,16 @@ export default class CreateProjects extends Component {
     });
   }
 
-  onTechChange = tech => {
-    if (!this.state.technologies.includes(tech)) {
-      this.state.technologies.push(tech);
-    }
-  };
+  handleDelete(i) {
+    const tags = this.state.tags.slice(0);
+    tags.splice(i, 1);
+    this.setState({ tags });
+  }
 
-  onLinksChange = link => {
-    if (!this.state.links.includes(link)) {
-      this.state.links.push(link);
-    }
-  };
+  handleAddition(tag) {
+    const tags = [].concat(this.state.tags, tag);
+    this.setState({ tags });
+  }
 
   onSubmit(e) {
     e.preventDefault();
@@ -93,11 +101,11 @@ export default class CreateProjects extends Component {
               <Col />
               <Col lg="8" className="col">
                 <p>It's built with</p>
-                <Form.Control
-                  type="text"
-                  size="sm"
-                  className="item"
-                  onChange={this.onTechChange}
+                <ReactTags
+                  tags={this.state.tags}
+                  suggestions={this.state.suggestions}
+                  handleDelete={this.handleDelete}
+                  handleAddition={this.handleAddition}
                 />
               </Col>
               <Col />
@@ -144,12 +152,6 @@ export default class CreateProjects extends Component {
               <Col />
               <Col lg="8" className="col">
                 <p>Links</p>
-                <Form.Control
-                  type="text"
-                  size="sm"
-                  className="item"
-                  onChange={this.onLinksChange}
-                />
               </Col>
               <Col />
             </Row>
