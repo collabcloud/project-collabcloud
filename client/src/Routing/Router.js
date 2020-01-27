@@ -2,9 +2,9 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 // Component Imports
-import LandingPage from "../Containers/LandingPage/index";
-import Login from "../Containers/Account/LogIn/index";
-import Register from "../Containers/Account/Register/index";
+import LandingPage from "../Containers/LandingPage/LandingPage";
+import Login from "../Containers/Account/LogIn/LoginPage";
+import Register from "../Containers/Account/Register/RegisterPage";
 
 const Router = () => (
     <Switch>
