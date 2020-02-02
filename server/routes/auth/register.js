@@ -22,11 +22,23 @@ router.post(
 			}
 			console.log(exists(req.body.name,req.body.email,req.body.password));
 
-			res.status(300).json({ result: "Success" });
+			res.status(200).json({ result: "Success" });
 		} catch (err) {
             console.error(err);
             res.status(500).json({ errorMessage: "Internal server error" });
         }
+	}
+);
+
+router.post(
+	"/github",
+	[
+		check("code").not().isEmpty()
+	],
+	async(req,res) => {
+		console.log(req.body);
+		res.status(200).json({result: "Success"});
+
 	}
 );
 

@@ -1,6 +1,11 @@
 import React, {useEffect} from "react";
 
-function githubAuth(){
+async function githubAuth(){
+    /**
+     * This function retrieves the code that github puts on the URL
+     * and makes a fetch to the express endpoint /api/users/register/github
+     * ?code=something
+     */
     var query = window.location.search.substring(1);
     var vars = query.split("&");
     console.log(vars);
@@ -15,11 +20,26 @@ function githubAuth(){
     }; 
     const code = get_code("code");
     console.log(code);
+    if(code){
+        const url = 'http://localhost:5000/api/users/register/github';
+        const myJSON = {code: code}
+        console.log(myJSON)
+        let response = await fetch(url,{
+            method: 'POST',
+            headers: { 
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify(myJSON)
+        });
+    }
+
 
 
 }
 const Register = () => {
-    useEffect(githubAuth);
+    useEffect(() => {
+        githubAuth();   
+    });
     return (
     <div>
         <p>
