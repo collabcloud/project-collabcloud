@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { NavigationBar } from "../../../components/base/NavigationBar";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import ReactTags from "react-tag-autocomplete";
+
+import { NavigationBar } from "../../../components/base/NavigationBar";
+import { ItemsList }  from "../../../components/base/ItemsList";
 import "./createproject.css";
 
 export default class CreateProjects extends Component {
@@ -10,15 +12,12 @@ export default class CreateProjects extends Component {
 
     this.state = {
       project_name: "",
-      tags: [
-        { id: 1, name: "Apples" },
-        { id: 2, name: "Pears" }
-      ],
-      suggestions: [
-        { id: 3, name: "Bananas" },
-        { id: 4, name: "Mangos" },
-        { id: 5, name: "Lemons" },
-        { id: 6, name: "Apricots" }
+      technologies: [],
+      tech_suggestions: [
+        { id: 1, name: "MongoDB" },
+        { id: 2, name: "Express" },
+        { id: 3, name: "React" },
+        { id: 4, name: "Node.js" }
       ],
       description: "",
       visibility: false
@@ -38,14 +37,14 @@ export default class CreateProjects extends Component {
   }
 
   handleDelete(i) {
-    const tags = this.state.tags.slice(0);
-    tags.splice(i, 1);
-    this.setState({ tags });
+    const technologies = this.state.technologies.slice(0);
+    technologies.splice(i, 1);
+    this.setState({ technologies });
   }
 
   handleAddition(tag) {
-    const tags = [].concat(this.state.tags, tag);
-    this.setState({ tags });
+    const technologies = [].concat(this.state.technologies, tag);
+    this.setState({ technologies });
   }
 
   onSubmit(e) {
@@ -102,8 +101,10 @@ export default class CreateProjects extends Component {
               <Col lg="8" className="col">
                 <p>It's built with</p>
                 <ReactTags
-                  tags={this.state.tags}
-                  suggestions={this.state.suggestions}
+                  className="item"
+                  allowNew
+                  tags={this.state.technologies}
+                  suggestions={this.state.tech_suggestions}
                   handleDelete={this.handleDelete}
                   handleAddition={this.handleAddition}
                 />
@@ -152,6 +153,7 @@ export default class CreateProjects extends Component {
               <Col />
               <Col lg="8" className="col">
                 <p>Links</p>
+                <ItemsList className="item"/>
               </Col>
               <Col />
             </Row>
