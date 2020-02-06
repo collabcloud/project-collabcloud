@@ -32,9 +32,6 @@ async function githubAuth(){
             body: JSON.stringify(myJSON)
         });
     }
-
-
-
 }
 const Register = () => {
     useEffect(() => {
