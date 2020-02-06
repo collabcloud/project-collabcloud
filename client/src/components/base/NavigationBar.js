@@ -22,7 +22,7 @@ export function NavigationBar() {
         <Button>Search</Button>
       </Form>
       <Nav className="ml-auto p-2">
-        <Link to="/create-project" className="p-2 link">Create a Project</Link>
+        <Link to="/projects/create" className="p-2 link">Create a Project</Link>
         <Link to="/register" className="p-2 link">Explore</Link>
         <Link to="/" className="p-2 link">Trending</Link>
         <img

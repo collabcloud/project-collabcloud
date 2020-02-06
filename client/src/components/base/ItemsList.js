@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import { ListGroup } from 'react-bootstrap';
-import { InputtableItem } from '../base/InputtableItem';
+import React from 'react';
+import { Form, ListGroup } from 'react-bootstrap';
+import { InputtableItem } from './InputtableItem';
 
-export function ItemsList() {
+import '../../css/ItemsList.css';
 
-  const [items] = useState(["Hi there", "My name is Jarrod", ""]);
-
-  function setItem(index, value) {
-    items[index] = value;
-  }
+export function ItemsList(props) {
 
     return (
         <div>
-          <ListGroup>
-          {items.map(function(item, index) {
-            return (<InputtableItem value={item} index={index} setItem={setItem}/>)})}
+          <ListGroup className="item-list">
+            <Form>
+            {props.items.map((item, index) =>
+              <InputtableItem text={item.name} icon={item.icon} 
+              index={index} onPressEnter={props.handleEnter}/> )}
+            </Form>
           </ListGroup>
         </div>
     );

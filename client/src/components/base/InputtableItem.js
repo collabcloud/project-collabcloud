@@ -3,16 +3,16 @@ import { Form, ListGroup } from 'react-bootstrap';
 
 export function InputtableItem(props) {
 
-  var [value] = useState(props.value);
-
-  function setValue(val) {
-    value = val;
-  }
+  const [link, setLink] = useState("");
 
   return (
     <ListGroup.Item>
-      <Form onSubmit={props.setItem(value)}>
-        <Form.Control value={value} type="text" name="link" onChange={setValue(value)}/>
-      </Form>        
+      {props.icon}
+      {props.text}
+        <Form.Control 
+        name={"link" + props.index} type="text"
+        //e => props.onPressEnter(props.index, e.target.value)
+        onPressEnter={console.log('hi')}
+        onChange={e => setLink(e.target.value)}/> 
     </ListGroup.Item>);
 }
