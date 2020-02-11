@@ -46,20 +46,8 @@ router.post(
 			let projectID = uuidv5(req.body.projectName + currentTime, PROJECT_IDS_NAMESPACE);
 
 
-			// db.sync({force: false})
-			// 	.then(message => {
-			// 		console.log('db synced');
-
-			// 	})
-			// 	.catch(function(err) {
-			// 		throw err;
-			// 	});
-
 			// Insert the project into the database
-
-			const user = db.models.user.create( { username: "haha1234", password: "password1234"});
-
-
+			// const user = db.models.user.create( { username: "haha1234", password: "password1234"});
 			const projectObject = db.models.project.build({
 				pid: projectID,
 				uid: req.body.ownerUserID,
@@ -67,19 +55,19 @@ router.post(
 				projectName: req.body.projectName,
 				projectDescription: req.body.description,
 				isPrivate: (req.body.visibility == "private" ? true : false),
+				// TODO: Figure out how to add arrays
 				// technologiesUsed: (technologiesPSQLArrayString.length > 1 ? technologiesPSQLArrayString : {}),
 				githubLink: (req.body.githubLink ? req.body.githubLink : ""),
 				websiteLink: (req.body.websiteLink ? req.body.websiteLink : ""),
 				devpostLink: (req.body.devpostLink ? req.body.devpostLink : ""),
 				linkedinLink: (req.body.linkedinLink ? req.body.linkedinLink : "")
 			});
-			console.log(projectObject.toJSON()); // TODO: Use this for debug. REMOVE when finish.
+			console.log(projectObject.toJSON());
 			await projectObject.save();
 			console.log("The project was saveed into the database");
 
 			res.status(200).json({ 
 				result: "Success",
-				// pid: projectId
 			});
 		} catch (err) {
             console.error(err);
