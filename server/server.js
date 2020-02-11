@@ -27,3 +27,6 @@ app.use("/api/projects/createProject", require("./routes/projects/createProject"
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+
+module.exports = db;

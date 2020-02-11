@@ -28,25 +28,14 @@ const User = db.define('user', {
 
 });
 
-//getrepoID
-//projectName
-//projectDescription
-//hasPrivateVisibility
-//technologiesUsed
-//githubLink
-//websiteLink
-//devpostLink
-//linkedinLink
-//dataCreated
-
 
 const project = db.define('project', {
     pid: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(255),
         allowNull: false,
         primaryKey: true
     },
-    projectname: {
+    projectName: {
         type: DataTypes.STRING(20),
         allowNull: false
     },
@@ -58,7 +47,7 @@ const project = db.define('project', {
         },
         primaryKey: true
     },
-    getrepoId: {
+    gitRepoID: {
         type: DataTypes.STRING(50),
         allowNull: false
     },

@@ -3,6 +3,8 @@ const axios = require("axios");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const uuidv5 = require('uuid/v5');
+// const db = require('../../server.js'); // TODO: figure out how to import properly here
+const db = require("../../database.js");
 
 // @route   POST api/projects/createProject
 // @desc    Allows a user to create a new project
@@ -32,35 +34,48 @@ router.post(
 
 			// Given the technologies used, construct an array format that can be inserted into PSQL
 			let technologiesArray = (req.body.technologiesUsed).split(",");
-			console.log(technologiesArray);
+			// console.log(technologiesArray);
 			let technologiesPSQLArrayString = "{";
 			technologiesArray.forEach(technology => technologiesPSQLArrayString = technologiesPSQLArrayString + technology + ",");
 			technologiesPSQLArrayString = technologiesPSQLArrayString.substr(0, technologiesPSQLArrayString.length - 1) + "}";
-			console.log(technologiesPSQLArrayString);
+			// console.log(technologiesPSQLArrayString);
 
 			let currentTime = (new Date()).getTime();
 
 			// Generate a unique project ID, using the project name and current time as a hash
 			let projectID = uuidv5(req.body.projectName + currentTime, PROJECT_IDS_NAMESPACE);
 
-			// Insert the project into the database // TODO: Relies on Mike's database code
-			// const projectObject = db.build({
-			// 	pid: projectID,
-			// 	uid: req.body.ownerUserID,
-			// 	gitRepoID: req.body.gitRepoID,
-			// 	projectName: req.body.projectName,
-			// 	projectDescription: req.body.description,
-			// 	hasPrivateVisibilty: (req.body.visibility == "private" ? True : False),
-			// 	technologiesUsed: (technologiesPSQLArrayString.length > 1 ? technologiesPSQLArrayString : {}),
-			// 	githubLink: (req.body.githubLink ? req.body.githubLink : ""),
-			// 	websiteLink: (req.body.websiteLink ? req.body.websiteLink : ""),
-			// 	devpostLink: (req.body.devpostLink ? req.body.devpostLink : ""),
-			// 	linkedinLink: (req.body.linkedinLink ? req.body.linkedinLink : ""),
-			// 	dateCreated: currentTime
-			// });
-			// console.log(projectObject.toJSON()); // TODO: Use this for debug. REMOVE when finish.
-			// await projectObject.save();
-			// console.log("The project was saveed into the database");
+
+			// db.sync({force: false})
+			// 	.then(message => {
+			// 		console.log('db synced');
+
+			// 	})
+			// 	.catch(function(err) {
+			// 		throw err;
+			// 	});
+
+			// Insert the project into the database
+
+			const user = db.models.user.create( { username: "haha1234", password: "password1234"});
+
+
+			const projectObject = db.models.project.build({
+				pid: projectID,
+				uid: req.body.ownerUserID,
+				gitRepoID: req.body.gitRepoID,
+				projectName: req.body.projectName,
+				projectDescription: req.body.description,
+				isPrivate: (req.body.visibility == "private" ? true : false),
+				// technologiesUsed: (technologiesPSQLArrayString.length > 1 ? technologiesPSQLArrayString : {}),
+				githubLink: (req.body.githubLink ? req.body.githubLink : ""),
+				websiteLink: (req.body.websiteLink ? req.body.websiteLink : ""),
+				devpostLink: (req.body.devpostLink ? req.body.devpostLink : ""),
+				linkedinLink: (req.body.linkedinLink ? req.body.linkedinLink : "")
+			});
+			console.log(projectObject.toJSON()); // TODO: Use this for debug. REMOVE when finish.
+			await projectObject.save();
+			console.log("The project was saveed into the database");
 
 			res.status(200).json({ 
 				result: "Success",
