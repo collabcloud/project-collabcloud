@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const uuidv1 = require('uuid/v1');
-const db = new Sequelize('collabcloud', 'mikey', '', {
+const db = new Sequelize('collabcloud', 'postgres', '', {
     host: 'localhost',
     dialect: 'postgres'
   });
@@ -29,21 +28,71 @@ const User = db.define('user', {
 
 });
 
+//getrepoID
+//projectName
+//projectDescription
+//hasPrivateVisibility
+//technologiesUsed
+//githubLink
+//websiteLink
+//devpostLink
+//linkedinLink
+//dataCreated
+
 
 const project = db.define('project', {
     pid: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
     },
     projectname: {
-        type: DataTypes.STRING(20)
+        type: DataTypes.STRING(20),
+        allowNull: false
     },
     uid: {
         type: DataTypes.UUID,
         references: {
-            model: 'user',
+            model: 'users',
             key: 'uid'
-        }
+        },
+        primaryKey: true
+    },
+    getrepoId: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+    },
+    projectName: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+    },
+    projectDescription: {
+        type: DataTypes.STRING(2000),
+        allowNull: false
+    },
+    isPrivate: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+    technologiesUsed: {
+        type: DataTypes.ARRAY(DataTypes.STRING(30))
+    },
+    githubLink: {
+        type:DataTypes.STRING(50)
+    },
+    websiteLink: {
+        type:DataTypes.STRING(50)
+    },
+    devpostLink: {
+        type: DataTypes.STRING(50)
+    },
+    linkedinLink: {
+        type: DataTypes.STRING(50)
+    },
+    dateCreated: {
+        type: DataTypes.DATE,
+        defaultValue: Sequelize.NOW
+        
     }
 }, {
 
@@ -52,8 +101,6 @@ const project = db.define('project', {
 db.sync({force: false})
     .then(message => {
         console.log('db synced');
-
-       db.models.user.create({username: "haha i still", password: "CLAP"});
 
     })
     .catch(function(err) {
