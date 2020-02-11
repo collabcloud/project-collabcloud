@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, ListGroup } from 'react-bootstrap';
 import { InputtableItem } from './InputtableItem';
 
@@ -12,7 +12,7 @@ export function ItemsList(props) {
             <Form>
             {props.items.map((item, index) =>
               <InputtableItem text={item.name} icon={item.icon} 
-              index={index} onPressEnter={props.handleEnter}/> )}
+              index={index} updateLink={props.updateLink}/> )}
             </Form>
           </ListGroup>
         </div>

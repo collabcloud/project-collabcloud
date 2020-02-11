@@ -47,11 +47,11 @@ export default function CreateProjects() {
     setTech(technologies);
   }
 
-  function handleEnter(index, value) {
-    const links = [...tech];
-    var item = links[index];
+  function updateLink(index, value) {
+    const new_links = [...links];
+    var item = new_links[index];
     item.value = value;
-    setLinks(links);
+    setLinks(new_links);
   }
 
   function onSubmit(e) {
@@ -160,7 +160,7 @@ export default function CreateProjects() {
             <Col />
             <Col lg="8" className="col">
               <p>Links</p>
-              <ItemsList className="item" items={links} handleEnter={handleEnter}/>
+              <ItemsList className="item" items={links} updateLink={updateLink}/>
             </Col>
             <Col />
           </Row>
