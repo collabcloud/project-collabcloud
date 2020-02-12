@@ -6,7 +6,7 @@ import {
 
 // Add Single Project
 const initialState = {
-    projects = {},
+    projects: {},
     loading: true
 };
 
