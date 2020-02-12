@@ -37,7 +37,7 @@
 	- Email: Within 12 hours
 	- Phone: Call back in 5 - 10 hours (no promises)
 	- Text: Respond 2 - 4 hours
-- Daniil Oliynyk,
+- Daniil Oliynyk, oliynyk2
 	416-826-2017, daniil.oliynyk1@gmail.com
 	Response Times:
 	- Email: Within 24 hours
