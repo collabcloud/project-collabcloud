@@ -8,6 +8,7 @@ import {
 const initialState = {
     projects: {},
     loading: true
+
 };
 
 export default (state = initialState, action) => {
@@ -15,12 +16,8 @@ export default (state = initialState, action) => {
         case ADD_PROJECT:
             return {
                 ...state,
-                projects: {
-                ...state.projects,
-                [action.payload.id]: action.payload
-            },
-            loading: true
-        }
+                loading: false,
+            };
         default:
             return state;
     }
