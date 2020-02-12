@@ -3,28 +3,28 @@ import {GET_TOKEN} from "./types";
 import { FaClosedCaptioning } from "react-icons/fa";
 
 // Add Project Action
-export const addProject = auth_code => async dispatch => {
-    config = {
+export const register = auth_code => async dispatch => {
+    console.log("Redux register");
+    console.log(auth_code);
+    const config = {
         headers: {
             "Content-Type": "application/json"
         }
     }
     try {
         const url = '/api/users/register/github';
-        const myJSON = {code: auth_code}
-        let response = await axios({
-            url: url,
-            method: 'POST',
-            config,
-            body: JSON.stringify(myJSON)
-        });
+        const body = JSON.stringify({code: auth_code})
+        let response = await axios.post(url, body, config );
         
         // If success, dispatch action
-        if (res) {
+        if (response) {
             dispatch({
-                type: ADD_PROJECT,
-                payload: res.data._id
+                type: GET_TOKEN,
+                payload: response.data
             });
+        }
+        else{
+            console.log("Couldnt register");
         }
     } catch (err) {
         console.log("Error Creating a Project");

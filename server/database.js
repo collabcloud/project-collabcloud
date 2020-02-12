@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const db = new Sequelize('collabcloud', 'postgres', 'postgres', {
+const db = new Sequelize('collabcloud', 'parashan', 'parashan', {
     host: 'localhost',
     dialect: 'postgres',
     port: 5432

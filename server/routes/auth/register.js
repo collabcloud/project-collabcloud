@@ -54,20 +54,20 @@ router.post(
 				}
 			});
 			let accessToken = response.data.access_token;
-			console.log(accessToken);
-			let test_api = await axios({
+			//console.log(accessToken);
+			const url = 'https://api.github.com/user'
+			const config = {
 				headers: {
-					Authorization: `token ${accessToken}`
-				},
-				url: 'https://api.github.com/user'
-			});
+					Authorization: `token ${ accessToken }`
+				}
+			};
+			console.log(config)
+			let test_api = await axios.get(url, config);
 
-			let test_response = test_api.data;
-
-			console.log(test_response);
+			console.log(test_api.data);
 			res.status(200).json({ result: "Success" });
 		} catch (err) {
-			console.error(err);
+			//console.log(err)
 			res.status(500).json({ errorMessage: "Internal server error" });
 		}
 	}
