@@ -1,15 +1,16 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const db = new Sequelize('collabcloud', 'postgres', '', {
+const db = new Sequelize('collabcloud', 'postgres', '504687', {
     host: 'localhost',
-    dialect: 'postgres'
-  });
+    dialect: 'postgres',
+    port: 6000
+});
 
-  try {
+try {
     db.authenticate();
     console.log('Connection has been established successfully.');
-  } catch (error) {
+} catch (error) {
     console.error('Unable to connect to the database:', error);
-  }
+}
 
 
 const User = db.define('user', {
@@ -67,10 +68,10 @@ const project = db.define('project', {
         type: DataTypes.ARRAY(DataTypes.STRING(30))
     },
     githubLink: {
-        type:DataTypes.STRING(50)
+        type: DataTypes.STRING(50)
     },
     websiteLink: {
-        type:DataTypes.STRING(50)
+        type: DataTypes.STRING(50)
     },
     devpostLink: {
         type: DataTypes.STRING(50)
@@ -81,18 +82,18 @@ const project = db.define('project', {
     dateCreated: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.NOW
-        
+
     }
 }, {
 
 });
 
-db.sync({force: false})
+db.sync({ force: false })
     .then(message => {
         console.log('db synced');
 
     })
-    .catch(function(err) {
+    .catch(function (err) {
         throw err;
     });
 
