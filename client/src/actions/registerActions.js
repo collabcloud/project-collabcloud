@@ -10,7 +10,7 @@ export const addProject = auth_code => async dispatch => {
         }
     }
     try {
-        const url = 'http://localhost:5000/api/users/register/github';
+        const url = '/api/users/register/github';
         const myJSON = {code: auth_code}
         let response = await axios({
             url: url,
