@@ -9,11 +9,9 @@ export function ItemsList(props) {
     return (
         <div>
           <ListGroup className="item-list">
-            <Form>
             {props.items.map((item, index) =>
-              <InputtableItem text={item.name} icon={item.icon} 
-              index={index} updateLink={props.updateLink}/> )}
-            </Form>
+              <InputtableItem item={item} 
+              key={index} index={index} updateLink={props.updateLink}/> )}
           </ListGroup>
         </div>
     );

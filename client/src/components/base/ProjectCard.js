@@ -6,12 +6,13 @@ import '../../css/ProjectView.css';
 
 export function ProjectCard(props) {
 
+  const index = props.index;
   const name = props.name;
   const description = props.description;
 
   return (
-    <Button variant="light" className="btn-nostyle">
-      <Card hoverable bg="dark" text="white" style={{ width: '18rem' }} className="project-card">
+    <Button variant="light" className="btn-nostyle" onClick={() => {props.updateFields(index)}}>
+      <Card hoverable="true" bg="dark" text="white" style={{ width: '18rem' }} className="project-card">
         <Card.Header><FaGithub/></Card.Header>
         <Card.Body>
           <Card.Title>{name}</Card.Title>

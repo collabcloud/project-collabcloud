@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 import ReactTags from "react-tag-autocomplete";
 import { NavigationBar } from "../../../components/base/NavigationBar";
 import { ProjectView } from "../../../components/specialized/ProjectView";
@@ -17,16 +17,63 @@ const dev = <FaDev />;
 
 export default function CreateProjects() {
 
+  const [projects, setProjects] = useState([
+
+    {name: 'Optimize.me',
+    description: 'U of T Timetable Optimizer',
+    visibility: false,
+    tech: [{id: 1, name: 'MongoDB'}, {id: 2, name: 'Express'}, {id: 3, name: 'React'}, 
+    {id: 4, name: 'Node.js'}],
+
+    links: [{name: 'Github', icon: github, value: 'https://github.com/jcserv/optimize-me'},
+    {name: 'Website', icon: website, value: 'https://optimize.me'},
+    {name: 'DevPost', icon: dev, value: ''},
+    {name: 'LinkedIn', icon: linkedin, value: ''}]
+    },
+
+    {name: 'CollabCloud',
+    description: 'A social network platform for collaborating on software projects',
+    visibility: true,
+    tech: [{id: 1, name: 'PostgreSQL'}, {id: 2, name: 'Express'}, {id: 3, name: 'React'}, 
+    {id: 4, name: 'Node.js'}],
+    links: [{name: 'Github', icon: github, value: 'https://github.com/UTMCSC301/project-collabcloud'},
+    {name: 'Website', icon: website, value: 'https://collabcloud.io'},
+    {name: 'DevPost', icon: dev, value: ''},
+    {name: 'LinkedIn', icon: linkedin, value: ''}]
+    },
+
+    {name: 'Harmoney',
+    description: 'Streamlined group payments solution',
+    visibility: true,
+    tech: [{id: 1, name: 'MongoDB'}, {id: 2, name: 'Express'}, {id: 3, name: 'React'}, 
+    {id: 4, name: 'Node.js'}],
+    links: [{name: 'Github', icon: github, value: 'https://github.com/huynhmat/harmoney'},
+    {name: 'Website', icon: website, value: ''},
+    {name: 'DevPost', icon: dev, value: 'https://devpost.com/software/harmoney-ci42yp'},
+    {name: 'LinkedIn', icon: linkedin, value: ''}]},
+
+    {name: 'VapeSafe',
+    description: 'Automatic vape limiter',
+    visibility: true,
+    tech: [{id: 1, name: 'Android'}, {id: 2, name: 'Arduino'}],
+    links: [{name: 'Github', icon: github, value: 'https://github.com/leviaviv28/VapeSafe-EngHack2019'},
+    {name: 'Website', icon: website, value: 'http://vapesafer.net/'},
+    {name: 'DevPost', icon: dev, value: 'https://devpost.com/software/vapesafe/'},
+    {name: 'LinkedIn', icon: linkedin, value: ''}]},
+
+  ]);
+
   const [name, setName] = useState("");
   const [tech, setTech] = useState([]);
   const [desc, setDesc] = useState("");
   const [visibility, setVisibility] = useState(false);
+
   const [links, setLinks] = useState( [
     {name: 'Github', icon: github, value: ''},
     {name: 'Website', icon: website, value: ''},
     {name: 'DevPost', icon: dev, value: ''},
     {name: 'LinkedIn', icon: linkedin, value: ''}
-  ])
+  ]);
 
   const tech_suggestions = [
     { id: 1, name: "MongoDB" },
@@ -53,6 +100,15 @@ export default function CreateProjects() {
     item.value = value;
     setLinks(new_links);
   }
+  
+  function updateFields(index) {
+    const project = projects[index];
+    setName(project.name);
+    setDesc(project.description);
+    setVisibility(project.visibility);
+    setLinks(project.links);
+    setTech(project.tech);
+  }
 
   function onSubmit(e) {
     e.preventDefault();
@@ -64,33 +120,18 @@ export default function CreateProjects() {
       visibility: visibility,
       links: links
     };
-
-    console.log(project);
   }
 
   return (
     <div>
       <NavigationBar />
-      <Container fluid className="page-content">
-        <Form onSubmit={onSubmit}>
-          <Row>
-            <Col />
-            <Col lg="8" className="col">
+      <Container fluid className="col-md-8 align-items-start" style={{paddingTop: "50px"}}>
+        <Form onSubmit={onSubmit}> 
+          <div className="d-flex align-items-start flex-column">
               <h4>Create a new project</h4>
-            </Col>
-            <Col />
-          </Row>
-          <Row>
-            <Col />
-            <Col lg="8" className="col">
+  
               <p>Select an Existing Repo (optional)</p>
-              <ProjectView/>
-            </Col>
-            <Col />
-          </Row>
-          <Row>
-            <Col />
-            <Col lg="8" className="col">
+              <ProjectView projects={projects} updateFields={updateFields}/>
               <p>Project Name</p>
               <Form.Control
                 type="text"
@@ -100,27 +141,16 @@ export default function CreateProjects() {
                 name="project_name"
                 onChange={e => setName(e.target.value)}
               />
-            </Col>
-            <Col />
-          </Row>
-          <Row>
-            <Col />
-            <Col lg="8" className="col">
               <p>It's built with</p>
               <ReactTags
                 className="item"
-                allowNew
                 tags={tech}
                 suggestions={tech_suggestions}
                 handleDelete={handleDelete}
                 handleAddition={handleAddition}
               />
-            </Col>
-            <Col />
-          </Row>
-          <Row>
-            <Col />
-            <Col lg="8" className="col">
+          
+          
               <p>Description</p>
               <Form.Control
                 as="textarea"
@@ -130,54 +160,36 @@ export default function CreateProjects() {
                 name="description"
                 onChange={e => setDesc(e.target.value)}
               />
-            </Col>
-            <Col />
-          </Row>
-          <Row>
-            <Col />
-            <Col lg="8" className="col">
               <p>Visibility</p>
               <Form.Group className="item">
                 <Form.Check
                   name="visibility"
                   type="radio"
+                  checked={visibility}
                   value={true}
                   label="Public"
                   onChange={e => setVisibility(e.target.value)}
                 />
                 <Form.Check
                   name="visibility"
+                  checked={!visibility}
                   type="radio"
                   value={false}
                   label="Private"
                   onChange={e => setVisibility(e.target.value)}
                 />
               </Form.Group>
-            </Col>
-            <Col />
-          </Row>
-          <Row>
-            <Col />
-            <Col lg="8" className="col">
               <p>Links</p>
               <ItemsList className="item" items={links} updateLink={updateLink}/>
-            </Col>
-            <Col />
-          </Row>
-          <Row>
-            <Col />
-            <Col lg="8" className="col">
               <Button
                 className="button"
                 variant="success"
                 type="submit"
-                onClick={console.log("submit button pressed")}
+
               >
                 Submit
               </Button>
-            </Col>
-            <Col />
-          </Row>
+              </div>
         </Form>
       </Container>
     </div>
