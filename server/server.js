@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
-//const db = require("./database.js");
+const db = require("./database.js");
 // const db = db_obj.db;
 // const account = db_obj.account;
 // const project = db_obj.project;
@@ -20,6 +20,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/users/register", require("./routes/auth/register"));
+app.use("/api/users/github", require("./routes/auth/github"));
 app.use("/api/users/login", require("./routes/auth/login"));
 app.use("/api/projects/create", require("./routes/projects/createProject"));
 
