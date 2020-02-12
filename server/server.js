@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
-//const db = require("./database.js");
+const db = require("./database.js");
 // const db = db_obj.db;
 // const account = db_obj.account;
 // const project = db_obj.project;

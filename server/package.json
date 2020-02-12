@@ -23,6 +23,7 @@
     "sequelize": "^5.21.3",
     "uuid": "^3.4.0"
   },
+  "proxy": "http://localhost:5000",
   "devDependencies": {
     "nodemon": "^2.0.2"
   }

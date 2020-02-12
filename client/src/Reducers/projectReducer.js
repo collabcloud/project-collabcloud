@@ -2,12 +2,12 @@ import {
     ADD_PROJECT,
     GET_PROJECT,
     PROJECT_LOADING
-} from "../actions/types";
+} from "../Actions/types";
 
 // Add Single Project
 const initialState = {
-    projects = {},
-    loading: true
+    projects: {},
+    loading: true,
 };
 
 export default (state = initialState, action) => {
@@ -15,12 +15,8 @@ export default (state = initialState, action) => {
         case ADD_PROJECT:
             return {
                 ...state,
-                projects: {
-                ...state.projects,
-                [action.payload.id]: action.payload
-            },
-            loading: true
-        }
+                loading: false    
+            };
         default:
             return state;
     }
