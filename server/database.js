@@ -40,31 +40,6 @@ const project = db.define('project', {
         type: DataTypes.STRING(25),
         allowNull: false
     },
-<<<<<<< HEAD
-    projectDescription: {
-        type: DataTypes.STRING(2000),
-        allowNull: false
-    },
-    isPrivate: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    },
-    technologiesUsed: {
-        type: DataTypes.ARRAY(DataTypes.STRING(30))
-    },
-    githubLink: {
-        type: DataTypes.STRING(50)
-    },
-    websiteLink: {
-        type: DataTypes.STRING(50)
-    },
-    devpostLink: {
-        type: DataTypes.STRING(50)
-    },
-    linkedinLink: {
-        type: DataTypes.STRING(50)
-    },
-=======
     // uid: {
     //     type: DataTypes.UUID,
     //     references: {
@@ -104,7 +79,6 @@ const project = db.define('project', {
     // linkedinLink: {
     //     type: DataTypes.STRING(50)
     // },
->>>>>>> 11c0d16b29b69295350c71ff8fd9eacd4159cd87
     dateCreated: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.NOW
