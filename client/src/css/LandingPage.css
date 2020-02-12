@@ -2,7 +2,7 @@
     position: absolute;
     width: 115px;
     height: 31px;           
-    background: #FFFFFF;
+    background-color: #FFFFFF;
     border: 2px solid #FFFFFF;
     box-sizing: border-box;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -10,25 +10,71 @@
     color: Black;
     line-height: 0px;
     font-size: 20px;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+}
+.sign-reg-butt::after {
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    color: Black;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+     
+}
+.sign-reg-butt:hover {
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    color: Black;
+    -webkit-transform: scale(1.25, 1.25);
+    transform: scale(1.25, 1.25);
 }
 
+.sign-reg-butt:hover::after{
+    opacity: 1;
+
+}
 .get-started-butt {
     position: absolute;
     width: 177px;
     height: 53px;
     background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
     border: 0px solid;
     border-radius: 24px;
     font-style: normal;
     font-size: 20px;
     line-height: 23px;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+
 }
+
+.get-started-butt::after{
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    
+}
+.get-started-butt:hover{
+    background-color: #667eea;
+    -webkit-transform: scale(1.25, 1.25);
+    transform: scale(1.25, 1.25);
+}
+.get-started-butt:hover::after {
+        opacity: 1;
+
+}
+
 
 .collab-cloud {
     position: absolute;
     width: 264px;
     height: 55px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 68px;
@@ -58,10 +104,10 @@
 }
 
 .logo {
-    width: 124px;
-    height: 68px;
-    top: 22px;
-    left: 4px;
+    width: 105px;
+    height: 58px;
+    top: 28px;
+    left: 20px;
     position: absolute
         
 }

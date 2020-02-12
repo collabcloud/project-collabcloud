@@ -33,7 +33,6 @@ function Landing() {
     </div>
     <div>
       <img
-
         src={require('../../logo.png')}
         className="logo"
       />
