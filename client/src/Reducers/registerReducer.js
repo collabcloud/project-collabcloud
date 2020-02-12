@@ -4,7 +4,7 @@ import {
 
 // Add Single Project
 const initialState = {
-    authed: false,
+    loggedIn: false,
 
 };
 
@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
         case GET_TOKEN:
             return {
                 ...state,
-                authed: true
+                loggedIn: true
             };
         default:
             return state;
