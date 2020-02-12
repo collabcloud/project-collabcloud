@@ -24,7 +24,8 @@ const User = db.define('user', {
     },
     password: {
         type: DataTypes.STRING(15)
-    }
+    },
+
 }, {
 
 });
@@ -101,3 +102,5 @@ db.sync({ force: false })
 
 
 module.exports = db;
+module.exports = User;
+module.exports = project;

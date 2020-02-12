@@ -4,10 +4,9 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const uuidv5 = require('uuid/v5');
 const uuid = require("uuid");
-// const db = require('../../server.js'); // TODO: figure out how to import properly here
 const db = require("../../database.js");
 
-// @route   POST api/projects/createProject
+// @route   POST api/projects/create
 // @desc    Allows a user to create a new project
 // @access  Public
 router.post(
@@ -33,7 +32,7 @@ router.post(
 			// TODO: Move this to index.js or something
 			const PROJECT_IDS_NAMESPACE = "1b671a64-40d5-491e-99b0-da01ff1f3341";
 
-			// Given the technologies used, construct an array format that can be inserted into PSQL
+			// Given the technologies used, construct an encoding string that can be inserted into PSQL
 			// let technologiesArray = (req.body.technologiesUsed).split(",");
 			// console.log(technologiesArray);
 			// let technologiesPSQLArrayString = "{";
