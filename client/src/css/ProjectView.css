@@ -1,0 +1,22 @@
+.project-view {
+    overflow-x: scroll;
+    display: inline-flex;
+}
+
+.project-card {
+    margin-left: 10px;
+    min-width: 200px;
+    min-height: 200px;
+}
+
+.btn-nostyle {
+    color: #fff;
+    background-color: #fff;
+    border: none; /*set the color you want here*/
+    outline: none;
+}
+.btn-nostyle:hover, .btn-nostyle:focus, .btn-nostyle:active, .btn-nostyle.active, .open>.dropdown-toggle.btn-nostyle {
+    color: #fff;
+    background-color: gray;
+    border-color: #fff; /*set the color you want here*/
+}
