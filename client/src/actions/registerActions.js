@@ -12,9 +12,9 @@ export const register = auth_code => async dispatch => {
         }
     }
     try {
-        const url = '/api/users/register/github';
+        const url = '/api/users/github';
         const body = JSON.stringify({code: auth_code})
-        let response = await axios.post(url, body, config );
+        let response = await axios.post(url, body, config);
         
         // If success, dispatch action
         if (response) {

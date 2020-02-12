@@ -1,16 +1,17 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
+
 const db = new Sequelize('collabcloud', 'parashan', 'parashan', {
     host: 'localhost',
     dialect: 'postgres',
     port: 5432
-  });
+});
 
-  try {
+try {
     db.authenticate();
     console.log('Connection has been established successfully.');
-  } catch (error) {
+} catch (error) {
     console.error('Unable to connect to the database:', error);
-  }
+}
 
 
 const User = db.define('user', {
@@ -82,18 +83,18 @@ const project = db.define('project', {
     dateCreated: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.NOW
-        
+
     }
 }, {
 
 });
 
-db.sync({force: false})
+db.sync({ force: false })
     .then(message => {
         console.log('db synced');
 
     })
-    .catch(function(err) {
+    .catch(function (err) {
         throw err;
     });
 

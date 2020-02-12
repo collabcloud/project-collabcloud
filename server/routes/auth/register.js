@@ -2,7 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
-require("../../backend.js")()
+const db = require("../../database.js");
 
 // @route   POST api/users/register
 // @desc    Register User
@@ -11,8 +11,7 @@ router.post(
 	"/",
 	[
 		check("username", "Username is required").not().isEmpty(),
-		check("password", "Password must contain minimum eight characters, at least one letter and one number, and no special characters").isLength({ min: 8 }),
-		check("email", "please enter a valid email").isEmail().normalizeEmail()
+		check("password", "Password must contain minimum eight characters").isLength({ min: 8 }),
 	],
 	async (req, res) => {
 		try {
@@ -23,48 +22,13 @@ router.post(
 			}
 			console.log(exists(req.body.username, req.body.password));
 
-			res.status(200).json({ result: "Success" });
-		} catch (err) {
-			console.error(err);
-			res.status(500).json({ errorMessage: "Internal server error" });
-		}
-	}
-);
-
-router.post(
-	"/github",
-	[
-		check("code").not().isEmpty()
-	],
-	async (req, res) => {
-		try {
-			console.log(req.body);
-			const errors = validationResult(req);
-			if (!errors.isEmpty()) {
-				return res.status(400).json({ errors: errors.array() });
-			}
-			const code = req.body.code;
-			const clientID = "08f4f6db13802f8cd769";
-			const clientSecret = "7c01fda97c9ee5d3bbab94dbf1b548bab8e6b6be";
-			let response = await axios({
-				method: 'post',
-				url: `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${code}`,
-				headers: {
-					accept: 'application/json'
-				}
+			//put data into database
+			const UserObject = db.models.user.build({
+				username: req.body.username,
+				password: req.body.password
 			});
-			let accessToken = response.data.access_token;
-			//console.log(accessToken);
-			const url = 'https://api.github.com/user'
-			const config = {
-				headers: {
-					Authorization: `token ${ accessToken }`
-				}
-			};
-			console.log(config)
-			let test_api = await axios.get(url, config);
-
-			console.log(test_api.data);
+			
+			await UserObject.save();
 			res.status(200).json({ result: "Success" });
 		} catch (err) {
 			//console.log(err)
