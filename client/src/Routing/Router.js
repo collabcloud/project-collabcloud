@@ -5,12 +5,14 @@ import { Route, Switch } from "react-router-dom";
 import LandingPage from "../Containers/LandingPage/LandingPage";
 import Login from "../Containers/Account/LogIn/LoginPage";
 import Register from "../Containers/Account/Register/RegisterPage";
+import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects";
 
 const Router = () => (
     <Switch>
-      <Route path="/login" component={Login} />
+      <Route path="/" component={LandingPage} exact/>
+      <Route path="/login" component={Login}/>
       <Route path="/register" component={Register} />
-      <Route path="/" component={LandingPage} />
+      <Route path="/projects/create" component={CreateProjects} />
     </Switch>
 );
 
