@@ -24,11 +24,11 @@ const User = db.define('user', {
     },
     username: {
         allowNull: false,
-        type: DataTypes.STRING(15)
+        type: DataTypes.STRING(25)
     },
     password: {
         allowNull: false,
-        type: DataTypes.STRING(15)
+        type: DataTypes.STRING(25)
     },
     authToken: {
         allowNull: false,
