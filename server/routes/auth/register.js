@@ -16,25 +16,18 @@ router.post(
 	],
 	async (req, res) => {
 		try {
-			//express validator to validate request
+			// Use express validator to validate request
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return res.status(422).json({ errors: errors.array() });
 			}
 
-			//put data into database
-			// const UserObject = db.models.user.build({
-			// 	username: req.body.username,
-			// 	password: req.body.password
-			// });
-
-			// await UserObject.save();
-
-			// This is the github auth code
+			// This is the GitHub auth code
 			const code = req.body.code;
 			const clientID = process.env.CLIENT_ID;
 			const clientSecret = process.env.CLIENT_SECRET;
 
+			// Get access token from GitHub
 			let response = await axios({
 				method: 'post',
 				url: `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${code}`,
@@ -42,22 +35,20 @@ router.post(
 					accept: 'application/json'
 				}
 			});
+			// TODO: Check if this access token still exists. It may not exist of the user has authenticated with GitHub but did not register for an account (after ~10 min ?)
 			let accessToken = response.data.access_token;
 			console.log(accessToken)
-			//put data into database
-			//console.log(db)
-			//console.log(db.models)
+			console.log(req.body.username)
+			console.log(req.body.password)
+
+			// Insert a user into database
 			const UserObject = db.models.user.build({
 				username: req.body.username,
 				password: req.body.password,
 				authToken: accessToken
 			});
-
 			await UserObject.save();
-
-			console.log(accessToken)
-			console.log(req.body.username)
-			console.log(req.body.password)
+			
 			res.status(200).json({ result: "Success" });
 		} catch (err) {
 			console.log(err)
