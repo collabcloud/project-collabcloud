@@ -18,8 +18,8 @@ export function NavigationBar() {
         CollabCloud
       </Navbar.Brand>
       <Form inline className="p-2">
-        <FormControl type="text" placeholder="Search CollabCloud" className="mr-sm-3" style={{height: 25}}/>
-        <Button>Search</Button>
+        <FormControl type="text" placeholder="Search CollabCloud" className="mr-sm-3" style={{height: 30, marginTop: "10px"}}/>
+        <Button className="search-bt" style={{marginTop: "10px"}}>Search</Button>
       </Form>
       <Nav className="ml-auto p-2">
         <Link to="/projects/create" className="p-2 link">Create a Project</Link>

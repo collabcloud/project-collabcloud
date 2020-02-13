@@ -10,7 +10,8 @@ function Landing() {
   return (
   <div>
     <div style={{textAlign:"right"}}>
-      <img 
+      <img
+        alt="Outline" 
         src={require('../../resources/outline.svg')}
         style={{
                 height: "100vh"
@@ -33,6 +34,7 @@ function Landing() {
     </div>
     <div>
       <img
+        alt="CollabCloud logo"
         src={require('../../logo.png')}
         className="logo"
       />

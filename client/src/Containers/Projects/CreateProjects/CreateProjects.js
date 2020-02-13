@@ -8,7 +8,7 @@ import { ItemsList }  from "../../../components/base/ItemsList";
 import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
 import { MdWeb } from 'react-icons/md'; 
 
-import "./createproject.css";
+import "../../../css/CreateProjects.css";
 
 const github = <FaGithub/>;
 const website = <MdWeb/>;
@@ -120,6 +120,7 @@ export default function CreateProjects() {
       visibility: visibility,
       links: links
     };
+    console.log(project);
   }
 
   return (
@@ -182,13 +183,14 @@ export default function CreateProjects() {
               <p>Links</p>
               <ItemsList className="item" items={links} updateLink={updateLink}/>
               <Button
-                className="button"
+                className="submit-reg-bt"
                 variant="success"
                 type="submit"
 
               >
                 Submit
               </Button>
+              <br/>
               </div>
         </Form>
       </Container>

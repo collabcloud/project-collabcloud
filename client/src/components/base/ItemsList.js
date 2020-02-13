@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, ListGroup } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 import { InputtableItem } from './InputtableItem';
 
 import '../../css/ItemsList.css';
