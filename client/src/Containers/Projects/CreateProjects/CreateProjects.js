@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { addProject } from "../../../actions/projectActions";
 import PropTypes from "prop-types";
 
-import "./createproject.css";
+import "../../../css/CreateProjects.css";
 
 const github = <FaGithub/>;
 const website = <MdWeb/>;
