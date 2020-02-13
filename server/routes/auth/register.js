@@ -42,8 +42,10 @@ router.post(
 				}
 			});
 			let accessToken = response.data.access_token;
-
+			console.log(accessToken)
 			//put data into database
+			//console.log(db)
+			//console.log(db.models)
 			const UserObject = db.models.user.build({
 				username: req.body.username,
 				password: req.body.password,
