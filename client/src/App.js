@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -10,7 +10,10 @@ import Router from "./Routing/Router"
 import { Provider } from 'react-redux';
 import store from "./store";
 
+
 function App() {
+  
+  
   return (
     <Provider store={store}>
       <BrowserRouter>

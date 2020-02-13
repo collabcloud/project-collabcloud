@@ -1,5 +1,9 @@
 import { combineReducers } from "redux";
+import registerReducer from "./registerReducer";
+import projectReducer from "./projectReducer";
 
 export default combineReducers({
-    // TODO: add reducers here
+    project: projectReducer,
+    register: registerReducer
+
 });

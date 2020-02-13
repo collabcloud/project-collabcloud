@@ -8,14 +8,19 @@ import { ItemsList }  from "../../../components/base/ItemsList";
 import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
 import { MdWeb } from 'react-icons/md'; 
 
-import "../../../css/CreateProjects.css";
+// Redux Imports
+import { connect } from "react-redux";
+import { addProject } from "../../../actions/projectActions";
+import PropTypes from "prop-types";
+
+import "./createproject.css";
 
 const github = <FaGithub/>;
 const website = <MdWeb/>;
 const linkedin = <FaLinkedin/>;
 const dev = <FaDev />;
 
-export default function CreateProjects() {
+const CreateProjects = ({ addProject }) => {
 
   const [projects, setProjects] = useState([
 
@@ -114,13 +119,14 @@ export default function CreateProjects() {
     e.preventDefault();
 
     const project = {
-      name: name,
+      projectName: name,
       tech: tech,
       desc: desc,
       visibility: visibility,
       links: links
     };
-    console.log(project);
+
+    addProject({ name });
   }
 
   return (
@@ -197,3 +203,10 @@ export default function CreateProjects() {
     </div>
   );
 }
+
+CreateProjects.propTypes = {
+  addProject: PropTypes.func.isRequired
+};
+
+// Inserting a null value where mapStateToProps() should be
+export default connect(null, { addProject })(CreateProjects);
