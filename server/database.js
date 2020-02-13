@@ -1,9 +1,15 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
-const db = new Sequelize('collabcloud', 'parashan', 'parashan', {
+// const db = new Sequelize('collabcloud', 'parashan', 'parashan', {
+//     host: 'localhost',
+//     dialect: 'postgres',
+//     port: 5432
+// });
+
+const db = new Sequelize('collabcloud', 'postgres', '504687', {
     host: 'localhost',
     dialect: 'postgres',
-    port: 5432
+    port: 6000
 });
 
 try {
@@ -21,12 +27,17 @@ const User = db.define('user', {
         primaryKey: true
     },
     username: {
+        allowNull: false,
         type: DataTypes.STRING(15)
     },
     password: {
+        allowNull: false,
         type: DataTypes.STRING(15)
     },
-
+    authToken: {
+        allowNull: false,
+        type: DataTypes.STRING(50)
+    }
 }, {
 
 });
