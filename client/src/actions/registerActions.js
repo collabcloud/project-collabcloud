@@ -3,17 +3,20 @@ import {GET_TOKEN} from "./types";
 import { FaClosedCaptioning } from "react-icons/fa";
 
 // Add Project Action
-export const register = auth_code => async dispatch => {
+export const register = (auth_code, username, password) => async dispatch => {
     console.log("Redux register");
     console.log(auth_code);
+    console.log(username);
+    console.log(password)
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     }
     try {
-        const url = '/api/users/github';
-        const body = JSON.stringify({code: auth_code})
+        const url = '/api/users/register';
+        const body = JSON.stringify({code: auth_code,  username, password})
+        console.log(body)
         let response = await axios.post(url, body, config);
         
         // If success, dispatch action

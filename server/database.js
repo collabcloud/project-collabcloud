@@ -21,10 +21,16 @@ const User = db.define('user', {
         primaryKey: true
     },
     username: {
+        allowNull: false,
         type: DataTypes.STRING(15)
     },
     password: {
+        allowNull: false,
         type: DataTypes.STRING(15)
+    },
+    authToken: {
+        allowNull: false,
+        type: DataTypes.STRING(50)
     }
 }, {
 

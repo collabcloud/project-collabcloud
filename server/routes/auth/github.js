@@ -40,7 +40,7 @@ router.post(
 			console.log(config)
 			let test_api = await axios.get(url, config);
 
-			console.log(test_api.data);
+			console.log(test_api);
 			res.status(200).json({ result: "Success" });
 		} catch (err) {
 			//console.log(err)

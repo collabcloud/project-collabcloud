@@ -20,18 +20,34 @@ router.post(
 			if (!errors.isEmpty()) {
 				return res.status(422).json({ errors: errors.array() });
 			}
-			console.log(exists(req.body.username, req.body.password));
 
 			//put data into database
-			const UserObject = db.models.user.build({
-				username: req.body.username,
-				password: req.body.password
-			});
+			// const UserObject = db.models.user.build({
+			// 	username: req.body.username,
+			// 	password: req.body.password
+			// });
 			
-			await UserObject.save();
+			// await UserObject.save();
+
+			// This is the github auth code
+			const code = req.body.code;
+			const clientID = "08f4f6db13802f8cd769";
+			const clientSecret = "7c01fda97c9ee5d3bbab94dbf1b548bab8e6b6be";
+
+			let response = await axios({
+				method: 'post',
+				url: `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${code}`,
+				headers: {
+					accept: 'application/json'
+				}
+			});
+			let accessToken = response.data.access_token;
+			console.log(accessToken)
+			console.log(req.body.username)
+			console.log(req.body.password)
 			res.status(200).json({ result: "Success" });
 		} catch (err) {
-			//console.log(err)
+			console.log(err)
 			res.status(500).json({ errorMessage: "Internal server error" });
 		}
 	}

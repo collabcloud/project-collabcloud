@@ -1,38 +1,11 @@
 import React, {useEffect} from "react";
 import { NavigationBar } from "../../../components/base/NavigationBar";
 import {Card} from 'react-bootstrap';
-import { register } from "../../../actions/registerActions";
-import { connect } from "react-redux";
-async function githubAuth(register){
-    /**
-     * This function retrieves the code that github puts on the URL
-     * and makes a fetch to the express endpoint /api/users/register/github
-     * ?code=something
-     */
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    const get_code= (code) =>{
-        for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if (pair[0] === code) {
-            return pair[1]
-        }
-    }
-    
-    }; 
-    const code = get_code("code");
-    console.log(code);
-    if(code){
-        register(code);
-    }
-}
+
 
 //TODO: Create basic button that links to authorization page, style after?
 
 const Register = ({register}) => {
-    useEffect(() => {
-        githubAuth(register);   
-    }, []);
     return (
             <body >
                 <div class="container">
@@ -55,15 +28,5 @@ const Register = ({register}) => {
                 </div>
             </body> 
 )};
-function mapStateToProps(state){
-    return {loggedIn: state.register.loggedIn};
-}
 
-function mapDispatchToProps(dispatch){
-    return {
-        register: (auth_code) => {
-            dispatch(register(auth_code));
-        }
-    };
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default Register;
