@@ -1,5 +1,5 @@
 import React from "react";
-import { LoginForm } from "../../../components/base/LoginForm";
+import LoginForm from "../../../components/base/LoginForm";
 import Card from 'react-bootstrap/Card'
 import "../../../css/LoginForm.css"
 

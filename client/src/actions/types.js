@@ -6,3 +6,6 @@ export const PROJECT_LOADING = "PROJECT_LOADING";
 // Register Actions
 
 export const GET_TOKEN = "GET_TOKEN";
+
+// Login Actions
+export const LOGIN = "LOGIN";

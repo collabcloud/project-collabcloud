@@ -2,32 +2,50 @@ import React , { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
+import { login } from "../../actions/loginActions";
+import { connect } from "react-redux";
+
 import "../../css/LoginForm.css"
 
 
 
-export function LoginForm(props) {
+function LoginForm({login}){
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    //const [username, setUsername] = useState("");
+    //const [password, setPassword] = useState("");
     const [validated, setValidated] = useState(false);
 
+    const [formData, setFormData] = useState({
+        username: "",
+        password: ""
+    });
 
-    const handleSubmit = (e) => {
-        const form = e.currentTarget;
+    const {username, password} = formData;
 
-        if (form.checkValidity() === false) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
+    const onChange = (e) =>{
+        setFormData({...formData, [e.target.name]: e.target.value});
+    }
 
-        setValidated(true);
-        alert(`Submitting ${username} ${password}`);
+    const onSubmit = (e) => {
+        e.preventDefault();
+        console.log(login)
+        submitLoginForm(login,username,password);
+        //const form = e.currentTarget;
+//
+        //if (form.checkValidity() === false) {
+        //  e.preventDefault();
+        //  e.stopPropagation();
+        //}
+//
+        //setValidated(true);
+        //alert(`Submitting ${username} ${password}`);
+    //
+        //submitLoginForm(login, username, password);
     }
 
     return (
         <div>
-            <Form noValidate validated={validated} onSubmit={handleSubmit} className="login-form">
+            <Form noValidate validated={validated} onSubmit={onSubmit} className="login-form">
                 <Form.Group controlId="formBasicUsername">
                     <Form.Label 
                         className="float-left">Username</Form.Label>
@@ -37,7 +55,7 @@ export function LoginForm(props) {
                         type="text" 
                         placeholder="Enter username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)} />
+                        onChange={e => onChange(e)} />
                     <Form.Control.Feedback type="invalid">Please enter your username</Form.Control.Feedback>
                     <Form.Text className="text-muted">
                       We'll never share your email with anyone else.
@@ -53,7 +71,7 @@ export function LoginForm(props) {
                         type="password" 
                         placeholder="Password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}/>
+                        onChange={e => onChange(e)}/>
                         <Form.Control.Feedback type="invalid">Please enter your password</Form.Control.Feedback>
                 </Form.Group>
                     <Button variant="outline-primary" type="submit" block>
@@ -73,3 +91,20 @@ export function LoginForm(props) {
         </div>
     );
 } 
+
+async function submitLoginForm(login, username, password){
+    console.log(username);
+    console.log(password);
+    login(username,password);
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        login: (username, password) => {
+            dispatch(login(username, password));
+        }
+    };
+}
+
+
+export default connect(null, mapDispatchToProps)(LoginForm);
