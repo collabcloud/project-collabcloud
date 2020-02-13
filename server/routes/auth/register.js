@@ -26,7 +26,7 @@ router.post(
 			// 	username: req.body.username,
 			// 	password: req.body.password
 			// });
-			
+
 			// await UserObject.save();
 
 			// This is the github auth code
@@ -42,6 +42,16 @@ router.post(
 				}
 			});
 			let accessToken = response.data.access_token;
+
+			//put data into database
+			const UserObject = db.models.user.build({
+				username: req.body.username,
+				password: req.body.password,
+				authToken: accessToken
+			});
+
+			await UserObject.save();
+
 			console.log(accessToken)
 			console.log(req.body.username)
 			console.log(req.body.password)
