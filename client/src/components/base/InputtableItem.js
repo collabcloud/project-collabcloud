@@ -5,9 +5,10 @@ export function InputtableItem(props) {
 
   return (
     <ListGroup.Item>
-      {props.icon}
-      {props.text}
+      {props.item.icon}
+      {props.item.text}
         <Form.Control 
+        value={props.item.value}
         name={"link" + props.index} type="text"
         onChange={e => props.updateLink(props.index, e.target.value)}/> 
     </ListGroup.Item>);

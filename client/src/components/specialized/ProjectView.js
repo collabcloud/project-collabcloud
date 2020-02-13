@@ -6,25 +6,14 @@ import '../../css/ProjectView.css';
 
 export function ProjectView(props) {
 
-  const projects = [
-    {name: 'Optimize.me',
-    description: 'U of T Timetable Optimizer'},
-    {name: 'CollabCloud',
-    description: 'A social network platform for collaborating on software projects'},
-    {name: 'Harmoney',
-    description: 'Streamlined group payments solution'},
-    {name: 'VapeSafe',
-    description: 'Automatic vape limiter'},
-    {name: 'Tinder4PxRN',
-    description: 'uwu'},
-    {name: 'rip kobe',
-    description: 'Helicopter missile strike system'}
-  ];
+  const projects = props.projects;
 
   return (
     <Container className="project-view">
-      {projects.map(function(project) {
-        return (<ProjectCard name={project.name} description={project.description}/>)
+      {projects.map(function(project, index) {
+        console.log(index);
+        return (<ProjectCard key={index} index={index} name={project.name} description={project.description}
+        updateFields={props.updateFields}/>)
       })}
     </Container>);
 }
