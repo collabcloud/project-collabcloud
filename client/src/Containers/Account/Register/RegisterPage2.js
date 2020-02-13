@@ -18,7 +18,7 @@ const Register2 = ({register}) => {
         }
 
         function onSubmit(e){
-            e.preventDefault()
+            e.preventDefault();
             githubAuth(register, username, password);
         }
         return (<body>

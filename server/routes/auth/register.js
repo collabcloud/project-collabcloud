@@ -1,3 +1,4 @@
+require('dotenv').config({path: './config/.env'});
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
@@ -31,8 +32,8 @@ router.post(
 
 			// This is the github auth code
 			const code = req.body.code;
-			const clientID = "08f4f6db13802f8cd769";
-			const clientSecret = "7c01fda97c9ee5d3bbab94dbf1b548bab8e6b6be";
+			const clientID = process.env.CLIENT_ID;
+			const clientSecret = process.env.CLIENT_SECRET;
 
 			let response = await axios({
 				method: 'post',

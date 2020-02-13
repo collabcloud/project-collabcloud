@@ -1,15 +1,11 @@
+require('dotenv').config({path: './config/.env'});
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
-// const db = new Sequelize('collabcloud', 'parashan', 'parashan', {
-//     host: 'localhost',
-//     dialect: 'postgres',
-//     port: 5432
-// });
-
-const db = new Sequelize('collabcloud', 'postgres', '504687', {
-    host: 'localhost',
+const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+    host: process.env.DB_HOST,
     dialect: 'postgres',
-    port: 6000
+    port: process.env.DB_PORT,
+    logging: (process.env.DB_LOGGING == "TRUE" ? true : false)
 });
 
 try {
@@ -110,9 +106,4 @@ db.sync({ force: false })
         throw err;
     });
 
-
-
-
 module.exports = db;
-module.exports = User;
-module.exports = project;
