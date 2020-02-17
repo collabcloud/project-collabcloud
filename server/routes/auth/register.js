@@ -1,8 +1,11 @@
-require('dotenv').config({path: './config/.env'});
+/*
+	These are the packages that I am using
+*/
+require('dotenv').config({path: '../config/.env'});
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
-const { check, validationResult } = require("express-validator");
+const { check, validationResult, body} = require("express-validator");
 const db = require("../../database.js");
 
 // @route   POST api/users/register
@@ -10,16 +13,28 @@ const db = require("../../database.js");
 // @access  Public
 router.post(
 	"/",
+	/*
+		The following list below contains all the validations for register input
+	*/
 	[
 		check("username", "Username is required").not().isEmpty(),
 		check("password", "Password must contain minimum eight characters").isLength({ min: 8 }),
+		body("confirmpassword").custom((value, { req }) =>{
+			if(value.isEmpty() || value != req.body.password){
+				throw new Error("Password confirm must match")
+			}
+			return true;
+		})
 	],
+	/*
+		The following async function below handles the full request.
+	*/
 	async (req, res) => {
 		try {
 			// Use express validator to validate request
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
-				return res.status(422).json({ errors: errors.array() });
+				return res.status(422).json({ errors: errors.array()});
 			}
 
 			// This is the GitHub auth code
@@ -35,12 +50,8 @@ router.post(
 					accept: 'application/json'
 				}
 			});
-			// TODO: Check if this access token still exists. It may not exist of the user has authenticated with GitHub but did not register for an account (after ~10 min ?)
 			let accessToken = response.data.access_token;
-			console.log(accessToken)
-			console.log(req.body.username)
-			console.log(req.body.password)
-
+			//TODO: Check if the user related to this access token already exists in the DB.
 			// Insert a user into database
 			const UserObject = db.models.user.build({
 				username: req.body.username,
@@ -51,7 +62,6 @@ router.post(
 			
 			res.status(200).json({ result: "Success" });
 		} catch (err) {
-			console.log(err)
 			res.status(500).json({ errorMessage: "Internal server error" });
 		}
 	}
