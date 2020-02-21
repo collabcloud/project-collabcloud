@@ -9,6 +9,7 @@ import Register2 from "../Containers/Account/Register/RegisterPage2";
 import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects";
 
 const Router = () => (
+    // Render the first <Route> element whose path matches the current URL
     <Switch>
       <Route path="/" component={LandingPage} exact/>
       <Route path="/login" component={Login}/>

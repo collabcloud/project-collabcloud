@@ -8,7 +8,6 @@ import {
 const initialState = {
     projects: {},
     loading: true
-
 };
 
 export default (state = initialState, action) => {

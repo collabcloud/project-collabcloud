@@ -5,7 +5,6 @@ import {
 // Add Single Project
 const initialState = {
     loggedIn: false,
-
 };
 
 export default (state = initialState, action) => {
