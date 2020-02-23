@@ -11,11 +11,18 @@ import { connect } from "react-redux";
 import { addProject } from "../../actions/projectActions";
 import PropTypes from "prop-types";
 
+import "../../css/Explore.css";
+
 const Explore = () => {
 
   return (
     <div>
       <NavigationBar />
+      <Container>
+        <h1>Explore Projects</h1>
+        <h5>View the top projects on CollabCloud</h5>
+        <ProjectsList />
+      </Container>
     </div>
   );
 }
