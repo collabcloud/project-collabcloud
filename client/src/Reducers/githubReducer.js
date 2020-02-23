@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
             return {
                 // for syntax, see https://redux.js.org/recipes/using-object-spread-operator/
                 ...state,
-                githubRepos: action.repos, // TODO: not sure if this line is correct
+                githubRepos: action.repos,  // TODO: not sure if this line is correct
                 loading: false
             };
         default:

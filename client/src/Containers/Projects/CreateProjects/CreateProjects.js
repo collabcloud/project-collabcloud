@@ -9,7 +9,7 @@ import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
 import { MdWeb } from 'react-icons/md'; 
 
 // Redux Imports
-import { connect } from "react-redux";
+import { connect } from "react-redux"; // connects the CreateProjects component to the Redux store
 import { addProject } from "../../../actions/projectActions";
 import PropTypes from "prop-types";
 
@@ -20,8 +20,17 @@ const website = <MdWeb/>;
 const linkedin = <FaLinkedin/>;
 const dev = <FaDev />;
 
-const CreateProjects = ({ addProject }) => {
+const CreateProjects = ({ addProject, retrieveGithubRepoData }) => {
+  // When the component mounts (ie. when the page loads), populate the store with this user's GitHub repos
+  useEffect(() => {
+    const githubUsername = "matthuynh"; // TODO: Get this value from state (GitHub username associated to whoever is currently logged in)
+    const repoVisibility = "public"; // TODO: Get this value from the form (?)
 
+    retrieveGithubRepoData(githubUsername, repoVisibility);
+  });
+
+  // TODO: Update the state here with the data that is in the store
+  // https://reactjs.org/docs/hooks-state.html
   const [projects, setProjects] = useState([
 
     {name: 'Optimize.me',
@@ -208,5 +217,26 @@ CreateProjects.propTypes = {
   addProject: PropTypes.func.isRequired
 };
 
-// Inserting a null value where mapStateToProps() should be
-export default connect(null, { addProject })(CreateProjects);
+// Transforms Redux store state into the props for this CreateProjects component
+// This function is called whenever the store state changes
+function mapStateToProps(state) {
+  // TODO: Not sure if this is what should be returned
+  // https://redux.js.org/basics/usage-with-react#implementing-container-components
+  return {
+    githubRepos: state.getGithubRepos.githubRepos
+  };
+}
+
+// Receives the dispatch() method and returns callback props to inject into the CreateProjects component
+function mapDispatchToProps(dispatch) {
+  // When the retrieveGithubRepoData callback is invoked, dispatches the getGithubRepos action (defined in githubActions.js)
+  return {
+      retrieveGithubRepoData: (githubUsername, repoVisibility) => {
+          dispatch(getGithubRepos(githubUsername, repoVisibility));
+      }
+  };
+}
+
+// https://react-redux.js.org/api/connect#options-object
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProjects);
+// export default connect(null, { addProject })(CreateProjects);
