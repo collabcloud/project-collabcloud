@@ -23,7 +23,6 @@ router.get(
 				}
 			});
 
-			//console.log("All projects:", JSON.stringify(projects, null, 2));
 			const projects_obj = {
 				projects_lst: projects
 			}

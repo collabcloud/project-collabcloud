@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectsList } from "../../components/base/ProjectsList";
@@ -13,9 +13,13 @@ import PropTypes from "prop-types";
 
 import "../../css/Explore.css";
 
-const Explore = ({getPublicProjects}) => {
+const Explore = ({getPublicProjects, projects}) => {
 
-  console.log(getPublicProjects());
+  //const [projects, setProjects] = useState([]);
+
+  useEffect(()=>{
+    getPublicProjects();
+  }); 
 
   return (
     <div>
@@ -23,14 +27,27 @@ const Explore = ({getPublicProjects}) => {
       <Container>
         <h1>Explore Projects</h1>
         <h5>View the top projects on CollabCloud</h5>
-        <ProjectsList />
+        <ProjectsList projects={projects}/>
       </Container>
     </div>
   );
 }
 
+function mapStateToProps(state){
+  return {projects: state.project.projects};
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+      getPublicProjects: () => {
+          dispatch(getPublicProjects());
+      }
+  };
+}
+
+
 Explore.propTypes = {
   getPublicProjects: PropTypes.func.isRequired
 };
 
-export default connect(null, { getPublicProjects })(Explore);
+export default connect(mapStateToProps, mapDispatchToProps)(Explore);

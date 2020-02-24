@@ -52,7 +52,8 @@ export const getPublicProjects = () => async dispatch => {
         // If success, dispatch action
         if (res) {
             dispatch({
-                type: GET_PUBLIC_PROJECTS            
+                type: GET_PUBLIC_PROJECTS,
+                payload: res.data.projects_obj.projects_lst         
             });
         } else {
             console.log("Couldn't get projects");
