@@ -6,3 +6,5 @@ export const PROJECT_LOADING = "PROJECT_LOADING";
 // Register Actions
 
 export const GET_TOKEN = "GET_TOKEN";
+export const GITHUB_EXISTS = "GITHUB_EXISTS";
+export const ATTEMPT = "ATTEMPT";

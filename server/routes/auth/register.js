@@ -8,6 +8,9 @@ const router = express.Router();
 const { check, validationResult, body} = require("express-validator");
 const db = require("../../database.js");
 
+
+
+
 // @route   POST api/users/register
 // @desc    Register User
 // @access  Public
@@ -19,8 +22,9 @@ router.post(
 	[
 		check("username", "Username is required").not().isEmpty(),
 		check("password", "Password must contain minimum eight characters").isLength({ min: 8 }),
+		check("code", "Password must contain minimum eight characters").not().isEmpty(),
 		body("confirmpassword").custom((value, { req }) =>{
-			if(value.isEmpty() || value != req.body.password){
+			if(value != req.body.password){
 				throw new Error("Password confirm must match")
 			}
 			return true;
@@ -34,6 +38,7 @@ router.post(
 			// Use express validator to validate request
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
+				console.log(errors);
 				return res.status(422).json({ errors: errors.array()});
 			}
 
@@ -53,10 +58,31 @@ router.post(
 			let accessToken = response.data.access_token;
 			//TODO: Check if the user related to this access token already exists in the DB.
 			// Insert a user into database
+		
+			let newResponse = await axios.get(`https://api.github.com/user`,{
+				headers: { 
+					accept:'application/json',
+					Authorization: `token ${accessToken}`
+				}
+				
+			});
+			let githubId = newResponse.data.id;
+			const idQuery = await db.models.user.findAll({
+				attributes:[`githubid`],
+				where:{
+					githubid: JSON.stringify(githubId)
+				}
+			});
+			console.log(idQuery.length);
+			if(Array.isArray(idQuery) && idQuery.length > 0){
+				res.status(301).json({ result: "Redirect to login!" });
+				return;
+			}
 			const UserObject = db.models.user.build({
 				username: req.body.username,
 				password: req.body.password,
-				authToken: accessToken
+				authtoken: accessToken,
+				githubid: githubId
 			});
 			await UserObject.save();
 			
@@ -68,3 +94,4 @@ router.post(
 );
 
 module.exports = router;
+
