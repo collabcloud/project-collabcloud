@@ -1,17 +1,23 @@
 /*
     Packages
 */
-import React, {useState, useEffect, useRef} from "react";
-import { NavigationBar } from "../../../components/base/NavigationBar";
+import React from "react";
+import { RegisterForm } from "../../../components/base/RegisterForm";
+import Card from 'react-bootstrap/Card'
+import "../../../css/LoginForm.css"
 
-import { register } from "../../../actions/registerActions";
-import { connect } from "react-redux";
-import { withRouter } from 'react-router-dom';
 
 const state = require("../../../store");
-const Register2 = ({registered,githubExists, register, history}) => {
-        
-
+const Register2 = (props) => {
+    return (
+        <div>
+            <Card bg="light" className="login-form" style={{ width: '18rem', marginTop: 50 }}>
+                <h1 className="header" style ={{marginTop: 10}}>Login</h1>
+                <RegisterForm/>
+            </Card>
+        </div>
+    )};
+export default Register2;
         /*return (<body>
             
             <div class="container">
@@ -36,51 +42,5 @@ const Register2 = ({registered,githubExists, register, history}) => {
                 </div>
             </div>
         </body>*/
-};
-/**
- * This function retrieves the code that github puts on the URL
- * and makes a fetch to the express endpoint /api/users/register/github
- * ?code=something
- */
-async function githubAuth(register, formData){
-    
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    const get_code = (code) =>{
-        for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if (pair[0] === code) {
-            return pair[1]
-        }
-    }
-    
-    }; 
-    const code = get_code("code");
-    console.log(code);
-    if(code){
-        register(code, formData);
-    }
-}
-/**
- * 
- * Standard function that maps Redux state to the Props of Register2
- */
-function mapStateToProps(state){
-    return {registered: state.register.registered, githubExists: state.register.githubExists, attempted: state.register.attempted};
-}
-/**
- * 
- * Standard function that maps Redux action dispatches to the Props of Register2
- */
-function mapDispatchToProps(dispatch){
-    return {
-        register: (auth_code, formData) => {
-            dispatch(register(auth_code, formData));
-            
-        }
-    };
-}
-/**
- * Standard connect call
- */
-export default connect(mapStateToProps, mapDispatchToProps)(Register2);
+
+

@@ -1,12 +1,16 @@
-import React , { useState } from "react";
+import React, {useState, useEffect} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 import "../../css/LoginForm.css"
 
 
+import { register } from "../../../actions/registerActions";
+import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';
 
-export function RegisterForm(props) {
+
+function RegisterForm(props) {
 
    
     useEffect(() => {
@@ -125,3 +129,26 @@ async function githubAuth(register, formData){
         register(code, formData);
     }
 }
+/**
+ * 
+ * Standard function that maps Redux state to the Props of Register2
+ */
+function mapStateToProps(state){
+    return {registered: state.register.registered, githubExists: state.register.githubExists, attempted: state.register.attempted};
+}
+/**
+ * 
+ * Standard function that maps Redux action dispatches to the Props of Register2
+ */
+function mapDispatchToProps(dispatch){
+    return {
+        register: (auth_code, formData) => {
+            dispatch(register(auth_code, formData));
+            
+        }
+    };
+}
+/**
+ * Standard connect call
+ */
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);
