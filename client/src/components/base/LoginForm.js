@@ -1,4 +1,4 @@
-import React , { useState } from "react";
+import React , { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
@@ -6,13 +6,12 @@ import { login } from "../../actions/loginActions";
 import { connect } from "react-redux";
 
 import "../../css/LoginForm.css"
+import { useHistory } from "react-router-dom";
 
 
 
-function LoginForm({login}){
+function LoginForm({loggedIn, login}){
 
-    //const [username, setUsername] = useState("");
-    //const [password, setPassword] = useState("");
     const [validated, setValidated] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -22,6 +21,17 @@ function LoginForm({login}){
 
     const {username, password} = formData;
 
+    const history = useHistory();
+
+    useEffect(() => {
+        console.log(loggedIn);
+        if(loggedIn){
+            console.log("logged in!");
+            history.push("/");
+            //redirect to /dashboard
+        }
+    });
+
     const onChange = (e) =>{
         setFormData({...formData, [e.target.name]: e.target.value});
     }
@@ -29,18 +39,17 @@ function LoginForm({login}){
     const onSubmit = (e) => {
         e.preventDefault();
         console.log(login)
-        submitLoginForm(login,username,password);
-        //const form = e.currentTarget;
-//
-        //if (form.checkValidity() === false) {
-        //  e.preventDefault();
-        //  e.stopPropagation();
-        //}
-//
-        //setValidated(true);
-        //alert(`Submitting ${username} ${password}`);
-    //
-        //submitLoginForm(login, username, password);
+        
+        const form = e.currentTarget;
+
+        if (form.checkValidity() === false) {
+         e.preventDefault();
+         e.stopPropagation();
+        }
+
+        setValidated(true);
+        // alert(`Submitting ${username} ${password}`);
+        submitLoginForm(login,username,password);        
     }
 
     return (
@@ -98,6 +107,10 @@ async function submitLoginForm(login, username, password){
     login(username,password);
 }
 
+function mapStateToProps(state){
+    return {loggedIn: state.login.loggedIn};
+}
+
 function mapDispatchToProps(dispatch){
     return {
         login: (username, password) => {
@@ -107,4 +120,4 @@ function mapDispatchToProps(dispatch){
 }
 
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

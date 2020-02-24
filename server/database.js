@@ -1,16 +1,11 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
-// const db = new Sequelize('collabcloud', 'parashan', 'parashan', {
-//     host: 'localhost',
-//     dialect: 'postgres',
-//     port: 5432
-// });
-
-const db = new Sequelize('collabcloud', 'postgres', '504687', {
+const db = new Sequelize('collabcloud', 'postgres', 'postgres', {
     host: 'localhost',
     dialect: 'postgres',
-    port: 6000
+    port: 5432
 });
+
 
 try {
     db.authenticate();
@@ -114,5 +109,3 @@ db.sync({ force: false })
 
 
 module.exports = db;
-module.exports = User;
-module.exports = project;
