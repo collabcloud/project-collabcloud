@@ -8,12 +8,14 @@ import { MdWeb } from 'react-icons/md';
 
 // Redux Imports
 import { connect } from "react-redux";
-import { addProject } from "../../actions/projectActions";
+import { getPublicProjects } from "../../actions/projectActions";
 import PropTypes from "prop-types";
 
 import "../../css/Explore.css";
 
-const Explore = () => {
+const Explore = ({getPublicProjects}) => {
+
+  console.log(getPublicProjects());
 
   return (
     <div>
@@ -27,4 +29,8 @@ const Explore = () => {
   );
 }
 
-export default Explore;
+Explore.propTypes = {
+  getPublicProjects: PropTypes.func.isRequired
+};
+
+export default connect(null, { getPublicProjects })(Explore);

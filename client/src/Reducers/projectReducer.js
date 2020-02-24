@@ -1,6 +1,7 @@
 import {
     ADD_PROJECT,
     GET_PROJECT,
+    GET_PUBLIC_PROJECTS,
     PROJECT_LOADING
 } from "../actions/types";
 
@@ -14,6 +15,11 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_PROJECT:
+            return {
+                ...state,
+                loading: false,
+            };
+        case GET_PUBLIC_PROJECTS:
             return {
                 ...state,
                 loading: false,
