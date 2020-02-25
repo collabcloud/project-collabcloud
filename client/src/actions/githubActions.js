@@ -10,21 +10,17 @@ export const getGithubRepos = ({ githubUsername, repoVisibility }) => async disp
         }
     };
 
-    const body = JSON.stringify({ 
-        username: githubUsername,
-        visibility: repoVisibility
-    })
     try {
+        // Send a GET request to the back-end to get the user's repos
         const res = await axios.get("/api/github/repos", {
             params: {
-                username: "matthuynh",
-                visibility: "public"
+                username: githubUsername,
+                visibility: repoVisibility
             }
         }, config);
         
         // If success, dispatch the action
         if (res) {
-            // console.log(res);
             // Send our information to the store
             dispatch({
                 type: GET_GIT_REPOS,
