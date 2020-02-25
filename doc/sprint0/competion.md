@@ -1,8 +1,8 @@
 ﻿# Competition
 
-findcollabs.com
-up-for-grabs.net
-codetriage.com
+- findcollabs.com
+- up-for-grabs.net
+- codetriage.com
 
 ## :blue_book: How Our Product is Different :blue_book:
 

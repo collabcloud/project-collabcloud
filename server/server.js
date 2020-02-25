@@ -2,11 +2,10 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
 const db = require("./database.js");
+require('dotenv').config({path: './config/.env'});
 // const db = db_obj.db;
 // const account = db_obj.account;
 // const project = db_obj.project;
-
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,12 +20,10 @@ app.use("/api/users/register", require("./routes/auth/register"));
 app.use("/api/users/github", require("./routes/auth/github"));
 app.use("/api/users/login", require("./routes/auth/login"));
 app.use("/api/projects/create", require("./routes/projects/createProject"));
+app.use("/api/projects/", require("./routes/projects/getPublicProjects"));
 app.use("/api/github/repos", require("./routes/github/getRepos"));
 
 
 
-const PORT = 5000;
+const PORT = process.env.SERVER_PORT;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-
-
-// module.exports = db;

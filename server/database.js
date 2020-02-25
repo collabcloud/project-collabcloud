@@ -1,11 +1,12 @@
+require('dotenv').config({ path: './config/.env' });
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
-const db = new Sequelize('collabcloud', 'postgres', 'postgres', {
-    host: 'localhost',
+const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+    host: process.env.DB_HOST,
     dialect: 'postgres',
-    port: 5432
+    port: process.env.DB_PORT,
+    logging: (process.env.DB_LOGGING == "TRUE" ? true : false)
 });
-
 
 try {
     db.authenticate();
@@ -14,7 +15,7 @@ try {
     console.error('Unable to connect to the database:', error);
 }
 
-
+// Keep all fields lower case ssince psql does some weird stuff with camel case
 const User = db.define('user', {
     uid: {
         type: Sequelize.UUID,
@@ -23,14 +24,19 @@ const User = db.define('user', {
     },
     username: {
         allowNull: false,
-        type: DataTypes.STRING(15)
+        type: DataTypes.STRING(25)
     },
     password: {
         allowNull: false,
-        type: DataTypes.STRING(15)
+        type: DataTypes.STRING(25)
     },
-    authToken: {
+    authtoken: {
         allowNull: false,
+        type: DataTypes.STRING(50)
+    },
+    githubid: {
+        allowNull: false,
+        unique: true,
         type: DataTypes.STRING(50)
     }
 }, {
@@ -60,33 +66,34 @@ const project = db.define('project', {
     //     type: DataTypes.STRING(50),
     //     allowNull: false
     // },
-    // projectName: {
-    //     type: DataTypes.STRING(50),
-    //     allowNull: false
-    // },
-    // projectDescription: {
-    //     type: DataTypes.STRING(2000),
-    //     allowNull: false
-    // },
-    // isPrivate: {
-    //     type: DataTypes.BOOLEAN,
-    //     allowNull: false
-    // },
-    // technologiesUsed: {
-    //     type: DataTypes.ARRAY(DataTypes.STRING(30))
-    // },
-    // githubLink: {
-    //     type:DataTypes.STRING(50)
-    // },
-    // websiteLink: {
-    //     type:DataTypes.STRING(50)
-    // },
-    // devpostLink: {
-    //     type: DataTypes.STRING(50)
-    // },
-    // linkedinLink: {
-    //     type: DataTypes.STRING(50)
-    // },
+    projectName: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+    },
+    projectDescription: {
+        type: DataTypes.STRING(2000),
+        allowNull: false
+    },
+    isPrivate: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+    technologiesUsed: {
+        type: DataTypes.STRING(25),
+        allowNull: false
+    },
+    githubLink: {
+        type: DataTypes.STRING(50)
+    },
+    websiteLink: {
+        type: DataTypes.STRING(50)
+    },
+    devpostLink: {
+        type: DataTypes.STRING(50)
+    },
+    linkedinLink: {
+        type: DataTypes.STRING(50)
+    },
     dateCreated: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.NOW
@@ -104,8 +111,5 @@ db.sync({ force: false })
     .catch(function (err) {
         throw err;
     });
-
-
-
 
 module.exports = db;
