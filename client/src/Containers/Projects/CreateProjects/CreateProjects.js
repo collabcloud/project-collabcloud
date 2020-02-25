@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import ReactTags from "react-tag-autocomplete";
 import { NavigationBar } from "../../../components/base/NavigationBar";
@@ -11,6 +11,7 @@ import { MdWeb } from 'react-icons/md';
 // Redux Imports
 import { connect } from "react-redux"; // connects the CreateProjects component to the Redux store
 import { addProject } from "../../../actions/projectActions";
+import { getGithubRepos } from "../../../actions/githubActions";
 import PropTypes from "prop-types";
 
 import "../../../css/CreateProjects.css";
@@ -20,13 +21,13 @@ const website = <MdWeb/>;
 const linkedin = <FaLinkedin/>;
 const dev = <FaDev />;
 
-const CreateProjects = ({ addProject, retrieveGithubRepoData }) => {
+const CreateProjects = ({ addProject, getGithubRepos }, githubRepos) => {
   // When the component mounts (ie. when the page loads), populate the store with this user's GitHub repos
   useEffect(() => {
-    const githubUsername = "matthuynh"; // TODO: Get this value from state (GitHub username associated to whoever is currently logged in)
-    const repoVisibility = "public"; // TODO: Get this value from the form (?)
+    const githubUsername = "matthuynh"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in)
+    const repoVisibility = "public"; // todo: Get this value from the form (?)
 
-    retrieveGithubRepoData(githubUsername, repoVisibility);
+    getGithubRepos({ githubUsername, repoVisibility });
   });
 
   // TODO: Update the state here with the data that is in the store
@@ -115,6 +116,7 @@ const CreateProjects = ({ addProject, retrieveGithubRepoData }) => {
     setLinks(new_links);
   }
   
+  // When you click on the card in the carousel, populates all the text fields
   function updateFields(index) {
     const project = projects[index];
     setName(project.name);
@@ -138,6 +140,9 @@ const CreateProjects = ({ addProject, retrieveGithubRepoData }) => {
     addProject({ name });
   }
 
+  // console.log("githubRepos is");
+  // console.log(githubRepos);
+
   return (
     <div>
       <NavigationBar />
@@ -147,7 +152,12 @@ const CreateProjects = ({ addProject, retrieveGithubRepoData }) => {
               <h4>Create a new project</h4>
   
               <p>Select an Existing Repo (optional)</p>
+              {/* TODO: Pass in githubRepos */}
               <ProjectView projects={projects} updateFields={updateFields}/>
+
+              {/* <p>
+                ${githubRepos}
+              </p> */}
               <p>Project Name</p>
               <Form.Control
                 type="text"
@@ -214,29 +224,22 @@ const CreateProjects = ({ addProject, retrieveGithubRepoData }) => {
 }
 
 CreateProjects.propTypes = {
-  addProject: PropTypes.func.isRequired
+  addProject: PropTypes.func.isRequired,
+  getGithubRepos: PropTypes.func.isRequired,
 };
 
 // Transforms Redux store state into the props for this CreateProjects component
 // This function is called whenever the store state changes
-function mapStateToProps(state) {
-  // TODO: Not sure if this is what should be returned
+const mapStateToProps = (state) => {
   // https://redux.js.org/basics/usage-with-react#implementing-container-components
+  // console.log("in mapStateToProps");
+  // console.log(state.github);
+  // console.log(state.github.githubReposFromState);
+  
   return {
-    githubRepos: state.getGithubRepos.githubRepos
-  };
-}
-
-// Receives the dispatch() method and returns callback props to inject into the CreateProjects component
-function mapDispatchToProps(dispatch) {
-  // When the retrieveGithubRepoData callback is invoked, dispatches the getGithubRepos action (defined in githubActions.js)
-  return {
-      retrieveGithubRepoData: (githubUsername, repoVisibility) => {
-          dispatch(getGithubRepos(githubUsername, repoVisibility));
-      }
+    githubRepos: state.github.githubReposFromState
   };
 }
 
 // https://react-redux.js.org/api/connect#options-object
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProjects);
-// export default connect(null, { addProject })(CreateProjects);
+export default connect(mapStateToProps, { addProject, getGithubRepos })(CreateProjects);

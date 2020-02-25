@@ -15,10 +15,16 @@ export const getGithubRepos = ({ githubUsername, repoVisibility }) => async disp
         visibility: repoVisibility
     })
     try {
-        const res = await axios.get("api/github/repos", body, config);
+        const res = await axios.get("/api/github/repos", {
+            params: {
+                username: "matthuynh",
+                visibility: "public"
+            }
+        }, config);
         
         // If success, dispatch the action
         if (res) {
+            // console.log(res);
             // Send our information to the store
             dispatch({
                 type: GET_GIT_REPOS,

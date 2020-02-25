@@ -24,7 +24,7 @@ router.get(
 			// Get the GitHub auth token for the given username
 			const user = await db.models.user.findOne({
 				where: {
-					username: req.body.username,
+					username: req.query.username,
 				}
 			});
 			if (user === null) {
@@ -42,7 +42,7 @@ router.get(
 					},
 				params:
 					{
-						"visibility": req.body.visibility,
+						"visibility": req.query.visibility,
 						"affiliation": "owner",
 						"sort": "created",
 						"direction": "desc"
@@ -67,6 +67,7 @@ router.get(
 			if (err.response && err.response.status == 401) {
 				return res.status(401).json({ errorMessage: "GitHub auth token associated with the username is invalid" });
 			}
+			console.log(err);
             return res.status(500).json({ errorMessage: "Internal server error" });
         }
 	}
