@@ -1,11 +1,13 @@
 require('dotenv').config({ path: './config/.env' });
 const { Sequelize, DataTypes, Model } = require('sequelize');
+
 const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
     host: process.env.DB_HOST,
     dialect: 'postgres',
     port: process.env.DB_PORT,
     logging: (process.env.DB_LOGGING == "TRUE" ? true : false)
 });
+
 try {
     db.authenticate();
     console.log('Connection has been established successfully.');
