@@ -1,5 +1,5 @@
 import {
-    GET_TOKEN, AUTH_FAIL, ATTEMPT
+    GET_TOKEN, GITHUB_EXISTS, ATTEMPT
 } from "../actions/types";
 
 // Add Single Project

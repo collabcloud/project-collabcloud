@@ -1,0 +1,16 @@
+.register-form {
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    height: 100%;
+}
+
+.header{
+    color: #667eea;
+}
+.errors{
+    color: black;
+}
+.errors li{
+    color: red;
+}

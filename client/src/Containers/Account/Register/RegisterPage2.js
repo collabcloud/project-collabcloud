@@ -2,7 +2,7 @@
     Packages
 */
 import React from "react";
-import { RegisterForm } from "../../../components/base/RegisterForm";
+import RegisterForm  from "../../../components/base/RegisterForm";
 import Card from 'react-bootstrap/Card'
 import "../../../css/LoginForm.css"
 
@@ -11,8 +11,8 @@ const state = require("../../../store");
 const Register2 = (props) => {
     return (
         <div>
-            <Card bg="light" className="login-form" style={{ width: '18rem', marginTop: 50 }}>
-                <h1 className="header" style ={{marginTop: 10}}>Login</h1>
+            <Card bg="light" className="login-form" style={{ width: '30rem', marginTop: 50 }}>
+                <h1 className="header" style ={{marginTop: 20}}>Register</h1>
                 <RegisterForm/>
             </Card>
         </div>

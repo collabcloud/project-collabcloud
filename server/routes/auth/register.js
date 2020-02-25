@@ -22,6 +22,7 @@ router.post(
 	[
 		check("username", "Username is required").not().isEmpty(),
 		check("password", "Password must contain minimum eight characters").isLength({ min: 8 }),
+		check("email", "Email should not be empty").not().isEmpty(),
 		check("code", "Password must contain minimum eight characters").not().isEmpty(),
 		body("confirmpassword").custom((value, { req }) =>{
 			if(value != req.body.password){
@@ -36,6 +37,7 @@ router.post(
 	async (req, res) => {
 		try {
 			// Use express validator to validate request
+			return res.status(422).json();
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				console.log(errors);
@@ -46,7 +48,7 @@ router.post(
 			const code = req.body.code;
 			const clientID = process.env.CLIENT_ID;
 			const clientSecret = process.env.CLIENT_SECRET;
-
+			console.log(req.body);
 			// Get access token from GitHub
 			let response = await axios({
 				method: 'post',
