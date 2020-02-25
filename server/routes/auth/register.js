@@ -37,7 +37,6 @@ router.post(
 	async (req, res) => {
 		try {
 			// Use express validator to validate request
-			return res.status(422).json();
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				console.log(errors);
