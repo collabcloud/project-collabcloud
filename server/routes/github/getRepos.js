@@ -21,7 +21,7 @@ router.get(
 				return res.status(422).json({ errors: errors.array() });
 			}
 
-			// Get the GitHub auth token for the given username
+			// Get the GitHub auth token for the given username (IMPORTANT that the username in the db matches that of GitHub username)
 			const user = await db.models.user.findOne({
 				where: {
 					username: req.query.username,
@@ -51,13 +51,15 @@ router.get(
 			if (githubResponse.status == 200) {
 				// console.log(githubResponse);
 				let repos = githubResponse.data;
-				let repoData = {};
+				let repoData = [];
 				for (let i = 0; i < repos.length; i++) {
-					// TODO: Consult with the team to figure out what other fields we want to save
-					repoData[repos[i].name] = {};
-					repoData[repos[i].name]["url"] = repos[i].html_url;
-					repoData[repos[i].name]["description"] = repos[i].description;
-					repoData[repos[i].name]["creation_date"] = repos[i].created_at;
+					repoData[i] = {};
+					repoData[i]["repo_name"] = repos[i].name;
+					repoData[i]["github_url"] = repos[i].html_url;
+					repoData[i]["repo_description"] = repos[i].description;
+					repoData[i]["repo_creation_date"] = repos[i].created_at;
+					repoData[i]["repo_main_technology"] = repos[i].language;
+					repoData[i]["repo_visibility_is_private"] = repos[i].private;
 				}
 				// console.log(repoData);
 				return res.status(200).json(repoData);
