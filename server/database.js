@@ -1,13 +1,11 @@
 require('dotenv').config({ path: './config/.env' });
 const { Sequelize, DataTypes, Model } = require('sequelize');
-
 const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
     host: process.env.DB_HOST,
     dialect: 'postgres',
     port: process.env.DB_PORT,
     logging: (process.env.DB_LOGGING == "TRUE" ? true : false)
 });
-
 try {
     db.authenticate();
     console.log('Connection has been established successfully.');
@@ -15,7 +13,7 @@ try {
     console.error('Unable to connect to the database:', error);
 }
 
-
+// Keep all fields lower case ssince psql does some weird stuff with camel case
 const User = db.define('user', {
     uid: {
         type: Sequelize.UUID,
@@ -30,8 +28,13 @@ const User = db.define('user', {
         allowNull: false,
         type: DataTypes.STRING(25)
     },
-    authToken: {
+    authtoken: {
         allowNull: false,
+        type: DataTypes.STRING(50)
+    },
+    githubid: {
+        allowNull: false,
+        unique: true,
         type: DataTypes.STRING(50)
     }
 }, {
