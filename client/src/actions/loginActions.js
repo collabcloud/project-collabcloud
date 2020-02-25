@@ -17,7 +17,8 @@ export const login = (username, password) => async dispatch => {
         const body = JSON.stringify({username, password});
 
         let response = await axios.post(url,body,config);
-        console.log(response);
+        console.log("response"+response);
+        console.log("response status"+response.status);
         if(response){
             console.log("if response")
             dispatch({
