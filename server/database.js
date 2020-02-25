@@ -1,4 +1,4 @@
-require('dotenv').config({path: './config/.env'});
+require('dotenv').config({ path: './config/.env' });
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
     host: process.env.DB_HOST,
@@ -64,33 +64,34 @@ const project = db.define('project', {
     //     type: DataTypes.STRING(50),
     //     allowNull: false
     // },
-    // projectName: {
-    //     type: DataTypes.STRING(50),
-    //     allowNull: false
-    // },
-    // projectDescription: {
-    //     type: DataTypes.STRING(2000),
-    //     allowNull: false
-    // },
-    // isPrivate: {
-    //     type: DataTypes.BOOLEAN,
-    //     allowNull: false
-    // },
-    // technologiesUsed: {
-    //     type: DataTypes.ARRAY(DataTypes.STRING(30))
-    // },
-    // githubLink: {
-    //     type:DataTypes.STRING(50)
-    // },
-    // websiteLink: {
-    //     type:DataTypes.STRING(50)
-    // },
-    // devpostLink: {
-    //     type: DataTypes.STRING(50)
-    // },
-    // linkedinLink: {
-    //     type: DataTypes.STRING(50)
-    // },
+    projectName: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+    },
+    projectDescription: {
+        type: DataTypes.STRING(2000),
+        allowNull: false
+    },
+    isPrivate: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+    technologiesUsed: {
+        type: DataTypes.STRING(25),
+        allowNull: false
+    },
+    githubLink: {
+        type: DataTypes.STRING(50)
+    },
+    websiteLink: {
+        type: DataTypes.STRING(50)
+    },
+    devpostLink: {
+        type: DataTypes.STRING(50)
+    },
+    linkedinLink: {
+        type: DataTypes.STRING(50)
+    },
     dateCreated: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.NOW

@@ -49,3 +49,8 @@
     opacity: 1;
   
   }
+
+  .navbar,
+  .navbar-default {
+    background-color: #667eea;
+  }
