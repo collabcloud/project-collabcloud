@@ -23,6 +23,7 @@
     "redux": "^4.0.5",
     "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0",
+    "shards-react": "^1.0.3",
     "validator": "^12.1.0"
   },
   "scripts": {
