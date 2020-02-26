@@ -1,36 +1,38 @@
 import axios from "axios";
-import {GET_TOKEN} from "./types";
-import { FaClosedCaptioning } from "react-icons/fa";
+import { GET_TOKEN, GITHUB_EXISTS, ATTEMPT} from "./types";
 
-// Add Project Action
-export const register = (auth_code, username, password) => async dispatch => {
+// Registeration action
+export const register = (auth_code, formData) => async dispatch => {
     console.log("Redux register");
     console.log(auth_code);
-    console.log(username);
-    console.log(password)
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     }
-    try {
         const url = '/api/users/register';
-        const body = JSON.stringify({code: auth_code,  username, password})
-        console.log(body)
-        let response = await axios.post(url, body, config);
+        const body = JSON.stringify({code: auth_code, ...formData})
+        dispatch({
+            type: ATTEMPT
+        });
+        let response = axios.post(url, body, config);
         
         // If success, dispatch action
-        if (response) {
+        // TODO: Check the response for whether or not the user is 
+        // already registered on github or not
+        response.then(()=>{
             dispatch({
                 type: GET_TOKEN,
                 payload: response.data
             });
-        }
-        else{
-            console.log("Couldnt register");
-        }
-    } catch (err) {
-        console.log("Error Creating a Project");
-        console.log(err);
-    }
+        }).catch((err) => {
+            console.log(err.response.status);
+            if(err.response.status == 301){
+                dispatch({
+                    type: GITHUB_EXISTS
+                })
+            }
+            console.log("Error Registering");
+        });
+    
 };
