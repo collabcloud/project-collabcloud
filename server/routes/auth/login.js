@@ -32,6 +32,8 @@ router.post(
 			});
 
 			console.log(validUser);
+			console.log(validUser[0].dataValues.username);
+			console.log(validUser[0].dataValues.password);
 
 			//200 success response if username equal to password
 			if ((validUser.length > 0) && (req.body.username == validUser[0].dataValues.username) && (req.body.password == validUser[0].dataValues.password)) {

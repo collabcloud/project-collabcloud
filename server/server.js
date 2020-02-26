@@ -20,6 +20,7 @@ app.use("/api/users/register", require("./routes/auth/register"));
 app.use("/api/users/github", require("./routes/auth/github"));
 app.use("/api/users/login", require("./routes/auth/login"));
 app.use("/api/projects/create", require("./routes/projects/createProject"));
+app.use("/api/projects/", require("./routes/projects/getPublicProjects"));
 app.use("/api/github/repos", require("./routes/github/getRepos"));
 
 

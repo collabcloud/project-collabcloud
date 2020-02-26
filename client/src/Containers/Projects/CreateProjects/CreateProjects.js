@@ -5,8 +5,8 @@ import { NavigationBar } from "../../../components/base/NavigationBar";
 import { ProjectView } from "../../../components/specialized/ProjectView";
 import { ItemsList } from "../../../components/base/ItemsList";
 
-import { FaGithub, FaLinkedin, FaDev } from "react-icons/fa";
-import { MdWeb } from "react-icons/md";
+import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
+import { MdWeb } from 'react-icons/md';
 
 // Redux Imports
 import { connect } from "react-redux"; // connects the CreateProjects component to the Redux store
@@ -219,6 +219,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 };
 
 // List of dispatch functions that will be available to the component
+
 CreateProjects.propTypes = {
 	addProject: PropTypes.func.isRequired,
 	getGithubRepos: PropTypes.func.isRequired
