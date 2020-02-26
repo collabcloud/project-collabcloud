@@ -4,10 +4,10 @@ import {
 
 // Add Single Project
 const initialState = {
+    loggedIn: false,
     attempted: false,
     registered: false,
     githubExists: false
-
 };
 
 export default (state = initialState, action) => {

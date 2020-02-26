@@ -35,4 +35,7 @@ const store = createStore(
   //composeEnhancers(applyMiddleware(...middleWare))
 );
 
+// FOR DEBUGGING: In the browser console, do `window.store.getState()` to view the contents of the store
+window.store = store;
+
 export default store;
