@@ -8,10 +8,9 @@ import Register from "../Containers/Account/Register/RegisterPage";
 import Register2 from "../Containers/Account/Register/RegisterPage2";
 import Explore from "../Containers/Explore/Explore";
 import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects";
+import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
 import Profile from "../Containers/User/Profile";
-
-
 
 const Router = () => (
     // Render the first <Route> element whose path matches the current URL
@@ -24,7 +23,7 @@ const Router = () => (
       <Route path="/projects/create" component={CreateProjects} />
       <Route path="/user/profile" component={Profile} />
       <Route path="/user/project" component={Project} />
-
+      <Route path="/dashboard" component={Dashboard} />
     </Switch>
 );
 
