@@ -24,9 +24,9 @@ function LoginForm({loggedIn, login}){
     const history = useHistory();
 
     useEffect(() => {
-        console.log(loggedIn);
+        //console.log(loggedIn);
         if(loggedIn){
-            console.log("logged in!");
+            //console.log("Logged in!");
             history.push("/dashboard");
             //redirect to /dashboard
         }
@@ -38,7 +38,7 @@ function LoginForm({loggedIn, login}){
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(login)
+        //console.log(login)
         
         const form = e.currentTarget;
 
@@ -102,8 +102,8 @@ function LoginForm({loggedIn, login}){
 } 
 
 async function submitLoginForm(login, username, password){
-    console.log(username);
-    console.log(password);
+    //console.log(username);
+    //console.log(password);
     login(username,password);
 }
 

@@ -14,6 +14,7 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
 
    
     useEffect(() => {
+    console.log(registered);
     if (githubExists){
         history.push({
             pathname:'/login',
@@ -29,7 +30,7 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
     else if(attempted){
         window.location.assign("https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo");
     }
-    });
+    }, [githubExists, registered, attempted]);
      /*
             The form data that will be submitted.
             Simply add more entries on the object to add more
@@ -126,7 +127,7 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
                     <Form.Check type="checkbox" name="terms" className="float-left"/>
                     <label htmlFor= "terms">I agree to the <a href='register2'>Terms of service </a></label>
                 </Form.Group>
-                <ul class = "errors">{errors.map((value, index) => {
+                <ul className = "errors">{errors.map((value, index) => {
                     return <li key = {index}>{value}</li>
                 })}</ul>
                 <Button variant="outline-primary" type="submit" block>
@@ -165,9 +166,10 @@ async function githubAuth(register, formData){
 
     }; 
     const code = get_code("code");
+    console.log(code);
     console.log("h");
     if(code){
-        
+        console.log(code);
         register(code, formData);
     }
 }

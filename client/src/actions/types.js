@@ -6,6 +6,8 @@ export const GET_PUBLIC_PROJECTS = "GET_PUBLIC_PROJECTS";
 
 // Register Actions
 export const GET_TOKEN = "GET_TOKEN";
+export const GITHUB_EXISTS = "GITHUB_EXISTS";
+export const ATTEMPT = "ATTEMPT";
 
 // GitHub Repository Actions
 export const GET_GIT_REPOS = "GET_REPOS";
@@ -14,5 +16,3 @@ export const GET_GIT_REPOS = "GET_REPOS";
 export const LOGIN = "LOGIN";
 
 
-export const GITHUB_EXISTS = "GITHUB_EXISTS";
-export const ATTEMPT = "ATTEMPT";

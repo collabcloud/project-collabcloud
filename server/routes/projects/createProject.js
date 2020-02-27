@@ -106,7 +106,7 @@ router.post(
 			projectObject.toJSON();
 			// console.log(projectObject);
 			await projectObject.save();
-			// console.log("The project was saved into the database");
+			console.log("The project was saved into the database");
 
 			res.status(200).json({
 				result: "Success",

@@ -32,7 +32,7 @@ export const addProject = ({ name, desc, isProjectPublic, tech, links }) => asyn
             console.log("Couldn't add venture");
         }
     } catch (err) {
-        console.log("Error Creating a Project");
+        console.log("Error occured while creating a project");
         console.log(err);
     }
 };
@@ -59,7 +59,7 @@ export const getPublicProjects = () => async dispatch => {
             console.log("Couldn't get projects");
         }
     } catch (err) {
-        console.log("Error Retrieving projects");
+        console.log("Error occured when retrieving projects");
         console.log(err);
     }
 };

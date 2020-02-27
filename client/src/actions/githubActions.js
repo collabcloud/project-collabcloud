@@ -27,10 +27,10 @@ export const getGithubRepos = ({ githubUsername, repoVisibility }) => async disp
                 payload: res.data
             });
         } else {
-            console.log(`Some other error, error code is ${res.status}`);
+            console.log(`An error occured. Error: ${res.status}`);
         }
     } catch (err) {
-        console.log("Error with getting GitHub repos");
+        console.log("Error occurred when getting GitHub repos");
         console.log(err);
     }
 };

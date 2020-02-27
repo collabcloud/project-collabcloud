@@ -3,8 +3,8 @@ import { GET_TOKEN, GITHUB_EXISTS, ATTEMPT} from "./types";
 
 // Registeration action
 export const register = (auth_code, formData) => async dispatch => {
-    console.log("Redux register");
-    console.log(auth_code);
+    //console.log("Redux register");
+    //console.log(auth_code);
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -21,6 +21,7 @@ export const register = (auth_code, formData) => async dispatch => {
         // TODO: Check the response for whether or not the user is 
         // already registered on github or not
         response.then(()=>{
+            console.log("Registered");
             dispatch({
                 type: GET_TOKEN,
                 payload: response.data
@@ -28,11 +29,12 @@ export const register = (auth_code, formData) => async dispatch => {
         }).catch((err) => {
             console.log(err.response.status);
             if(err.response.status == 301){
+                console.log("GITHUB_EXISTS");
                 dispatch({
                     type: GITHUB_EXISTS
                 })
             }
-            console.log("Error Registering");
+            console.log("Error occurred while registering");
         });
     
 };

@@ -105,7 +105,7 @@ const project = db.define('project', {
 
 db.sync({ force: false })
     .then(message => {
-        console.log('db synced');
+        console.log('Database synced');
 
     })
     .catch(function (err) {

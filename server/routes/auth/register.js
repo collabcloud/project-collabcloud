@@ -47,7 +47,7 @@ router.post(
 			const code = req.body.code;
 			const clientID = process.env.CLIENT_ID;
 			const clientSecret = process.env.CLIENT_SECRET;
-			console.log(req.body);
+			//console.log(req.body);
 			// Get access token from GitHub
 			let response = await axios({
 				method: 'post',
@@ -74,7 +74,7 @@ router.post(
 					githubid: JSON.stringify(githubId)
 				}
 			});
-			console.log(idQuery.length);
+			//console.log(idQuery.length);
 			if(Array.isArray(idQuery) && idQuery.length > 0){
 				res.status(301).json({ result: "Redirect to login!" });
 				return;
