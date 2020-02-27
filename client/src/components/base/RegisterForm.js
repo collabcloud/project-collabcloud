@@ -14,7 +14,6 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
 
    
     useEffect(() => {
-    console.log(registered);
     if (githubExists){
         history.push({
             pathname:'/login',
@@ -30,7 +29,7 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
     else if(attempted){
         window.location.assign("https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo");
     }
-    }, [githubExists, registered, attempted]);
+    }, [register, registered, githubExists, attempted, history]);
      /*
             The form data that will be submitted.
             Simply add more entries on the object to add more
@@ -166,10 +165,7 @@ async function githubAuth(register, formData){
 
     }; 
     const code = get_code("code");
-    console.log(code);
-    console.log("h");
     if(code){
-        console.log(code);
         register(code, formData);
     }
 }

@@ -12,15 +12,12 @@ export const register = (auth_code, formData) => async dispatch => {
     }
         const url = '/api/users/register';
         const body = JSON.stringify({code: auth_code, ...formData})
-        dispatch({
-            type: ATTEMPT
-        });
-        let response = axios.post(url, body, config);
+        
         
         // If success, dispatch action
         // TODO: Check the response for whether or not the user is 
         // already registered on github or not
-        response.then(()=>{
+        axios.post(url, body, config).then((response)=>{
             console.log("Registered");
             dispatch({
                 type: GET_TOKEN,
@@ -33,6 +30,12 @@ export const register = (auth_code, formData) => async dispatch => {
                 dispatch({
                     type: GITHUB_EXISTS
                 })
+            }
+            else{
+                dispatch({
+                    type: ATTEMPT
+                });
+
             }
             console.log("Error occurred while registering");
         });

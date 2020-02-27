@@ -37,12 +37,13 @@ router.post(
 	async (req, res) => {
 		try {
 			// Use express validator to validate request
+			
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				console.log(errors);
 				return res.status(422).json({ errors: errors.array()});
 			}
-
+		
 			// This is the GitHub auth code
 			const code = req.body.code;
 			const clientID = process.env.CLIENT_ID;
@@ -59,7 +60,7 @@ router.post(
 			let accessToken = response.data.access_token;
 			//TODO: Check if the user related to this access token already exists in the DB.
 			// Insert a user into database
-		
+			console.log(accessToken);
 			let newResponse = await axios.get(`https://api.github.com/user`,{
 				headers: { 
 					accept:'application/json',
@@ -74,6 +75,7 @@ router.post(
 					githubid: JSON.stringify(githubId)
 				}
 			});
+			console.log("hello")
 			//console.log(idQuery.length);
 			if(Array.isArray(idQuery) && idQuery.length > 0){
 				res.status(301).json({ result: "Redirect to login!" });
@@ -88,7 +90,10 @@ router.post(
 			await UserObject.save();
 			
 			res.status(200).json({ result: "Success" });
+			
+			return;
 		} catch (err) {
+			console.log(err);
 			res.status(500).json({ errorMessage: "Internal server error" });
 		}
 	}
