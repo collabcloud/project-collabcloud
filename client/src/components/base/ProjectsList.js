@@ -31,7 +31,7 @@ export const ProjectsList = (props) => {
   var hardcode = [{
     star: 620,
     eye: 1900,
-    owner: "Matt Huynh"
+    owner: "Jarrod Servilla"
   }, {
     star: 145,
     eye: 955,
@@ -39,11 +39,16 @@ export const ProjectsList = (props) => {
   }, {
     star: 999,
     eye: 9999,
-    owner: "Furqan Qureshi"
+    owner: "Jarrod Servilla"
   }, {
-    star: 420,
+    star: 421,
     eye: 1778,
-    owner: "Michael Phung"
+    owner: "Jarrod Servilla"
+  },
+  {
+    star: 842,
+    eye: 400,
+    owner: "Jarrod Servilla"
   }];
 
   var options = {

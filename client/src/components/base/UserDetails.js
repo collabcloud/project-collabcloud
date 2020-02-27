@@ -47,7 +47,7 @@ UserDetails.defaultProps = {
     jobTitle: "Project Manager",
     metaTitle: "Description",
     metaValue:
-      "This is a default description"
+      "gamers rise up"
   }
 };
 

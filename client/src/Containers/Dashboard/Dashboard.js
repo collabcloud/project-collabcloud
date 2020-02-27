@@ -47,15 +47,15 @@ const Dashboard = () => {
                             <Card.Body>
                                 {/* Card Index 0 */}
                                 <h4>&#128161; Your Projects</h4>
-                                <Card.Title><a href="/">jserv/harmoney</a></Card.Title>
-                                <Card.Title><a href="/">jserv/grade.io</a></Card.Title>
-                                <Card.Title><a href="/">jserv/Stock-Trading</a></Card.Title>
-                                <Card.Title><a href="/">jserv/Optimize.me</a></Card.Title>
+                                <Card.Title><a href="/">jcserv/harmoney</a></Card.Title>
+                                <Card.Title><a href="/">jcserv/grade.io</a></Card.Title>
+                                <Card.Title><a href="/">jcserv/Stock-Trading</a></Card.Title>
+                                <Card.Title><a href="/">jcserv/Optimize.me</a></Card.Title>
                             </Card.Body>
                             <Card.Body>
                                 {/* Card Index 0 */}
                                 <Card.Title>&#128273; Project Requests</Card.Title>
-                                <Card.Title><a href="/">jserv/Optimize.me (1)</a></Card.Title>
+                                <Card.Title><a href="/">jcserv/Optimize.me (1)</a></Card.Title>
                             </Card.Body>
                         </Card>
                     </div>
@@ -83,9 +83,9 @@ const Dashboard = () => {
 
                             <Card.Body>
                                 {/* Card Index 1 */}
-                                <Card.Title>&#10067; <a href="/">matthuyhn</a> is requesting to join your <a href="/">Stock Trading</a> project!</Card.Title>
+                                <Card.Title>&#10067; <a href="/">matthuynh</a> is requesting to join your <a href="/">Stock Trading</a> project!</Card.Title>
                                 <Card.Text>
-                                    &#128172; <a href="/">matthuyhn</a> wrote: I love finance and would like to join this project with you!
+                                    &#128172; <a href="/">matthuynh</a> wrote: I love finance and would like to join this project with you!
                                 </Card.Text>
                                 <Button variant="success">View Project</Button>
                             </Card.Body>
@@ -107,9 +107,9 @@ const Dashboard = () => {
 
                             <Card.Body>
                                 {/* Card Index 1 */}
-                                <Card.Title>&#10067; <a href="/">matthuyhn</a> is requesting to join your <a href="/">Stock Trading</a> project!</Card.Title>
+                                <Card.Title>&#10067; <a href="/">matthuynh</a> is requesting to join your <a href="/">Stock Trading</a> project!</Card.Title>
                                 <Card.Text>
-                                    &#128172; <a href="/">matthuyhn</a> wrote: I love finance and would like to join this project with you!
+                                    &#128172; <a href="/">matthuynh</a> wrote: I love finance and would like to join this project with you!
                                 </Card.Text>
                                 <Button variant="success">View Project</Button>
                             </Card.Body>
