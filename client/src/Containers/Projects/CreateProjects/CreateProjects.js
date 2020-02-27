@@ -21,9 +21,9 @@ const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
-const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) => {
-  // Initialize state hooks
-  const [name, setName] = useState("");
+const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) => {
+	// Initialize state hooks
+	const [name, setName] = useState("");
 	const [tech, setTech] = useState([]);
 	const [desc, setDesc] = useState("");
 	const [isProjectPublic, setVisibilityPublic] = useState(true);
@@ -33,8 +33,8 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 		{ name: "Website", icon: website, value: "" },
 		{ name: "DevPost", icon: dev, value: "" },
 		{ name: "LinkedIn", icon: linkedin, value: "" }
-  ]);
-  const [projects, setProjects] = useState([
+	]);
+	const [projects, setProjects] = useState([
 		{
 			name: "Example-Project",
 			description: "👋 Hi! This is literally just an example description",
@@ -46,56 +46,76 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 					value: "https://www.example.org/"
 				}
 			]
-    }
+		}
 	]);
 
 	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
 	useEffect(() => {
 		const githubUsername = "jcserv"; // TODO: Get this value from state (GitHub username associated to whoever is currently logged in)
-    // TODO: When user clicks on the radio button, need to empty both store and state, then re-populate the slider (otherwise the slider never clears, just keeps growing)
-    const repoVisibility = ((isProjectPublic == true) ? "public" : "private");
+		// TODO: When user clicks on the radio button, need to empty both store and state, then re-populate the slider (otherwise the slider never clears, just keeps growing)
+		const repoVisibility = ((isProjectPublic == true) ? "public" : "private");
 
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility });
-  }, [isProjectPublic]); // This empty [] ensures that useEffect() does not run forever
- 
+	}, [isProjectPublic]); // This empty [] ensures that useEffect() does not run forever
 
-  // Runs whenever any of the specified props (isLoading, githubRepos) are updated
-  useEffect(() => {
-    // Use githubRepos (state from store) to get projects that we can use with setProjects
-    if (isLoading == false) {
-      let projectsToDisplay = [...projects]; // preserve the pre-existing projects
-      
-      for (let i = 0; i < githubRepos.length; i++) {
-        let project = {
-          name: githubRepos[i].repo_name,
-          description: githubRepos[i].repo_description,
-          isProjectPublic: !githubRepos[i].repo_visibility_is_private,
-          tech: [
-            { id: 1, name: githubRepos[i].repo_main_technology}
-          ],
-          links: [
-            {
-              name: "Github",
-              icon: github,
-              value: githubRepos[i].github_url
-            }
-          ]
-        };
-        projectsToDisplay.push(project);
-      }
 
-      // Update projects state by calling setProjects
-      setProjects(projectsToDisplay);
-    }
+	// Runs whenever any of the specified props (isLoading, githubRepos) are updated
+	useEffect(() => {
+		// Use githubRepos (state from store) to get projects that we can use with setProjects
+		if (isLoading == false) {
+			let projectsToDisplay = [...projects]; // preserve the pre-existing projects
 
-  }, [githubRepos, isLoading]); // this effect runs again whenever the elements in this array change
+			for (let i = 0; i < githubRepos.length; i++) {
+				let project = {
+					name: githubRepos[i].repo_name,
+					description: githubRepos[i].repo_description,
+					isProjectPublic: !githubRepos[i].repo_visibility_is_private,
+					tech: [
+						{ id: 1, name: githubRepos[i].repo_main_technology }
+					],
+					links: [
+						{
+							name: "Github",
+							icon: github,
+							value: githubRepos[i].github_url
+						}
+					]
+				};
+				projectsToDisplay.push(project);
+			}
+
+			// Update projects state by calling setProjects
+			setProjects(projectsToDisplay);
+		}
+
+	}, [githubRepos, isLoading]); // this effect runs again whenever the elements in this array change
 
 	const tech_suggestions = [
 		{ id: 1, name: "MongoDB" },
 		{ id: 2, name: "Express" },
 		{ id: 3, name: "React" },
-		{ id: 4, name: "Node.js" }
+		{ id: 4, name: "Node.js" },
+		{ id: 5, name: "Python" },
+		{ id: 6, name: "JavaScript" },
+		{ id: 7, name: "Java" },
+		{ id: 8, name: "C++" },
+		{ id: 9, name: "C#" },
+		{ id: 10, name: "HTML/CSS" },
+		{ id: 11, name: "Swift" },
+		{ id: 12, name: "SQL" },
+		{ id: 13, name: "MongoDB" },
+		{ id: 14, name: "Express" },
+		{ id: 15, name: "React" },
+		{ id: 16, name: "Angular" },
+		{ id: 17, name: "VueJS" },
+		{ id: 18, name: "Flutter" },
+		{ id: 19, name: "Kubernetes" },
+		{ id: 20, name: "Jupyter" },
+		{ id: 21, name: "Pytorch" },
+		{ id: 22, name: "Numpy" },
+		{ id: 23, name: "Passport" },
+		{ id: 24, name: "Kotlin" },
 	];
 
 	function handleAddition(tag) {
@@ -126,17 +146,17 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 		setTech(project.tech);
 	}
 
-  // When the user clicks on "Submit", sends this project over to the back-end
+	// When the user clicks on "Submit", sends this project over to the back-end
 	function onSubmit(e) {
 		e.preventDefault();
-		
+
 		addProject({
 			name,
 			tech,
 			desc,
 			isProjectPublic,
 			links
-		  });
+		});
 	}
 
 	return (
@@ -149,7 +169,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 			>
 				<Form onSubmit={onSubmit}>
 					<div className="d-flex align-items-start flex-column">
-						<h4>Create a new project</h4>
+						<h4 className="createtitle">Create a new project</h4>
 
 						<p>Select one of your existing repositories from GitHub (optional)</p>
 						<ProjectView
@@ -157,7 +177,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 							updateFields={updateFields}
 						/>
 
-						<p>Project Name</p>
+						<p className="createfont">Project Name</p>
 						<Form.Control
 							type="text"
 							size="sm"
@@ -166,8 +186,8 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 							name="project_name"
 							onChange={e => setName(e.target.value)}
 						/>
-            
-						<p>It's built with</p>
+
+						<p className="createfont">It's built with</p>
 						<ReactTags
 							className="item"
 							tags={tech}
@@ -176,7 +196,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 							handleAddition={handleAddition}
 						/>
 
-						<p>Description</p>
+						<p className="createfont">Description</p>
 						<Form.Control
 							as="textarea"
 							rows="3"
@@ -185,7 +205,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 							name="description"
 							onChange={e => setDesc(e.target.value)}
 						/>
-						<p>Project Visibility</p>
+						<p className="createfont">Project Visibility</p>
 						<Form.Group className="item">
 							<Form.Check
 								name="publicVisibility"
@@ -204,7 +224,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 								onChange={e => setVisibilityPublic(false)}
 							/>
 						</Form.Group>
-						<p>Links</p>
+						<p className="createfont">Links</p>
 						<ItemsList
 							className="item"
 							items={links}
@@ -236,8 +256,8 @@ CreateProjects.propTypes = {
 // This function is called whenever the store state changes
 const mapStateToProps = state => {
 	return {
-    githubRepos: state.github.githubReposFromState,
-    isLoading: state.github.loading
+		githubRepos: state.github.githubReposFromState,
+		isLoading: state.github.loading
 	};
 };
 

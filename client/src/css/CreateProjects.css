@@ -148,8 +148,8 @@
   margin-top: 5px;
   width: 115px;
   height: 31px;           
-  background-color: rgb(46, 202, 46);
-  border: 2px solid rgb(46, 202, 46);
+  background-color: #667eea;
+  border: 2px solid #667eea;
   box-sizing: border-box;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -161,8 +161,8 @@
 
 }
 .submit-reg-bt::after {
-  background-color: rgb(5, 90, 5);
-  border: 1px solid rgb(5, 90, 5);
+  background-color: #667eea;
+  border: 1px solid #98a9f5;
   color: Black;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   opacity: 0;
@@ -171,8 +171,8 @@
    
 }
 .submit-reg-bt:hover {
-  background-color: rgb(58, 165, 16);
-  border: 1px solid rgb(58, 165, 16);
+  background-color: #667eea;
+  border: 1px solid #98a9f5;
   color: Black;
   -webkit-transform: scale(1.25, 1.25);
   transform: scale(1.25, 1.25);
@@ -181,4 +181,18 @@
 .submit-reg-bt:hover::after{
   opacity: 1;
 
+}
+
+.createfont{
+  font-size: 20px;
+  color: #667eea;
+  line-height: normal;
+  padding: 10px;
+  margin: 0, auto;
+}
+
+.createtitle{
+  font-size: 30px;
+  color: #667eea;
+  font-weight: bold;
 }

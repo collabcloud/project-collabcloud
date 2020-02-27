@@ -35,26 +35,30 @@ router.post(
 
 			//technologies dict (you can add more technologies here)
 			const techDict = {
-				"Python": 1,
-				"JavaScript": 2,
-				"Java": 3,
-				"C++": 4,
-				"C#": 5,
-				"HTML/CSS": 6,
-				"Swift": 7,
-				"SQL": 8,
-				"MongoDB": 9,
-				"Express": 10,
-				"React": 11,
-				"Angular": 12,
-				"VueJS": 13,
-				"Flutter": 14,
-				"Kubernetes": 15,
-				"Jupyter": 16,
-				"Pytorch": 17,
-				"Numpy": 18,
-				"Passport": 19,
-				"Kotlin": 20,
+				"MongoDB": 1,
+				"Express": 2,
+				"React": 3,
+				"Node.js": 4,
+				"Python": 5,
+				"JavaScript": 6,
+				"Java": 7,
+				"C++": 8,
+				"C#": 9,
+				"HTML/CSS": 10,
+				"Swift": 11,
+				"SQL": 12,
+				"MongoDB": 13,
+				"Express": 14,
+				"React": 15,
+				"Angular": 16,
+				"VueJS": 17,
+				"Flutter": 18,
+				"Kubernetes": 19,
+				"Jupyter": 20,
+				"Pytorch": 21,
+				"Numpy": 22,
+				"Passport": 23,
+				"Kotlin": 24
 			}
 
 			// Given the technologies used, construct an encoding string that can be inserted into PSQL
@@ -62,7 +66,7 @@ router.post(
 			let techName = technologiesArray.map(tech => tech.name);
 			let techArray = [];
 			//if you add more technologies into the techDict dictionary, then change the total value of the array
-			for (i = 0; i < 20; i++) {
+			for (i = 0; i < 24; i++) {
 				techArray[i] = 0;
 			}
 
