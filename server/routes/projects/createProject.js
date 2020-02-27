@@ -16,7 +16,7 @@ router.post(
 		check("projectName", "Project name is required").not().isEmpty(),
 		//check("projectName", "Project name must be 20 or less characters").isLength({ max: 20 }),
 		check("description", "Project description is required").not().isEmpty(),
-		check("visibility", "Project visibility must be required").isIn(["false", "true"])
+		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"])
 		// check("ownerUserID", "The owner of the project is required").not().isEmpty(),
 		// check("gitRepoID", "Must provide the ID of the Git repository that this project is associated with").not().isEmpty()
 	],
@@ -102,7 +102,7 @@ router.post(
 			projectObject.toJSON();
 			// console.log(projectObject);
 			await projectObject.save();
-			console.log("The project was saveed into the database");
+			// console.log("The project was saved into the database");
 
 			res.status(200).json({
 				result: "Success",

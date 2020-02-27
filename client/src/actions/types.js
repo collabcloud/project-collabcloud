@@ -6,9 +6,10 @@ export const GET_PUBLIC_PROJECTS = "GET_PUBLIC_PROJECTS";
 
 // Register Actions
 export const GET_TOKEN = "GET_TOKEN";
+
 // GitHub Repository Actions
 export const GET_GIT_REPOS = "GET_REPOS";
-export const GET_TOKEN = "GET_TOKEN";
+
 // Login Actions
 export const LOGIN = "LOGIN";
 

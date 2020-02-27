@@ -51,7 +51,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
 
 	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
 	useEffect(() => {
-		const githubUsername = "matthuynh"; // TODO: Get this value from state (GitHub username associated to whoever is currently logged in)
+		const githubUsername = "jcserv"; // TODO: Get this value from state (GitHub username associated to whoever is currently logged in)
     // TODO: When user clicks on the radio button, need to empty both store and state, then re-populate the slider (otherwise the slider never clears, just keeps growing)
     const repoVisibility = ((isProjectPublic == true) ? "public" : "private");
 
@@ -129,7 +129,14 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos}) =
   // When the user clicks on "Submit", sends this project over to the back-end
 	function onSubmit(e) {
 		e.preventDefault();
-		addProject({ name });
+		
+		addProject({
+			name,
+			tech,
+			desc,
+			isProjectPublic,
+			links
+		  });
 	}
 
 	return (

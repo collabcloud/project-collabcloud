@@ -24,21 +24,21 @@ router.get(
 			// Get the GitHub auth token for the given username (IMPORTANT that the username in the db matches that of GitHub username)
 			const user = await db.models.user.findOne({
 				where: {
+					// IMPORTANT: When you register, you MUST use the same GitHub username
 					username: req.query.username,
 				}
 			});
 			if (user === null) {
 				return res.status(404).json({ errorMessage: "That username was not found in the database" });
 			} 
-			let authToken = "token " + user.authToken;
-			// let authToken = " token 1689077dba9bea9325fbccf719c65bb34c984b0e"; // NOTE: Use this for debugging
+			let authtoken = "token " + user.authtoken;
 
             // Get the repos associated with this user
             let githubResponse = await axios.get("https://api.github.com/user/repos", {
 				headers:
 					{
 						"Accept": "application/vnd.github.v3+json",
-						"Authorization": authToken
+						"Authorization": authtoken
 					},
 				params:
 					{

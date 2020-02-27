@@ -27,7 +27,7 @@ function LoginForm({loggedIn, login}){
         console.log(loggedIn);
         if(loggedIn){
             console.log("logged in!");
-            history.push("/");
+            history.push("/dashboard");
             //redirect to /dashboard
         }
     });
