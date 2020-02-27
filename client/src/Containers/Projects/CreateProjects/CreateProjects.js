@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import ReactTags from "react-tag-autocomplete";
 import { NavigationBar } from "../../../components/base/NavigationBar";
@@ -49,21 +50,20 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		}
 	]);
 
+	const history = useHistory();
+
 	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
 	useEffect(() => {
-		const githubUsername = "jcserv"; // TODO: Get this value from state (GitHub username associated to whoever is currently logged in)
-		// TODO: When user clicks on the radio button, need to empty both store and state, then re-populate the slider (otherwise the slider never clears, just keeps growing)
-		const repoVisibility = ((isProjectPublic == true) ? "public" : "private");
+		const githubUsername = "jcserv"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in)
 
 		// Populate the Redux store with this user's GitHub repos
-		getGithubRepos({ githubUsername, repoVisibility });
-	}, [isProjectPublic]); // This empty [] ensures that useEffect() does not run forever
-
+		getGithubRepos({ githubUsername, repoVisibility: "all" });
+	}, []); // This empty [] ensures that useEffect() does not run forever
 
 	// Runs whenever any of the specified props (isLoading, githubRepos) are updated
 	useEffect(() => {
 		// Use githubRepos (state from store) to get projects that we can use with setProjects
-		if (isLoading == false) {
+		if (isLoading === false) {
 			let projectsToDisplay = [...projects]; // preserve the pre-existing projects
 
 			for (let i = 0; i < githubRepos.length; i++) {
@@ -150,6 +150,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 	function onSubmit(e) {
 		e.preventDefault();
 
+		// Save the project to database
 		addProject({
 			name,
 			tech,
@@ -157,6 +158,9 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 			isProjectPublic,
 			links
 		});
+
+		// Redirect to the explore page
+		history.push("/explore");
 	}
 
 	return (

@@ -17,9 +17,9 @@ const Profile = () => (
       <Col lg="1.25">
         <Navbar bg="light" variant="light" style={{fontSize: '20px'}}>
             <Nav className="flex-column" >
-            <Nav.Link href="/home">Profile</Nav.Link>
-            <Nav.Link eventKey="link-1">Projects</Nav.Link>
-            <Nav.Link eventKey="link-2">Other</Nav.Link>
+            <Nav.Link href="/user/profile">Profile</Nav.Link>
+            <Nav.Link href="/explore">Projects</Nav.Link>
+            {/* <Nav.Link eventKey="link-2">Other</Nav.Link> */}
         </Nav>
         </Navbar>
       </Col>
