@@ -7,13 +7,20 @@ The main goal of this sprint is to proliferate the use of Redux in the front-end
 Matthew Huynh, Furqan Qureshi, Michael Phung, Jarrod Servilla, Rahul Bajaj, Hans Paras, Daniil Oliynyk
 
 ### Sprint User Stories
-The following are the user stories from our backlog that we would like to complete in Sprint 2
+The following are the user stories from our backlog that we would like to complete in Sprint 2:
+
 COL-4 As a User, I want to be greeted with a home page (dashboard) after I successfully authenticate so that I can view any updates
+
 COL-6 As a User, I want to be able to create my own public profile so I can keep track of my own information
+
 COL-7 As a User, I want to be able to load, store, and display my existing repositories from GitHub so that I can view information related to my repository
+
 COL-8 As a User, I would like to be able to view all public projects on CollabCloud so that I can learn more about other projects on Explore
+
 COL-34 As a Developer, I want to improve the Register page so that the registration flow is more robust
+
 COL-35 As a Developer, I want to improve the Login page so that it authorizes the user and routes to the homepage
+
 COL-36 As a User, I want to be able to add more information about my Project so that I can view more info about my project
 
 We have a special user story (categorized as a task) that is meant to help us organize our integration and preparation for the demo
