@@ -22,7 +22,7 @@ const Register = ({register}) => {
                         </a>
                     </div>
                     <div class="text-center" style={{marginBottom: '35px'}}>
-                        Already have an account? <a href="">Log in</a>
+                        Already have an account? <a href="/login">Log in</a>
                     </div>
                     </Card>
                 </div>

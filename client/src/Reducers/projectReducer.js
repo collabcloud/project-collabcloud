@@ -1,14 +1,14 @@
 import {
     ADD_PROJECT,
     GET_PROJECT,
+    GET_PUBLIC_PROJECTS,
     PROJECT_LOADING
 } from "../actions/types";
 
 // Add Single Project
 const initialState = {
-    projects: {},
+    projects: [],
     loading: true
-
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +17,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
+            };
+        case GET_PUBLIC_PROJECTS:
+            return {
+                ...state,
+                loading: false,
+                projects: action.payload
             };
         default:
             return state;

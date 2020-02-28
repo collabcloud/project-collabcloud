@@ -1,212 +1,269 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import ReactTags from "react-tag-autocomplete";
 import { NavigationBar } from "../../../components/base/NavigationBar";
 import { ProjectView } from "../../../components/specialized/ProjectView";
-import { ItemsList }  from "../../../components/base/ItemsList";
+import { ItemsList } from "../../../components/base/ItemsList";
 
 import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
-import { MdWeb } from 'react-icons/md'; 
+import { MdWeb } from 'react-icons/md';
 
 // Redux Imports
-import { connect } from "react-redux";
+import { connect } from "react-redux"; // connects the CreateProjects component to the Redux store
 import { addProject } from "../../../actions/projectActions";
+import { getGithubRepos } from "../../../actions/githubActions";
 import PropTypes from "prop-types";
 
 import "../../../css/CreateProjects.css";
 
-const github = <FaGithub/>;
-const website = <MdWeb/>;
-const linkedin = <FaLinkedin/>;
+const github = <FaGithub />;
+const website = <MdWeb />;
+const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
-const CreateProjects = ({ addProject }) => {
+const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) => {
+	// Initialize state hooks
+	const [name, setName] = useState("");
+	const [tech, setTech] = useState([]);
+	const [desc, setDesc] = useState("");
+	const [isProjectPublic, setVisibilityPublic] = useState(true);
 
-  const [projects, setProjects] = useState([
+	const [links, setLinks] = useState([
+		{ name: "Github", icon: github, value: "" },
+		{ name: "Website", icon: website, value: "" },
+		{ name: "DevPost", icon: dev, value: "" },
+		{ name: "LinkedIn", icon: linkedin, value: "" }
+	]);
+	const [projects, setProjects] = useState([
+		{
+			name: "Example-Project",
+			description: "👋 Hi! This is literally just an example description",
+			isProjectPublic: true,
+			links: [
+				{
+					name: "Website",
+					icon: website,
+					value: "https://www.example.org/"
+				}
+			]
+		}
+	]);
 
-    {name: 'Optimize.me',
-    description: 'U of T Timetable Optimizer',
-    visibility: false,
-    tech: [{id: 1, name: 'MongoDB'}, {id: 2, name: 'Express'}, {id: 3, name: 'React'}, 
-    {id: 4, name: 'Node.js'}],
+	const history = useHistory();
 
-    links: [{name: 'Github', icon: github, value: 'https://github.com/jcserv/optimize-me'},
-    {name: 'Website', icon: website, value: 'https://optimize.me'},
-    {name: 'DevPost', icon: dev, value: ''},
-    {name: 'LinkedIn', icon: linkedin, value: ''}]
-    },
+	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
+	useEffect(() => {
+		const githubUsername = "jcserv"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in)
 
-    {name: 'CollabCloud',
-    description: 'A social network platform for collaborating on software projects',
-    visibility: true,
-    tech: [{id: 1, name: 'PostgreSQL'}, {id: 2, name: 'Express'}, {id: 3, name: 'React'}, 
-    {id: 4, name: 'Node.js'}],
-    links: [{name: 'Github', icon: github, value: 'https://github.com/UTMCSC301/project-collabcloud'},
-    {name: 'Website', icon: website, value: 'https://collabcloud.io'},
-    {name: 'DevPost', icon: dev, value: ''},
-    {name: 'LinkedIn', icon: linkedin, value: ''}]
-    },
+		// Populate the Redux store with this user's GitHub repos
+		getGithubRepos({ githubUsername, repoVisibility: "all" });
+	}, []); // This empty [] ensures that useEffect() does not run forever
 
-    {name: 'Harmoney',
-    description: 'Streamlined group payments solution',
-    visibility: true,
-    tech: [{id: 1, name: 'MongoDB'}, {id: 2, name: 'Express'}, {id: 3, name: 'React'}, 
-    {id: 4, name: 'Node.js'}],
-    links: [{name: 'Github', icon: github, value: 'https://github.com/huynhmat/harmoney'},
-    {name: 'Website', icon: website, value: ''},
-    {name: 'DevPost', icon: dev, value: 'https://devpost.com/software/harmoney-ci42yp'},
-    {name: 'LinkedIn', icon: linkedin, value: ''}]},
+	// Runs whenever any of the specified props (isLoading, githubRepos) are updated
+	useEffect(() => {
+		// Use githubRepos (state from store) to get projects that we can use with setProjects
+		if (isLoading === false) {
+			let projectsToDisplay = [...projects]; // preserve the pre-existing projects
 
-    {name: 'VapeSafe',
-    description: 'Automatic vape limiter',
-    visibility: true,
-    tech: [{id: 1, name: 'Android'}, {id: 2, name: 'Arduino'}],
-    links: [{name: 'Github', icon: github, value: 'https://github.com/leviaviv28/VapeSafe-EngHack2019'},
-    {name: 'Website', icon: website, value: 'http://vapesafer.net/'},
-    {name: 'DevPost', icon: dev, value: 'https://devpost.com/software/vapesafe/'},
-    {name: 'LinkedIn', icon: linkedin, value: ''}]},
+			for (let i = 0; i < githubRepos.length; i++) {
+				let project = {
+					name: githubRepos[i].repo_name,
+					description: githubRepos[i].repo_description,
+					isProjectPublic: !githubRepos[i].repo_visibility_is_private,
+					tech: [
+						{ id: 1, name: githubRepos[i].repo_main_technology }
+					],
+					links: [
+						{
+							name: "Github",
+							icon: github,
+							value: githubRepos[i].github_url
+						}
+					]
+				};
+				projectsToDisplay.push(project);
+			}
 
-  ]);
+			// Update projects state by calling setProjects
+			setProjects(projectsToDisplay);
+		}
 
-  const [name, setName] = useState("");
-  const [tech, setTech] = useState([]);
-  const [desc, setDesc] = useState("");
-  const [visibility, setVisibility] = useState(false);
+	}, [githubRepos, isLoading]); // this effect runs again whenever the elements in this array change
 
-  const [links, setLinks] = useState( [
-    {name: 'Github', icon: github, value: ''},
-    {name: 'Website', icon: website, value: ''},
-    {name: 'DevPost', icon: dev, value: ''},
-    {name: 'LinkedIn', icon: linkedin, value: ''}
-  ]);
+	const tech_suggestions = [
+		{ id: 1, name: "MongoDB" },
+		{ id: 2, name: "Express" },
+		{ id: 3, name: "React" },
+		{ id: 4, name: "Node.js" },
+		{ id: 5, name: "Python" },
+		{ id: 6, name: "JavaScript" },
+		{ id: 7, name: "Java" },
+		{ id: 8, name: "C++" },
+		{ id: 9, name: "C#" },
+		{ id: 10, name: "HTML/CSS" },
+		{ id: 11, name: "Swift" },
+		{ id: 12, name: "SQL" },
+		{ id: 13, name: "MongoDB" },
+		{ id: 14, name: "Express" },
+		{ id: 15, name: "React" },
+		{ id: 16, name: "Angular" },
+		{ id: 17, name: "VueJS" },
+		{ id: 18, name: "Flutter" },
+		{ id: 19, name: "Kubernetes" },
+		{ id: 20, name: "Jupyter" },
+		{ id: 21, name: "Pytorch" },
+		{ id: 22, name: "Numpy" },
+		{ id: 23, name: "Passport" },
+		{ id: 24, name: "Kotlin" },
+	];
 
-  const tech_suggestions = [
-    { id: 1, name: "MongoDB" },
-    { id: 2, name: "Express" },
-    { id: 3, name: "React" },
-    { id: 4, name: "Node.js" }
-  ];
+	function handleAddition(tag) {
+		const technologies = [].concat(tech, tag);
+		setTech(technologies);
+	}
 
-  
-  function handleAddition(tag) {
-    const technologies = [].concat(tech, tag);
-    setTech(technologies);
-  }
+	function handleDelete(i) {
+		const technologies = tech.slice(0);
+		technologies.splice(i, 1);
+		setTech(technologies);
+	}
 
-  function handleDelete(i) {
-    const technologies = tech.slice(0);
-    technologies.splice(i, 1);
-    setTech(technologies);
-  }
+	function updateLink(index, value) {
+		const new_links = [...links];
+		var item = new_links[index];
+		item.value = value;
+		setLinks(new_links);
+	}
 
-  function updateLink(index, value) {
-    const new_links = [...links];
-    var item = new_links[index];
-    item.value = value;
-    setLinks(new_links);
-  }
-  
-  function updateFields(index) {
-    const project = projects[index];
-    setName(project.name);
-    setDesc(project.description);
-    setVisibility(project.visibility);
-    setLinks(project.links);
-    setTech(project.tech);
-  }
+	// When you click on the card in the slider, populates all the text fields
+	function updateFields(index) {
+		const project = projects[index];
+		setName(project.name);
+		setDesc(project.description);
+		setVisibilityPublic(project.isProjectPublic);
+		setLinks(project.links);
+		setTech(project.tech);
+	}
 
-  function onSubmit(e) {
-    e.preventDefault();
+	// When the user clicks on "Submit", sends this project over to the back-end
+	function onSubmit(e) {
+		e.preventDefault();
 
-    const project = {
-      projectName: name,
-      tech: tech,
-      desc: desc,
-      visibility: visibility,
-      links: links
-    };
+		// Save the project to database
+		addProject({
+			name,
+			tech,
+			desc,
+			isProjectPublic,
+			links
+		});
 
-    addProject({ name });
-  }
+		// Redirect to the explore page
+		history.push("/explore");
+	}
 
-  return (
-    <div>
-      <NavigationBar />
-      <Container fluid className="col-md-8 align-items-start" style={{paddingTop: "50px"}}>
-        <Form onSubmit={onSubmit}> 
-          <div className="d-flex align-items-start flex-column">
-              <h4>Create a new project</h4>
-  
-              <p>Select an Existing Repo (optional)</p>
-              <ProjectView projects={projects} updateFields={updateFields}/>
-              <p>Project Name</p>
-              <Form.Control
-                type="text"
-                size="sm"
-                className="item"
-                value={name}
-                name="project_name"
-                onChange={e => setName(e.target.value)}
-              />
-              <p>It's built with</p>
-              <ReactTags
-                className="item"
-                tags={tech}
-                suggestions={tech_suggestions}
-                handleDelete={handleDelete}
-                handleAddition={handleAddition}
-              />
-          
-          
-              <p>Description</p>
-              <Form.Control
-                as="textarea"
-                rows="3"
-                className="item"
-                value={desc}
-                name="description"
-                onChange={e => setDesc(e.target.value)}
-              />
-              <p>Visibility</p>
-              <Form.Group className="item">
-                <Form.Check
-                  name="visibility"
-                  type="radio"
-                  checked={visibility}
-                  value={true}
-                  label="Public"
-                  onChange={e => setVisibility(e.target.value)}
-                />
-                <Form.Check
-                  name="visibility"
-                  checked={!visibility}
-                  type="radio"
-                  value={false}
-                  label="Private"
-                  onChange={e => setVisibility(e.target.value)}
-                />
-              </Form.Group>
-              <p>Links</p>
-              <ItemsList className="item" items={links} updateLink={updateLink}/>
-              <Button
-                className="submit-reg-bt"
-                variant="success"
-                type="submit"
+	return (
+		<div>
+			<NavigationBar />
+			<Container
+				fluid
+				className="col-md-8 align-items-start"
+				style={{ paddingTop: "50px" }}
+			>
+				<Form onSubmit={onSubmit}>
+					<div className="d-flex align-items-start flex-column">
+						<h4 className="createtitle">Create a new project</h4>
 
-              >
-                Submit
-              </Button>
-              <br/>
-              </div>
-        </Form>
-      </Container>
-    </div>
-  );
-}
+						<p>Select one of your existing repositories from GitHub (optional)</p>
+						<ProjectView
+							projects={projects}
+							updateFields={updateFields}
+						/>
 
-CreateProjects.propTypes = {
-  addProject: PropTypes.func.isRequired
+						<p className="createfont">Project Name</p>
+						<Form.Control
+							type="text"
+							size="sm"
+							className="item"
+							value={name}
+							name="project_name"
+							onChange={e => setName(e.target.value)}
+						/>
+
+						<p className="createfont">It's built with</p>
+						<ReactTags
+							className="item"
+							tags={tech}
+							suggestions={tech_suggestions}
+							handleDelete={handleDelete}
+							handleAddition={handleAddition}
+						/>
+
+						<p className="createfont">Description</p>
+						<Form.Control
+							as="textarea"
+							rows="3"
+							className="item"
+							value={desc}
+							name="description"
+							onChange={e => setDesc(e.target.value)}
+						/>
+						<p className="createfont">Project Visibility</p>
+						<Form.Group className="item">
+							<Form.Check
+								name="publicVisibility"
+								type="radio"
+								checked={isProjectPublic}
+								// value="public"
+								label="Public"
+								onChange={e => setVisibilityPublic(true)}
+							/>
+							<Form.Check
+								name="privateVisibility"
+								checked={!isProjectPublic}
+								type="radio"
+								// value="private"
+								label="Private"
+								onChange={e => setVisibilityPublic(false)}
+							/>
+						</Form.Group>
+						<p className="createfont">Links</p>
+						<ItemsList
+							className="item"
+							items={links}
+							updateLink={updateLink}
+						/>
+						<Button
+							className="submit-reg-bt"
+							variant="success"
+							type="submit"
+						>
+							Submit
+						</Button>
+						<br />
+					</div>
+				</Form>
+			</Container>
+		</div>
+	);
 };
 
-// Inserting a null value where mapStateToProps() should be
-export default connect(null, { addProject })(CreateProjects);
+// List of dispatch functions that will be available to the component
+
+CreateProjects.propTypes = {
+	addProject: PropTypes.func.isRequired,
+	getGithubRepos: PropTypes.func.isRequired
+};
+
+// Transforms Redux store state into the props for this CreateProjects component
+// This function is called whenever the store state changes
+const mapStateToProps = state => {
+	return {
+		githubRepos: state.github.githubReposFromState,
+		isLoading: state.github.loading
+	};
+};
+
+// Provides this React component with the given dispatch functions, and maps Redux store state to component props
+export default connect(mapStateToProps, { addProject, getGithubRepos })(CreateProjects);

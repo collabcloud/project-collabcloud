@@ -1,36 +1,43 @@
 import axios from "axios";
-import {GET_TOKEN} from "./types";
-import { FaClosedCaptioning } from "react-icons/fa";
+import { GET_TOKEN, GITHUB_EXISTS, ATTEMPT} from "./types";
 
-// Add Project Action
-export const register = (auth_code, username, password) => async dispatch => {
-    console.log("Redux register");
-    console.log(auth_code);
-    console.log(username);
-    console.log(password)
+// Registeration action
+export const register = (auth_code, formData) => async dispatch => {
+    //console.log("Redux register");
+    //console.log(auth_code);
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     }
-    try {
         const url = '/api/users/register';
-        const body = JSON.stringify({code: auth_code,  username, password})
-        console.log(body)
-        let response = await axios.post(url, body, config);
+        const body = JSON.stringify({code: auth_code, ...formData})
+        
         
         // If success, dispatch action
-        if (response) {
+        // TODO: Check the response for whether or not the user is 
+        // already registered on github or not
+        axios.post(url, body, config).then((response)=>{
+            console.log("Registered");
             dispatch({
                 type: GET_TOKEN,
                 payload: response.data
             });
-        }
-        else{
-            console.log("Couldnt register");
-        }
-    } catch (err) {
-        console.log("Error Creating a Project");
-        console.log(err);
-    }
+        }).catch((err) => {
+            console.log(err.response.status);
+            if(err.response.status == 301){
+                console.log("GITHUB_EXISTS");
+                dispatch({
+                    type: GITHUB_EXISTS
+                })
+            }
+            else{
+                dispatch({
+                    type: ATTEMPT
+                });
+
+            }
+            console.log("Error occurred while registering");
+        });
+    
 };

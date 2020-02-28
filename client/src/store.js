@@ -31,7 +31,11 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
   initialState,
-  composeEnhancers(applyMiddleware(...middleWare))
+  applyMiddleware(thunk),
+  //composeEnhancers(applyMiddleware(...middleWare))
 );
+
+// FOR DEBUGGING: In the browser console, do `window.store.getState()` to view the contents of the store
+window.store = store;
 
 export default store;
