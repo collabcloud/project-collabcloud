@@ -103,19 +103,6 @@ const project = db.define('project', {
 
 });
 
-const user_followers = db.define('project_followers', {
-    followee_uid: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4    
-    },
-    follower_uid: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-    }
-}, {
-
-});
-
 db.sync({ force: false })
     .then(message => {
         console.log('Database synced');

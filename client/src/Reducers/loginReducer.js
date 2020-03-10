@@ -2,6 +2,7 @@ import {
     LOGIN
 } from "../actions/types";
 
+// Add Single Project
 const initialState = {
     loggedIn: false
 };
