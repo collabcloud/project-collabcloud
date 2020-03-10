@@ -13,7 +13,7 @@ const tags = [
   { id: 4, name: "Node.js" }
 ];
 
-const UserDetails = () => (
+const UserDetails = (props) => (
   <Card fluid hoverable="true" bg="dark" text="white">
       <Card.Body>
         <Container>
@@ -36,7 +36,7 @@ const UserDetails = () => (
           </Row>
           <Row>
             <Col xs={4}>
-              <Button variant="primary">Follow</Button> 
+              <Button variant="primary" onClick={props.onClick}>Follow</Button> 
             </Col>
             <Col>
             <ListGroup horizontal>

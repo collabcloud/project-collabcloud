@@ -103,7 +103,7 @@ const project = db.define('project', {
 
 });
 
-const user_followers = db.define('project_followers', {
+const user_followers = db.define('user_followers', {
     followee_uid: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4    

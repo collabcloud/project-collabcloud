@@ -17,5 +17,7 @@ export const LOGIN = "LOGIN";
 
 //Follow Actions
 export const USER = "USER";
+export const USER_NOT_FOUND = "USER_NOT_FOUND";
+export const ALREADY_FOLLOWED = "ALREADY_FOLLOWED";
 
 
