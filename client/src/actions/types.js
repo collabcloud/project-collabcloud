@@ -15,4 +15,7 @@ export const GET_GIT_REPOS = "GET_REPOS";
 // Login Actions
 export const LOGIN = "LOGIN";
 
+//Follow Actions
+export const USER = "USER";
+
 

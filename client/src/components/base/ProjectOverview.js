@@ -23,30 +23,20 @@ export function ProjectOverview(props) {
           <Image src={logo}/>
         </Col>
         <Col className="d-flex align-items-start flex-column">  
-          <h1>harmoney</h1>
+          <h1>harmoney <Button variant="primary">Follow</Button> </h1> 
           <div className="innerbox">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim 
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
-            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
-            in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-             sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum.</p>
+            ad minim veniam, quis nostrud </p>
           </div>
-          
           <ListGroup horizontal>
           {tags.map((tag, index) =>
               <Item value={tag.name} 
               key={tag.index}/> )}
           </ListGroup>
-         
-          <p className="top5">
-            <Button variant="primary">Learn more</Button>
-          </p>
 
-      </Col>
-      
-        </Row>
-      </Container>
-    </Jumbotron>);
+        </Col>
+      </Row>
+    </Container>
+  </Jumbotron>);
 }

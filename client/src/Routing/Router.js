@@ -10,6 +10,7 @@ import Explore from "../Containers/Explore/Explore";
 import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects";
 import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
+import OtherProfile from "../Containers/User/OtherProfile";
 import Profile from "../Containers/User/Profile";
 
 const Router = () => (
@@ -22,6 +23,7 @@ const Router = () => (
       <Route path ="/explore" component={Explore} />
       <Route path="/projects/create" component={CreateProjects} />
       <Route path="/user/profile" component={Profile} />
+      <Route path="/user/matthuynh" component={OtherProfile} />
       <Route path="/user/project" component={Project} />
       <Route path="/dashboard" component={Dashboard} />
     </Switch>
