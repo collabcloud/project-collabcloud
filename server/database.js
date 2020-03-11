@@ -104,45 +104,37 @@ const project = db.define('project', {
 });
 
 
-// // Relation used to store Notifications
-// // notificationType stores all possible types of notifications that can be created in the system
-// // -- project_update: made whenever any change is made to a project (COL-9 and COL-12) 
-// // -- collaboration_request: made when a user gets a request to collaborate on a specific project)
-// const notifications = db.define("notifications", {
-//     nid: {
-//         type: Sequelize.UUID,
-//         allowNull: false,
-//         primaryKey: true
-//     },
-//     notificationType: {
-//         type: DataTypes.ENUM("project_update", "collaboration_request"),
-//         allowNull: false,
-//         primaryKey: true
-//     },
-//     notificationMessage: {
-//         type: DataTypes.STRING(2000),
-//         allowNull: false
-//     },
-//     dateCreated: {
-//         type: DataTypes.DATE,
-//         defaultValue: Sequelize.NOW
-//     }
-// });
+// Relation used to store Notifications
+// notificationType stores all possible types of notifications that can be created in the system
+// TODO: We can add more notificationTypes for future notifications
+// -- project_update: made whenever any change is made to a project (COL-9 and COL-12) 
+// -- collaboration_request: made when a user gets a request to collaborate on a specific project)
+const Notification = db.define("notification", {
+    nid: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true
+    },
+    notificationType: {
+        type: DataTypes.ENUM("project_update", "collaboration_request"),
+        allowNull: false,
+        primaryKey: true
+    },
+    notificationMessage: {
+        type: DataTypes.STRING(2000),
+        allowNull: false
+    },
+    dateCreated: {
+        type: DataTypes.DATE,
+        defaultValue: Sequelize.NOW
+    }
+});
 
-// // UsersNotifications stores relationships between a User and Notification
-// // TODO: Add this
-// const UsersNotifications = sequelize.define("UsersNotifications", {
-//     uid: {
-//         type: Sequelize.UUID,
-//         defaultValue: Sequelize.UUIDV4,
-//         primaryKey: true
-//     },
-//     nid: {
-//         type: Sequelize.UUID,
-//         allowNull: false,
-//         primaryKey: true
-//     },
-// })
+// Relation that stores a relationship between a Notification and a User
+const users_notifications = db.define('users_notifications');
+users_notifications.belongsTo(User, {as: "notifee"});
+users_notifications.belongsTo(Notification, {as: "notification"});
+
 
 db.sync({ force: false })
     .then(message => {
