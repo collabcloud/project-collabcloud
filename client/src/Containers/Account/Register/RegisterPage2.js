@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card'
 import "../../../css/LoginForm.css"
 
 
-const state = require("../../../store");
+//const state = require("../../../store");
 const Register2 = (props) => {
     return (
         <div>

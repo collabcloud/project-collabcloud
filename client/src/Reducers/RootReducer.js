@@ -3,10 +3,16 @@ import registerReducer from "./registerReducer";
 import projectReducer from "./projectReducer";
 import githubReducer from "./githubReducer";
 import loginReducer from "./loginReducer";
+import followReducer from "./followReducer";
+import unfollowReducer from "./unfollowReducer";
+
+
 
 export default combineReducers({
     project: projectReducer,
     register: registerReducer,
     github: githubReducer,
-    login: loginReducer
+    login: loginReducer,
+    follow: followReducer,
+    unfollow: unfollowReducer
 });
