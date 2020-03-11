@@ -13,6 +13,7 @@ const Thread = (props) => {
   const [submitter, setSubmitter] = useState("");
   const [createdAt, setCreatedAt] = useState("");
   const [posts, setPosts] = useState([]);
+  const [newPost, setNewPost] = useState("");
   
   useEffect(
     () => {
@@ -23,6 +24,21 @@ const Thread = (props) => {
       setCreatedAt(props.createdAt);
       setPosts(props.posts);
     }, [props]);
+
+  function handlePostChange(e) {
+      e.preventDefault();
+      setNewPost(e.target.value);
+  }
+
+  function onSubmit(e) {
+    e.preventDefault();
+    
+    const post = {id: posts.length + 1, submitter: "jcserv", status: "gamers rise up",
+    createdAt: "March 11th, 2020", content: newPost};
+    const newPosts = [].concat(posts, post);
+    setNewPost("");
+    setPosts(newPosts);
+  }
 
   return (
     <div>
@@ -43,10 +59,10 @@ const Thread = (props) => {
     )}
     <div className="p-2">
       <Card className="border-0">
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Form.Group className="text-left" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Submit a Reply</Form.Label>
-            <Form.Control as="textarea" rows="3" />
+            <Form.Control required as="textarea" rows="3" value={newPost} onChange={handlePostChange}/>
           </Form.Group>
           <div className="align-items-start">
             <Button variant="primary" type="submit">Submit</Button>
