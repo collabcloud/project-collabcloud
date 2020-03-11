@@ -1,0 +1,27 @@
+.alerts-body {
+    position: fixed;
+    top: 60px;
+    right: 12px;
+    z-index: 1000;
+    width: 40%;
+}
+
+.collab-alerts {
+    padding: 5px 0;
+    margin: 5px 0;
+    text-align: center;
+    color: white;
+    display: block;
+}
+  
+.collab-alerts.danger {
+    background-color: red;
+}
+
+.collab-alerts.success {
+    background-color: green;
+}
+
+.collab-alerts.primary {
+    background-color: blue;
+}
