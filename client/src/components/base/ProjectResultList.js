@@ -9,19 +9,16 @@ export const ProjectResultList = (props) => {
   
 
   var options = {
-    defaultSortName: 'star',  // default sort column name
+    defaultSortName: 'projectName',  // default sort column name
     defaultSortOrder: 'desc'  // default sort order
   }
-
   var test = [];
   return (
     <div>
-       <BootstrapTable data={test} striped hover options={options} >
-        <TableHeaderColumn width="160px" isKey dataSort dataField ="name"><GoProject/> Project Name</TableHeaderColumn>
-        <TableHeaderColumn dataSort dataField><GoNote/> Description</TableHeaderColumn>
-        <TableHeaderColumn width="100px" dataSort><GoStar/> Stars</TableHeaderColumn>
-        <TableHeaderColumn width="100px" dataSort><GoEye/> Views</TableHeaderColumn>
-        <TableHeaderColumn width="150px" dataSort><GoPerson/> Owner</TableHeaderColumn>
+       <BootstrapTable data={props.projects} striped hover options={options} >
+        <TableHeaderColumn width="160px" isKey dataSort dataField ="projectName"><GoProject/> Project Name</TableHeaderColumn>
+        <TableHeaderColumn dataSort dataField = "projectDescription"><GoNote/> Description</TableHeaderColumn>
+        <TableHeaderColumn width="150px" dataSort dataField = "owner"><GoPerson/> Owner</TableHeaderColumn>
       </BootstrapTable>
     </div>
   );

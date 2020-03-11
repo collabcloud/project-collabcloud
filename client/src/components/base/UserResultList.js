@@ -9,15 +9,15 @@ export const UserResultList = (props) => {
   
 
   var options = {
-    defaultSortName: 'star',  // default sort column name
+    defaultSortName: 'name',  // default sort column name
     defaultSortOrder: 'desc'  // default sort order
   }
 
   var test = [];
   return (
     <div>
-       <BootstrapTable data={test} striped hover options={options} >
-        <TableHeaderColumn width="160px" isKey dataSort dataField ="name"><GoPerson/> Username</TableHeaderColumn>
+       <BootstrapTable data={props.users} striped hover options={options} >
+        <TableHeaderColumn width="160px" isKey dataSort dataField ="username"><GoPerson/> Username</TableHeaderColumn>
         
       </BootstrapTable>
     </div>

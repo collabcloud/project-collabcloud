@@ -8,39 +8,44 @@ import { MdWeb } from 'react-icons/md';
 
 // Redux Imports
 import { connect } from "react-redux";
+import { search } from "../../actions/searchActions";
 import PropTypes from "prop-types";
 
 import "../../css/Search.css";
 
-const Search = () => {
+const Search = (props) => {
 
     //const [projects, setProjects] = useState([]);
   
     useEffect(()=>{
-    }); 
+      if(props.location.query != ""){
+        props.search(props.location.state.query)
+      }
+    },[props.location]); 
   
     return (
       <div>
         <NavigationBar />
         <Container>
           <h2>Relevant Projects to your Search</h2>
-          <ProjectResultList SearchFor="hi"/> 
+          <ProjectResultList projects ={props.searchedProjects}/> 
         </Container>
-        <Container>
+        {/* <Container>
           <h2>Relevant Users to your Search</h2>
-          <UserResultList SearchFor="hi"/> 
-        </Container>
+          <UserResultList users={props.searchedUsers}/> 
+        </Container> */}
       </div>
     );
   }
   
 function mapStateToProps(state){
-return {};
+return {searchedProjects: state.search.searchedProjects, searchedUsers: state.search.searchedUsers};
 }
 
 function mapDispatchToProps(dispatch){
 return {
-    getPublicProjects: () => {
+    search: (searchTerm) => {
+      dispatch(search(searchTerm))
     }
 };
 }

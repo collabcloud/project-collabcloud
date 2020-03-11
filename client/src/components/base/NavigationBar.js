@@ -1,12 +1,23 @@
-import React from 'react';
+import React, {useState, useEffect} from "react";
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link , withRouter } from 'react-router-dom';
 import "../../css/NavigationBar.css";
 
-export function NavigationBar() {
+export const NavigationBar = withRouter(({history}) => {
+  const [search, setSearch] = useState("");
+
   function onSubmit(e){
     e.preventDefault();
-    console.log("hi");
+    if(search == "") return;
+    history.push(
+      {
+        pathname:'/search',
+        state: {query: search}
+    });
+  }
+
+  function onChange(e){
+    setSearch(e.target.value);
   }
 
   return (
@@ -23,7 +34,13 @@ export function NavigationBar() {
         CollabCloud
       </Navbar.Brand>
       <Form inline className="p-2" onSubmit={onSubmit}>
-        <FormControl type="text" placeholder="Search CollabCloud" className="mr-sm-3" style={{height: 30, marginTop: "10px"}}/>
+        <FormControl 
+        type="text" 
+        placeholder="Search CollabCloud" 
+        className="mr-sm-3" 
+        style={{height: 30, marginTop: "10px"}} 
+        value={search}
+        onChange={onChange}/>
         <Button type="submit" className="search-bt" style={{marginTop: "10px"}}>Search</Button>
       </Form>
       <Nav className="ml-auto p-2">
@@ -44,4 +61,4 @@ export function NavigationBar() {
     </Navbar>
     </div>
   );
-}
+});
