@@ -35,7 +35,7 @@ const UserDetails = (props) => (
           </Row>
           <Row>
             <Col xs={4}>
-              <Button variant="primary" onClick={props.onClick}>Follow</Button> 
+              <Button variant={props.btnColour} onClick={props.onClick}>{props.btnText}</Button> 
             </Col>
             <Col>
             <ListGroup horizontal>

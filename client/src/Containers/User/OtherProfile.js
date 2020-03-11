@@ -16,6 +16,8 @@ const matt_uid = "8a71a5b4-3889-4711-9525-8fa74fe8933d";
 const OtherProfile = withRouter(({follow_user, unfollow_user, followed}) => {
 
   const [show, setShow] = useState(false);
+  const [btnText, setBtnText] = useState("Follow");
+  const [btnColour, setBtnColour] = useState("primary");
   const [message, setMessage] = useState("");
   const [followers, setFollowers] = useState(769);
 
@@ -24,15 +26,19 @@ const OtherProfile = withRouter(({follow_user, unfollow_user, followed}) => {
     if (!followed) {
       setFollowers(followers + 1);
       setMessage("Followed matthuynh");
+      setBtnText("Following");
+      setBtnColour("danger");
+
       follow_user(matt_uid, jarrod_uid);
       setShow(true);
-      console.log("In followed: " + followed);
     } else {
       setFollowers(followers - 1);
       setMessage("Unfollowed matthuynh");
+      setBtnText("Follow");
+      setBtnColour("primary");
+
       unfollow_user(matt_uid, jarrod_uid);
       setShow(true);
-      console.log("In unfollow: " + followed);
       followed = !followed;
     }
      
@@ -47,7 +53,7 @@ const OtherProfile = withRouter(({follow_user, unfollow_user, followed}) => {
 				className="col-md-8 align-items-start"
 				style={{ paddingTop: "50px" }}
 			>
-      <UserOverview onClick={followUser} followers={followers}/>
+      <UserOverview onClick={followUser} followers={followers} btnText={btnText} btnColour={btnColour}/>
       <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
         <Toast.Body>{message}</Toast.Body>
       </Toast>
