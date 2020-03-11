@@ -56,7 +56,7 @@ router.post(
 					return res.status(200).json({ token: token });
 				  }
 				}
-			  	);
+			  );
 
 		} catch (err) {
 			console.error(err);

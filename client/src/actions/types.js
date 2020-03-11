@@ -15,6 +15,9 @@ export const GET_GIT_REPOS = "GET_REPOS";
 // Login Actions
 export const LOGIN = "LOGIN";
 
+//Search actions
+export const SEARCH = "SEARCH";
+
 //Follow Actions
 export const USER = "USER";
 export const USER_NOT_FOUND = "USER_NOT_FOUND";
@@ -26,5 +29,9 @@ export const ALREADY_UNFOLLOWED = "ALREADY_UNFOLLOWED";
 //Alert Actions
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
+
+
+//profile actions
+export const GET_INFO = "GET_INFO";
 
 

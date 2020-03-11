@@ -38,6 +38,26 @@ const User = db.define('user', {
         allowNull: false,
         unique: true,
         type: DataTypes.STRING(50)
+    },
+    firstname: {
+        allowNull: true,
+        type: DataTypes.STRING(25)
+    },
+    lastname: {
+        allowNull: true,
+        type: DataTypes.STRING(25)
+    },
+    city: {
+        allowNull: true,
+        type: DataTypes.STRING(50)
+    },
+    province: {
+        allowNull: true,
+        type: DataTypes.STRING(50)
+    },
+    description: {
+        allowNull: true,
+        type: DataTypes.STRING(1000)
     }
 }, {
 
@@ -103,15 +123,13 @@ const project = db.define('project', {
 
 });
 
-const user_followers = db.define('user_followers');
 
+const user_followers = db.define('user_followers');
 user_followers.belongsTo(User, {as: 'follower'});
 user_followers.belongsTo(User, {as: 'followee'});
 
 
-
-
-db.sync({ force: true })
+db.sync({ force: false })
     .then(message => {
         console.log('Database synced');
 
