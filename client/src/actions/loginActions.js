@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LOGIN } from "./types";
+import { setAlert } from "./alert";
 
 export const login = (username, password) => async dispatch => {
 	//console.log("Redux register");
@@ -22,7 +23,9 @@ export const login = (username, password) => async dispatch => {
 		if (response) {
             // Login information is wrong (eg. wrong password or username)
             if (response.status === 400) {
-                console.log("Username or password does not exist, or is incorrect");
+				console.log("Username or password does not exist, or is incorrect");
+				dispatch(setAlert("Invalid Credentials", "danger"));
+				
             }
             // User logs in successfully
             else if (response.status === 200) {
@@ -30,7 +33,9 @@ export const login = (username, password) => async dispatch => {
                 dispatch({
                     type: LOGIN,
                     payload: response.data
-                });
+				});
+				
+				dispatch(setAlert("Login Successful", "success"));
             } 
             // Internal server error
             else {
@@ -41,6 +46,7 @@ export const login = (username, password) => async dispatch => {
 		}
 	} catch (err) {
 		console.log("Error occurred while logging In");
+		dispatch(setAlert("Invalid Credentials", "danger"));
 		console.log(err);
 	}
 };

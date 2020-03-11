@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import '../../css/Alerts.css';
 
 // TODO: Fix CSS for alerts 
 
@@ -11,7 +12,7 @@ const AlertView = ({ alerts }) => {
         alerts.length > 0 &&
         alerts.map(alert => (
           <div key={alert.id} className={`collab-alerts ${alert.alertType}`}>
-            <div className="alert__content">{alert.msg}</div>
+            <div>{alert.msg}</div>
           </div>
         ))}
     </div>
