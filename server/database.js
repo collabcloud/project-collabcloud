@@ -124,6 +124,11 @@ const project = db.define('project', {
 });
 
 
+const user_followers = db.define('user_followers');
+user_followers.belongsTo(User, {as: 'follower'});
+user_followers.belongsTo(User, {as: 'followee'});
+
+
 db.sync({ force: false })
     .then(message => {
         console.log('Database synced');

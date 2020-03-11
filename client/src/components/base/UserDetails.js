@@ -3,10 +3,8 @@ import PropTypes from "prop-types";
 import {
   Card,
   CardHeader,
-  Button,
   ListGroup,
-  ListGroupItem,
-  Progress
+  ListGroupItem
 } from "shards-react";
 import {connect} from "react-redux";
 

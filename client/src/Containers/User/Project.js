@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Jumbotron, Carousel, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectOverview } from "../../components/base/ProjectOverview";
 import { Contributors } from "../../components/base/Contributors";

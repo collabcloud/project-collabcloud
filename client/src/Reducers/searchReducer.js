@@ -1,19 +1,21 @@
 import {
-    LOGIN
+    SEARCH
 } from "../actions/types";
 
+// Add Single Project
 const initialState = {
-    loggedIn: false
+    searchedProjects: [],
+    searchedUsers: []
 };
 
 export default (state = initialState, action) => {
-    // console.log("action type "+action.type);
     switch (action.type) {
-        case LOGIN:
+        case SEARCH:
             return {
                 ...state,
-                loggedIn: true,
-            };
+                searchedProjects: action.payload.projects,
+                searchedUsers: action.payload.users
+            }
         default:
             return state;
     }
