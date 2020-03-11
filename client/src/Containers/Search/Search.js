@@ -30,10 +30,10 @@ const Search = (props) => {
           <h2>Relevant Projects to your Search</h2>
           <ProjectResultList projects ={props.searchedProjects}/> 
         </Container>
-        {/* <Container>
+        <Container>
           <h2>Relevant Users to your Search</h2>
           <UserResultList users={props.searchedUsers}/> 
-        </Container> */}
+        </Container>
       </div>
     );
   }
