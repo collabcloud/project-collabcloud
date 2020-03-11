@@ -12,6 +12,10 @@ import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
 import OtherProfile from "../Containers/User/OtherProfile";
 import Profile from "../Containers/User/Profile";
+import Root from '../Containers/Forum/Root';
+import Subforum from '../Containers/Forum/Subforum';
+import Thread from '../Containers/Forum/Thread';
+
 
 const Router = () => (
     // Render the first <Route> element whose path matches the current URL
@@ -26,6 +30,10 @@ const Router = () => (
       <Route path="/user/matthuynh" component={OtherProfile} />
       <Route path="/user/project" component={Project} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/forum/home" component={Root} />
+      <Route path="/forum/subforum" component={Subforum} />
+      <Route path="/forum/thread" component={Thread} />
+
     </Switch>
 );
 
