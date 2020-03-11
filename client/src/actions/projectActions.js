@@ -37,8 +37,7 @@ export const addProject = ({ name, desc, isProjectPublic, tech, links }) => asyn
     }
 };
 
-//Get Public Projects
-
+// Get Public Projects
 export const getPublicProjects = () => async dispatch => {
     const config = {
         headers: {
@@ -61,5 +60,39 @@ export const getPublicProjects = () => async dispatch => {
     } catch (err) {
         console.log("Error occured when retrieving projects");
         console.log(err);
+    }
+};
+
+// Given a project ID, return all information for that project
+export const getProjectInformation = ({ projectId }) => async dispatch => {    
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    try {
+        // Get all information for a given project
+        const res = await axios.get("/api/projects/information", {
+            params: {
+                pid: projectId
+            }
+        }, config);
+
+        
+
+        // If success, dispatch the action
+        if (res.status == 200) {
+            // Send our information to the redux store
+            dispatch({
+                type: GET_PROJECT,
+                payload: res.data
+            });
+        } else {
+            console.log(`An error occured. Error code: ${res.status}`);
+        }
+    } catch (err) {
+        console.log("Error occured when retrieving information for a single project");
+        console.log(err)
     }
 };

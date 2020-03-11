@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
             };
             return obj2;
         default:
-            console.log("hey");
+            // console.log("hey");
             return state;
     }
 };

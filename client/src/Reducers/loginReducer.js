@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
                 loggedIn: true
             };
         default:
-            console.log("loginReducer.js line 20");
+            // console.log("loginReducer.js line 20");
             return state;
     }
 };

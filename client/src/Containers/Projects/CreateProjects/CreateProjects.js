@@ -35,6 +35,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		{ name: "DevPost", icon: dev, value: "" },
 		{ name: "LinkedIn", icon: linkedin, value: "" }
 	]);
+	
 	const [projects, setProjects] = useState([
 		{
 			name: "Example-Project",
@@ -46,7 +47,8 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 					icon: website,
 					value: "https://www.example.org/"
 				}
-			]
+			],
+			tech: [{ id: 3, name: "React"}]
 		}
 	]);
 
