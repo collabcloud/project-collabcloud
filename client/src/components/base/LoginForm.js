@@ -108,6 +108,8 @@ async function submitLoginForm(login, username, password){
 }
 
 function mapStateToProps(state){
+    console.log("Line 111 LoginForm.js");
+    console.log(state);
     return {loggedIn: state.login.loggedIn};
 }
 

@@ -54,7 +54,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 
 	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
 	useEffect(() => {
-		const githubUsername = "jcserv"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in)
+		const githubUsername = "matthuynh"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in)
 
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility: "all" });
@@ -250,7 +250,6 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 };
 
 // List of dispatch functions that will be available to the component
-
 CreateProjects.propTypes = {
 	addProject: PropTypes.func.isRequired,
 	getGithubRepos: PropTypes.func.isRequired
@@ -259,6 +258,7 @@ CreateProjects.propTypes = {
 // Transforms Redux store state into the props for this CreateProjects component
 // This function is called whenever the store state changes
 const mapStateToProps = state => {
+	console.log(state);
 	return {
 		githubRepos: state.github.githubReposFromState,
 		isLoading: state.github.loading
