@@ -1,22 +1,41 @@
-import React from "react";
-import { Container } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Toast } from "react-bootstrap";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import UserOverview from "../../components/base/UserOverview";
 import ProjectDisplay from "../../components/base/ProjectDisplay";
 import { follow_user } from '../../actions/followActions';
+import { unfollow_user } from '../../actions/unfollowActions';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 
-const jarrod_uid = "d7ea7a25-11d0-450a-8690-81b7bd58676a";
-const matt_uid = "d7ea7a25-11d0-450a-8690-81b7bd58676b";
+const jarrod_uid = "00744dfb-f53c-4298-ada4-b3867e2f1fe6";
+const matt_uid = "8a71a5b4-3889-4711-9525-8fa74fe8933d";
 
 
 
-const OtherProfile = withRouter(({follow_user, followed}) => {
+const OtherProfile = withRouter(({follow_user, unfollow_user, followed}) => {
+
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
+  const [followers, setFollowers] = useState(769);
 
   function followUser() {
-     console.log("jarrod followed matt xd");
-     follow_user(matt_uid, jarrod_uid);
+
+    if (!followed) {
+      setFollowers(followers + 1);
+      setMessage("Followed matthuynh");
+      follow_user(matt_uid, jarrod_uid);
+      setShow(true);
+      console.log("In followed: " + followed);
+    } else {
+      setFollowers(followers - 1);
+      setMessage("Unfollowed matthuynh");
+      unfollow_user(matt_uid, jarrod_uid);
+      setShow(true);
+      console.log("In unfollow: " + followed);
+      followed = !followed;
+    }
+     
   }
 
 
@@ -28,9 +47,11 @@ const OtherProfile = withRouter(({follow_user, followed}) => {
 				className="col-md-8 align-items-start"
 				style={{ paddingTop: "50px" }}
 			>
-      <UserOverview onClick={followUser}/>
+      <UserOverview onClick={followUser} followers={followers}/>
+      <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+        <Toast.Body>{message}</Toast.Body>
+      </Toast>
       <h1>Projects</h1>
-
       <ProjectDisplay/>
 
     </Container>
@@ -38,7 +59,7 @@ const OtherProfile = withRouter(({follow_user, followed}) => {
   );
 });
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {followed: state.follow.followed};
 }
 
@@ -46,6 +67,9 @@ function mapDispatchToProps(dispatch){
   return {
       follow_user: (followee, follower) => {
           dispatch(follow_user(followee, follower));
+      },
+      unfollow_user: (followee, follower) => {
+          dispatch(unfollow_user(followee, follower));
       }
   };
 }

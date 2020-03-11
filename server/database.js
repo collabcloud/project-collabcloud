@@ -103,20 +103,15 @@ const project = db.define('project', {
 
 });
 
-const user_followers = db.define('user_followers', {
-    followee_uid: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4    
-    },
-    follower_uid: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-    }
-}, {
+const user_followers = db.define('user_followers');
 
-});
+user_followers.belongsTo(User, {as: 'follower'});
+user_followers.belongsTo(User, {as: 'followee'});
 
-db.sync({ force: false })
+
+
+
+db.sync({ force: true })
     .then(message => {
         console.log('Database synced');
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Jumbotron, Button, Container, Row, Col, Image, ListGroup } from 'react-bootstrap';
 import { Item } from "./Item";
-import ReactTags  from "react-tag-autocomplete";
 import logo from "../../harmoney.png";
 
 import "../../css/Project.css";

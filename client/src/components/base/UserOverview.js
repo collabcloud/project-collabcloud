@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Card, Button, Container, Row, Col, ListGroup, Image } from 'react-bootstrap';
-import { GoStar, GoOrganization } from 'react-icons/go';
+import { GoOrganization } from 'react-icons/go';
 import { MdLocationOn, MdChatBubble } from 'react-icons/md';
 import { Item } from '../base/Item';
 import pic from '../../Containers/User/img/matthuynh.png';
@@ -30,7 +29,7 @@ const UserDetails = (props) => (
              
             </Col>
             <Col xs={4}>
-             <p><GoOrganization/> 769 Followers</p>
+             <p><GoOrganization/> {props.followers} Followers</p>
              <p></p>
             </Col>
           </Row>

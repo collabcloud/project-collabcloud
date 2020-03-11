@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Card, Button, Container, Row, Col, ListGroup, Image } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { GoBook, GoPerson } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
 import { Item } from './Item';

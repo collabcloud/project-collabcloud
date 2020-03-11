@@ -2,17 +2,18 @@ import axios from "axios";
 import { USER, USER_NOT_FOUND, ATTEMPT } from "./types";
 
 // Record the fact that follower follows the followee
-export const follow_user = (followee, follower) => async dispatch => {
+export const unfollow_user = (followee, follower) => async dispatch => {
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     }
-    const url = '/api/follow/user';
+    const url = '/api/unfollow/user';
     const body = JSON.stringify({followee: followee, follower: follower});
     console.log(body);
     
-    axios.post(url, body, config).then((response)=>{
+    axios.delete(url, {params: {followee: followee, follower: follower}}, config).then((response)=>{
+        console.log("Unfollowed");
         dispatch({
             type: USER,
             payload: response.data
@@ -31,7 +32,7 @@ export const follow_user = (followee, follower) => async dispatch => {
             });
 
         }
-    console.log("Error occurred while following");
+    console.log("Error occurred while unfollowing");
         });
     
 };

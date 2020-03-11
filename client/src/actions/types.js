@@ -20,4 +20,7 @@ export const USER = "USER";
 export const USER_NOT_FOUND = "USER_NOT_FOUND";
 export const ALREADY_FOLLOWED = "ALREADY_FOLLOWED";
 
+//Unfollow Actions
+export const ALREADY_UNFOLLOWED = "ALREADY_UNFOLLOWED";
+
 

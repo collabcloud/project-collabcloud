@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import ProjectBox from "./ProjectBox";
 
 export default function ProjectDisplay() {

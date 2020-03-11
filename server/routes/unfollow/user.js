@@ -9,10 +9,10 @@ const { check, validationResult, body} = require("express-validator");
 const db = require("../../database.js");
 
 
-// @route   POST api/follow/user
-// @desc    Follow a user
+// @route   DELETE api/unfollow/user
+// @desc    Delete the record where followee is followed by follower
 // @access  Public
-router.post(
+router.delete(
 	"/",
 	/*
 		The following list below contains all the validations for register input
@@ -29,32 +29,21 @@ router.post(
 			// Use express validator to validate request
 			
 			const errors = validationResult(req);
+
 			if (!errors.isEmpty()) {
 				console.log(errors);
 				return res.status(422).json({ errors: errors.array()});
 			}
 
-			//to do: check if both users exist in users
-
-			const followee_uid = req.body.followee;
-			const follower_uid = req.body.follower;
-			/*
-			const checkUser1 = await db.models.user.findAll({
+			//to do: check if both users exist in user
+			
+			await db.models.user_followers.destroy({
 				where: {
-					uid: followee_uid
+					followeeUid: req.query.followee,
+					followerUid: req.query.follower
 				}
 			});
-			*/
 
-
-			console.log(req.body.followee);
-			console.log(req.body.follower);
-			
-			const FollowObject = await db.models.user_followers.create({
-				followeeUid: req.body.followee,
-				followerUid: req.body.follower
-			});
-			
 			res.status(200).json({ result: "Success" });
 			
 			return;
