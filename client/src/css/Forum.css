@@ -1,0 +1,21 @@
+.poster {
+  background-color: silver;
+}
+
+.post {
+  margin: 0;
+  line-height: 1.25;
+}
+
+.submitter {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.content {
+  background-color: white;
+}
+
+.small {
+  font-size: 12px;
+}
