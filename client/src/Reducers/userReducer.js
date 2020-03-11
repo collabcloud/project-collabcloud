@@ -3,18 +3,17 @@ import {
 } from "../actions/types";
 
 const initialState = {
-    loggedIn: false
+    uid: ""
 };
 
 export default (state = initialState, action) => {
-    // console.log("action type "+action.type);
     switch (action.type) {
         case LOGIN:
             return {
-                ...state,
-                loggedIn: true,
-            };
+                ...state, 
+                uid: action.payload};
         default:
+            console.log(state);
             return state;
     }
 };

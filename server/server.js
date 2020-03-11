@@ -27,6 +27,9 @@ app.use("/api/search", require("./routes/search/search"));
 app.use("/api/follow/user", require("./routes/follow/user"));
 app.use("/api/unfollow/user", require("./routes/unfollow/user"));
 
+//ask about this
+app.use("/api/users/profile", require("./routes/profile/profile.js"));
+
 
 
 const PORT = process.env.SERVER_PORT;

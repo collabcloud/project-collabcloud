@@ -31,7 +31,11 @@ router.post(
 	
 			// 200 success response if username equal to password
 			if ((validUser.length > 0) && (req.body.username == validUser[0].dataValues.username) && (req.body.password == validUser[0].dataValues.password)) {
-				res.status(200).json({ result: "Success" });
+				var userval = {
+					user: validUser[0].dataValues.uid
+				};
+				console.log(userval.user);
+				res.status(200).json({ result: "Success", userval});
 				return;
 			}
 

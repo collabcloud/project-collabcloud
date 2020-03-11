@@ -87,8 +87,11 @@ router.post(
 				authtoken: accessToken,
 				githubid: githubId
 			});
+			const UserinfoObject = db.models.userinfo.build({
+				uid: UserObject.uid
+			});
 			await UserObject.save();
-			
+			await UserinfoObject.save();
 			res.status(200).json({ result: "Success" });
 			
 			return;

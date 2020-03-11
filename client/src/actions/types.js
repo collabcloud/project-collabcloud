@@ -27,3 +27,7 @@ export const ALREADY_FOLLOWED = "ALREADY_FOLLOWED";
 export const ALREADY_UNFOLLOWED = "ALREADY_UNFOLLOWED";
 
 
+//profile actions
+export const GET_INFO = "GET_INFO";
+
+
