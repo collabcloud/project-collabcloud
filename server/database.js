@@ -38,6 +38,26 @@ const User = db.define('user', {
         allowNull: false,
         unique: true,
         type: DataTypes.STRING(50)
+    },
+    firstname: {
+        allowNull: true,
+        type: DataTypes.STRING(25)
+    },
+    lastname: {
+        allowNull: true,
+        type: DataTypes.STRING(25)
+    },
+    city: {
+        allowNull: true,
+        type: DataTypes.STRING(50)
+    },
+    province: {
+        allowNull: true,
+        type: DataTypes.STRING(50)
+    },
+    description: {
+        allowNull: true,
+        type: DataTypes.STRING(1000)
     }
 }, {
 
@@ -102,6 +122,7 @@ const project = db.define('project', {
 }, {
 
 });
+
 
 db.sync({ force: false })
     .then(message => {

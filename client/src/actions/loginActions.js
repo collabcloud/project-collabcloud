@@ -16,8 +16,6 @@ export const login = (username, password) => async dispatch => {
 		const body = JSON.stringify({ username, password });
 
 		let response = await axios.post(url, body, config);
-		//console.log("response" + response);
-        //console.log("response status" + response.status);
         // TODO: Add in a type for if the response fails, and then catch that type
 		if (response) {
             // Login information is wrong (eg. wrong password or username)
@@ -26,10 +24,9 @@ export const login = (username, password) => async dispatch => {
             }
             // User logs in successfully
             else if (response.status === 200) {
-                //console.log("if response");
                 dispatch({
                     type: LOGIN,
-                    payload: response.data
+                    payload: response.data.userval.user
                 });
             } 
             // Internal server error

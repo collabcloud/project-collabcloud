@@ -1,19 +1,19 @@
 import {
-    LOGIN
+    GET_INFO
 } from "../actions/types";
 
 // Add Single Project
 const initialState = {
-    loggedIn: false
+    profile: {}
 };
 
 export default (state = initialState, action) => {
-    // console.log("action type "+action.type);
     switch (action.type) {
-        case LOGIN:
+        case GET_INFO:
+            console.log("adding user info to state");
             return {
                 ...state,
-                loggedIn: true,
+                profile: action.payload 
             };
         default:
             return state;

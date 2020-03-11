@@ -23,6 +23,9 @@ app.use("/api/projects/create", require("./routes/projects/createProject"));
 app.use("/api/projects/", require("./routes/projects/getPublicProjects"));
 app.use("/api/github/repos", require("./routes/github/getRepos"));
 
+//ask about this
+app.use("/api/users/profile", require("./routes/profile/profile.js"));
+
 
 
 const PORT = process.env.SERVER_PORT;

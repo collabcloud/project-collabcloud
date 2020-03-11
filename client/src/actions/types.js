@@ -16,3 +16,7 @@ export const GET_GIT_REPOS = "GET_REPOS";
 export const LOGIN = "LOGIN";
 
 
+//profile actions
+export const GET_INFO = "GET_INFO";
+
+
