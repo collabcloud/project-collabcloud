@@ -8,6 +8,8 @@ import { unfollow_user } from '../../actions/unfollowActions';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 
+
+// TODO: Pull from Redux
 const jarrod_uid = "00744dfb-f53c-4298-ada4-b3867e2f1fe6";
 const matt_uid = "8a71a5b4-3889-4711-9525-8fa74fe8933d";
 
