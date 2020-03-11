@@ -88,7 +88,6 @@ router.post(
 				githubid: githubId
 			});
 			await UserObject.save();
-			
 			res.status(200).json({ result: "Success" });
 			
 			return;

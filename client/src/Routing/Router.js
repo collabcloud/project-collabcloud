@@ -15,6 +15,8 @@ import Profile from "../Containers/User/Profile";
 import Root from '../Containers/Forum/Root';
 import Subforum from '../Containers/Forum/Subforum';
 import Thread from '../Containers/Forum/Thread';
+import Search from "../Containers/Search/Search"
+
 
 const posts1 = [
   {id: 1, submitter: "jcserv", status: "ok so basically im monky",
@@ -81,7 +83,6 @@ const subforums = [
   {id: 4, title: "LF Collaborators", path:"/forum/collabs", description: "View projects seeking collaborators"}
 ];
 
-
 const Router = () => (
     // Render the first <Route> element whose path matches the current URL
     <Switch>
@@ -95,6 +96,7 @@ const Router = () => (
       <Route path="/user/matthuynh" component={OtherProfile} />
       <Route path="/user/project" component={Project} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/search" component={Search} />
       <Route exact path="/forum/" component={Root} />
 
       {subforums.map((subforum) => 
@@ -107,7 +109,6 @@ const Router = () => (
         title={thread.title} submitter={thread.submitter} createdAt={thread.createdAt}
         parentPath={thread.parentPath} subforum={thread.subforum} posts={thread.posts}/>} />
       )}
-
     </Switch>
 );
 
