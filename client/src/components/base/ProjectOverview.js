@@ -6,39 +6,37 @@ import {
 	Row,
 	Col,
 	Image,
-  ListGroup,
-  Form
+	ListGroup,
+	Form
 } from "react-bootstrap";
 import { ItemsList } from "./ItemsList";
 import { Item } from "./Item";
 import ReactTags from "react-tag-autocomplete";
 import logo from "../../harmoney.png";
 
-import "../../css/Project.css"; 
+import "../../css/Project.css";
 import { getProjectInformation } from "../../actions/projectActions";
 
 // Icons for website buttons
-import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
-import { MdWeb } from 'react-icons/md';
+import { FaGithub, FaLinkedin, FaDev } from "react-icons/fa";
+import { MdWeb, MdSettings } from "react-icons/md";
 const github = <FaGithub />;
 const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
-
 function updateLink(index, value) {
-  console.log("Clicked on Update Link");
+	console.log("Clicked on Update Link");
 }
 
 // This component shows an individual project's view
 export function ProjectOverview(props) {
-  const project = props.projectInformation.project;
+	const project = props.projectInformation.project;
 
+  console.log(props.toggleSettings);
   // TODO: useHistory()?
-
-  console.log(project.technologiesUsed);
-
-  const technologiesList = [
+  
+	const technologiesList = [
 		{ id: 1, name: "MongoDB" },
 		{ id: 2, name: "Express" },
 		{ id: 3, name: "React" },
@@ -62,90 +60,106 @@ export function ProjectOverview(props) {
 		{ id: 21, name: "Pytorch" },
 		{ id: 22, name: "Numpy" },
 		{ id: 23, name: "Passport" },
-		{ id: 24, name: "Kotlin" },
+		{ id: 24, name: "Kotlin" }
 	];
 
-  let links = [
-    {
-      name: "GitHub",
-      icon: github,
-      isProvided: !project.githubLink ? true : false,
-      value: project.githubLink
-    },
-    {
-      name: "Website",
-      icon: website,
-      isProvided: !project.websiteLink ? true : false,
-      value: project.websiteLink
-    },
-    {
-      name: "DevPost",
-      icon: dev,
-      isProvided: !project.devpostLink ? true : false,
-      value: project.devpostLink
-    },
-    {
-      name: "LinkedIn",
-      icon: linkedin,
-      isProvided: !project.linkedinLink ? true : false,
-      value: project.linkedinLink
-    }
-  ];
-  
-  
-  console.log(project.pid);
+	let links = [
+		{
+			name: "GitHub",
+			icon: github,
+			isProvided: !project.githubLink ? true : false,
+			value: project.githubLink
+		},
+		{
+			name: "Website",
+			icon: website,
+			isProvided: !project.websiteLink ? true : false,
+			value: project.websiteLink
+		},
+		{
+			name: "DevPost",
+			icon: dev,
+			isProvided: !project.devpostLink ? true : false,
+			value: project.devpostLink
+		},
+		{
+			name: "LinkedIn",
+			icon: linkedin,
+			isProvided: !project.linkedinLink ? true : false,
+			value: project.linkedinLink
+		}
+	];
 
 	return (
 		<Jumbotron>
 			<Container>
 				<Row>
-
 					<Col xs={4}>
 						<Image src={logo} />
 					</Col>
 
 					<Col className="d-flex align-items-start flex-column">
-            {/* General Project Information */}
+						{/* General Project Information */}
 						<h1>{project.projectName}</h1>
 						<div className="innerbox">
-							<p>
-								{project.projectDescription}
-							</p>
+							<p>{project.projectDescription}</p>
 						</div>
 
-            {/* List of technologies used for this project */}
-            <h4> Technologies Used </h4>
+						{/* List of technologies used for this project */}
+						<h4> Technologies Used </h4>
 						<ListGroup horizontal>
-              {technologiesList.map((technology, index) =>
-                // Only render this technology if it is included in technologiesUsed
-                (project.technologiesUsed[technology.id-1] == 1) && (
-                <Item 
-                  value={technology.name} 
-                />)
-                )}
-            </ListGroup>
-            <br />
+							{technologiesList.map(
+								(technology, index) =>
+									// Only render this technology if it is included in technologiesUsed
+									project.technologiesUsed[
+										technology.id - 1
+									] == 1 && <Item value={technology.name} />
+							)}
+						</ListGroup>
+						<br />
 
-            {/* List of links to websites for this project */}
-            <h4> Links </h4>
-            <ListGroup horizontal>
-            {links.map((button, index) =>
-                <Button
-                  variant={button.isProvided ? "outline-info" : "info"}
-                  type="button"
-                  disabled={button.isProvided}
-                  href={button.value}
-                >
-                {button.name}
-                </Button>
-            )}
-            </ListGroup>
-            <br />
+						{/* List of links to websites for this project */}
+						<h4> Links </h4>
+						<ListGroup horizontal>
+							{links.map((button, index) => (
+								<Button
+									variant={
+										button.isProvided
+											? "outline-info"
+											: "info"
+									}
+									type="button"
+									disabled={button.isProvided}
+									href={button.value}
+								>
+									{button.icon}
+									{button.name}
+								</Button>
+							))}
+						</ListGroup>
+						<br />
 
-            {/* TODO: Build this feature */}
-						<p className="top5">
-							<Button variant="primary">Request to Join</Button>
-						</p>
+            <Row>
+
+              
+              {/* TODO: Build this feature */}
+              <p className="top5">
+                <Button variant="primary">Request to Join</Button>
+              </p>
+              
+              <p className="top5">
+              <Button 
+                variant="outline-info" 
+                type="button"
+                onclick={props.toggleSettings}
+              >
+                <MdSettings />
+                Settings
+              </Button>
+
+            </p>
+            </Row>
+
 					</Col>
 				</Row>
 			</Container>

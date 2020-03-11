@@ -57,15 +57,13 @@ export function ProjectForm(props) {
 
   // TODO: useHistory()?
 
-  // console.log(project.project.pid);
-  console.log(project.pid);
 
   // When the user clicks on "Submit", sends this project over to the back-end
 	function onSubmit(e) {
 		e.preventDefault();
 		
     
-    console.log("Clicked on Submit");
+        console.log("Clicked on Submit");
 	}
 
   return (

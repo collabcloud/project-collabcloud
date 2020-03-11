@@ -4,7 +4,6 @@ import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectOverview } from "../../components/base/ProjectOverview";
 import { ProjectForm } from "../../components/base/ProjectForm";
 import { Contributors } from "../../components/base/Contributors";
-
 import { Slideshow } from "../../components/base/Slideshow";
 
 import Picture1 from "./img/1.jpg";
@@ -19,11 +18,12 @@ import PropTypes from "prop-types";
 
 let showSettings = false;
 // TODO: This toggle should only be visible to the owner of the page
+
 // Toggles the Settings view
 const toggleSettings = () => {
+  console.log("Clicked on toggle settings");
   showSettings = !showSettings;
 };
-
 
 // TODO: Get the PID of this project from the store
   // This is the PID of the project whose information we want to get
@@ -44,8 +44,10 @@ const Project = ({ getProjectInformation, projectInformation} ) => {
 				className="col-md-8 align-items-start"
 				style={{ paddingTop: "50px" }}
 			>
-
-				<ProjectOverview projectInformation={projectInformation} toggleSettings={toggleSettings()}/>
+        <ProjectOverview 
+          projectInformation={projectInformation} 
+          toggleSettings={toggleSettings}
+        />
 
 				{/* <Slideshow pic1={Picture1} pic2={Picture2} pic3={Picture3} /> */}
 
