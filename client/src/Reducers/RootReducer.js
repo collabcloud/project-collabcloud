@@ -5,6 +5,7 @@ import githubReducer from "./githubReducer";
 import loginReducer from "./loginReducer";
 import followReducer from "./followReducer";
 import unfollowReducer from "./unfollowReducer";
+import alertReducer from "./alertReducer";
 
 
 
@@ -14,5 +15,6 @@ export default combineReducers({
     github: githubReducer,
     login: loginReducer,
     follow: followReducer,
-    unfollow: unfollowReducer
+    unfollow: unfollowReducer,
+    alerts: alertReducer
 });
