@@ -21,18 +21,18 @@ router.get(
                     ]
 				}
             });
-            // const users = await db.models.user.findAll({
-            //     where: {
-            //         [Op.or]: [
-            //             {username: {
-            //                 [Op.substring]: term}}, 
-            //         ]
-			// 	}
-            // });
+            const users = await db.models.user.findAll({
+                where: {
+                    [Op.or]: [
+                        {username: {
+                            [Op.substring]: term}}, 
+                    ]
+				}
+            });
 			res.status(200).json({
                 result: "Success",
                 projects: projects,
-                // users: users
+                users: users
 			});
 
 
