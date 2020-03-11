@@ -24,6 +24,8 @@ app.use("/api/projects/", require("./routes/projects/getPublicProjects"));
 app.use("/api/github/repos", require("./routes/github/getRepos"));
 app.use("/api/github/repos", require("./routes/github/getRepos"));
 app.use("/api/search", require("./routes/search/search"));
+app.use("/api/follow/user", require("./routes/follow/user"));
+app.use("/api/unfollow/user", require("./routes/unfollow/user"));
 
 
 

@@ -5,7 +5,6 @@ import { GoProject, GoStar, GoEye, GoNote, GoPerson} from 'react-icons/go';
 
 export const ProjectsList = (props) => {
 
-  const order = 'desc';
   /*
   var projects = [{
     name: "Harmoney",

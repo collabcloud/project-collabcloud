@@ -1,5 +1,4 @@
-import React, {useEffect} from "react";
-import { NavigationBar } from "../../../components/base/NavigationBar";
+import React from "react";
 import {Card} from 'react-bootstrap';
 
 
@@ -18,7 +17,7 @@ const Register = ({register}) => {
                     </div>
                     <div class="text-center">
                         <a class="btn btn-secondary text-center" style={{width: '320px', marginTop: '50px'}} href="https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo">
-                        <img src={require ('./GitHub-Mark-32px.png')}/> &nbsp; <label style={{fontWeight: 'bold', fontSize: '23px', marginTop: '5px'}}>Sign up with GitHub</label>
+                        <img src={require ('./GitHub-Mark-32px.png')} alt="Github Btn"/> &nbsp; <label style={{fontWeight: 'bold', fontSize: '23px', marginTop: '5px'}}>Sign up with GitHub</label>
                         </a>
                     </div>
                     <div class="text-center" style={{marginBottom: '35px'}}>
