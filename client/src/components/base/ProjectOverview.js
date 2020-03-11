@@ -33,7 +33,9 @@ function updateLink(index, value) {
 export function ProjectOverview(props) {
 	const project = props.projectInformation.project;
 
-  console.log(props.toggleSettings);
+	console.log(props);
+	console.log(" ");
+	console.log(props.toggleSettings);
   // TODO: useHistory()?
   
 	const technologiesList = [
@@ -151,7 +153,7 @@ export function ProjectOverview(props) {
               <Button 
                 variant="outline-info" 
                 type="button"
-                onclick={props.toggleSettings}
+                onClick={props.toggleSettings}
               >
                 <MdSettings />
                 Settings
