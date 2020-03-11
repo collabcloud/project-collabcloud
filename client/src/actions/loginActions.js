@@ -22,20 +22,16 @@ export const login = (username, password) => async dispatch => {
             // Login information is wrong (eg. wrong password or username)
             if (response.status === 400) {
 				console.log("Username or password does not exist, or is incorrect");
-				dispatch(setAlert("Invalid Credentials", "danger"));
-				
+				dispatch(setAlert("Invalid Credentials", "danger"));	
             }
             // User logs in successfully
             else if (response.status === 200) {
                 dispatch({
                     type: LOGIN,
                     payload: response.data
-				    });
-            dispatch(setAlert("Login Successful", "success"));
-             });
-            } 
-            // Internal server error
-            else {
+				});
+            	dispatch(setAlert("Login Successful", "success"));
+            } else {
                 console.log("Couldn't login: 500 Internal Server Error");    
             }
 		} else {

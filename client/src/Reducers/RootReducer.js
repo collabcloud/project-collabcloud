@@ -16,7 +16,7 @@ export default combineReducers({
     github: githubReducer,
     login: loginReducer,
     user: userReducer,
-    userinfo: userinfoReducer
+    userinfo: userinfoReducer,
    search: searchReducer,
     follow: followReducer,
     unfollow: unfollowReducer,
