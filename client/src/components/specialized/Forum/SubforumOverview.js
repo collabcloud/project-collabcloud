@@ -1,16 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Card } from 'react-bootstrap';
 
 
 const SubforumOverview = (props) => (
-  <Card fluid hoverable="true" bg="dark" text="white">
+  <div className="p-2">
+     <Card fluid hoverable="true">
       <Card.Body>
-        <Card.Title>{props.title}</Card.Title>
-        <Card.Text>
+        <Card.Title className="text-left"> <props.icon/> <Link to={props.path}>{props.title}</Link></Card.Title>
+        <Card.Text className="text-left">
         {props.description}
         </Card.Text>
       </Card.Body>
     </Card>
+  </div>
 );
 
 export default SubforumOverview;
