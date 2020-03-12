@@ -80,10 +80,10 @@ export function ProjectForm(props) {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		console.log("Clicked on Submit");
-		let pid = projectData.projectId;
+		let pid = projectData.pid;
 
 		// Calls the updateProject() function from our parent
-		projectData.updateProject({
+		props.updateThisProject({
 			pid,
 			projectName,
 			tech,
@@ -96,9 +96,10 @@ export function ProjectForm(props) {
 	// When the user clicks on "Delete", delete this project from the back-end
 	const deleteProject = () => {
 		console.log("Clicked on delete project");
+		console.log("projectData.pid is " + projectData.pid);
 
 		// Calls the deleteProject() function from our parent
-		projectData.deleteProject(projectData.pid);
+		props.deleteThisProject(projectData.pid);
 	}
 
 	// Used to update state of links list

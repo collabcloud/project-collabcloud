@@ -120,22 +120,53 @@ export const updateProject = ({ projectId, name, desc, isProjectPublic, tech, li
         const res = await axios.post("/api/projects/update", body, config);
 
         // If success, dispatch action
-        if (res) {
+        if (res.status == 200) {
             dispatch({
                 type: UPDATE_PROJECT,
-                payload: "success"
+                payload: true
             });
         } else {
             console.log("Could not update project");
         }
     } catch (err) {
-        console.log("Error occured while creating a project");
+        console.log("Error occured while updating a project");
         console.log(err);
     }
 }
 
-export const deleteProject = ({ projectId }) => async dispatch => {
+// Given a projectId hit the backend to YEET that project
+export const deleteProject = (projectId) => async dispatch => {
     console.log("Hit deleteProject in projectActions");
+
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    console.log("In projectActions, projectId is " + projectId);
+
+    const body = JSON.stringify({
+        pid: projectId,
+    })
+
+    try {
+        const res = await axios.post("/api/projects/delete", body, config);
+
+        // If success, dispatch action
+        if (res.status == 200) {
+            dispatch({
+                type: DELETE_PROJECT,
+                payload: true
+            });
+        } else {
+            console.log("Could not delete project");
+        }
+    } catch (err) {
+        console.log("Error occured while deleting a project");
+        console.log(err);
+    }
+
 }
 
 // export const DELETE_PROJECT = "DELETE_PROJECT";

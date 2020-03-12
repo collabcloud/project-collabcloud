@@ -52,19 +52,20 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, projectI
     // Calls updateProject() from redux
     const updateThisProject = (pid, projectName, tech, projectDescription, isProjectPublic, links) => {
         console.log("About to dispatch updateProject()");
-        updateProject({
-			pid,
-			projectName,
-			tech,
-			projectDescription,
-			isProjectPublic,
-			links
-		});
+        // updateProject({
+		// 	pid,
+		// 	projectName,
+		// 	tech,
+		// 	projectDescription,
+		// 	isProjectPublic,
+		// 	links
+		// });
     }
 
     // Calls deleteProject() from redux
     const deleteThisProject = (pid) => {
         console.log("About to dispatch deleteProject()");
+        console.log("pid is " + pid);
         deleteProject(pid);
     }
 
@@ -83,7 +84,6 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, projectI
                 {isShowingSettings ? 
                     <ProjectForm 
                         projectInformation={projectInformation} 
-                        projectId={projectId}
                         toggleSettings={toggleSettings}
                         updateThisProject={updateThisProject}
                         deleteThisProject={deleteThisProject}
