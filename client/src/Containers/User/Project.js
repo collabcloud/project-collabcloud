@@ -65,6 +65,7 @@ const Project = ({ getProjectInformation, projectInformation }) => {
                 {isShowingSettings ? 
                     <ProjectForm 
                         projectInformation={projectInformation} 
+                        projectId={projectId}
                         toggleSettings={toggleSettings}
                     />
                     :

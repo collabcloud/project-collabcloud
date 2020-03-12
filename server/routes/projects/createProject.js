@@ -1,9 +1,7 @@
 const express = require("express");
-const axios = require("axios");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const uuidv5 = require('uuid/v5');
-const uuid = require("uuid");
 const db = require("../../database.js");
 require('dotenv').config({ path: './config/.env' });
 
@@ -33,6 +31,7 @@ router.post(
 			// Ensures all pid are unique from userid
 			const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
 
+			// TODO: Require this dict from an external JS file instead
 			//technologies dict (you can add more technologies here)
 			const techDict = {
 				"MongoDB": 1,

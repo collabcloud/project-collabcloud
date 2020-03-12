@@ -260,7 +260,7 @@ CreateProjects.propTypes = {
 // Transforms Redux store state into the props for this CreateProjects component
 // This function is called whenever the store state changes
 const mapStateToProps = state => {
-	console.log(state);
+	// console.log(state);
 	return {
 		githubRepos: state.github.githubReposFromState,
 		isLoading: state.github.loading

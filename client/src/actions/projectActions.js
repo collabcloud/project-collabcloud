@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_PROJECT, GET_PROJECT, PROJECT_LOADING, GET_PUBLIC_PROJECTS } from "./types"
+import { ADD_PROJECT, GET_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, PROJECT_LOADING, GET_PUBLIC_PROJECTS } from "./types"
 
 // Add Project Action
 export const addProject = ({ name, desc, isProjectPublic, tech, links }) => async dispatch => {
@@ -95,13 +95,47 @@ export const getProjectInformation = ({ projectId }) => async dispatch => {
     }
 };
 
-export const updateProject = ({ projectId }) => async dispatch => {
-    
+// Given a projectId and attributes to update, hit the backend to update that project
+export const updateProject = ({ projectId, name, desc, isProjectPublic, tech, links  }) => async dispatch => {
+    console.log("Hit updateProject in projectActions");
+
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    const body = JSON.stringify({
+        pid: projectId,
+        projectName: name,
+        description: desc,
+        isProjectPublic: isProjectPublic,
+        // ownerUserID: userid,
+        // gitRepoID: repoID,
+        technologiesUsed: tech,
+        techLinks: links
+    })
+
+    try {
+        const res = await axios.post("/api/projects/update", body, config);
+
+        // If success, dispatch action
+        if (res) {
+            dispatch({
+                type: UPDATE_PROJECT,
+                payload: "success"
+            });
+        } else {
+            console.log("Could not update project");
+        }
+    } catch (err) {
+        console.log("Error occured while creating a project");
+        console.log(err);
+    }
 }
 
 export const deleteProject = ({ projectId }) => async dispatch => {
-
+    console.log("Hit deleteProject in projectActions");
 }
 
-// export const UPDATE_PROJECT = "UPDATE_PROJECT";
 // export const DELETE_PROJECT = "DELETE_PROJECT";
