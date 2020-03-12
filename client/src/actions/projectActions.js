@@ -79,8 +79,6 @@ export const getProjectInformation = ({ projectId }) => async dispatch => {
             }
         }, config);
 
-        
-
         // If success, dispatch the action
         if (res.status == 200) {
             // Send our information to the redux store
@@ -96,3 +94,14 @@ export const getProjectInformation = ({ projectId }) => async dispatch => {
         console.log(err)
     }
 };
+
+export const updateProject = ({ projectId }) => async dispatch => {
+    
+}
+
+export const deleteProject = ({ projectId }) => async dispatch => {
+
+}
+
+// export const UPDATE_PROJECT = "UPDATE_PROJECT";
+// export const DELETE_PROJECT = "DELETE_PROJECT";

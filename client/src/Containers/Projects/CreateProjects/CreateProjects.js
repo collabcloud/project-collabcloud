@@ -28,7 +28,6 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 	const [tech, setTech] = useState([]);
 	const [desc, setDesc] = useState("");
 	const [isProjectPublic, setVisibilityPublic] = useState(true);
-
 	const [links, setLinks] = useState([
 		{ name: "Github", icon: github, value: "" },
 		{ name: "Website", icon: website, value: "" },
@@ -76,6 +75,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 					tech: [
 						{ id: 1, name: githubRepos[i].repo_main_technology }
 					],
+					// TODO: Add ability to display more links
 					links: [
 						{
 							name: "Github",

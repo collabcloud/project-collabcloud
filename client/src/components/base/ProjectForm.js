@@ -11,23 +11,23 @@ import {
 } from "react-bootstrap";
 import { ItemsList } from "./ItemsList";
 import { Item } from "./Item";
+import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
+import { MdWeb } from 'react-icons/md';
 import ReactTags from "react-tag-autocomplete";
-import logo from "../../harmoney.png";
 
 import "../../css/Project.css";
-import { getProjectInformation } from "../../actions/projectActions";
+
+const github = <FaGithub />;
+const website = <MdWeb />;
+const linkedin = <FaLinkedin />;
+const dev = <FaDev />;
 
 // This component shows an individual project's view
 export function ProjectForm(props) {
-	const project = props.projectInformation.project;
+	const projectData = props.projectInformation.project;
 
-	// Initialize state hooks
-	const [name, setName] = useState("");
-	const [tech, setTech] = useState([]);
-	const [desc, setDesc] = useState("");
-	const [isProjectPublic, setVisibilityPublic] = useState(true);
-
-	const tech_suggestions = [
+	// List of tech suggestion tags
+	const techSuggestions = [
 		{ id: 1, name: "MongoDB" },
 		{ id: 2, name: "Express" },
 		{ id: 3, name: "React" },
@@ -54,19 +54,62 @@ export function ProjectForm(props) {
 		{ id: 24, name: "Kotlin" }
 	];
 
-	// TODO: useHistory()?
+	// Decodes the encoded technologiesUsed string into its corresponding list of technologies
+	const decodeTechUsed = () => {
+		let techUsed = [];
+		let encodedArray = projectData.technologiesUsed.split("");
+		for (let i = 0; i < encodedArray.length; i++) {
+			if (encodedArray[i] != 0) {
+				techUsed.push({ id: i+1, name: techSuggestions[i].name})
+				// console.log(techSuggestions[i].name);
+			}
+		}
+		return techUsed;
+	}
+	
+	// Each field in the form needs their own state, which is updated as the field is mutated
+	const [projectName, setProjectName] = useState(projectData.projectName);
+	const [tech, setTech] = useState(decodeTechUsed());
+	const [projectDescription, setProjectDescription] = useState(projectData.projectDescription);
+	const [isProjectPublic, setVisibilityPublic] = useState(!projectData.isPrivate);
+	const [links, setLinks] = useState([
+		{ name: "Github", icon: github, value: projectData.githubLink },
+		{ name: "Website", icon: website, value: projectData.websiteLink },
+		{ name: "DevPost", icon: dev, value: projectData.devpostLink },
+		{ name: "LinkedIn", icon: linkedin, value: projectData.linkedinLink }
+	]);
 
-	// When the user clicks on "Submit", sends this project over to the back-end
+	// When the user clicks on "Submit", updates this project from the back-end
 	const onSubmit = (e) => {
 		e.preventDefault();
-
 		console.log("Clicked on Submit");
 	}
 
+	// When the user clicks on "Delete", delete this project from the back-end
 	const deleteProject = () => {
 		console.log("Clicked on delete project");
 	}
 
+	// Used to update state of links list
+	const updateLink = (index, value) => {
+		const new_links = [...links];
+		var item = new_links[index];
+		item.value = value;
+		setLinks(new_links);
+	}
+
+	// Used to handle the addition of a technology tag
+	const handleAddition = (tag) => {
+		const technologies = [].concat(tech, tag);
+		setTech(technologies);
+	}
+
+	// Used to handle the deletion of a technology tag
+	const handleDelete = (i) => {
+		const technologies = tech.slice(0);
+		technologies.splice(i, 1);
+		setTech(technologies);
+	}
 
 	return (
 		<div>
@@ -75,7 +118,7 @@ export function ProjectForm(props) {
 				className="col-md-8 align-items-start"
 				style={{ paddingTop: "50px" }}
 			>
-				<h4 className="createtitle">Modify Project</h4>
+				<h4 className="createtitle">Modifying Project</h4>
 
 				<Form onSubmit={onSubmit}>
 					<div className="d-flex align-items-start flex-column">
@@ -85,10 +128,10 @@ export function ProjectForm(props) {
 							type="text"
 							size="sm"
 							className="item"
-							value={project.projectName}
+							value={projectName}
 							name="project_name"
-							disabled
-							// onChange={e => setName(e.target.value)}
+							disabled // we currently do not allow Project names to be changed
+							onChange={e => setProjectName(e.target.value)}
 						/>
 
 						<p className="createfont">Description</p>
@@ -96,9 +139,9 @@ export function ProjectForm(props) {
 							as="textarea"
 							rows="3"
 							className="item"
-							value={project.projectDescription}
+							value={projectDescription}
 							name="description"
-							// onChange={e => setDesc(e.target.value)}
+							onChange={e => setProjectDescription(e.target.value)}
 						/>
 
 						<p className="createfont">Project Visibility</p>
@@ -106,36 +149,36 @@ export function ProjectForm(props) {
 							<Form.Check
 								name="publicVisibility"
 								type="radio"
-								checked={!project.isPrivate}
-								// value="public"
+								checked={isProjectPublic}
+								value="public"
 								label="Public"
-								// onChange={e => setVisibilityPublic(true)}
+								onChange={e => setVisibilityPublic(true)}
 							/>
 							<Form.Check
 								name="privateVisibility"
-								checked={project.isPrivate}
+								checked={!isProjectPublic}
 								type="radio"
-								// value="private"
+								value="private"
 								label="Private"
-								// onChange={e => setVisibilityPublic(false)}
+								onChange={e => setVisibilityPublic(false)}
 							/>
 						</Form.Group>
 
 						<p className="createfont">It's built with</p>
 						<ReactTags
 							className="item"
-							// tags={tech}
-							// suggestions={tech_suggestions}
-							// handleDelete={handleDelete}
-							// handleAddition={handleAddition}
+							tags={tech}
+							suggestions={techSuggestions}
+							handleDelete={handleDelete}
+							handleAddition={handleAddition}
 						/>
 
 						<p className="createfont">Links</p>
-						{/* <ItemsList
+						<ItemsList
 							className="item"
 							items={links}
 							updateLink={updateLink}
-						/> */}
+						/>
 
 						<Row>
 							<p className="project-view-submit-buttons">
@@ -157,6 +200,7 @@ export function ProjectForm(props) {
 							<p className="project-view-submit-buttons">
 								<Button
 									variant="outline-danger"
+									onClick={deleteProject}
 								>
 									Delete
 								</Button>

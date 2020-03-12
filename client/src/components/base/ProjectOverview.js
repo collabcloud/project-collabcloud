@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
 	Jumbotron,
 	Button,
@@ -7,15 +7,11 @@ import {
 	Col,
 	Image,
 	ListGroup,
-	Form
 } from "react-bootstrap";
-import { ItemsList } from "./ItemsList";
 import { Item } from "./Item";
-import ReactTags from "react-tag-autocomplete";
 import logo from "../../harmoney.png";
 
 import "../../css/Project.css";
-import { getProjectInformation } from "../../actions/projectActions";
 
 // Icons for website buttons
 import { FaGithub, FaLinkedin, FaDev } from "react-icons/fa";
@@ -24,10 +20,6 @@ const github = <FaGithub />;
 const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
-
-function updateLink(index, value) {
-	console.log("Clicked on Update Link");
-}
 
 // This component shows an individual project's view
 export function ProjectOverview(props) {

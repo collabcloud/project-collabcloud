@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Container, Jumbotron, Carousel, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+// import { Carousel } from "react-bootstrap";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectOverview } from "../../components/base/ProjectOverview";
 import { ProjectForm } from "../../components/base/ProjectForm";
@@ -24,12 +25,12 @@ const Project = ({ getProjectInformation, projectInformation }) => {
 	// Loads project information
 	useEffect(() => {
 		getProjectInformation({ projectId });
-	}, []);
+	}, [getProjectInformation]);
 
     // Used for conditionally rendering the "Project Settings" section
     const [isShowingSettings, modifySettings] = useState(false);
 
-    const [hasJoinedProject, modifyProjectJoinStatus] = useState(false);
+    const [hasJoinedProject, modifyProjectJoinStatus] = useState(true);
 
     // TODO: This toggle should only be visible to the owner of the page
     // Toggles the Settings view
