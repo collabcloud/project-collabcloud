@@ -24,7 +24,7 @@ export const register = (auth_code, formData) => async dispatch => {
             });
         }).catch((err) => {
             console.log(err.response.status);
-            if(err.response.status == 301){
+            if(err.response.status === 301){
                 console.log("GITHUB_EXISTS");
                 dispatch({
                     type: GITHUB_EXISTS

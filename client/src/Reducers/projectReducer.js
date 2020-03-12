@@ -4,7 +4,6 @@ import {
 	UPDATE_PROJECT,
 	DELETE_PROJECT,
 	GET_PUBLIC_PROJECTS,
-	PROJECT_LOADING
 } from "../actions/types";
 
 const initialState = {

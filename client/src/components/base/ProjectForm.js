@@ -6,7 +6,6 @@ import {
 	Form
 } from "react-bootstrap";
 import { ItemsList } from "./ItemsList";
-import { Item } from "./Item";
 import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
 import { MdWeb } from 'react-icons/md';
 import ReactTags from "react-tag-autocomplete";
@@ -56,9 +55,8 @@ export function ProjectForm(props) {
 		let techUsed = [];
 		let encodedArray = projectData.technologiesUsed.split("");
 		for (let i = 0; i < encodedArray.length; i++) {
-			if (encodedArray[i] != 0) {
+			if (encodedArray[i] !== "0") {
 				techUsed.push({ id: i+1, name: techSuggestions[i].name})
-				// console.log(techSuggestions[i].name);
 			}
 		}
 		return techUsed;
@@ -79,15 +77,7 @@ export function ProjectForm(props) {
 	// When the user clicks on "Submit", updates this project from the back-end
 	const onSubmit = (e) => {
 		e.preventDefault();
-		console.log("Clicked on Submit");
 		let pid = projectData.pid;
-
-		console.log("pid: " + pid);
-		console.log("projectName: " + projectName);
-		console.log("description: " + projectDescription);
-		console.log("isProjectPublic: " + isProjectPublic);
-		console.log("technologiesUsed: " + tech);
-		console.log("techLinks: " + links);
 
 		// Calls the updateProject() function from our parent
 		props.updateThisProject({
@@ -98,13 +88,13 @@ export function ProjectForm(props) {
 			tech,
 			links
 		})
+
+		// Redirect user back to the user information page
+		props.toggleSettings();
 	}
 
 	// When the user clicks on "Delete", delete this project from the back-end
 	const deleteProject = () => {
-		console.log("Clicked on delete project");
-		console.log("projectData.pid is " + projectData.pid);
-
 		// Calls the deleteProject() function from our parent
 		props.deleteThisProject(projectData.pid);
 

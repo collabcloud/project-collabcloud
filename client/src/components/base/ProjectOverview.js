@@ -104,7 +104,11 @@ export function ProjectOverview(props) {
 							{technologiesList.map(
 								(technology, index) =>
 									// Only render this technology if it is included in technologiesUsed
-									project.technologiesUsed[technology.id - 1] == 1 && <Item value={technology.name} />
+									project.technologiesUsed[technology.id - 1] === "1" && 
+									<Item 
+										value={technology.name} 
+										key={technology.name+index}
+									/>
 							)}
 						</ListGroup>
 						<br />
@@ -113,9 +117,12 @@ export function ProjectOverview(props) {
 						<h4> Links </h4>
 						<ListGroup horizontal>
 							{links.map((button, index) => (
-								<p className="project-view-links-buttons">
+								// Note: Provided an arbitrary key prop here to both <p> and it's child <Button>
+								// This is for React's internals: https://stackoverflow.com/questions/28329382/understanding-unique-keys-for-array-children-in-react-js
+								<p className="project-view-links-buttons" key={button+index}>
 									<Button
 										variant={button.isProvided ? "info" : "outline-info"}
+										key={button}
 										type="button"
 										disabled={!button.isProvided}
 										href={button.value}

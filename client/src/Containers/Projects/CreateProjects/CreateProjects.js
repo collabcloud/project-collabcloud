@@ -59,6 +59,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility: "all" });
 	}, []); // This empty [] ensures that useEffect() does not run forever
+	// NOTE: Even though the React compiler warns about this above line, DO NOT add the 'getGithubRepos' dependency
 
 	// Runs whenever any of the specified props (isLoading, githubRepos) are updated
 	useEffect(() => {
@@ -92,7 +93,8 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 			setProjects(projectsToDisplay);
 		}
 
-	}, [githubRepos, isLoading]); // this effect runs again whenever the elements in this array change
+	}, [githubRepos, isLoading]); // this effect runs again whenever the elements in this dependency array change
+	// NOTE: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
 
 	const tech_suggestions = [
 		{ id: 1, name: "MongoDB" },

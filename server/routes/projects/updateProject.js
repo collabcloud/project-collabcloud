@@ -78,7 +78,14 @@ router.post(
             
             // Build up the list of attributes that need to be updated
             let updates = {
-                projectDescription: "test update"  
+                projectName: req.body.projectName,
+                projectDescription: req.body.description,
+                isPrivate: !req.body.isProjectPublic,
+                technologiesUsed: encodedTech,
+                githubLink: (linkArray[0] ? linkArray[0] : ""),
+				websiteLink: (linkArray[1] ? linkArray[1] : ""),
+				devpostLink: (linkArray[2] ? linkArray[2] : ""),
+				linkedinLink: (linkArray[3] ? linkArray[3] : "")
             };
             
             // Get the project in the database, then update it
@@ -93,7 +100,7 @@ router.post(
             if (projectToUpdate) {
                 let success = projectToUpdate.update(updates);
                 if (success) {
-                    console.log("The project was updated in the database");
+                    console.log("The project was updated in the database!");
                     return res.status(200).json({
                         result: "Success",
                     });
