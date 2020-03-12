@@ -22,7 +22,6 @@ const Profile = ({uid, get_user_info}) => {
     }
 
     // Populate the Redux store with this user's info by calling the action and have the action do a get request
-    console.log("send to get_user_info: " + uid);
     myfunc();
   }, []); 
     
@@ -60,7 +59,6 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
 
 	return {
 		uid: state.user.uid
