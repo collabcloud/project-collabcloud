@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 
 // TODO: Get the PID of this project from the store, or the name of the project from the dynamic path
 // This is the PID of the project whose information we want to get
-const projectId = "a720142a-4076-5c0d-9edc-5236c9be2b55";
+const projectId = "3c9e9769-3e21-5bb7-b24f-fed83f7ff06b";
 
 const Project = ({ getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, deleteSuccess }) => {
     const history = useHistory();
