@@ -33,11 +33,10 @@ function updateLink(index, value) {
 export function ProjectOverview(props) {
 	const project = props.projectInformation.project;
 
-	console.log(props);
-	console.log(" ");
-	console.log(props.toggleSettings);
-  // TODO: useHistory()?
-  
+	// console.log(props);
+	// console.log(" ");
+	// console.log(props.toggleSettings);
+
 	const technologiesList = [
 		{ id: 1, name: "MongoDB" },
 		{ id: 2, name: "Express" },
@@ -69,25 +68,25 @@ export function ProjectOverview(props) {
 		{
 			name: "GitHub",
 			icon: github,
-			isProvided: !project.githubLink ? true : false,
+			isProvided: project.githubLink ? true : false,
 			value: project.githubLink
 		},
 		{
 			name: "Website",
 			icon: website,
-			isProvided: !project.websiteLink ? true : false,
+			isProvided: project.websiteLink ? true : false,
 			value: project.websiteLink
 		},
 		{
 			name: "DevPost",
 			icon: dev,
-			isProvided: !project.devpostLink ? true : false,
+			isProvided: project.devpostLink ? true : false,
 			value: project.devpostLink
 		},
 		{
 			name: "LinkedIn",
 			icon: linkedin,
-			isProvided: !project.linkedinLink ? true : false,
+			isProvided: project.linkedinLink ? true : false,
 			value: project.linkedinLink
 		}
 	];
@@ -113,9 +112,7 @@ export function ProjectOverview(props) {
 							{technologiesList.map(
 								(technology, index) =>
 									// Only render this technology if it is included in technologiesUsed
-									project.technologiesUsed[
-										technology.id - 1
-									] == 1 && <Item value={technology.name} />
+									project.technologiesUsed[technology.id - 1] == 1 && <Item value={technology.name} />
 							)}
 						</ListGroup>
 						<br />
@@ -124,44 +121,54 @@ export function ProjectOverview(props) {
 						<h4> Links </h4>
 						<ListGroup horizontal>
 							{links.map((button, index) => (
-								<Button
-									variant={
-										button.isProvided
-											? "outline-info"
-											: "info"
-									}
-									type="button"
-									disabled={button.isProvided}
-									href={button.value}
-								>
-									{button.icon}
-									{button.name}
-								</Button>
+								<p className="project-view-links-buttons">
+									<Button
+										variant={button.isProvided ? "info" : "outline-info"}
+										type="button"
+										disabled={!button.isProvided}
+										href={button.value}
+										target="_blank"
+										style = {{ pointerEvents: (button.isProvided ? "" : "none")}}
+									>
+										{button.icon}
+										{button.name}
+									</Button>
+								</p>
 							))}
 						</ListGroup>
 						<br />
 
-            <Row>
+						<Row>
+							<p className="project-view-submit-buttons">
+								{
+									props.hasJoinedProject ? 
+									<Button 
+										variant="danger"
+										onClick={props.leaveProject}
+									>
+										Leave Project
+									</Button>
+									:
+									<Button 
+										variant="success"
+										onClick={props.requestToJoinProject}
+									>
+										Request to Join
+									</Button>
+								}
+							</p>
 
-              
-              {/* TODO: Build this feature */}
-              <p className="top5">
-                <Button variant="primary">Request to Join</Button>
-              </p>
-              
-              <p className="top5">
-              <Button 
-                variant="outline-info" 
-                type="button"
-                onClick={props.toggleSettings}
-              >
-                <MdSettings />
-                Settings
-              </Button>
-
-            </p>
-            </Row>
-
+							<p className="project-view-submit-buttons">
+								<Button
+									variant="secondary"
+									type="button"
+									onClick={props.toggleSettings}
+								>
+									<MdSettings />
+									Settings
+								</Button>
+							</p>
+						</Row>
 					</Col>
 				</Row>
 			</Container>

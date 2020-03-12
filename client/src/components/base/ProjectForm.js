@@ -6,29 +6,28 @@ import {
 	Row,
 	Col,
 	Image,
-  ListGroup,
-  Form
+	ListGroup,
+	Form
 } from "react-bootstrap";
 import { ItemsList } from "./ItemsList";
 import { Item } from "./Item";
 import ReactTags from "react-tag-autocomplete";
 import logo from "../../harmoney.png";
 
-import "../../css/Project.css"; 
+import "../../css/Project.css";
 import { getProjectInformation } from "../../actions/projectActions";
 
 // This component shows an individual project's view
 export function ProjectForm(props) {
-  const project = props.projectInformation.project;
+	const project = props.projectInformation.project;
 
-  // Initialize state hooks
+	// Initialize state hooks
 	const [name, setName] = useState("");
 	const [tech, setTech] = useState([]);
 	const [desc, setDesc] = useState("");
-  const [isProjectPublic, setVisibilityPublic] = useState(true);
-  
+	const [isProjectPublic, setVisibilityPublic] = useState(true);
 
-  const tech_suggestions = [
+	const tech_suggestions = [
 		{ id: 1, name: "MongoDB" },
 		{ id: 2, name: "Express" },
 		{ id: 3, name: "React" },
@@ -52,32 +51,34 @@ export function ProjectForm(props) {
 		{ id: 21, name: "Pytorch" },
 		{ id: 22, name: "Numpy" },
 		{ id: 23, name: "Passport" },
-		{ id: 24, name: "Kotlin" },
+		{ id: 24, name: "Kotlin" }
 	];
 
-  // TODO: useHistory()?
+	// TODO: useHistory()?
 
-
-  // When the user clicks on "Submit", sends this project over to the back-end
-	function onSubmit(e) {
+	// When the user clicks on "Submit", sends this project over to the back-end
+	const onSubmit = (e) => {
 		e.preventDefault();
-		
-    
-        console.log("Clicked on Submit");
+
+		console.log("Clicked on Submit");
 	}
 
-  return (
+	const deleteProject = () => {
+		console.log("Clicked on delete project");
+	}
+
+
+	return (
 		<div>
-      <Container
+			<Container
 				fluid
 				className="col-md-8 align-items-start"
 				style={{ paddingTop: "50px" }}
 			>
-        <h4 className="createtitle">Your project</h4>
+				<h4 className="createtitle">Modify Project</h4>
 
 				<Form onSubmit={onSubmit}>
 					<div className="d-flex align-items-start flex-column">
-
 						<p className="createfont">Project Name</p>
 
 						<Form.Control
@@ -85,22 +86,22 @@ export function ProjectForm(props) {
 							size="sm"
 							className="item"
 							value={project.projectName}
-              name="project_name"
-              disabled
+							name="project_name"
+							disabled
 							// onChange={e => setName(e.target.value)}
 						/>
 
-            <p className="createfont">Description</p>
-            <Form.Control
-              as="textarea"
-              rows="3"
-              className="item"
-              value={project.projectDescription}
-              name="description"
-              // onChange={e => setDesc(e.target.value)}
-            />
+						<p className="createfont">Description</p>
+						<Form.Control
+							as="textarea"
+							rows="3"
+							className="item"
+							value={project.projectDescription}
+							name="description"
+							// onChange={e => setDesc(e.target.value)}
+						/>
 
-            <p className="createfont">Project Visibility</p>
+						<p className="createfont">Project Visibility</p>
 						<Form.Group className="item">
 							<Form.Check
 								name="publicVisibility"
@@ -136,13 +137,31 @@ export function ProjectForm(props) {
 							updateLink={updateLink}
 						/> */}
 
-						<Button
-							className="submit-reg-bt"
-							variant="success"
-							type="submit"
-						>
-							Update
-						</Button>
+						<Row>
+							<p className="project-view-submit-buttons">
+								<Button
+									variant="primary"
+									type="submit"
+								>
+									Update
+								</Button>
+							</p>
+							<p className="project-view-submit-buttons">
+								<Button
+									variant="outline-dark"
+									onClick={props.toggleSettings}
+								>
+									Cancel
+								</Button>
+							</p>
+							<p className="project-view-submit-buttons">
+								<Button
+									variant="outline-danger"
+								>
+									Delete
+								</Button>
+							</p>
+						</Row>
 						<br />
 					</div>
 				</Form>
