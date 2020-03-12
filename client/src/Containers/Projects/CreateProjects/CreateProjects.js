@@ -54,7 +54,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 
 	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
 	useEffect(() => {
-		const githubUsername = "parashan"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in)
+		const githubUsername = "matthuynh"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in) 
 
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility: "all" });

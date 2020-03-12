@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
                 ...state, 
                 uid: action.payload};
         default:
-            console.log(state);
+            // console.log(state);
             return state;
     }
 };

@@ -100,12 +100,12 @@ const Router = () => (
       <Route exact path="/forum/" component={Root} />
 
       {subforums.map((subforum) => 
-        <Route exact path={subforum.path} render={(props) => <Subforum {...props} 
+        <Route key={subforum.id} exact path={subforum.path} render={(props) => <Subforum {...props} 
         title={subforum.title} description={subforum.description} threads={subforum.threads}/>} />
       )}
 
       {threads.map((thread) => 
-        <Route exact path={thread.path} render={(props) => <Thread {...props} 
+        <Route key={thread.id} exact path={thread.path} render={(props) => <Thread {...props} 
         title={thread.title} submitter={thread.submitter} createdAt={thread.createdAt}
         parentPath={thread.parentPath} subforum={thread.subforum} posts={thread.posts}/>} />
       )}

@@ -9,15 +9,15 @@ router.get(
 	async (req, res) => {
 		try {
             // Use express-validator to validate request
-            var term = req.query.term;
+            var term = "%" + req.query.term + "%";
             const projects = await db.models.project.findAll({
 				where: {
                     isPrivate: false,
                     [Op.or]: [
                         {projectName: {
-                            [Op.substring]: term}}, 
+                            [Op.iLike]: term}}, 
                         {projectDescription: {
-                            [Op.substring]: term}}
+                            [Op.iLike]: term}}
                     ]
 				}
             });
@@ -25,7 +25,7 @@ router.get(
                 where: {
                     [Op.or]: [
                         {username: {
-                            [Op.substring]: term}}, 
+                            [Op.iLike]: term}}, 
                     ]
 				}
             });
