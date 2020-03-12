@@ -1,5 +1,6 @@
 import axios from "axios";
 import { GET_INFO } from "./types";
+import {setAlert} from "./alert";
 
 export const get_user_info = (uid) => async dispatch => {
 
@@ -68,6 +69,9 @@ export const update_user_info = ({uid, name, last_name, city_field, province, de
                 // Login information is wrong (eg. wrong password or username)
                 if (response.status === 400) {
                     console.log("UID doesn't exist");
+                    dispatch(
+                        setAlert("UID doesn't exist", "danger")
+                    );
                 }
                 // User logs in successfully
                 else if (response.status === 200) {
@@ -83,6 +87,9 @@ export const update_user_info = ({uid, name, last_name, city_field, province, de
                             description: description
                         }
                     });
+                    dispatch(
+                        setAlert("Updated Profile", "success")
+                    );
                 }
                 // Internal server error
                 else {

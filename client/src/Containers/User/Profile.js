@@ -5,6 +5,7 @@ import UserDetails from "../../components/base/UserDetails";
 import UserAccountDetails from "../../components/base/UserAccountDetails";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import { connect } from "react-redux";
+import Alert from "../../components/base/Alert";
 
 import {get_user_info} from "../../actions/userActions";
 
@@ -21,7 +22,6 @@ const Profile = ({uid, get_user_info}) => {
     }
 
     // Populate the Redux store with this user's info by calling the action and have the action do a get request
-    console.log("send to get_user_info: " + uid);
     myfunc();
   }, []); 
     
@@ -49,6 +49,7 @@ const Profile = ({uid, get_user_info}) => {
         <UserAccountDetails />
       </Col>
     </Row>
+    <Alert />
   </Container>
     </div>
 )};
@@ -58,8 +59,7 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
-  console.log(state.user.uid);
+
 	return {
 		uid: state.user.uid
 	};

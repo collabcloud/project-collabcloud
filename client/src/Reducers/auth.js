@@ -3,19 +3,21 @@ import {
 } from "../actions/types";
 
 const initialState = {
-    uid: localStorage.getItem("uid")
+    loggedIn: false,
+    token: localStorage.getItem("token")
 };
 
 export default (state = initialState, action) => {
+    // console.log("action type "+action.type);
     switch (action.type) {
         case LOGIN:
-            localStorage.setItem("uid", action.payload.uid);
+            localStorage.setItem("token", action.payload.token)
             return {
                 ...state,
-                ...action.payload.uid
+                ...action.payload.token,
+                loggedIn: true,
             };
         default:
-            // console.log(state);
             return state;
     }
 };

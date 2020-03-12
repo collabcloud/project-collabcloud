@@ -22,7 +22,7 @@ router.get(
 				return res.status(422).json({ errors: errors.array() });
 			}
 			// Get the GitHub auth token for the given username (IMPORTANT that the username in the db matches that of GitHub username)
-			const user = await db.models.userinfo.findOne({
+			const user = await db.models.user.findOne({
 				where: {
 					// IMPORTANT: When you register, you MUST use the same GitHub username
 					uid: req.query.uid,
@@ -68,7 +68,7 @@ router.put(
 				province: req.body.province,
 				description: req.body.description
 			};
-			await db.models.userinfo.update(values, {
+			await db.models.user.update(values, {
 				where: {
 					// IMPORTANT: When you register, you MUST use the same GitHub username
 					uid: req.body.uid,

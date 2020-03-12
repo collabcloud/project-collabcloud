@@ -21,19 +21,19 @@ import {
 
 const UserAccountDetails = ({title,uid,firstname,lastname,city,province,description,update_user_info}) => {
   //in the future the hooks will be info queried from DB
-  const [name, setName] = useState("Jarrod");
-  const [last_name, setlastName] = useState("lastname");
+  const [name, setName] = useState(firstname);
+  const [last_name, setlastName] = useState(lastname);
   const [email, setEmail] = useState("w/e@gmail.com");
-  const [cityfield, setCity] = useState("city");
+  const [cityfield, setCity] = useState(city);
+  const [descriptionfield, setDesc] = useState(description);
 
   const onSubmit = (e) => {
     e.preventDefault();
     // //console.log(login)
-  
     // //how to do checks?
  
 
-    submitUserProfile(update_user_info, uid,name,last_name, cityfield, "Ontario", "");        
+    submitUserProfile(update_user_info, uid,name,last_name, cityfield, province, descriptionfield);        
 }
 
   
@@ -128,7 +128,7 @@ const UserAccountDetails = ({title,uid,firstname,lastname,city,province,descript
                 {/* Description */}
                 <Col md="12" className="form-group">
                   <label htmlFor="feDescription">Description</label>
-                  <FormTextarea id="feDescription" rows="3" />
+                  <FormTextarea id="feDescription" rows="3" value={descriptionfield} onChange={e => {setDesc(e.target.value)}}/>
                 </Col>
               </Row>
               <Button type="submit">Update Account</Button>
