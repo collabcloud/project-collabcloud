@@ -24,6 +24,7 @@
     "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0",
     "shards-react": "^1.0.3",
+    "uuid": "^7.0.2",
     "validator": "^12.1.0"
   },
   "scripts": {

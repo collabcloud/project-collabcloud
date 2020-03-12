@@ -62,6 +62,7 @@ router.post(
 
 			// Given the technologies used, construct an encoding string that can be inserted into PSQL
 			const technologiesArray = req.body.technologiesUsed
+			console.log(technologiesArray);
 			let techName = technologiesArray.map(tech => tech.name);
 			let techArray = [];
 			// If you add more technologies into the techDict dictionary, then change the total value of the array

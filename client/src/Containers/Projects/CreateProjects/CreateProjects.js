@@ -54,7 +54,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 
 	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
 	useEffect(() => {
-		const githubUsername = "matthuynh"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in)
+		const githubUsername = "matthuynh"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in) 
 
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility: "all" });
@@ -66,7 +66,6 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		// Use githubRepos (state from store) to get projects that we can use with setProjects
 		if (isLoading === false) {
 			let projectsToDisplay = [...projects]; // preserve the pre-existing projects
-
 			for (let i = 0; i < githubRepos.length; i++) {
 				let project = {
 					name: githubRepos[i].repo_name,

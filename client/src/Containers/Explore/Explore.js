@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectsList } from "../../components/base/ProjectsList";
-
-import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
-import { MdWeb } from 'react-icons/md'; 
 
 // Redux Imports
 import { connect } from "react-redux";
