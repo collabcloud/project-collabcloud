@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-	Jumbotron,
 	Button,
 	Container,
 	Row,
-	Col,
-	Image,
-	ListGroup,
 	Form
 } from "react-bootstrap";
 import { ItemsList } from "./ItemsList";
@@ -14,11 +10,6 @@ import { Item } from "./Item";
 import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
 import { MdWeb } from 'react-icons/md';
 import ReactTags from "react-tag-autocomplete";
-
-// Redux imports
-import { connect } from "react-redux"; // connects the ProjectForm component to the Redux store
-import { updateProject, deleteProject } from "../../actions/projectActions";
-import PropTypes from "prop-types";
 
 import "../../css/Project.css";
 
@@ -28,10 +19,10 @@ const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
 // This component shows an individual project's view
-const ProjectForm = ({ updateProject, deleteProject, ownProps }) => {
-	const projectData = ownProps.projectInformation.project;
+export function ProjectForm(props) {
+	const projectData = props.projectInformation.project;
 
-	// TODO: Require this list from an external JS file instead
+	// TODO: Require this list from an external JS file
 	// List of tech suggestion tags
 	const techSuggestions = [
 		{ id: 1, name: "MongoDB" },
@@ -91,23 +82,23 @@ const ProjectForm = ({ updateProject, deleteProject, ownProps }) => {
 		console.log("Clicked on Submit");
 		let pid = projectData.projectId;
 
-		// Calls updateProject from redux
-		updateProject({
+		// Calls the updateProject() function from our parent
+		projectData.updateProject({
 			pid,
 			projectName,
 			tech,
 			projectDescription,
 			isProjectPublic,
 			links
-		});
+		})
 	}
 
 	// When the user clicks on "Delete", delete this project from the back-end
-	const deleteThisProject = () => {
+	const deleteProject = () => {
 		console.log("Clicked on delete project");
 
-		// Calls deleteProject from redux
-		deleteProject();
+		// Calls the deleteProject() function from our parent
+		projectData.deleteProject(projectData.pid);
 	}
 
 	// Used to update state of links list
@@ -220,7 +211,7 @@ const ProjectForm = ({ updateProject, deleteProject, ownProps }) => {
 							<p className="project-view-submit-buttons">
 								<Button
 									variant="outline-danger"
-									onClick={deleteThisProject}
+									onClick={deleteProject}
 								>
 									Delete
 								</Button>
@@ -232,24 +223,4 @@ const ProjectForm = ({ updateProject, deleteProject, ownProps }) => {
 			</Container>
 		</div>
 	);
-};
-
-// List of dispatch functions that will be available to the component
-ProjectForm.propTypes = {
-	updateProject: PropTypes.func.isRequired,
-	deleteProject: PropTypes.func.isRequired
 }
-
-// Transforms Redux store state into the props for this ProjectForm component
-// This function is called whenever the store state changes
-// NOTE: We also map "ownProps" which are props passed by our parent (Project.js)
-const mapStateToProps = (state, ownProps) => {
-	return {
-		updateSuccess: state.project.updateSuccess,
-		deleteSuccess: state.project.updateSuccess,
-		ownProps: ownProps
-	}
-}
-
-// Provides this React component with the given dispatch functions, and maps Redux store state to component props
-export default connect( mapStateToProps, {updateProject, deleteProject} )(ProjectForm);

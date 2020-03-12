@@ -41,11 +41,10 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 			description: "👋 Hi! This is literally just an example description",
 			isProjectPublic: true,
 			links: [
-				{
-					name: "Website",
-					icon: website,
-					value: "https://www.example.org/"
-				}
+				{ name: "Github", icon: github, value: "" },
+				{ name: "Website", icon: website, value: "https://www.example.org/"},
+				{ name: "DevPost", icon: dev, value: "" },
+				{ name: "LinkedIn", icon: linkedin, value: "" }
 			],
 			tech: [{ id: 3, name: "React"}]
 		}
@@ -81,7 +80,10 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 							name: "Github",
 							icon: github,
 							value: githubRepos[i].github_url
-						}
+						},
+						{ name: "Website", icon: website, value: ""},
+						{ name: "DevPost", icon: dev, value: "" },
+						{ name: "LinkedIn", icon: linkedin, value: "" }
 					]
 				};
 				projectsToDisplay.push(project);

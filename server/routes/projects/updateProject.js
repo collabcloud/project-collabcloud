@@ -5,7 +5,7 @@ const db = require("../../database.js");
 require('dotenv').config({ path: './config/.env' });
 
 // @route   POST api/projects/update
-// @desc    Allows a user to create a new project
+// @desc    Allows a user to update a project
 // @access  Public
 router.post(
 	"/",
@@ -102,13 +102,13 @@ router.post(
                 }
             } else {
                 console.log("Could not update project");
-                res.status(404).json({
+                return res.status(404).json({
                     result: "Could not find that Project",
                 });
             }
 		} catch (err) {
 			console.error(err);
-			res.status(500).json({ errorMessage: "Internal server error" });
+			return res.status(500).json({ errorMessage: "Internal server error" });
 		}
 	}
 );
