@@ -10,13 +10,16 @@ require('dotenv').config({ path: './config/.env' });
 router.post(
 	"/",
 	[
-		check("projectName", "Project name is required").not().isEmpty(),
-		check("description", "Project description is required").not().isEmpty(),
-		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"])
+        // check("pid", "Project ID is required").not().isEmpty(),
+		// check("projectName", "Project name is required").not().isEmpty(),
+		// check("projectDescription", "Project description is required").not().isEmpty(),
+		// check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"])
 	],
 	async (req, res) => {
 		try {
             console.log("Hit updateProject in back-end");
+
+            console.log(req.body);
 
 			// Use express-validator to validate request
 			const errors = validationResult(req);
@@ -88,9 +91,9 @@ router.post(
 
             // Update the project from the database
             if (projectToUpdate) {
-                let success = await db.models.project.update(updates);
+                let success = projectToUpdate.update(updates);
                 if (success) {
-                    console.log("The project was updated into the database");
+                    console.log("The project was updated in the database");
                     return res.status(200).json({
                         result: "Success",
                     });

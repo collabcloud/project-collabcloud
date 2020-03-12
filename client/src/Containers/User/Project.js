@@ -19,21 +19,39 @@ import PropTypes from "prop-types";
 
 // TODO: Get the PID of this project from the store, or the name of the project from the dynamic path
 // This is the PID of the project whose information we want to get
-const projectId = "c99cd1bd-8b05-53af-9fe1-5f7b7235806f";
+const projectId = "0a93eb64-a619-5bbb-b7c4-3652ce700375";
 
 const Project = ({ getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, deleteSuccess }) => {
 	// Loads project information
 	useEffect(() => {
 		getProjectInformation({ projectId });
 	}, [getProjectInformation]);
-
+    
     const [isShowingSettings, modifySettings] = useState(false);
     const [hasJoinedProject, modifyProjectJoinStatus] = useState(true);
+    const [successfullyDeleted, setDeleted] = useState(false);
+    const [successfullyUpdated, setUpdated] = useState(false);
+
+    // When a user tries to delete their project, check if deletion was successful
+    useEffect(() => {
+        console.log("The result of the deletion is " + deleteSuccess);
+        if (deleteSuccess) {
+            console.log("Successful deletion");
+            setDeleted(true);
+            // TODO: Redirect user to dashboard lol (since there is no project to look at anymore)
+        } else {
+            // TODO: Get Furqan's alerts up here
+            console.log("Unsuccessful deletion!");
+        }
+    }, [deleteSuccess]);
+
+    // When a user tries to update their project, check if update was successful
+    
 
     // TODO: This toggle should only be visible to the owner of the page
     // Toggles the Settings view
     const toggleSettings = () => {
-        console.log("Clicked on toggle settings");
+        // console.log("Clicked on toggle settings");
         modifySettings(!isShowingSettings);
     };
 
@@ -50,22 +68,27 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, projectI
     }
 
     // Calls updateProject() from redux
-    const updateThisProject = (pid, projectName, tech, projectDescription, isProjectPublic, links) => {
+    const updateThisProject = ({ pid, projectName, projectDescription, isProjectPublic, tech, links }) => {
         console.log("About to dispatch updateProject()");
-        // updateProject({
-		// 	pid,
-		// 	projectName,
-		// 	tech,
-		// 	projectDescription,
-		// 	isProjectPublic,
-		// 	links
-		// });
+        console.log("pid: " + pid);
+		console.log("projectName: " + projectName);
+		console.log("description: " + projectDescription);
+		console.log("isProjectPublic: " + isProjectPublic);
+		console.log("technologiesUsed: " + tech);
+		console.log("techLinks: " + links);
+
+        updateProject({
+			pid,
+			projectName,
+			projectDescription,
+			isProjectPublic,
+			tech,
+			links
+		});
     }
 
     // Calls deleteProject() from redux
     const deleteThisProject = (pid) => {
-        console.log("About to dispatch deleteProject()");
-        console.log("pid is " + pid);
         deleteProject(pid);
     }
 
@@ -116,7 +139,7 @@ function mapStateToProps(state) {
     return {
         projectInformation: state.project.individualProject,
 		updateSuccess: state.project.updateSuccess,
-		deleteSuccess: state.project.updateSuccess
+		deleteSuccess: state.project.deleteSuccess
 	}
 }
 

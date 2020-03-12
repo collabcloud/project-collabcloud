@@ -96,7 +96,7 @@ export const getProjectInformation = ({ projectId }) => async dispatch => {
 };
 
 // Given a projectId and attributes to update, hit the backend to update that project
-export const updateProject = ({ projectId, name, desc, isProjectPublic, tech, links  }) => async dispatch => {
+export const updateProject = ({ pid, projectName, projectDescription, isProjectPublic, tech, links  }) => async dispatch => {
     console.log("Hit updateProject in projectActions");
 
     const config = {
@@ -105,10 +105,17 @@ export const updateProject = ({ projectId, name, desc, isProjectPublic, tech, li
         }
     };
 
+    console.log("pid: " + pid);
+    console.log("projectName: " + projectName);
+    console.log("description: " + projectDescription);
+    console.log("isProjectPublic: " + isProjectPublic);
+    console.log("technologiesUsed: " + tech);
+    console.log("techLinks: " + links);
+
     const body = JSON.stringify({
-        pid: projectId,
-        projectName: name,
-        description: desc,
+        pid: pid,
+        projectName: projectName,
+        description: projectDescription,
         isProjectPublic: isProjectPublic,
         // ownerUserID: userid,
         // gitRepoID: repoID,
@@ -122,8 +129,7 @@ export const updateProject = ({ projectId, name, desc, isProjectPublic, tech, li
         // If success, dispatch action
         if (res.status == 200) {
             dispatch({
-                type: UPDATE_PROJECT,
-                payload: true
+                type: UPDATE_PROJECT
             });
         } else {
             console.log("Could not update project");
@@ -156,8 +162,7 @@ export const deleteProject = (projectId) => async dispatch => {
         // If success, dispatch action
         if (res.status == 200) {
             dispatch({
-                type: DELETE_PROJECT,
-                payload: true
+                type: DELETE_PROJECT
             });
         } else {
             console.log("Could not delete project");

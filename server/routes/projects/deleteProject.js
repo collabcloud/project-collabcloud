@@ -8,16 +8,12 @@ const db = require("../../database.js");
 // @access  Public
 router.post("/", async (req, res) => {
 	try {
-        console.log("Hit deleteProject in back-end");
-
 		// Use express-validator to validate request
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			return res.status(422).json({ errors: errors.array() });
         }
-        
-        console.log(req.body);
-
+    
 		// Get the project
 		const project = await db.models.project.findOne({
 			where: {
@@ -25,13 +21,10 @@ router.post("/", async (req, res) => {
 			}
 		});
 
-		console.log(project);
-
         // Delete the project
         if (project) {
-            let success = true;
-            // let success = project.destroy();
-            console.log(success);
+            let success = project.destroy();
+            // console.log(success);
 
             // Successfully deleted the project
             if (success) {

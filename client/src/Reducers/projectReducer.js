@@ -46,13 +46,13 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				updateSuccess: true
-			}
+			};
 		// Delete a project
 		case DELETE_PROJECT:
 			return {
 				...state,
 				deleteSuccess: true
-			}
+			};
 		default:
 			return state;
 	}

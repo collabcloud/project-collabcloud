@@ -74,7 +74,6 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 					tech: [
 						{ id: 1, name: githubRepos[i].repo_main_technology }
 					],
-					// TODO: Add ability to display more links
 					links: [
 						{
 							name: "Github",

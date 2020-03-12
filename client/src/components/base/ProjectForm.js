@@ -66,9 +66,9 @@ export function ProjectForm(props) {
 	
 	// Each field in the form needs their own state, which is updated as the field is mutated
 	const [projectName, setProjectName] = useState(projectData.projectName);
-	const [tech, setTech] = useState(decodeTechUsed());
 	const [projectDescription, setProjectDescription] = useState(projectData.projectDescription);
 	const [isProjectPublic, setVisibilityPublic] = useState(!projectData.isPrivate);
+	const [tech, setTech] = useState(decodeTechUsed());
 	const [links, setLinks] = useState([
 		{ name: "Github", icon: github, value: projectData.githubLink },
 		{ name: "Website", icon: website, value: projectData.websiteLink },
@@ -82,13 +82,20 @@ export function ProjectForm(props) {
 		console.log("Clicked on Submit");
 		let pid = projectData.pid;
 
+		console.log("pid: " + pid);
+		console.log("projectName: " + projectName);
+		console.log("description: " + projectDescription);
+		console.log("isProjectPublic: " + isProjectPublic);
+		console.log("technologiesUsed: " + tech);
+		console.log("techLinks: " + links);
+
 		// Calls the updateProject() function from our parent
 		props.updateThisProject({
 			pid,
 			projectName,
-			tech,
 			projectDescription,
 			isProjectPublic,
+			tech,
 			links
 		})
 	}
@@ -100,6 +107,9 @@ export function ProjectForm(props) {
 
 		// Calls the deleteProject() function from our parent
 		props.deleteThisProject(projectData.pid);
+
+		// Redirect user back to the user information page
+		props.toggleSettings();
 	}
 
 	// Used to update state of links list
