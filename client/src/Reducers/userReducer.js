@@ -1,19 +1,17 @@
-import {
-    LOGIN
-} from "../actions/types";
+import { LOGIN } from "../actions/types";
 
 const initialState = {
-    uid: ""
+  uid: ""
 };
 
 export default (state = initialState, action) => {
-    switch (action.type) {
-        case LOGIN:
-            return {
-                ...state, 
-                uid: action.payload};
-        default:
-            console.log(state);
-            return state;
-    }
+  switch (action.type) {
+    case LOGIN:
+      return {
+        ...state,
+        uid: action.payload
+      };
+    default:
+      return state;
+  }
 };

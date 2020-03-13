@@ -135,7 +135,7 @@ user_followers.belongsTo(User, { as: "follower" });
 user_followers.belongsTo(User, { as: "followee" });
 
 const Subforum = db.define(
-  "Subforum",
+  "subforum",
   {
     sid: {
       type: Sequelize.UUID,
@@ -155,7 +155,7 @@ const Subforum = db.define(
 );
 
 const Thread = db.define(
-  "Thread",
+  "thread",
   {
     tid: {
       type: Sequelize.UUID,
@@ -182,7 +182,7 @@ Thread.belongsTo(User, { as: "submitter" });
 Thread.belongsTo(Subforum, { as: "sid" });
 
 const Post = db.define(
-  "Post",
+  "post",
   {
     pid: {
       type: Sequelize.UUID,
@@ -205,7 +205,7 @@ Post.belongsTo(Thread, { as: "tid" });
 Post.belongsTo(Subforum, { as: "sid" });
 Post.belongsTo(User, { as: "submitter" });
 
-db.sync({ force: false })
+db.sync({ force: true })
   .then(message => {
     console.log("Database synced");
   })
