@@ -1,9 +1,7 @@
 const express = require("express");
-const axios = require("axios");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const uuidv5 = require('uuid/v5');
-const uuid = require("uuid");
 const db = require("../../database.js");
 require('dotenv').config({ path: './config/.env' });
 
@@ -33,6 +31,7 @@ router.post(
 			// Ensures all pid are unique from userid
 			const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
 
+			// TODO: Require this dict from an external JS file instead
 			//technologies dict (you can add more technologies here)
 			const techDict = {
 				"MongoDB": 1,
@@ -66,29 +65,24 @@ router.post(
 			console.log(technologiesArray);
 			let techName = technologiesArray.map(tech => tech.name);
 			let techArray = [];
-			//if you add more technologies into the techDict dictionary, then change the total value of the array
+			// If you add more technologies into the techDict dictionary, then change the total value of the array
 			for (i = 0; i < 24; i++) {
 				techArray[i] = 0;
 			}
-
-			//encodes the array
 			if (techName.length > 0) {
 				let techIndex;
 				for (techIndex of techName) {
 					techArray[techDict[techIndex] - 1] = 1;
 				}
 			}
-
 			const encodedTech = techArray.join('');
 
-			//links
+			// Map the links to an array
 			let linkArray = req.body.techLinks.map(link => link.value);
 
-			let currentTime = (new Date()).getTime();
-
 			// Generate a unique project ID, using the project name and current time as a hash
+			let currentTime = (new Date()).getTime();
 			let projectID = uuidv5(req.body.projectName + currentTime, PROJECT_IDS_NAMESPACE);
-
 
 			// Insert the project into the database
 			let projectObject = db.models.project.build({

@@ -31,7 +31,7 @@ const Explore = ({getPublicProjects, projects}) => {
 }
 
 function mapStateToProps(state){
-  return {projects: state.project.projects};
+  return { projects: state.project.projects };
 }
 
 function mapDispatchToProps(dispatch){

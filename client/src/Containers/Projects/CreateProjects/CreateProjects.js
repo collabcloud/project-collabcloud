@@ -28,25 +28,25 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 	const [tech, setTech] = useState([]);
 	const [desc, setDesc] = useState("");
 	const [isProjectPublic, setVisibilityPublic] = useState(true);
-
 	const [links, setLinks] = useState([
 		{ name: "Github", icon: github, value: "" },
 		{ name: "Website", icon: website, value: "" },
 		{ name: "DevPost", icon: dev, value: "" },
 		{ name: "LinkedIn", icon: linkedin, value: "" }
 	]);
+	
 	const [projects, setProjects] = useState([
 		{
 			name: "Example-Project",
 			description: "👋 Hi! This is literally just an example description",
 			isProjectPublic: true,
 			links: [
-				{
-					name: "Website",
-					icon: website,
-					value: "https://www.example.org/"
-				}
-			]
+				{ name: "Github", icon: github, value: "" },
+				{ name: "Website", icon: website, value: "https://www.example.org/"},
+				{ name: "DevPost", icon: dev, value: "" },
+				{ name: "LinkedIn", icon: linkedin, value: "" }
+			],
+			tech: [{ id: 3, name: "React"}]
 		}
 	]);
 
@@ -59,7 +59,8 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility: "all" });
 	}, []); // This empty [] ensures that useEffect() does not run forever
-	
+	// NOTE: Even though the React compiler warns about this above line, DO NOT add the 'getGithubRepos' dependency
+
 	// Runs whenever any of the specified props (isLoading, githubRepos) are updated
 	useEffect(() => {
 		// Use githubRepos (state from store) to get projects that we can use with setProjects
@@ -78,7 +79,10 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 							name: "Github",
 							icon: github,
 							value: githubRepos[i].github_url
-						}
+						},
+						{ name: "Website", icon: website, value: ""},
+						{ name: "DevPost", icon: dev, value: "" },
+						{ name: "LinkedIn", icon: linkedin, value: "" }
 					]
 				};
 				projectsToDisplay.push(project);
@@ -88,7 +92,8 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 			setProjects(projectsToDisplay);
 		}
 
-	}, [githubRepos, isLoading]); // this effect runs again whenever the elements in this array change
+	}, [githubRepos, isLoading]); // this effect runs again whenever the elements in this dependency array change
+	// NOTE: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
 
 	const tech_suggestions = [
 		{ id: 1, name: "MongoDB" },
@@ -249,7 +254,6 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 };
 
 // List of dispatch functions that will be available to the component
-
 CreateProjects.propTypes = {
 	addProject: PropTypes.func.isRequired,
 	getGithubRepos: PropTypes.func.isRequired
@@ -258,6 +262,7 @@ CreateProjects.propTypes = {
 // Transforms Redux store state into the props for this CreateProjects component
 // This function is called whenever the store state changes
 const mapStateToProps = state => {
+	// console.log(state);
 	return {
 		githubRepos: state.github.githubReposFromState,
 		isLoading: state.github.loading
