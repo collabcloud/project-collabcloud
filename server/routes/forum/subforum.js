@@ -75,13 +75,18 @@ router.post(
         FORUM_IDS_NAMESPACE
       );
 
-      let subForumObject = db.models.subforum.build({
-        sid: subforumId,
-        title: title,
-        description: description
-      });
+      let subForumObject = await db.models.subforum.findOrCreate({
+        where: {
+          title: title,
+          description: description
+        },
+        defaults: {
+          sid: subforumId,
+          title: title,
+          description: description
+        }});
 
-      await subForumObject.save();
+      //await subForumObject.save();
 
       res.status(200).json({ result: "Success" });
 

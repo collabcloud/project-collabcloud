@@ -17,7 +17,7 @@ const Root = withRouter(({ get_subforums, subforums, post_subforum }) => {
   const icons = [IoIosChatboxes, FaRegNewspaper, FaBug, IoMdPersonAdd];
 
   useEffect(() => {
-    /*
+    
     post_subforum(
       "General",
       "Chat about anything from the daily news to the latest fashion"
@@ -29,7 +29,7 @@ const Root = withRouter(({ get_subforums, subforums, post_subforum }) => {
       "Help fellow CollabClouders with syntax, runtime, logic errors and more"
     );
     post_subforum("Collabs", "View projects seeking collaborators");
-      */
+    
     get_subforums();
   }, []);
 
@@ -65,7 +65,6 @@ const Root = withRouter(({ get_subforums, subforums, post_subforum }) => {
 });
 
 function mapStateToProps(state) {
-  console.log(state.forum.subforums);
   return { subforums: state.forum.subforums };
 }
 

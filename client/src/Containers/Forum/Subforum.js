@@ -1,19 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Breadcrumb, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import  ThreadOverview  from "../../components/specialized/Forum/ThreadOverview";
 
-const Subforum = (props) => {
+import { get_threads, post_thread } from "../../actions/forumActions";
+
+const Subforum = withRouter(({ get_threads, post_thread, threads, props}) => {
+
+  const [sid, setSid] = useState("");
+  const [subforum, setSubforum] = useState("");
+  const [threadsList, setThreadsList] = useState([]);
+
+  useEffect(() => {
+    post_thread(sid, submitter, 
+      "Why is processing a sorted array faster than processing an unsorted array?", 
+      "I don't get it! Someone please help.");
+    post_thread(sid, submitter, "Is the search time of a circular linked list O(1)?", "help!!!1");
+
+    get_threads(props.sid);
+  }, []);
+
+  useEffect(() => {
+    setSid(props.sid);
+    setSubforum(props.subforum);
+  }, [props]);
+
+  useEffect(() => {
+    setThreadsList(threads);
+  }, [threads]);
+
+  function generateURL(subforum, title) {
+    return "/forum/" + subforum + title.toLowerCase().replace(" ", "-");
+  }
 
   function renderThreads() {
     if (props.threads === null || props.threads === undefined || props.threads === []) {
       //do nothing
     } else {
       return (
-        props.threads.map((thread) =>
-          <ThreadOverview key={thread.id} title={thread.title} submitter={thread.submitter}
-          path={thread.path}
+        props.threads.map((thread, index) =>
+          <ThreadOverview key={index} title={thread.title} submitter={thread.submitter}
+          path={generateURL(subforum, thread.title)}
           createdAt={thread.createdAt} replies={thread.replies} views={thread.views} modifiedAt={thread.modifiedAt}
           recent={thread.recent} />
           )
@@ -56,6 +85,21 @@ const Subforum = (props) => {
     </Container>
     </div>
   );
-};
+});
 
-export default Subforum;
+function mapStateToProps(state) {
+  return { threads: state.forum.threads };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    get_threads: () => {
+      dispatch(get_threads());
+    },
+    post_thread: (title, description) => {
+      dispatch(post_thread(title, description));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Subforum);

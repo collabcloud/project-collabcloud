@@ -56,7 +56,7 @@ export const get_threads = sid => async dispatch => {
     .get(url, body, config)
     .then(response => {
       dispatch({
-        type: GET_SUCCESSFUL,
+        type: GET_THREADS,
         payload: response.data
       });
     })
@@ -75,7 +75,7 @@ export const get_threads = sid => async dispatch => {
 
 //Returns a list of post objects in the specified thread
 //{tid: XXXXX, sid: XXXX, topic: XXXXX, content: XXXXX, submitter: XXXXX, dateCreated: XXXXXX}
-export const get_posts = sid => async dispatch => {
+export const get_posts = tid => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -83,7 +83,7 @@ export const get_posts = sid => async dispatch => {
   };
 
   const url = "/api/forum/post";
-  const body = JSON.stringify({ sid: sid });
+  const body = JSON.stringify({ tid: tid });
 
   axios
     .get(url, body, config)
