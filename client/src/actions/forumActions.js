@@ -1,6 +1,8 @@
 import axios from "axios";
-import { USER, USER_NOT_FOUND, ATTEMPT, GET_SUBFORUMS, GET_SUCCESSFUL } from "./types";
+import { USER, RESOURCE_NOT_FOUND, ATTEMPT, GET_SUBFORUMS, GET_SUCCESSFUL } from "./types";
 
+//Returns a list of subforum objects
+//{sid: XXXXX, name: XXXXX, desc: XXXXX}
 export const get_subforums = () => async dispatch => {
     const config = {
         headers: {
@@ -8,7 +10,7 @@ export const get_subforums = () => async dispatch => {
         }
     };
 
-    const url = '/api/forum/getSubforums';
+    const url = '/api/forum/subforum';
     
     axios.get(url, config).then((response) => {
         dispatch({
@@ -18,7 +20,7 @@ export const get_subforums = () => async dispatch => {
     }).catch((err) => {
         if (err.response.status === 404) {
             dispatch({
-                type: DATA_NOT_FOUND
+                type: RESOURCE_NOT_FOUND
             });
         } else {
             dispatch({
@@ -28,6 +30,9 @@ export const get_subforums = () => async dispatch => {
     })
 };
 
+
+//Returns a list of thread objects
+//{tid: XXXXX, sid: XXXX, topic: XXXXX, content: XXXXX, submitter: XXXXX, dateCreated: XXXXXX}
 export const get_threads = (sid) => async dispatch => {
     const config = {
         headers: {
@@ -35,7 +40,7 @@ export const get_threads = (sid) => async dispatch => {
         }
     };
 
-    const url = '/api/forum/getThreads';
+    const url = '/api/forum/thread';
     const body = JSON.stringify({sid: sid});
     
     axios.get(url, body, config).then((response) => {
@@ -46,7 +51,7 @@ export const get_threads = (sid) => async dispatch => {
     }).catch((err) => {
         if (err.response.status === 404) {
             dispatch({
-                type: DATA_NOT_FOUND
+                type: RESOURCE_NOT_FOUND
             });
         } else {
             dispatch({
@@ -56,15 +61,18 @@ export const get_threads = (sid) => async dispatch => {
     })
 };
 
-export const get_posts = (tid) => async dispatch => {
+
+//Returns a list of post objects in the specified thread
+//{tid: XXXXX, sid: XXXX, topic: XXXXX, content: XXXXX, submitter: XXXXX, dateCreated: XXXXXX}
+export const get_posts = (sid) => async dispatch => {
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     };
 
-    const url = '/api/forum/getPosts';
-    const body = JSON.stringify({tid: tid});
+    const url = '/api/forum/thread';
+    const body = JSON.stringify({sid: sid});
     
     axios.get(url, body, config).then((response) => {
         dispatch({
@@ -74,7 +82,7 @@ export const get_posts = (tid) => async dispatch => {
     }).catch((err) => {
         if (err.response.status === 404) {
             dispatch({
-                type: DATA_NOT_FOUND
+                type: RESOURCE_NOT_FOUND
             });
         } else {
             dispatch({
@@ -84,15 +92,16 @@ export const get_posts = (tid) => async dispatch => {
     })
 };
 
-export const post_thread = (tid) => async dispatch => {
+//{}
+export const post_subforum = (name, description) => async dispatch => {
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     };
 
-    const url = '/api/forum/getPosts';
-    const body = JSON.stringify({tid: tid});
+    const url = '/api/forum/post';
+    const body = JSON.stringify({name: name, description: description});
     
     axios.get(url, body, config).then((response) => {
         dispatch({
@@ -102,7 +111,7 @@ export const post_thread = (tid) => async dispatch => {
     }).catch((err) => {
         if (err.response.status === 404) {
             dispatch({
-                type: DATA_NOT_FOUND
+                type: RESOURCE_NOT_FOUND
             });
         } else {
             dispatch({
@@ -112,38 +121,60 @@ export const post_thread = (tid) => async dispatch => {
     })
 };
 
-
-
-
-/*
-// Record the fact that follower follows the followee
-export const follow_user = (followee, follower) => async dispatch => {
+export const post_thread = (sid, submitter, topic, content) => async dispatch => {
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
-    }
-    const url = '/api/follow/user';
-    const body = JSON.stringify({followee: followee, follower: follower});
+    };
+
+    const url = '/api/forum/post';
+    const body = JSON.stringify({sid: sid, submitter: submitter, 
+        topic: topic, content: content});
     
-    axios.post(url, body, config).then((response)=>{
+    axios.post(url, body, config).then((response) => {
         dispatch({
-            type: USER,
+            type: GET_SUCCESSFUL,
             payload: response.data
         });
     }).catch((err) => {
         if (err.response.status === 404) {
             dispatch({
-                type: USER_NOT_FOUND
+                type: RESOURCE_NOT_FOUND
             });
-        }
-        else{
+        } else {
             dispatch({
                 type: ATTEMPT
             });
-
         }
-        });
-    
+    })
 };
-*/
+
+export const make_post = (tid, sid, submitter, content) => async dispatch => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    const url = '/api/forum/post';
+    const body = JSON.stringify({tid: tid, sid: sid, submitter: submitter, 
+        content: content});
+    
+    axios.post(url, body, config).then((response) => {
+        dispatch({
+            type: GET_SUCCESSFUL,
+            payload: response.data
+        });
+    }).catch((err) => {
+        if (err.response.status === 404) {
+            dispatch({
+                type: RESOURCE_NOT_FOUND
+            });
+        } else {
+            dispatch({
+                type: ATTEMPT
+            });
+        }
+    })
+};

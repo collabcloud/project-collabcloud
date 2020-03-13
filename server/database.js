@@ -202,6 +202,7 @@ const Post = db.define(
 );
 
 Post.belongsTo(Thread, { as: "tid" });
+Post.belongsTo(Subforum, { as: "sid" });
 Post.belongsTo(User, { as: "submitter" });
 
 db.sync({ force: false })

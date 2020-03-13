@@ -1,7 +1,8 @@
 //General Actions
-export const RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND";
-export const GET_SUCCESSFUL = "GET_SUCCESSFUL";
-export const ATTEMPT = "ATTEMPT";
+export const RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND"; //404
+export const GET_SUCCESSFUL = "GET_SUCCESSFUL"; //200 OK on GET
+export const POST_SUCCESSFUL = "POST_SUCCESSFUL"; //200 OK on POST
+export const ATTEMPT = "ATTEMPT"; //500 Internal Server Error
 
 
 // Project Actions 
@@ -41,6 +42,7 @@ export const GET_INFO = "GET_INFO";
 //Forum Actions
 export const GET_SUBFORUMS = "GET_SUBFORUMS";
 export const GET_THREADS = "GET_THREADS";
+export const GET_POSTS = "GET_POSTS";
 
 
 
