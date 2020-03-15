@@ -4,7 +4,8 @@ import {
   ATTEMPT,
   POST_SUCCESSFUL,
   GET_SUCCESSFUL,
-  GET_SUBFORUMS
+  GET_SUBFORUMS,
+  GET_THREADS
 } from "./types";
 
 //Returns a list of subforum objects
@@ -21,7 +22,6 @@ export const get_subforums = () => async dispatch => {
   axios
     .get(url, config)
     .then(response => {
-      console.log(response.data);
       dispatch({
         type: GET_SUBFORUMS,
         payload: response.data
@@ -50,10 +50,9 @@ export const get_threads = sid => async dispatch => {
   };
 
   const url = "/api/forum/thread";
-  const body = JSON.stringify({ sid: sid });
 
   axios
-    .get(url, body, config)
+    .get(url, { params: { sid: sid } }, config)
     .then(response => {
       dispatch({
         type: GET_THREADS,
@@ -116,7 +115,6 @@ export const post_subforum = (title, description) => async dispatch => {
 
   const url = "/api/forum/subforum";
   const body = JSON.stringify({ title: title, description: description });
-  console.log(body);
   const res = await axios.post(url, body, config);
 
   // If success, dispatch action
@@ -130,23 +128,6 @@ export const post_subforum = (title, description) => async dispatch => {
       type: ATTEMPT
     });
   }
-
-  /*
-  console.log(body);
-  axios
-    .post(url, body, config)
-    .then(response => {
-      dispatch({
-        type: POST_SUCCESSFUL,
-        payload: response.data
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: ATTEMPT
-      });
-    });
-    */
 };
 
 export const post_thread = (

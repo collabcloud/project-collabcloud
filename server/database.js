@@ -163,7 +163,7 @@ const Thread = db.define(
       primaryKey: true
     },
     topic: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(100),
       allowNull: false
     },
     content: {
@@ -179,7 +179,7 @@ const Thread = db.define(
 );
 
 Thread.belongsTo(User, { as: "submitter" });
-Thread.belongsTo(Subforum, { as: "sid" });
+Thread.belongsTo(Subforum);
 
 const Post = db.define(
   "post",
@@ -201,11 +201,11 @@ const Post = db.define(
   {}
 );
 
-Post.belongsTo(Thread, { as: "tid" });
-Post.belongsTo(Subforum, { as: "sid" });
+Post.belongsTo(Thread);
+Post.belongsTo(Subforum);
 Post.belongsTo(User, { as: "submitter" });
 
-db.sync({ force: true })
+db.sync({ force: false })
   .then(message => {
     console.log("Database synced");
   })

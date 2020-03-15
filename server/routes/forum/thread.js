@@ -37,11 +37,10 @@ router.get(
 
       const threads = await db.models.thread.findAll({
         where: {
-          sid: req.query.sid
+          subforumSid: req.query.sid
         }
       });
-
-      res.status(200).json({ threads: threads });
+      res.status(200).json(threads);
 
       return;
     } catch (err) {
@@ -93,12 +92,20 @@ router.post(
         FORUM_IDS_NAMESPACE
       );
 
-      let threadObject = db.models.thread.build({
-        tid: threadId,
-        sid: sid,
-        submitter: submitter,
-        topic: topic,
-        content: content
+      let threadObject = await db.models.thread.findOrCreate({
+        where: {
+          subforumSid: sid,
+          submitterUid: submitter,
+          topic: topic,
+          content: content
+        },
+        defaults: {
+          tid: threadId,
+          subforumSid: sid,
+          submitterUid: submitter,
+          topic: topic,
+          content: content
+        }
       });
 
       let pid = uuidv5(
@@ -106,15 +113,14 @@ router.post(
         FORUM_IDS_NAMESPACE
       );
 
-      let postObject = db.models.Posts.build({
+      let postObject = await db.models.post.build({
         pid: pid,
-        tid: threadId,
-        sid: sid,
-        submitter: submitter,
+        threadTid: threadId,
+        subforumSid: sid,
+        submitterUid: submitter,
         content: content
       });
 
-      await threadObject.save();
       await postObject.save();
 
       res.status(200).json({ result: "Success" });

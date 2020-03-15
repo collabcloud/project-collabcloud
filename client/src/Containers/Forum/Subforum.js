@@ -1,88 +1,152 @@
 import React, { useState, useEffect } from "react";
-import { Container, Breadcrumb, Table } from "react-bootstrap";
+import {
+  Container,
+  Breadcrumb,
+  Table,
+  Button,
+  Row,
+  Col
+} from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
+import { GoPlus } from "react-icons/go";
+
 import { NavigationBar } from "../../components/base/NavigationBar";
-import  ThreadOverview  from "../../components/specialized/Forum/ThreadOverview";
+import ThreadOverview from "../../components/specialized/Forum/ThreadOverview";
+import ThreadForm from "../../components/specialized/Forum/ThreadForm";
 
 import { get_threads, post_thread } from "../../actions/forumActions";
 
-const Subforum = withRouter(({ get_threads, post_thread, threads, props}) => {
+const Subforum = withRouter(({ get_threads, post_thread, threads, props }) => {
+  const hardcode_sid = "b0db9a2c-ede1-5d93-81cc-55a0422c2f8e";
+  const hardcode_uid = "353284bb-b914-4eb3-8a4f-1aa74f5c2300";
 
   const [sid, setSid] = useState("");
   const [subforum, setSubforum] = useState("");
   const [threadsList, setThreadsList] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   useEffect(() => {
-    post_thread(sid, submitter, 
-      "Why is processing a sorted array faster than processing an unsorted array?", 
-      "I don't get it! Someone please help.");
-    post_thread(sid, submitter, "Is the search time of a circular linked list O(1)?", "help!!!1");
-
-    get_threads(props.sid);
+    /*
+    post_thread(
+      hardcode_sid,
+      hardcode_uid,
+      "Why is processing a sorted array faster than processing an unsorted array?",
+      "I don't get it! Someone please help."
+    );
+    post_thread(
+      hardcode_sid,
+      hardcode_uid,
+      "Is the search time of a circular linked list O(1)?",
+      "help!!!1"
+    );*/
+    setSubforum("Bug Bounties");
+    get_threads(hardcode_sid);
   }, []);
-
+  /*
   useEffect(() => {
-    setSid(props.sid);
-    setSubforum(props.subforum);
+    setSid("08a9101b-93e1-5304-b006-21776da5ddcc");
+    setSubforum("Bug Bounties");
   }, [props]);
-
+  */
   useEffect(() => {
     setThreadsList(threads);
   }, [threads]);
 
   function generateURL(subforum, title) {
-    return "/forum/" + subforum + title.toLowerCase().replace(" ", "-");
+    return (
+      "/forum/" +
+      subforum
+        .toLowerCase()
+        .split(" ")
+        .join("-") +
+      "/" +
+      title
+        .toLowerCase()
+        .split(" ")
+        .join("-")
+    );
   }
 
   function renderThreads() {
-    if (props.threads === null || props.threads === undefined || props.threads === []) {
+    if (
+      threadsList === null ||
+      threadsList === undefined ||
+      threadsList === []
+    ) {
       //do nothing
     } else {
-      return (
-        props.threads.map((thread, index) =>
-          <ThreadOverview key={index} title={thread.title} submitter={thread.submitter}
-          path={generateURL(subforum, thread.title)}
-          createdAt={thread.createdAt} replies={thread.replies} views={thread.views} modifiedAt={thread.modifiedAt}
-          recent={thread.recent} />
-          )
-      );
+      const thread_overviews = threadsList.map((thread, index) => (
+        <ThreadOverview
+          key={index}
+          path={generateURL(subforum, thread.topic)}
+          title={thread.topic}
+          submitter={thread.submitter}
+          createdAt={thread.createdAt}
+        />
+      ));
+      return thread_overviews;
+    }
+  }
+
+  function renderThreadForm() {
+    if (showForm) {
+      return <ThreadForm />;
     }
   }
 
   function renderErrorMessage() {
-    if (props.threads === null || props.threads === undefined || props.threads === []) {
-      return (
-        <p>No data to display</p>
-      );
+    if (
+      threadsList === null ||
+      threadsList === undefined ||
+      threadsList === []
+    ) {
+      return <p>No data to display</p>;
     }
   }
-
-
+  //TODO: props.title, props.description
   return (
     <div>
-    <NavigationBar />
-    <Container>
-      <Breadcrumb>
-        <Breadcrumb.Item><Link to="/forum/">Home</Link></Breadcrumb.Item>
-        <Breadcrumb.Item active>{props.title}</Breadcrumb.Item>
-      </Breadcrumb>
-      <div className="d-flex flex-column">
-  <h3 className="text-left">{props.title}</h3>
-  <h6 className="text-left">{props.description}</h6>
-      </div>
-      <Table bordered hover>
-        <thead>
-          <th className="text-left">Thread</th>
-          <th className="text-center">Stats</th>
-          <th className="text-right">Latest Response</th>
-        </thead>
-        <tbody>
-          {renderThreads()}  
-        </tbody>
-      </Table>
-      {renderErrorMessage()}
-    </Container>
+      <NavigationBar />
+      <Container>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link to="/forum/">Home</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Bug Bounties</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="d-flex flex-column mb-3">
+          <h3 className="text-left">Bug Bounties</h3>
+          <Row>
+            <Col className="d-flex justify-content-start">
+              <h6 className="text-left">They really do got bugs doe</h6>
+            </Col>
+            <Col></Col>
+            <Col className="d-flex justify-content-end">
+              <Button
+                variant="success"
+                onClick={() => {
+                  setShowForm(true);
+                }}
+              >
+                <GoPlus /> Submit A New Thread
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <Table bordered hover>
+          <thead>
+            <th className="text-left">Thread</th>
+            <th className="text-center">Stats</th>
+            <th className="text-right">Latest Response</th>
+          </thead>
+          <tbody>{renderThreads()}</tbody>
+        </Table>
+        {renderThreadForm()}
+        {renderErrorMessage()}
+      </Container>
     </div>
   );
 });
@@ -93,11 +157,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    get_threads: () => {
-      dispatch(get_threads());
+    get_threads: sid => {
+      dispatch(get_threads(sid));
     },
-    post_thread: (title, description) => {
-      dispatch(post_thread(title, description));
+    post_thread: (sid, submitter, title, description) => {
+      dispatch(post_thread(sid, submitter, title, description));
     }
   };
 }
