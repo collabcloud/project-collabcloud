@@ -9,6 +9,7 @@ import {
     Col, 
     Jumbotron 
 } from "react-bootstrap";
+import NotificationAlert from "../../components/base/Alert";
 
 // Style Import
 import "../../css/Dashboard.css";
@@ -18,6 +19,7 @@ const Dashboard = () => {
 
     return (
     <div>
+        <NotificationAlert />
         <NavigationBar />
             <div style={{margin: "50px"}}>
                 <h2>&#10024; Welcome to your dashboard, Jarrod &#10024;</h2>

@@ -4,7 +4,7 @@ import { ListGroup } from 'react-bootstrap';
 export function Item(props) {
 
   return (
-    <ListGroup.Item> 
+    <ListGroup.Item variant="dark"> 
       {props.value}
     </ListGroup.Item>);
 }
