@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Container,
   Breadcrumb,
@@ -25,8 +25,6 @@ const Subforum = withRouter(({ get_threads, post_thread, threads, props }) => {
   const [subforum, setSubforum] = useState("");
   const [threadsList, setThreadsList] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
 
   useEffect(() => {
     /*
@@ -54,6 +52,10 @@ const Subforum = withRouter(({ get_threads, post_thread, threads, props }) => {
   useEffect(() => {
     setThreadsList(threads);
   }, [threads]);
+
+  function rerenderThreads() {
+    get_threads(hardcode_sid);
+  }
 
   function generateURL(subforum, title) {
     return (
@@ -93,7 +95,14 @@ const Subforum = withRouter(({ get_threads, post_thread, threads, props }) => {
 
   function renderThreadForm() {
     if (showForm) {
-      return <ThreadForm />;
+      return (
+        <ThreadForm
+          onCancel={setShowForm}
+          sid={hardcode_sid}
+          uid={hardcode_uid}
+          rerender={rerenderThreads}
+        />
+      );
     }
   }
 
@@ -110,7 +119,7 @@ const Subforum = withRouter(({ get_threads, post_thread, threads, props }) => {
   return (
     <div>
       <NavigationBar />
-      <Container>
+      <Container className="mb-3">
         <Breadcrumb>
           <Breadcrumb.Item>
             <Link to="/forum/">Home</Link>
