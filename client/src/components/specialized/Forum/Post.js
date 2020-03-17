@@ -25,8 +25,8 @@ const Post = (props) => {
           <Container>
             <Row>
               <Col xs={2} className="post">
-                <p className="submitter">{submitter}</p>
-                <p>{props.status}</p>
+                <p className="submitter">jcserv</p>
+                <p>Gamers rise up</p>
               </Col>
               <Col>
               <Card.Text className="post text-left">

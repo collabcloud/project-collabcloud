@@ -5,7 +5,8 @@ import {
   POST_SUCCESSFUL,
   GET_SUCCESSFUL,
   GET_SUBFORUMS,
-  GET_THREADS
+  GET_THREADS,
+  GET_POSTS
 } from "./types";
 
 //Returns a list of subforum objects
@@ -82,13 +83,12 @@ export const get_posts = tid => async dispatch => {
   };
 
   const url = "/api/forum/post";
-  const body = JSON.stringify({ tid: tid });
 
   axios
-    .get(url, body, config)
+    .get(url, {params: {tid: tid} }, config)
     .then(response => {
       dispatch({
-        type: GET_SUCCESSFUL,
+        type: GET_POSTS,
         payload: response.data
       });
     })
@@ -154,7 +154,7 @@ export const post_thread = (
     .post(url, body, config)
     .then(response => {
       dispatch({
-        type: GET_SUCCESSFUL,
+        type: POST_SUCCESSFUL,
         payload: response.data
       });
     })
@@ -185,12 +185,13 @@ export const make_post = (tid, sid, submitter, content) => async dispatch => {
     submitter: submitter,
     content: content
   });
+  console.log(body);
 
   axios
     .post(url, body, config)
     .then(response => {
       dispatch({
-        type: GET_SUCCESSFUL,
+        type: POST_SUCCESSFUL,
         payload: response.data
       });
     })

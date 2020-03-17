@@ -1,5 +1,8 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import { Route, Switch, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+//import { get_threads } from "../actions/routingActions";
+//import { get_subforums } from "../actions/forumActions";
 
 // Component Imports
 import LandingPage from "../Containers/LandingPage/LandingPage";
@@ -76,46 +79,25 @@ const threads = [
     id: 1,
     title:
       "Why is processing a sorted array faster than processing an unsorted array?",
-    parentPath: "/forum/bug-bounties/",
-    path: "/forum/bug-bounties/1",
     submitter: "jcserv",
-    createdAt: "March 11th, 2020",
-    replies: 1,
-    views: 169,
-    modifiedAt: "Today 4:00 AM",
-    posts: posts1,
-    recent: "furqan",
-    subforum: "Bug Bounties"
+    subforum: "Bug Bounties",
+    threadId: "7e31ee3b-5851-54cc-97c3-ae6d9a659a71"
   },
 
   {
     id: 2,
     title: "How do I undo the most recent local commits in Git?",
-    parentPath: "/forum/bug-bounties/",
-    path: "/forum/bug-bounties/2",
     submitter: "bajajrah",
-    createdAt: "March 9th, 2020",
-    modifiedAt: "Yesterday 6:23 PM",
-    replies: 1,
-    views: 273,
-    posts: posts2,
-    recent: "matthuynh",
-    subforum: "Bug Bounties"
+    subforum: "Bug Bounties",
+    threadId: "55b5a126-5010-5d43-8a55-9766c716a402"
   },
 
   {
     id: 3,
     title: "Is the search time of a circular linked list O(1)?",
-    parentPath: "/forum/bug-bounties/",
-    path: "/forum/bug-bounties/3",
     submitter: "Mikhail",
-    createdAt: "Feb 16th, 2020",
-    modifiedAt: "March 11th 12:00 PM",
-    replies: 1,
-    views: 369,
-    posts: posts3,
-    recent: "Lance",
-    subforum: "Bug Bounties"
+    subforum: "Bug Bounties",
+    threadId: "a25373d0-bdf0-50dd-92f7-9eb6b52f1afe"
   }
 ];
 
@@ -187,11 +169,9 @@ const Router = () => (
           <Thread
             {...props}
             title={thread.title}
+            threadId={thread.threadId}
             submitter={thread.submitter}
-            createdAt={thread.createdAt}
-            parentPath={thread.parentPath}
             subforum={thread.subforum}
-            posts={thread.posts}
           />
         )}
       />

@@ -18,8 +18,8 @@ import ThreadForm from "../../components/specialized/Forum/ThreadForm";
 import { get_threads, post_thread } from "../../actions/forumActions";
 
 const Subforum = withRouter(({ get_threads, post_thread, threads, props }) => {
-  const hardcode_sid = "b0db9a2c-ede1-5d93-81cc-55a0422c2f8e";
-  const hardcode_uid = "353284bb-b914-4eb3-8a4f-1aa74f5c2300";
+  const hardcode_sid = "b99cdc21-ffe5-515e-a0de-50e609146f04";
+  const hardcode_uid = "50247c0b-0536-4b1c-9239-336badd07a65";
 
   const [sid, setSid] = useState("");
   const [subforum, setSubforum] = useState("");
@@ -54,6 +54,7 @@ const Subforum = withRouter(({ get_threads, post_thread, threads, props }) => {
   }, [threads]);
 
   function rerenderThreads() {
+    console.log("rerendering...");
     get_threads(hardcode_sid);
   }
 

@@ -179,7 +179,7 @@ const Thread = db.define(
 );
 
 Thread.belongsTo(User, { as: "submitter" });
-Thread.belongsTo(Subforum);
+Thread.belongsTo(Subforum, { as: "subforum"});
 
 const Post = db.define(
   "post",

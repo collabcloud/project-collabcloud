@@ -36,11 +36,11 @@ router.get(
 
       const posts = await db.models.post.findAll({
         where: {
-          tid: req.query.tid
+          threadTid: req.query.tid
         }
       });
 
-      res.status(200).json({ posts: posts });
+      res.status(200).json(posts);
 
       return;
     } catch (err) {
@@ -51,7 +51,7 @@ router.get(
 );
 
 // @route   POST api/forum/post
-// @desc   	Create a thread
+// @desc   	Create a post
 // @access  Public
 router.post(
   "/",
@@ -83,15 +83,13 @@ router.post(
       }
 
       const tid = req.body.tid;
+      console.log(tid);
+
       const sid = req.body.sid;
       const submitter = req.body.submitter;
       const content = req.body.content;
       let currentTime = new Date().getTime();
-      let threadId = uuidv5(
-        submitter + sid + topic + content + currentTime,
-        FORUM_IDS_NAMESPACE
-      );
-
+      
       let pid = uuidv5(
         tid + sid + submitter + content + currentTime,
         FORUM_IDS_NAMESPACE
@@ -99,7 +97,7 @@ router.post(
 
       let postObject = db.models.post.build({
         pid: pid,
-        tid: threadId,
+        tid: tid,
         sid: sid,
         submitter: submitter,
         content: content
