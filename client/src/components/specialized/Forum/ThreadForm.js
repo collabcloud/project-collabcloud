@@ -90,8 +90,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    post_thread: (sid, submitter, title, description) => {
-      dispatch(post_thread(sid, submitter, title, description));
+    post_thread: (sid, uid, title, description) => {
+      dispatch(post_thread(sid, uid, title, description));
     }
   };
 }

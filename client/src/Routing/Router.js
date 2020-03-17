@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 //import { get_threads } from "../actions/routingActions";
@@ -20,60 +20,6 @@ import Subforum from "../Containers/Forum/Subforum";
 import Thread from "../Containers/Forum/Thread";
 import Search from "../Containers/Search/Search";
 
-const posts1 = [
-  {
-    id: 1,
-    submitter: "jcserv",
-    status: "ok so basically im monky",
-    createdAt: "March 11th, 2020",
-    content: "I don't get it! Someone please help."
-  },
-
-  {
-    id: 2,
-    submitter: "furqan",
-    status: "4x4",
-    createdAt: "March 11th, 2020",
-    content: "Sorting lets you do some cool stuff."
-  }
-];
-
-const posts2 = [
-  {
-    id: 1,
-    submitter: "bajajrah",
-    status: "G.S.D",
-    createdAt: "March 9th, 2020",
-    content: "HELP!!!!"
-  },
-
-  {
-    id: 2,
-    submitter: "matthuynh",
-    status: "I love coding",
-    createdAt: "March 10th, 2020",
-    content: 'git commit --amend -m "message here" ...'
-  }
-];
-
-const posts3 = [
-  {
-    id: 1,
-    submitter: "Mikhail",
-    status: "codedaddy",
-    createdAt: "Feb 16th, 2020",
-    content: "help!!!1"
-  },
-
-  {
-    id: 2,
-    submitter: "Lance",
-    status: "bongo <3",
-    createdAt: "March 11th, 2020",
-    content: "r u dumb"
-  }
-];
-
 const threads = [
   {
     id: 1,
@@ -81,7 +27,8 @@ const threads = [
       "Why is processing a sorted array faster than processing an unsorted array?",
     submitter: "jcserv",
     subforum: "Bug Bounties",
-    threadId: "7e31ee3b-5851-54cc-97c3-ae6d9a659a71"
+    threadId: "fe100b6f-9b2d-5b34-a2b4-cfcc5ed8cb54",
+    sid: "b0db9a2c-ede1-5d93-81cc-55a0422c2f8e"
   },
 
   {
@@ -89,7 +36,8 @@ const threads = [
     title: "How do I undo the most recent local commits in Git?",
     submitter: "bajajrah",
     subforum: "Bug Bounties",
-    threadId: "55b5a126-5010-5d43-8a55-9766c716a402"
+    threadId: "55b5a126-5010-5d43-8a55-9766c716a402",
+    sid: "b0db9a2c-ede1-5d93-81cc-55a0422c2f8e"
   },
 
   {
@@ -97,38 +45,60 @@ const threads = [
     title: "Is the search time of a circular linked list O(1)?",
     submitter: "Mikhail",
     subforum: "Bug Bounties",
-    threadId: "a25373d0-bdf0-50dd-92f7-9eb6b52f1afe"
+    threadId: "a25373d0-bdf0-50dd-92f7-9eb6b52f1afe",
+    sid: "b0db9a2c-ede1-5d93-81cc-55a0422c2f8e"
   }
 ];
 
 const subforums = [
   {
-    id: 1,
+    sid: "1b783d30-dfbd-515c-a4f0-c04cdb9ce6e8",
     title: "General",
-    path: "/forum/general",
     description: "Chat about anything from the daily news to the latest fashion"
   },
   {
-    id: 2,
+    sid: "f6410ac6-9e5b-55af-acfd-59748e366a27",
     title: "Hacker News",
-    path: "/forum/hacker-news",
     description: "The latest tech industry news stories"
   },
   {
-    id: 3,
+    sid: "b0db9a2c-ede1-5d93-81cc-55a0422c2f8e",
     title: "Bug Bounties",
-    path: "/forum/bug-bounties",
     description:
-      "Help fellow CollabClouders with syntax, runtime, logic errors and more",
-    threads: threads
+      "Help fellow CollabClouders with syntax, runtime, logic errors and more"
   },
   {
-    id: 4,
+    sid: "0e0a9880-c55a-57e5-83ef-e9df36bfb37b",
     title: "LF Collaborators",
-    path: "/forum/collabs",
     description: "View projects seeking collaborators"
   }
 ];
+
+const uid = "353284bb-b914-4eb3-8a4f-1aa74f5c2300";
+//TODO filter out special chars
+function generateURL(subforum, title, isParent) {
+  const subforum_url =
+    "/forum/" +
+    subforum
+      .toLowerCase()
+      .split(" ")
+      .join("-") +
+    "/";
+  if (isParent) {
+    return subforum_url;
+  }
+  const url =
+    subforum_url +
+    title
+      .replace("?", "")
+      .toLowerCase()
+      .split(" ")
+      .join("-") +
+    "/";
+
+  console.log(url);
+  return url;
+}
 
 const Router = () => (
   // Render the first <Route> element whose path matches the current URL
@@ -149,10 +119,12 @@ const Router = () => (
     {subforums.map(subforum => (
       <Route
         exact
-        path={subforum.path}
+        path={generateURL(subforum.title, "", true)}
         render={props => (
           <Subforum
             {...props}
+            sid={subforum.sid}
+            uid={uid}
             title={subforum.title}
             description={subforum.description}
             threads={subforum.threads}
@@ -164,7 +136,7 @@ const Router = () => (
     {threads.map(thread => (
       <Route
         exact
-        path={thread.path}
+        path={generateURL(thread.subforum, thread.title, false)}
         render={props => (
           <Thread
             {...props}
@@ -172,6 +144,7 @@ const Router = () => (
             threadId={thread.threadId}
             submitter={thread.submitter}
             subforum={thread.subforum}
+            sid={thread.sid}
           />
         )}
       />

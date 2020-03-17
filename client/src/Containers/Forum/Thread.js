@@ -7,12 +7,13 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
 
-import { get_posts, make_post} from "../../actions/forumActions"
+import { get_posts, make_post } from "../../actions/forumActions";
 
-const Thread = withRouter(({get_posts, make_post, posts, ...props}) => {
+const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
   //Initially received from props
   const [threadId, setThreadId] = useState("");
   const [title, setTitle] = useState("");
+  const [sid, setSid] = useState("");
   const [subforum, setSubforum] = useState("");
   const [submitter, setSubmitter] = useState("");
 
@@ -21,13 +22,12 @@ const Thread = withRouter(({get_posts, make_post, posts, ...props}) => {
   const [postsList, setPostsList] = useState([]);
   const [newPost, setNewPost] = useState("");
 
-
   useEffect(() => {
     setTitle(props.title);
     setThreadId(props.threadId);
+    setSid(props.sid);
     setSubforum(props.subforum);
     setSubmitter(props.submitter);
-
   }, [props]);
 
   useEffect(() => {
@@ -36,14 +36,20 @@ const Thread = withRouter(({get_posts, make_post, posts, ...props}) => {
     }
   }, [threadId]);
 
-  
   useEffect(() => {
     setPostsList(posts);
     setCreatedAt("March 16th, 2020");
   }, [posts]);
 
   function generateURL(subforum) {
-    return ("/forum/" + subforum.toLowerCase().split(" ").join("-") + "/");
+    return (
+      "/forum/" +
+      subforum
+        .toLowerCase()
+        .split(" ")
+        .join("-") +
+      "/"
+    );
   }
 
   function handlePostChange(e) {
@@ -61,7 +67,7 @@ const Thread = withRouter(({get_posts, make_post, posts, ...props}) => {
       content: newPost
     };
     console.log("making post");
-    make_post(threadId, subforum, submitter, newPost);
+    make_post(threadId, sid, submitter, newPost);
 
     const newPosts = [].concat(postsList, post);
     console.log(newPosts);
@@ -70,19 +76,12 @@ const Thread = withRouter(({get_posts, make_post, posts, ...props}) => {
   }
 
   function renderPosts() {
-    if (
-      postsList === null ||
-      postsList === undefined ||
-      postsList === []
-    ) {
+    if (postsList === null || postsList === undefined || postsList === []) {
       //do nothing
     } else {
       const posts_array = postsList.map((reply, index) => (
-        <Post
-          key={index}
-          createdAt={reply.createdAt}
-          content={reply.content}
-        />));
+        <Post key={index} createdAt={reply.createdAt} content={reply.content} />
+      ));
       return posts_array;
     }
   }
@@ -137,7 +136,7 @@ const Thread = withRouter(({get_posts, make_post, posts, ...props}) => {
 });
 
 function mapStateToProps(state) {
-  return { posts: state.forum.posts }
+  return { posts: state.forum.posts };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -148,7 +147,7 @@ function mapDispatchToProps(dispatch) {
     make_post: (tid, sid, submitter, content) => {
       dispatch(make_post(tid, sid, submitter, content));
     }
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Thread);

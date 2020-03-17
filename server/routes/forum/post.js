@@ -89,7 +89,7 @@ router.post(
       const submitter = req.body.submitter;
       const content = req.body.content;
       let currentTime = new Date().getTime();
-      
+
       let pid = uuidv5(
         tid + sid + submitter + content + currentTime,
         FORUM_IDS_NAMESPACE
@@ -97,8 +97,8 @@ router.post(
 
       let postObject = db.models.post.build({
         pid: pid,
-        tid: tid,
-        sid: sid,
+        threadTid: tid,
+        subforumSid: sid,
         submitter: submitter,
         content: content
       });
