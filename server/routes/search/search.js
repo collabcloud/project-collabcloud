@@ -9,30 +9,30 @@ router.get(
 	async (req, res) => {
 		try {
             // Use express-validator to validate request
-            var term = req.query.term;
+            var term = "%" + req.query.term + "%";
             const projects = await db.models.project.findAll({
 				where: {
                     isPrivate: false,
                     [Op.or]: [
                         {projectName: {
-                            [Op.substring]: term}}, 
+                            [Op.iLike]: term}}, 
                         {projectDescription: {
-                            [Op.substring]: term}}
+                            [Op.iLike]: term}}
                     ]
 				}
             });
-            // const users = await db.models.user.findAll({
-            //     where: {
-            //         [Op.or]: [
-            //             {username: {
-            //                 [Op.substring]: term}}, 
-            //         ]
-			// 	}
-            // });
+            const users = await db.models.user.findAll({
+                where: {
+                    [Op.or]: [
+                        {username: {
+                            [Op.iLike]: term}}, 
+                    ]
+				}
+            });
 			res.status(200).json({
                 result: "Success",
                 projects: projects,
-                // users: users
+                users: users
 			});
 
 

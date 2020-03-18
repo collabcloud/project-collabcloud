@@ -29,7 +29,6 @@ export default (state = initialState, action) => {
             }
             return obj1;
         case GITHUB_EXISTS:
-            
             const obj2 = {
                 ...state,
                 attempted: true,
