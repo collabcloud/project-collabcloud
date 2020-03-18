@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Breadcrumb,
@@ -10,6 +10,8 @@ import {
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
+import { timeToDate, generateURL } from "../../utils/helpers";
+
 
 import { NavigationBar } from "../../components/base/NavigationBar";
 import ThreadOverview from "../../components/specialized/Forum/ThreadOverview";
@@ -25,13 +27,15 @@ const Subforum = withRouter(
 
     //Received from GET
     const [subforum, setSubforum] = useState("");
+    const [description, setDescription] = useState("");
     const [threadsList, setThreadsList] = useState([]);
     const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
       setSid(props.sid);
       setUid(props.uid);
-      setSubforum(props.title); //TODO: change to GET
+      setSubforum(props.title);
+      setDescription(props.description);
     }, [props]);
 
     useEffect(() => {
@@ -39,26 +43,16 @@ const Subforum = withRouter(
     }, [threads]);
 
     useEffect(() => {
-      get_threads(sid);
+      if (sid !== "") {
+        get_threads(sid);
+      }
+      
     }, [sid]);
 
-    function rerenderThreads() {
-      get_threads(sid);
-    }
-
-    function generateURL(subforum, title) {
-      return (
-        "/forum/" +
-        subforum
-          .toLowerCase()
-          .split(" ")
-          .join("-") +
-        "/" +
-        title
-          .toLowerCase()
-          .split(" ")
-          .join("-")
-      );
+    async function rerenderThreads() {
+      await get_threads(sid);
+      setThreadsList(threads);
+      console.log("done rendering...");
     }
 
     function renderThreads() {
@@ -72,10 +66,11 @@ const Subforum = withRouter(
         const thread_overviews = threadsList.map((thread, index) => (
           <ThreadOverview
             key={index}
-            path={generateURL(subforum, thread.topic)}
+            path={generateURL(subforum, thread.topic, false)}
             title={thread.topic}
-            submitter={thread.submitter}
-            createdAt={thread.createdAt}
+            submitter={thread.username}
+            createdAt={timeToDate(thread.createdAt)}
+            updatedAt={timeToDate(thread.updatedAt)}
           />
         ));
         return thread_overviews;
@@ -89,6 +84,7 @@ const Subforum = withRouter(
             onCancel={setShowForm}
             sid={sid}
             uid={uid}
+            subforum={subforum}
             rerender={rerenderThreads}
           />
         );
@@ -113,13 +109,13 @@ const Subforum = withRouter(
             <Breadcrumb.Item>
               <Link to="/forum/">Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item active>Bug Bounties</Breadcrumb.Item>
+            <Breadcrumb.Item active>{subforum}</Breadcrumb.Item>
           </Breadcrumb>
           <div className="d-flex flex-column mb-3">
-            <h3 className="text-left">Bug Bounties</h3>
+            <h3 className="text-left">{subforum}</h3>
             <Row>
               <Col className="d-flex justify-content-start">
-                <h6 className="text-left">They really do got bugs doe</h6>
+              <h6 className="text-left">{description}</h6>
               </Col>
               <Col></Col>
               <Col className="d-flex justify-content-end">

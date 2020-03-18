@@ -173,7 +173,16 @@ const Thread = db.define(
     dateCreated: {
       type: DataTypes.DATE,
       defaultValue: Sequelize.NOW
+    },
+    forum_title: {
+      type: DataTypes.STRING(50),
+      allowNull: false
+    },
+    username: {
+      allowNull: false,
+      type: DataTypes.STRING(25)
     }
+
   },
   {}
 );
@@ -196,6 +205,10 @@ const Post = db.define(
     dateCreated: {
       type: DataTypes.DATE,
       defaultValue: Sequelize.NOW
+    },
+    username: {
+      allowNull: false,
+      type: DataTypes.STRING(25)
     }
   },
   {}

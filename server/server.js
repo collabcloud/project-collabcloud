@@ -29,6 +29,7 @@ app.use("/api/unfollow/user", require("./routes/unfollow/user"));
 app.use("/api/forum/subforum", require("./routes/forum/subforum"));
 app.use("/api/forum/thread", require("./routes/forum/thread"));
 app.use("/api/forum/post", require("./routes/forum/post"));
+app.use("/api/forum/getAllThreads", require("./routes/forum/getAllThreads"));
 
 
 //ask about this

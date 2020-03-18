@@ -13,11 +13,10 @@ const ThreadOverview = props => (
     </td>
     <td className="text-center">
       <p>Replies: 1</p>
-      <p>Views: 4</p>
     </td>
     <td className="text-right">
-      <p>Last Updated: March 13th</p>
-      <p>Submitter: bajajrah</p>
+      <p>Last Updated: {props.updatedAt}</p>
+      <p>Submitter: {props.submitter}</p>
     </td>
   </tr>
 );

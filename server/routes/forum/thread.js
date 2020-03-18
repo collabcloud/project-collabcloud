@@ -7,7 +7,7 @@ const axios = require("axios");
 const uuidv5 = require("uuid/v5");
 
 const router = express.Router();
-const { check, validationResult, body } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const db = require("../../database.js");
 
 const FORUM_IDS_NAMESPACE = process.env.FORUM_IDS_NAMESPACE;
@@ -59,6 +59,9 @@ router.post(
     check("submitter", "Submitter is required")
       .not()
       .isEmpty(),
+    check("subforum", "Subforum name is required")
+    .not()
+    .isEmpty(),
     check("sid", "sid is required")
       .not()
       .isEmpty(),
@@ -83,7 +86,20 @@ router.post(
       }
 
       const submitter = req.body.submitter;
+
+      let user = await db.models.user.findOne({
+        where: {
+          uid: submitter
+        }
+      });
+
+      if (user === null) {
+        return res.status(404).json({status: 404});
+      }
+
+      const submitterName = user.username;
       const sid = req.body.sid;
+      const subforum = req.body.subforum;
       const topic = req.body.topic;
       const content = req.body.content;
       let currentTime = new Date().getTime();
@@ -96,6 +112,8 @@ router.post(
         where: {
           subforumSid: sid,
           submitterUid: submitter,
+          username: submitterName,
+          forum_title: subforum,
           topic: topic,
           content: content
         },
@@ -103,6 +121,8 @@ router.post(
           tid: threadId,
           subforumSid: sid,
           submitterUid: submitter,
+          username: submitterName,
+          forum_title: subforum,
           topic: topic,
           content: content
         }
@@ -117,6 +137,7 @@ router.post(
         pid: pid,
         threadTid: threadId,
         subforumSid: sid,
+        username: submitterName,
         submitterUid: submitter,
         content: content
       });

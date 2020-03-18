@@ -6,6 +6,7 @@ import Post from "../../components/specialized/Forum/Post";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
+import { generateURL } from "../../utils/helpers";
 
 import { get_posts, make_post } from "../../actions/forumActions";
 
@@ -40,17 +41,6 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
     setPostsList(posts);
     setCreatedAt("March 16th, 2020");
   }, [posts]);
-
-  function generateURL(subforum) {
-    return (
-      "/forum/" +
-      subforum
-        .toLowerCase()
-        .split(" ")
-        .join("-") +
-      "/"
-    );
-  }
 
   function handlePostChange(e) {
     e.preventDefault();
@@ -95,7 +85,7 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
             <Link to="/forum/">Home</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to={generateURL(subforum)}>{subforum}</Link>
+            <Link to={generateURL(subforum, "", true)}>{subforum}</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item active>{title}</Breadcrumb.Item>
         </Breadcrumb>

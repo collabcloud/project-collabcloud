@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 const ThreadForm = withRouter(({ post_thread, status, ...props }) => {
   const [sid, setSid] = useState("");
   const [uid, setUid] = useState("");
+  const [subforum, setSubforum] = useState("");
   const [topic, setTopic] = useState("");
   const [content, setContent] = useState("");
 
@@ -16,6 +17,7 @@ const ThreadForm = withRouter(({ post_thread, status, ...props }) => {
     if (props !== undefined || props !== null) {
       setSid(props.sid);
       setUid(props.uid);
+      setSubforum(props.subforum);
     }
   }, []);
 
@@ -25,10 +27,10 @@ const ThreadForm = withRouter(({ post_thread, status, ...props }) => {
     }
   }
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
 
-    post_thread(sid, uid, topic, content);
+    await post_thread(sid, uid, subforum, topic, content);
     props.rerender();
 
     // Save the project to database
@@ -90,8 +92,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    post_thread: (sid, uid, title, description) => {
-      dispatch(post_thread(sid, uid, title, description));
+    post_thread: (sid, uid, subforum, title, description) => {
+      dispatch(post_thread(sid, uid, subforum, title, description));
     }
   };
 }

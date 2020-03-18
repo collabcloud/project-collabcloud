@@ -6,7 +6,7 @@ const express = require("express");
 const axios = require("axios");
 const uuidv5 = require("uuid/v5");
 const router = express.Router();
-const { check, validationResult, body } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const db = require("../../database.js");
 
 const FORUM_IDS_NAMESPACE = process.env.FORUM_IDS_NAMESPACE;
