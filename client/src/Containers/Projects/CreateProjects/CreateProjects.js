@@ -69,6 +69,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		if (isLoading === false) {
 			let projectsToDisplay = [...projects]; // preserve the pre-existing projects
 			for (let i = 0; i < githubRepos.length; i++) {
+				console.log("here "+githubRepos[i].github_stars)
 				let project = {
 					name: githubRepos[i].repo_name,
 					description: githubRepos[i].repo_description,
@@ -88,8 +89,8 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 						{ name: "LinkedIn", icon: linkedin, value: "" }
 					]
 				};
-				setStars(project.githubStars);
 				projectsToDisplay.push(project);
+				
 			}
 
 			// Update projects state by calling setProjects
@@ -152,6 +153,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		setVisibilityPublic(project.isProjectPublic);
 		setLinks(project.links);
 		setTech(project.tech);
+		setStars(project.githubStars);
 	}
 
 	// When the user clicks on "Submit", sends this project over to the back-end

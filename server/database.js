@@ -99,7 +99,7 @@ const project = db.define('project', {
         allowNull: false
     },
     githubStars: {
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING(10)
     },
     technologiesUsed: {
         type: DataTypes.STRING(25),
