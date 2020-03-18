@@ -98,6 +98,9 @@ const project = db.define('project', {
         type: DataTypes.BOOLEAN,
         allowNull: false
     },
+    githubStars: {
+        type: DataTypes.INTEGER
+    },
     technologiesUsed: {
         type: DataTypes.STRING(25),
         allowNull: false

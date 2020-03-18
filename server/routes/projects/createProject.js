@@ -92,6 +92,7 @@ router.post(
 				projectName: req.body.projectName,
 				projectDescription: req.body.description,
 				isPrivate: (req.body.visibility == "false" ? true : false),
+				githubStars: req.body.githubStars,
 				technologiesUsed: encodedTech,
 				githubLink: (linkArray[0] ? linkArray[0] : ""),
 				websiteLink: (linkArray[1] ? linkArray[1] : ""),
