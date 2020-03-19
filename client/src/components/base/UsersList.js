@@ -8,13 +8,15 @@ import "../../css/Users.css";
 export const UsersList = (props) => {
 
     var users = [];
+    var btnColor = "primary";
 
     for (var i = 0; i < props.users.length; i++) {
         users.push({ ...props.users[i] });
     }
+    console.log(users);
 
     function buttonFormat(cell, row) {
-        return '<Button variant="primary">Request</Button>';
+        return `<Button variant=${btnColor}>Request</Button>`;
     }
 
 
