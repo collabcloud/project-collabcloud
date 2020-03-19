@@ -125,35 +125,45 @@ const project = db.define('project', {
 
 
 // Relation used to store Notifications
-// notificationType stores all possible types of notifications that can be created in the system
-// TODO: We can add more notificationTypes for future notifications
-// -- project_update: made whenever any change is made to a project (COL-9 and COL-12) 
-// -- collaboration_request: made when a user gets a request to collaborate on a specific project)
-const Notification = db.define("notification", {
+const ProjectNotification = db.define("project_notifications", {
     nid: {
         type: Sequelize.UUID,
         allowNull: false,
         primaryKey: true
     },
-    notificationType: {
-        type: DataTypes.ENUM("project_update", "collaboration_request"),
+    pid: {
+        type: Sequelize.UUID,
         allowNull: false,
         primaryKey: true
+    },
+    notificationType: {
+        type: DataTypes.ENUM("project_update", "project_join_request"),
+        allowNull: false,
+        primaryKey: true
+    },
+    notificationCreator: {
+        type: Sequelize.UUID,
+        allowNull: false,
     },
     notificationMessage: {
         type: DataTypes.STRING(2000),
         allowNull: false
-    },
-    dateCreated: {
-        type: DataTypes.DATE,
-        defaultValue: Sequelize.NOW
     }
+    // dateCreated: {
+    //     type: DataTypes.DATE,
+    //     defaultValue: Sequelize.NOW
+    // }
 });
 
-// Relation that stores a relationship between a Notification and a User
-const users_notifications = db.define('users_notifications');
-users_notifications.belongsTo(User, {as: "notifee"});
-users_notifications.belongsTo(Notification, {as: "notification"});
+// Relation that stores a Follows relationship between a Project and a User
+const user_follows_project = db.define('user_follows_project', {
+    isOwner: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
+});
+user_follows_project.belongsTo(User, {as: "user"});
+user_follows_project.belongsTo(project, {as: "project"});
 
 const user_followers = db.define('user_followers');
 user_followers.belongsTo(User, {as: 'follower'});

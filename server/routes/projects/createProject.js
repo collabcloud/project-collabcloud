@@ -5,6 +5,9 @@ const uuidv5 = require('uuid/v5');
 const db = require("../../database.js");
 require('dotenv').config({ path: './config/.env' });
 
+// Ensures all pid are unique from userid
+const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
+
 // @route   POST api/projects/create
 // @desc    Allows a user to create a new project
 // @access  Public
@@ -28,8 +31,6 @@ router.post(
 
 			// TODO: Check if a project using that gitRepoId already exists (Do we want to do this?)
 
-			// Ensures all pid are unique from userid
-			const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
 
 			// TODO: Require this dict from an external JS file instead
 			//technologies dict (you can add more technologies here)
@@ -101,7 +102,7 @@ router.post(
 			projectObject.toJSON();
 			// console.log(projectObject);
 			await projectObject.save();
-			console.log("The project was saved into the database");
+			// console.log("The project was saved into the database");
 
 			res.status(200).json({
 				result: "Success",
