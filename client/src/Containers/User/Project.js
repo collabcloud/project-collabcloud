@@ -21,7 +21,7 @@ import PropTypes from "prop-types";
 // This is the PID of the project whose information we want to get
 const projectId = "f672383e-9ba5-5eab-8db1-c916c73355f2";
 
-const Project = ({ getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, deleteSuccess }) => {
+const Project = ({ getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, deleteSuccess, userIsProjectOwner }) => {
     const history = useHistory();
 
 	// Loads project information
@@ -31,7 +31,7 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, projectI
 	}, [getProjectInformation, updateSuccess]);
     
     const [isShowingSettings, modifySettings] = useState(false);
-    const [hasJoinedProject, modifyProjectJoinStatus] = useState(true);
+    const [hasUserJoined, modifyProjectJoinStatus] = useState(true);
     const [successfullyDeleted, setDeleted] = useState(false);
     const [successfullyUpdated, setUpdated] = useState(false);
 
@@ -59,8 +59,6 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, projectI
         }
     }, [updateSuccess]);
 
-
-    // TODO: This toggle should only be visible to the owner of the page
     // Toggles the Settings view
     const toggleSettings = () => {
         // console.log("Clicked on toggle settings");
@@ -130,7 +128,8 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, projectI
                         toggleSettings={toggleSettings}
                         requestToJoinProject={requestToJoinProject}
                         leaveProject={leaveProject}
-                        hasJoinedProject={hasJoinedProject}
+                        hasUserJoined={hasUserJoined}
+                        userIsProjectOwner={userIsProjectOwner}
 				    />
                 }
 
@@ -152,7 +151,9 @@ function mapStateToProps(state) {
     return {
         projectInformation: state.project.individualProject,
 		updateSuccess: state.project.updateSuccess,
-		deleteSuccess: state.project.deleteSuccess
+        deleteSuccess: state.project.deleteSuccess,
+        // TODO: Get this value from database, by comparing the project ID to the logged in user I
+        userIsProjectOwner: true
 	}
 }
 

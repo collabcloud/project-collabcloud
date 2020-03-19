@@ -74,7 +74,7 @@ const project = db.define('project', {
         type: DataTypes.STRING(25),
         allowNull: false
     },
-    uid: {
+    ownerId: {
         type: DataTypes.UUID,
         references: {
             model: 'users',
@@ -113,11 +113,6 @@ const project = db.define('project', {
     },
     linkedinLink: {
         type: DataTypes.STRING(50)
-    },
-    dateCreated: {
-        type: DataTypes.DATE,
-        defaultValue: Sequelize.NOW
-
     }
 }, {
 
