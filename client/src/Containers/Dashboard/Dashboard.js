@@ -14,23 +14,23 @@ import NotificationAlert from "../../components/base/Alert";
 
 // redux imports
 import { connect } from "react-redux";
-import { getHackathons } from "../../actions/hackathonActions";
-//import { addHackathons } from "../../actions/hackathonActions";
+import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import PropTypes from "prop-types";
 
 
 // Style Import
 import "../../css/Dashboard.css";
 
-const Dashboard = ({getHackathons, hackathons}) => {
+const Dashboard = ({addHackathons, getHackathons, hackathons, isLoading}) => {
     const [show, setShow] = useState(true);
 
-    useEffect(()=>{
-        addHackathons();
-        getHackathons();
-    }); 
 
-    console.log(hackathons)
+    useEffect(()=>{
+        addHackathons();  
+    },[]);  
+    useEffect(()=>{
+        getHackathons();
+    },[isLoading]); 
 
     return (
     <div>
@@ -183,20 +183,28 @@ const Dashboard = ({getHackathons, hackathons}) => {
 };
 
 function mapStateToProps(state){
-    return { hackathons: state.hackathons.hackathons };
+    return { 
+        hackathons: state.hackathons.hackathons,
+        isLoading: state.hackathons.loading
+
+     };
   }
   
   function mapDispatchToProps(dispatch){
     return {
         getHackathons: () => {
             dispatch(getHackathons());
+        },
+        addHackathons: () => {
+            dispatch(addHackathons());
         }
     };
   }
   
   
   Dashboard.propTypes = {
-    getHackathons: PropTypes.func.isRequired
+    getHackathons: PropTypes.func.isRequired,
+    addHackathons: PropTypes.func.isRequired
   };
   
   export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

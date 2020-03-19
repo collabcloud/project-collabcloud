@@ -37,5 +37,6 @@ export const GET_INFO = "GET_INFO";
 
 //Hackathon actions
 export const GET_HACKATHONS = "GET_HACKATHONS";
+export const ADD_HACKATHONS = "ADD_HACKATHONS";
 
 

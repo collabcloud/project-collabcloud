@@ -1,5 +1,6 @@
 import {
-	GET_HACKATHONS
+	GET_HACKATHONS,
+	ADD_HACKATHONS
 } from "../actions/types";
 
 
@@ -16,6 +17,11 @@ export default (state = initialState, action) => {
 				loading: false,
 				hackathons: action.payload
 			};
+		case ADD_HACKATHONS:
+			return {
+				...state,
+				loading: false,
+			}
 		default:
 			return state;
 	}
