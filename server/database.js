@@ -103,6 +103,20 @@ const project = db.define('project', {
 
 });
 
+
+const user_requests = db.define('user_requests', {
+    requestee_uid: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4
+    },
+    requester_uid: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+    }
+}, {
+
+});
+
 db.sync({ force: false })
     .then(message => {
         console.log('Database synced');
