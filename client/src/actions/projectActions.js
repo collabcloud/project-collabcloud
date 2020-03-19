@@ -2,7 +2,7 @@ import axios from "axios";
 import { ADD_PROJECT, GET_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, GET_PUBLIC_PROJECTS } from "./types"
 
 // Add Project Action
-export const addProject = ({ name, desc, isProjectPublic, tech, links }) => async dispatch => {
+export const addProject = ({ name, desc, isProjectPublic, ownerId, tech, links }) => async dispatch => {
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -13,7 +13,7 @@ export const addProject = ({ name, desc, isProjectPublic, tech, links }) => asyn
         projectName: name,
         description: desc,
         isProjectPublic: isProjectPublic,
-        // ownerUserID: userid,
+        ownerUserID: ownerId,
         // gitRepoID: repoID,
         technologiesUsed: tech,
         techLinks: links

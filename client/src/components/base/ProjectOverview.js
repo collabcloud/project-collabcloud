@@ -21,6 +21,9 @@ const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
+// TODO: Get this value from database, by comparing the project ID to the logged in user ID
+const isProjectOwner = true;
+
 // This component shows an individual project's view
 export function ProjectOverview(props) {
 	const project = props.projectInformation.project;
@@ -136,7 +139,7 @@ export function ProjectOverview(props) {
 							))}
 						</ListGroup>
 						<br />
-
+						
 						<Row>
 							<p className="project-view-submit-buttons">
 								{
@@ -144,6 +147,8 @@ export function ProjectOverview(props) {
 									<Button 
 										variant="danger"
 										onClick={props.leaveProject}
+										disabled={isProjectOwner}
+										style = {{ pointerEvents: (!isProjectOwner ? "" : "none")}}
 									>
 										Leave Project
 									</Button>
@@ -162,6 +167,8 @@ export function ProjectOverview(props) {
 									variant="secondary"
 									type="button"
 									onClick={props.toggleSettings}
+									disabled={!isProjectOwner}
+									style = {{ pointerEvents: (isProjectOwner ? "" : "none")}}
 								>
 									<MdSettings />
 									Settings

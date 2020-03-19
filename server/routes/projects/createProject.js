@@ -15,10 +15,9 @@ router.post(
 	"/",
 	[
 		check("projectName", "Project name is required").not().isEmpty(),
-		//check("projectName", "Project name must be 20 or less characters").isLength({ max: 20 }),
 		check("description", "Project description is required").not().isEmpty(),
-		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"])
-		// check("ownerUserID", "The owner of the project is required").not().isEmpty(),
+		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"]),
+		check("ownerUserID", "The owner of the project is required").not().isEmpty(),
 		// check("gitRepoID", "Must provide the ID of the Git repository that this project is associated with").not().isEmpty()
 	],
 	async (req, res) => {
@@ -63,7 +62,6 @@ router.post(
 
 			// Given the technologies used, construct an encoding string that can be inserted into PSQL
 			const technologiesArray = req.body.technologiesUsed
-			console.log(technologiesArray);
 			let techName = technologiesArray.map(tech => tech.name);
 			let techArray = [];
 			// If you add more technologies into the techDict dictionary, then change the total value of the array
@@ -88,7 +86,7 @@ router.post(
 			// Insert the project into the database
 			let projectObject = db.models.project.build({
 				pid: projectID,
-				// uid: req.body.ownerUserID,
+				ownerId: req.body.ownerUserID,
 				// gitRepoID: req.body.gitRepoID,
 				projectName: req.body.projectName,
 				projectDescription: req.body.description,

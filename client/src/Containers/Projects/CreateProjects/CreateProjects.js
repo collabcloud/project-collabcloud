@@ -22,7 +22,7 @@ const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
-const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) => {
+const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos, ownerId }) => {
 	// Initialize state hooks
 	const [name, setName] = useState("");
 	const [tech, setTech] = useState([]);
@@ -153,13 +153,12 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 	// When the user clicks on "Submit", sends this project over to the back-end
 	function onSubmit(e) {
 		e.preventDefault();
-
-		// Save the project to database
 		addProject({
 			name,
-			tech,
 			desc,
 			isProjectPublic,
+			ownerId,
+			tech,
 			links
 		});
 
@@ -265,7 +264,8 @@ const mapStateToProps = state => {
 	// console.log(state);
 	return {
 		githubRepos: state.github.githubReposFromState,
-		isLoading: state.github.loading
+		isLoading: state.github.loading,
+		ownerId: state.user.uid
 	};
 };
 
