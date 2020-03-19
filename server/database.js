@@ -123,6 +123,22 @@ const project = db.define('project', {
 
 });
 
+// Table to store hackathons for 2020 season. For now hardcoded all hackathons but could be web scraped in the future.
+const Hackathons = db.define("hackathons", {
+    name: {
+        type: DataTypes.STRING(25),
+        primaryKey: true
+    },
+    date: {
+       type:  DataTypes.STRING(25)
+    },
+    location: {
+        type: DataTypes.STRING(25)
+    },
+    link: {
+        type: DataTypes.STRING(50)
+    }
+});
 
 // Relation used to store Notifications
 // notificationType stores all possible types of notifications that can be created in the system

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationBar } from "../../components/base/NavigationBar";
+import { HackathonCard } from "../../components/base/HackathonCard";
 import { 
     Alert, 
     Card, 
@@ -11,11 +12,25 @@ import {
 } from "react-bootstrap";
 import NotificationAlert from "../../components/base/Alert";
 
+// redux imports
+import { connect } from "react-redux";
+import { getHackathons } from "../../actions/hackathonActions";
+//import { addHackathons } from "../../actions/hackathonActions";
+import PropTypes from "prop-types";
+
+
 // Style Import
 import "../../css/Dashboard.css";
 
-const Dashboard = () => {
+const Dashboard = ({getHackathons, hackathons}) => {
     const [show, setShow] = useState(true);
+
+    useEffect(()=>{
+        addHackathons();
+        getHackathons();
+    }); 
+
+    console.log(hackathons)
 
     return (
     <div>
@@ -157,23 +172,8 @@ const Dashboard = () => {
                     <br></br>
                     {/* Hackathon Panel */}
                     <div>
-                        <h4>&#127751; Nearby Hackathons</h4>
-                        <Card>
-                            <Card.Body>
-                                {/* Card Index 0 */}
-                                <Card.Title> <a href="/">UofT Hacks</a></Card.Title>
-                                <Card.Text><b>Jan 17-20 <br></br> Toronto, Ont</b></Card.Text>
-                                <Button variant="info">Check out Hackathon</Button>
-                            </Card.Body>
-
-                            <Card.Body>
-                                {/* Card Index 0 */}
-                                <Card.Title> <a href="/">Hack the North</a></Card.Title>
-                                <Card.Text><b>Sept 23-26 <br></br> Waterloo, Ont</b></Card.Text>
-                                <Button variant="info">Check out Hackathon</Button>
-                            </Card.Body>
-
-                        </Card>
+                        <h4>&#127751; Upcoming Hackathons</h4>
+                        <HackathonCard hackathons={hackathons}  />
                     </div>
                 </Container>
             </Col>
@@ -182,4 +182,22 @@ const Dashboard = () => {
     )
 };
 
-export default Dashboard;
+function mapStateToProps(state){
+    return { hackathons: state.hackathons.hackathons };
+  }
+  
+  function mapDispatchToProps(dispatch){
+    return {
+        getHackathons: () => {
+            dispatch(getHackathons());
+        }
+    };
+  }
+  
+  
+  Dashboard.propTypes = {
+    getHackathons: PropTypes.func.isRequired
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+  

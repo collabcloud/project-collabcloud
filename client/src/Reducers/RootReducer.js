@@ -9,6 +9,7 @@ import searchReducer from "./searchReducer";
 import followReducer from "./followReducer";
 import unfollowReducer from "./unfollowReducer";
 import alertReducer from "./alertReducer";
+import hackathonsReducer from "./hackathonsReducer";
 
 export default combineReducers({
     project: projectReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
    search: searchReducer,
     follow: followReducer,
     unfollow: unfollowReducer,
-    alerts: alertReducer
+    alerts: alertReducer,
+    hackathons: hackathonsReducer
 });

@@ -35,4 +35,7 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 //profile actions
 export const GET_INFO = "GET_INFO";
 
+//Hackathon actions
+export const GET_HACKATHONS = "GET_HACKATHONS";
+
 
