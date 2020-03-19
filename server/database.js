@@ -74,14 +74,14 @@ const project = db.define('project', {
         type: DataTypes.STRING(25),
         allowNull: false
     },
-    // uid: {
-    //     type: DataTypes.UUID,
-    //     references: {
-    //         model: 'users',
-    //         key: 'uid'
-    //     },
-    //     primaryKey: true
-    // },
+    uid: {
+        type: DataTypes.UUID,
+        references: {
+            model: 'users',
+            key: 'uid'
+        },
+        primaryKey: true
+    },
     // gitRepoID: {
     //     type: DataTypes.STRING(50),
     //     allowNull: false
