@@ -46,6 +46,7 @@ export const NavigationBar = withRouter(({history}) => {
       <Nav className="ml-auto p-2">
         
         <Link to="/projects/create" className="p-2 link"> Create a Project </Link>
+        <Link to="/trending" className="p-2 link"> Trending </Link>
         <Link to="/explore" className="p-2 link"> Explore </Link>
         <Link to="/forum" className="p-2 link"> Forum </Link>
         <Link to="/" className="p-2 link"> Logout </Link>
