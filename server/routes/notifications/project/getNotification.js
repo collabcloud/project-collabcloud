@@ -26,24 +26,28 @@ async (req, res) => {
         // Get any project join request notifications (only the owner gets these)
         let projectJoinRequests;
         if (req.query.isProjectOwner) {
-            projectJoinRequests = await db.models.ProjectNotification.findAll({
+            projectJoinRequests = await db.models.project_notifications.findAll({
                 where: {
                     pid: req.query.projectId,
                     notificationType: "project_join_request"
                 },
                 limit: req.query.notificationsToGet,
-                order: sequelize.col('createdAt ASC'),
+                order: [
+                    ['createdAt', 'ASC']
+                ]
             });
         } 
 
         // Get project update notifications (both the owner and follower get these)
-        const projectUpdates = await db.models.ProjectNotification.findAll({
+        const projectUpdates = await db.models.project_notifications.findAll({
             where: {
                 pid: req.query.projectId,
                 notificationType: "project_update"
             },
             limit: req.query.notificationsToGet,
-            order: sequelize.col('createdAt DESC'),
+            order: [
+                ['createdAt', 'DESC']
+            ]
         });
 
         console.log(projectJoinRequests);

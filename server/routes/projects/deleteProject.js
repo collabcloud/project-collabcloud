@@ -24,7 +24,6 @@ router.post("/", async (req, res) => {
         // Delete the project
         if (project) {
             let success = project.destroy();
-            // console.log(success);
 
             // Successfully deleted the project
             if (success) {
@@ -34,7 +33,7 @@ router.post("/", async (req, res) => {
             } else {
                 return res.status(500).json({
                     errorMessage: "Internal server error"
-                })
+                });
             }
         }
 		// Could not find that project

@@ -26,7 +26,7 @@ router.post(
 			}
 
 			// Check if this record already exists (check if the user already joined the project)
-			const record = await db.models.user_follows_project.findOne({
+			let record = await db.models.user_follows_project.findOne({
 				where: {
 					userUid: req.body.uid,
 					projectPid: req.body.pid
@@ -34,6 +34,18 @@ router.post(
 			});
 			if (record) {
 				return res.status(409).json({ result: "Unsuccessful. User is already a part of that project"});
+			}
+
+			// Check if the project already has an owner
+			record = await db.models.user_follows_project.findOne({
+				where: {
+					projectPid: req.body.pid,
+					isOwner: true
+				}
+			});
+			// The project already has an owner
+			if (req.body.memberStatus === "owner" && record) {
+				return res.status(409).json({ result: "Unsuccessful. That project already has an owner" });
 			}
 
 			// The user hasn't joined the project yet; add them
