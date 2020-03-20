@@ -16,6 +16,7 @@ try {
 }
 
 // Keep all fields lower case ssince psql does some weird stuff with camel case
+// TODO: Make username a max of 39 characters (longest github username is 39 characters)
 const User = db.define('user', {
     uid: {
         type: Sequelize.UUID,
@@ -120,7 +121,7 @@ const project = db.define('project', {
 
 
 // Relation used to store Notifications
-const ProjectNotification = db.define("project_notifications", {
+db.define("project_notifications", {
     nid: {
         type: Sequelize.UUID,
         allowNull: false,
@@ -154,6 +155,10 @@ const ProjectNotification = db.define("project_notifications", {
 const user_follows_project = db.define('user_follows_project', {
     isOwner: {
         type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+    username: {
+        type: DataTypes.STRING(25),
         allowNull: false
     }
 });

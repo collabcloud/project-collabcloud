@@ -13,6 +13,7 @@ router.post(
 	"/",
 	[
 		check("uid", "UID is required").not().isEmpty(),
+		check("username", "Username is required").not().isEmpty(),
 		check("pid", "PID is required").not().isEmpty(),
 		check("memberStatus", "User must be either a collaborator or owner").isIn(["collaborator", "owner"])
 	],
@@ -51,6 +52,7 @@ router.post(
 			// The user hasn't joined the project yet; add them
 			const success = await db.models.user_follows_project.create({
 				userUid: req.body.uid,
+				username: req.body.username,
 				projectPid: req.body.pid,
 				isOwner: (req.body.memberStatus === "owner") ? true : false
 			});

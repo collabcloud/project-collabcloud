@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Alert } from "react-bootstrap";
-// import { Carousel } from "react-bootstrap";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectOverview } from "../../components/base/ProjectOverview";
 import { ProjectForm } from "../../components/base/ProjectForm";
 import { Contributors } from "../../components/base/Contributors";
-// import { Slideshow } from "../../components/base/Slideshow";
-// import Picture1 from "./img/1.jpg";
-// import Picture2 from "./img/2.jpg";
-// import Picture3 from "./img/3.jpg";
 import "../../css/Project.css";
 
 // Redux imports
@@ -19,7 +14,7 @@ import PropTypes from "prop-types";
 
 // TODO: Get the PID of this project from the store, or the name of the project from the dynamic path
 // This is the PID of the project whose information we want to get
-const projectId = "f672383e-9ba5-5eab-8db1-c916c73355f2";
+const projectId = "d0f46d7e-e4c9-5811-aa37-c3602cca8cd3";
 
 const Project = ({ getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, deleteSuccess, userIsProjectOwner }) => {
     const history = useHistory();
@@ -135,11 +130,10 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, projectI
 
                 {/* Conditionally render the contributors list*/}
                 {!isShowingSettings &&
-                    // TODO: Pass in a Users list of contributors here
-				    <Contributors />
+				    <Contributors 
+                        projectInformation={projectInformation}
+                    />
                 }
-				
-                {/* <Slideshow pic1={Picture1} pic2={Picture2} pic3={Picture3} /> */}
 			</Container>
 		</div>
 	);
@@ -152,7 +146,7 @@ function mapStateToProps(state) {
         projectInformation: state.project.individualProject,
 		updateSuccess: state.project.updateSuccess,
         deleteSuccess: state.project.deleteSuccess,
-        // TODO: Get this value from database, by comparing the project ID to the logged in user I
+        // TODO: Get this value from database, by comparing the project ID to the logged in user
         userIsProjectOwner: true
 	}
 }

@@ -75,7 +75,7 @@ export const getProjectInformation = ({ projectId }) => async dispatch => {
         // Get all information for a given project
         const res = await axios.get("/api/projects/information", {
             params: {
-                pid: projectId
+                projectId: projectId
             }
         }, config);
 

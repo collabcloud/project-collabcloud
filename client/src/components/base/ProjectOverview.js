@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import { Item } from "./Item";
 import logo from "../../harmoney.png";
-
 import "../../css/Project.css";
 
 // Icons for website buttons
@@ -20,6 +19,7 @@ const github = <FaGithub />;
 const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
+const moment = require('moment');
 
 // This component shows an individual project's view
 export function ProjectOverview(props) {
@@ -96,7 +96,9 @@ export function ProjectOverview(props) {
 						<h1>{project.projectName}</h1>
 						<div className="innerbox">
 							<p>{project.projectDescription}</p>
+							<p> CollabClouding since {moment(project.createdAt).format("MMMM Do YYYY")}</p>
 						</div>
+						<br />
 
 						{/* List of technologies used for this project */}
 						<h4> Technologies Used </h4>
@@ -136,7 +138,8 @@ export function ProjectOverview(props) {
 							))}
 						</ListGroup>
 						<br />
-						
+						<br />
+
 						<Row>
 							<p className="project-view-submit-buttons">
 								{

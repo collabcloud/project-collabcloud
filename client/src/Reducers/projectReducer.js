@@ -14,7 +14,8 @@ const initialState = {
 	individualProject: {
         "project": {
             "technologiesUsed": []
-        }
+		},
+		"collaborators": []
     }
 };
 
