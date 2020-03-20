@@ -93,7 +93,7 @@ export function ProjectOverview(props) {
 
 					<Col className="d-flex align-items-start flex-column">
 						{/* General Project Information */}
-						<h1>{project.projectName}</h1>
+						<h1 className="projectName">{project.projectName}</h1>
 						<div className="innerbox">
 							<p>{project.projectDescription}</p>
 							<p> CollabClouding since {moment(project.createdAt).format("MMMM Do YYYY")}</p>
@@ -138,9 +138,23 @@ export function ProjectOverview(props) {
 							))}
 						</ListGroup>
 						<br />
-						<br />
 
 						<Row>
+							<p className="project-view-submit-buttons">
+								{
+									props.hasUserJoined &&
+									<Button
+										variant="secondary"
+										type="button"
+										onClick={props.toggleSettings}
+										disabled={!props.userIsProjectOwner}
+										style = {{ pointerEvents: (props.userIsProjectOwner ? "" : "none")}}
+									>
+										<MdSettings />
+										Settings
+									</Button>
+								}
+							</p>
 							<p className="project-view-submit-buttons">
 								{
 									props.hasUserJoined ? 
@@ -158,22 +172,6 @@ export function ProjectOverview(props) {
 										onClick={props.requestToJoinProject}
 									>
 										Request to Join
-									</Button>
-								}
-							</p>
-
-							<p className="project-view-submit-buttons">
-								{
-									props.hasUserJoined &&
-									<Button
-										variant="secondary"
-										type="button"
-										onClick={props.toggleSettings}
-										disabled={!props.userIsProjectOwner}
-										style = {{ pointerEvents: (props.userIsProjectOwner ? "" : "none")}}
-									>
-										<MdSettings />
-										Settings
 									</Button>
 								}
 							</p>

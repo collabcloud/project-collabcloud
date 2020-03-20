@@ -157,8 +157,8 @@ function mapDispatchToProps(dispatch) {
 		getProjectInformation: (pid) => {
 			dispatch(getProjectInformation(pid));
         },
-        updateProject: (pid, projectName, tech, projectDescription, isProjectPublic, links) => {
-            dispatch(updateProject(pid, projectName, tech, projectDescription, isProjectPublic, links));
+        updateProject: (pid, projectName, projectDescription, isProjectPublic, tech, links) => {
+            dispatch(updateProject(pid, projectName, projectDescription, isProjectPublic, tech, links));
         },
         deleteProject: (pid) => {
             dispatch(deleteProject(pid));

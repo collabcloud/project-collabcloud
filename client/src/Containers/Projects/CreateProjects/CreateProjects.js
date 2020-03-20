@@ -29,10 +29,10 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos, ow
 	const [desc, setDesc] = useState("");
 	const [isProjectPublic, setVisibilityPublic] = useState(true);
 	const [links, setLinks] = useState([
-		{ name: "Github", icon: github, value: "" },
-		{ name: "Website", icon: website, value: "" },
-		{ name: "DevPost", icon: dev, value: "" },
-		{ name: "LinkedIn", icon: linkedin, value: "" }
+		{ name: "Github", icon: github, placeholder: "Enter your project's GitHub URL here", value: "" },
+		{ name: "Website", icon: website, placeholder: "Enter your project's website URL here", value: "" },
+		{ name: "DevPost", icon: dev, placeholder: "Enter your project's DevPost URL here", value: "" },
+		{ name: "LinkedIn", icon: linkedin, placeholder: "Enter your project's LinkedIn URL here", value: "" }
 	]);
 	
 	const [projects, setProjects] = useState([
@@ -41,10 +41,10 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos, ow
 			description: "👋 Hi! This is literally just an example description",
 			isProjectPublic: true,
 			links: [
-				{ name: "Github", icon: github, value: "" },
+				{ name: "Github", icon: github, placeholder: "Enter your project's GitHub URL here", value: "" },
 				{ name: "Website", icon: website, value: "https://www.example.org/"},
-				{ name: "DevPost", icon: dev, value: "" },
-				{ name: "LinkedIn", icon: linkedin, value: "" }
+				{ name: "DevPost", icon: dev, placeholder: "Enter your project's DevPost URL here", value: "" },
+				{ name: "LinkedIn", icon: linkedin, placeholder: "Enter your project's LinkedIn URL here", value: "" }
 			],
 			tech: [{ id: 3, name: "React"}]
 		}
@@ -80,9 +80,9 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos, ow
 							icon: github,
 							value: githubRepos[i].github_url
 						},
-						{ name: "Website", icon: website, value: ""},
-						{ name: "DevPost", icon: dev, value: "" },
-						{ name: "LinkedIn", icon: linkedin, value: "" }
+						{ name: "Website", icon: website, placeholder: "Enter your project's website URL here", value: ""},
+						{ name: "DevPost", icon: dev, placeholder: "Enter your project's DevPost URL here", value: "" },
+						{ name: "LinkedIn", icon: linkedin, placeholder: "Enter your project's LinkedIn URL here", value: "" }
 					]
 				};
 				projectsToDisplay.push(project);
@@ -208,7 +208,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos, ow
 							as="textarea"
 							rows="3"
 							className="item"
-							value={desc}
+							value={desc ? desc : ""}
 							name="description"
 							onChange={e => setDesc(e.target.value)}
 						/>

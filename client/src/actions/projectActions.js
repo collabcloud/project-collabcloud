@@ -96,13 +96,19 @@ export const getProjectInformation = ({ projectId }) => async dispatch => {
 };
 
 // Given a projectId and attributes to update, hit the backend to update that project
-export const updateProject = ({ pid, projectName, projectDescription, isProjectPublic, tech, links  }) => async dispatch => {
+export const updateProject = ({ pid, projectName, projectDescription, isProjectPublic, tech, links }) => async dispatch => {
     // console.log("Hit updateProject in projectActions");
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     };
+    console.log(pid);
+    console.log(projectName);
+    console.log(projectDescription);
+    console.log(isProjectPublic);
+    console.log(tech);
+    console.log(links);
 
     const body = JSON.stringify({
         pid: pid,
@@ -113,7 +119,7 @@ export const updateProject = ({ pid, projectName, projectDescription, isProjectP
         // gitRepoID: repoID,
         technologiesUsed: tech,
         techLinks: links
-    })
+    });
 
     try {
         const res = await axios.post("/api/projects/update", body, config);

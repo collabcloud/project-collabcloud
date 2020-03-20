@@ -12,11 +12,6 @@ import ReactTags from "react-tag-autocomplete";
 
 import "../../css/Project.css";
 
-const github = <FaGithub />;
-const website = <MdWeb />;
-const linkedin = <FaLinkedin />;
-const dev = <FaDev />;
-
 // This component shows an individual project's view
 export function ProjectForm(props) {
 	const projectData = props.projectInformation.project;
@@ -68,10 +63,10 @@ export function ProjectForm(props) {
 	const [isProjectPublic, setVisibilityPublic] = useState(!projectData.isPrivate);
 	const [tech, setTech] = useState(decodeTechUsed());
 	const [links, setLinks] = useState([
-		{ name: "Github", icon: github, value: projectData.githubLink },
-		{ name: "Website", icon: website, value: projectData.websiteLink },
-		{ name: "DevPost", icon: dev, value: projectData.devpostLink },
-		{ name: "LinkedIn", icon: linkedin, value: projectData.linkedinLink }
+		{ name: "Github", icon: <FaGithub />, placeholder: "Enter your project's GitHub URL here", value: projectData.githubLink },
+		{ name: "Website", icon: <MdWeb />, placeholder: "Enter your project's website URL here", value: projectData.websiteLink },
+		{ name: "DevPost", icon: <FaDev />, placeholder: "Enter your project's DevPost URL here", value: projectData.devpostLink },
+		{ name: "LinkedIn", icon: <FaLinkedin />, placeholder: "Enter your project's LinkedIn URL here", value: projectData.linkedinLink }
 	]);
 
 	// When the user clicks on "Submit", updates this project from the back-end
@@ -191,6 +186,7 @@ export function ProjectForm(props) {
 							items={links}
 							updateLink={updateLink}
 						/>
+						<br />
 
 						<Row>
 							<p className="project-view-submit-buttons">
