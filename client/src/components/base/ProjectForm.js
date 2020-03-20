@@ -12,6 +12,12 @@ import ReactTags from "react-tag-autocomplete";
 
 import "../../css/Project.css";
 
+// Note: these variables NEED to be set and used, rather than use these icons directly
+const github = <FaGithub />;
+const website = <MdWeb />;
+const linkedin = <FaLinkedin />;
+const dev = <FaDev />;
+
 // This component shows an individual project's view
 export function ProjectForm(props) {
 	const projectData = props.projectInformation.project;
@@ -63,10 +69,10 @@ export function ProjectForm(props) {
 	const [isProjectPublic, setVisibilityPublic] = useState(!projectData.isPrivate);
 	const [tech, setTech] = useState(decodeTechUsed());
 	const [links, setLinks] = useState([
-		{ name: "Github", icon: <FaGithub />, placeholder: "Enter your project's GitHub URL here", value: projectData.githubLink },
-		{ name: "Website", icon: <MdWeb />, placeholder: "Enter your project's website URL here", value: projectData.websiteLink },
-		{ name: "DevPost", icon: <FaDev />, placeholder: "Enter your project's DevPost URL here", value: projectData.devpostLink },
-		{ name: "LinkedIn", icon: <FaLinkedin />, placeholder: "Enter your project's LinkedIn URL here", value: projectData.linkedinLink }
+		{ name: "Github", icon: github, placeholder: "Enter your project's GitHub URL here", value: projectData.githubLink },
+		{ name: "Website", icon: website, placeholder: "Enter your project's website URL here", value: projectData.websiteLink },
+		{ name: "DevPost", icon: linkedin, placeholder: "Enter your project's DevPost URL here", value: projectData.devpostLink },
+		{ name: "LinkedIn", icon: dev, placeholder: "Enter your project's LinkedIn URL here", value: projectData.linkedinLink }
 	]);
 
 	// When the user clicks on "Submit", updates this project from the back-end

@@ -103,12 +103,6 @@ export const updateProject = ({ pid, projectName, projectDescription, isProjectP
             "Content-Type": "application/json"
         }
     };
-    console.log(pid);
-    console.log(projectName);
-    console.log(projectDescription);
-    console.log(isProjectPublic);
-    console.log(tech);
-    console.log(links);
 
     const body = JSON.stringify({
         pid: pid,
