@@ -13,7 +13,8 @@ router.post(
 	"/",
 	[
 		check("uid", "UID is required").not().isEmpty(),
-		check("pid", "PID is required").not().isEmpty()
+		check("pid", "PID is required").not().isEmpty(),
+		check("memberStatus", "User must be either a collaborator or owner").isIn(["collaborator", "owner"])
 	],
 	async (req, res) => {
 		try {
@@ -24,7 +25,53 @@ router.post(
 				return res.status(422).json({ errors: errors.array()});
 			}
 
-			return res.status(200).json({ result: "Success" });
+
+			// Check if the user has joined the project)
+			const userIsInProject = await db.models.user_follows_project.findOne({
+				where: {
+					userUid: req.body.uid,
+					projectPid: req.body.pid
+				}
+			});
+			if (!userIsInProject) {
+				return res.status(404).json({ result: "Unsuccessful. User not part of that project"});
+			} 
+
+			// The project owner cannot leave the project
+			if (req.body.memberStatus == "owner" || userIsInProject.dataValues.isOwner) {
+				return res.status(400).json({ errors: "The owner may not leave the project"});
+			}
+			
+			// The user is in the project and is a collaborator. Remove them
+			const record = await db.models.user_follows_project.findOne({
+				where: {
+					userUid: req.body.uid,
+					projectPid: req.body.pid
+				}
+			});
+			if (record) {
+				let success = record.destroy();
+
+				// Successfully deleted this record
+				if (success) {
+					return res.status(200).json({
+						result: "Successfully removed user from project"
+					});
+				} 
+				// Could not remove user from the project
+				else {
+					return res.status(500).json({
+						error: "Internal server error"
+					});
+				}
+			}
+			
+			// Could not remove user from the project
+			else {
+				return res.status(500).json({
+					error: "Could not remove the user from the project"
+				});
+			}
 		} catch (err) {
 			console.log(err);
 			res.status(500).json({ errorMessage: "Internal server error" });
