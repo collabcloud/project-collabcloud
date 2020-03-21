@@ -182,14 +182,12 @@ const Thread = db.define(
       allowNull: false,
       type: DataTypes.STRING(25)
     }
-
   },
   {}
 );
 
 Thread.belongsTo(User, { as: "submitter" });
-Thread.belongsTo(Subforum, { as: "subforum"});
-
+Thread.belongsTo(Subforum, { as: "subforum" });
 
 const Post = db.define(
   "post",
@@ -222,38 +220,33 @@ Post.belongsTo(User, { as: "submitter" });
 // Relation used to store Notifications
 // notificationType stores all possible types of notifications that can be created in the system
 // TODO: We can add more notificationTypes for future notifications
-// -- project_update: made whenever any change is made to a project (COL-9 and COL-12) 
+// -- project_update: made whenever any change is made to a project (COL-9 and COL-12)
 // -- collaboration_request: made when a user gets a request to collaborate on a specific project)
 const Notification = db.define("notification", {
-    nid: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        primaryKey: true
-    },
-    notificationType: {
-        type: DataTypes.ENUM("project_update", "collaboration_request"),
-        allowNull: false,
-        primaryKey: true
-    },
-    notificationMessage: {
-        type: DataTypes.STRING(2000),
-        allowNull: false
-    },
-    dateCreated: {
-        type: DataTypes.DATE,
-        defaultValue: Sequelize.NOW
-    }
+  nid: {
+    type: Sequelize.UUID,
+    allowNull: false,
+    primaryKey: true
+  },
+  notificationType: {
+    type: DataTypes.ENUM("project_update", "collaboration_request"),
+    allowNull: false,
+    primaryKey: true
+  },
+  notificationMessage: {
+    type: DataTypes.STRING(2000),
+    allowNull: false
+  },
+  dateCreated: {
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.NOW
+  }
 });
 
 // Relation that stores a relationship between a Notification and a User
-const users_notifications = db.define('users_notifications');
-users_notifications.belongsTo(User, {as: "notifee"});
-users_notifications.belongsTo(Notification, {as: "notification"});
-
-const user_followers = db.define('user_followers');
-user_followers.belongsTo(User, {as: 'follower'});
-user_followers.belongsTo(User, {as: 'followee'});
-
+const users_notifications = db.define("users_notifications");
+users_notifications.belongsTo(User, { as: "notifee" });
+users_notifications.belongsTo(Notification, { as: "notification" });
 
 db.sync({ force: false })
   .then(message => {

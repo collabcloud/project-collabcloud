@@ -12,7 +12,6 @@ import { withRouter, Link } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
 import { timeToDate, generateURL } from "../../utils/helpers";
 
-
 import { NavigationBar } from "../../components/base/NavigationBar";
 import ThreadOverview from "../../components/specialized/Forum/ThreadOverview";
 import ThreadForm from "../../components/specialized/Forum/ThreadForm";
@@ -46,12 +45,10 @@ const Subforum = withRouter(
       if (sid !== "") {
         get_threads(sid);
       }
-      
     }, [sid]);
 
     async function rerenderThreads() {
-      await get_threads(sid);
-      setThreadsList(threads);
+      get_threads(sid);
       console.log("done rendering...");
     }
 
@@ -115,7 +112,7 @@ const Subforum = withRouter(
             <h3 className="text-left">{subforum}</h3>
             <Row>
               <Col className="d-flex justify-content-start">
-              <h6 className="text-left">{description}</h6>
+                <h6 className="text-left">{description}</h6>
               </Col>
               <Col></Col>
               <Col className="d-flex justify-content-end">
@@ -147,6 +144,7 @@ const Subforum = withRouter(
 );
 
 function mapStateToProps(state) {
+  console.log(state.forum.threads);
   return { threads: state.forum.threads };
 }
 

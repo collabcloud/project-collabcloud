@@ -12,6 +12,7 @@ const ThreadForm = withRouter(({ post_thread, status, ...props }) => {
   const [subforum, setSubforum] = useState("");
   const [topic, setTopic] = useState("");
   const [content, setContent] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     if (props !== undefined || props !== null) {
@@ -22,15 +23,16 @@ const ThreadForm = withRouter(({ post_thread, status, ...props }) => {
   }, []);
 
   function renderMessage() {
-    if (status === "Success") {
+    if (showMessage) {
       return <p>Successfully created a thread.</p>;
     }
   }
 
   async function onSubmit(e) {
     e.preventDefault();
-
+    setShowMessage(true);
     await post_thread(sid, uid, subforum, topic, content);
+    console.log("posted!");
     props.rerender();
 
     // Save the project to database
@@ -76,7 +78,10 @@ const ThreadForm = withRouter(({ post_thread, status, ...props }) => {
           variant="outline-danger"
           type="click"
           size="lg"
-          onClick={() => props.onCancel(false)}
+          onClick={() => {
+            props.onCancel(false);
+            setShowMessage(false);
+          }}
         >
           Cancel
         </Button>

@@ -5,8 +5,8 @@ import Post from "../../components/specialized/Forum/Post";
 
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
-import { GoPlus } from "react-icons/go";
-import { generateURL } from "../../utils/helpers";
+//import { GoPlus } from "react-icons/go";
+import { generateURL, timeToDate } from "../../utils/helpers";
 
 import { get_posts, make_post } from "../../actions/forumActions";
 
@@ -29,6 +29,7 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
     setSid(props.sid);
     setSubforum(props.subforum);
     setSubmitter(props.submitter);
+    setCreatedAt(props.createdAt);
   }, [props]);
 
   useEffect(() => {
@@ -39,7 +40,6 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
 
   useEffect(() => {
     setPostsList(posts);
-    setCreatedAt("March 16th, 2020");
   }, [posts]);
 
   function handlePostChange(e) {
@@ -50,19 +50,9 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
   function onSubmit(e) {
     console.log("hi");
     e.preventDefault();
-
-    const post = {
-      id: postsList.length + 1,
-      createdAt: "March 11th, 2020",
-      content: newPost
-    };
-    console.log("making post");
     make_post(threadId, sid, submitter, newPost);
-
-    const newPosts = [].concat(postsList, post);
-    console.log(newPosts);
+    get_posts(threadId);
     setNewPost("");
-    setPostsList(newPosts);
   }
 
   function renderPosts() {
@@ -70,7 +60,12 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
       //do nothing
     } else {
       const posts_array = postsList.map((reply, index) => (
-        <Post key={index} createdAt={reply.createdAt} content={reply.content} />
+        <Post
+          key={index}
+          createdAt={reply.createdAt}
+          content={reply.content}
+          username={reply.username}
+        />
       ));
       return posts_array;
     }
@@ -92,7 +87,7 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
         <div className="d-flex flex-column">
           <h3 className="text-left">{title}</h3>
           <h6 className="text-left">
-            {"Posted by: " + submitter + " on " + createdAt}
+            {"Posted by: " + submitter + " on " + timeToDate(createdAt)}
           </h6>
         </div>
         {renderPosts()}

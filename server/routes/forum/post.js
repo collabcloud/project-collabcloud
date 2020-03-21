@@ -83,7 +83,6 @@ router.post(
       }
 
       const tid = req.body.tid;
-      console.log(tid);
 
       const sid = req.body.sid;
       const submitter = req.body.submitter;
@@ -99,7 +98,7 @@ router.post(
         pid: pid,
         threadTid: tid,
         subforumSid: sid,
-        submitter: submitter,
+        username: submitter,
         content: content
       });
 

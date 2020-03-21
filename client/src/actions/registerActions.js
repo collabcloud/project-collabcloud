@@ -9,30 +9,9 @@ export const register = (auth_code, formData) => async dispatch => {
     headers: {
       "Content-Type": "application/json"
     }
-        const url = '/api/users/register';
-        const body = JSON.stringify({code: auth_code, ...formData})
-        
-        
-        // If success, dispatch action
-        // TODO: Check the response for whether or not the user is 
-        // already registered on github or not
-        axios.post(url, body, config).then((response)=>{
-            dispatch({
-                type: GET_TOKEN,
-                payload: response.data
-            });
-        }).catch((err) => {
-            console.log(err.response.status);
-            if(err.response.status === 301){
-                console.log("GITHUB_EXISTS");
-                dispatch({
-                    type: GITHUB_EXISTS
-                })
-            }
-            else{
-                dispatch({
-                    type: ATTEMPT
-                });
+  };
+  const url = "/api/users/register";
+  const body = JSON.stringify({ code: auth_code, ...formData });
 
   // If success, dispatch action
   // TODO: Check the response for whether or not the user is
@@ -40,14 +19,15 @@ export const register = (auth_code, formData) => async dispatch => {
   axios
     .post(url, body, config)
     .then(response => {
-      console.log("Registered");
       dispatch({
         type: GET_TOKEN,
         payload: response.data
       });
     })
     .catch(err => {
+      console.log(err.response.status);
       if (err.response.status === 301) {
+        console.log("GITHUB_EXISTS");
         dispatch({
           type: GITHUB_EXISTS
         });
