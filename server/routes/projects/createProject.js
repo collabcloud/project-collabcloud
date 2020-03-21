@@ -84,6 +84,7 @@ router.post(
 			let currentTime = (new Date()).getTime();
 			let projectID = uuidv5(req.body.projectName + currentTime, PROJECT_IDS_NAMESPACE);
 
+			console.log(typeof(req.body.githubStars))
 			// Insert the project into the database
 			let projectObject = db.models.project.build({
 				pid: projectID,
@@ -92,6 +93,7 @@ router.post(
 				projectName: req.body.projectName,
 				projectDescription: req.body.description,
 				isPrivate: (req.body.visibility == "false" ? true : false),
+				githubStars: req.body.githubStars,
 				technologiesUsed: encodedTech,
 				githubLink: (linkArray[0] ? linkArray[0] : ""),
 				websiteLink: (linkArray[1] ? linkArray[1] : ""),

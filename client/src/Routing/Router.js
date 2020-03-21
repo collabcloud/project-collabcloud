@@ -11,6 +11,7 @@ import Register from "../Containers/Account/Register/RegisterPage";
 import Register2 from "../Containers/Account/Register/RegisterPage2";
 import Explore from "../Containers/Explore/Explore";
 import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects";
+import Trending from "../Containers/Trending/Trending";
 import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
 import OtherProfile from "../Containers/User/OtherProfile";
@@ -80,7 +81,6 @@ const Router = withRouter(
     }
 
     // Render the first <Route> element whose path matches the current URL
-
     return (
       <Switch>
         <Route path="/" component={LandingPage} exact />

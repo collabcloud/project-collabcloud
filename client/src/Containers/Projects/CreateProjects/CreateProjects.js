@@ -28,6 +28,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 	const [tech, setTech] = useState([]);
 	const [desc, setDesc] = useState("");
 	const [isProjectPublic, setVisibilityPublic] = useState(true);
+	const [githubStars, setStars] = useState("");
 	const [links, setLinks] = useState([
 		{ name: "Github", icon: github, value: "" },
 		{ name: "Website", icon: website, value: "" },
@@ -40,6 +41,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 			name: "Example-Project",
 			description: "👋 Hi! This is literally just an example description",
 			isProjectPublic: true,
+			githubStars: 0,
 			links: [
 				{ name: "Github", icon: github, value: "" },
 				{ name: "Website", icon: website, value: "https://www.example.org/"},
@@ -54,7 +56,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 
 	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
 	useEffect(() => {
-		const githubUsername = "matthuynh"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in) 
+		const githubUsername = "daniil-oliynyk"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in) 
 
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility: "all" });
@@ -67,10 +69,12 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		if (isLoading === false) {
 			let projectsToDisplay = [...projects]; // preserve the pre-existing projects
 			for (let i = 0; i < githubRepos.length; i++) {
+				console.log("here "+githubRepos[i].github_stars)
 				let project = {
 					name: githubRepos[i].repo_name,
 					description: githubRepos[i].repo_description,
 					isProjectPublic: !githubRepos[i].repo_visibility_is_private,
+					githubStars: githubRepos[i].github_stars,
 					tech: [
 						{ id: 1, name: githubRepos[i].repo_main_technology }
 					],
@@ -86,6 +90,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 					]
 				};
 				projectsToDisplay.push(project);
+				
 			}
 
 			// Update projects state by calling setProjects
@@ -148,6 +153,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		setVisibilityPublic(project.isProjectPublic);
 		setLinks(project.links);
 		setTech(project.tech);
+		setStars(project.githubStars);
 	}
 
 	// When the user clicks on "Submit", sends this project over to the back-end
@@ -160,6 +166,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 			tech,
 			desc,
 			isProjectPublic,
+			githubStars,
 			links
 		});
 
