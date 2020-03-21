@@ -9,20 +9,26 @@ import "../../css/Project.css";
 
 // Redux imports
 import { connect } from "react-redux"; // connects the ProjectForm component to the Redux store
-import { updateProject, deleteProject, getProjectInformation, leaveProject } from "../../actions/projectActions";
+import { updateProject, deleteProject, getProjectInformation, leaveProject, joinProject, resetProjectActionStatus } from "../../actions/projectActions";
 import PropTypes from "prop-types";
 
 // TODO: Get the PID of this project from the store, or the name of the project from the dynamic path
 // This is the PID of the project whose information we want to get
 const projectId = "d0f46d7e-e4c9-5811-aa37-c3602cca8cd3";
 
-const Project = ({ getProjectInformation, updateProject, deleteProject, leaveProject, projectInformation, updateSuccess, deleteSuccess, leaveSuccess, loggedInUid }) => {
+const Project = ({ getProjectInformation, updateProject, deleteProject, leaveProject, joinProject, resetProjectActionStatus, projectInformation, updateSuccess, deleteSuccess, leaveSuccess, joinSuccess, loggedInUid }) => {
+
     const history = useHistory();
-    console.log(`Currently logged in user is: ${loggedInUid}`);
+    // console.log(`Currently logged in user is: ${loggedInUid}`);
     const [isShowingSettings, modifySettings] = useState(false);
     const [hasUserJoined, setUserJoinedProject] = useState(false);
     const [successfullyDeleted, setDeleted] = useState(false);
     const [successfullyUpdated, setUpdated] = useState(false);
+    let requestedToUpdate = false;
+    let requestedToJoin = false;
+    let requestedToLeave = false;
+    let requestedToDelete = false;
+
 
 	// Loads project information
 	useEffect(() => {
@@ -44,61 +50,75 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, leavePro
     useEffect(() => {
         if (deleteSuccess) {
             setDeleted(true);
+            resetProjectActionStatus();
 
             // Redirect user to dashboard (since there is no project to look at anymore)
             history.push("/dashboard");
-        } else {
+        } else if (requestedToDelete) {
             // TODO: Get Furqan's alerts up here
-            // console.log("Unsuccessful deletion!");
+            console.log("Unsuccessful deletion!");
+            requestedToDelete = false;
         }
     }, [deleteSuccess, history]);
 
     // When a user tries to update their project, check if update was successful
     useEffect(() => {
         if (updateSuccess) {
-            setUpdated(true);
             // console.log("Update success");
-        } else {
+            setUpdated(true);
+            resetProjectActionStatus();
+            requestedToUpdate = false;
+        } else if (requestedToUpdate){
             // TODO: Get Furqan's alerts up here
-            // console.log("Unsuccessful update");
+            console.log("Unsuccessful update");
+            requestedToUpdate = false;
         }
     }, [updateSuccess]);
 
-    // When a user triesto leave a project, check if leaving was successful
+    // When a user tries to leave a project, check if leaving was successful
     useEffect(() => {
         if (leaveSuccess) {
-            console.log("Successfully left project");
+            // console.log("Successfully left project");
+            requestedToLeave = false;
             setUserJoinedProject(false);
-        } else {
+            resetProjectActionStatus();
+        } else if (requestedToLeave) {
             // TODO: Get Furqan's alerts up here
-            console.log("Unsuccessful leave");
+            console.log("Could not leave project");
+            requestedToLeave = false;
         }
     }, [leaveSuccess]);
 
-    // Toggles the Settings view
+    // When a user tries to join a project, check if joining was successful
+    useEffect(() => {
+        if (joinSuccess) {
+            // console.log("Successfully joined project");
+            requestedToJoin = false;
+            setUserJoinedProject(true);
+            resetProjectActionStatus();
+        } else if (requestedToJoin){
+            // TODO: Get Furqan's alerts up here
+            console.log("Could not join project");
+            requestedToJoin = false;
+        }
+    }, [joinSuccess]);
+
+    // Toggles the Settings view, triggered by user
     const toggleSettings = () => {
-        // console.log("Clicked on toggle settings");
         modifySettings(!isShowingSettings);
     };
 
-    // TODO: Add this functionality. User requests to join a Project
+    // User requests to join a Project
     const requestToJoinProject = () => {
-        console.log("Clicked on 'Request to Join' button");
+        requestedToJoin = true;
 
-        if (true) {
-            console.log("Successfully joined project");
-            setUserJoinedProject(true);
-        } else {
-            console.log("Could not join project");
-        }
+        // Only collaborators may join an existing project, so we hardcode that field
+        joinProject(loggedInUid, projectInformation.project.pid, "collaborator");
     }
 
-    // TODO: Add this functionality. User requests to leave a project
+    // User requests to leave a project
     const requestToLeaveProject = () => {
-        console.log("Clicked on 'Leave Project' button");
-        console.log(loggedInUid);
-        console.log(projectInformation.project.pid);
-        console.log(projectInformation);
+        requestedToLeave = true;
 
         // Only collaborators may leave a project, so we hardcode that field
         leaveProject(loggedInUid, projectInformation.project.pid, "collaborator");
@@ -106,20 +126,13 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, leavePro
 
     // Calls updateProject() from redux
     const updateThisProject = ({ pid, projectName, projectDescription, isProjectPublic, tech, links }) => {
-        // We set successfullyUpdated to false (just in case it was true before, meaning that it has already been updated once, and that the user is triggering a second update)
-        setUpdated(false); // FIXME: Sometimes, this doesn't trigger the useEffect to re-populate projectInformation
-        updateProject({
-			pid,
-			projectName,
-			projectDescription,
-			isProjectPublic,
-			tech,
-			links
-		});
+        requestedToUpdate = true;
+        updateProject({ pid, projectName, projectDescription, isProjectPublic, tech, links });
     }
 
     // Calls deleteProject() from redux
     const deleteThisProject = (pid) => {
+        requestedToDelete = true;
         deleteProject(pid);
     }
 
@@ -179,6 +192,7 @@ function mapStateToProps(state) {
 		updateSuccess: state.project.updateSuccess,
         deleteSuccess: state.project.deleteSuccess,
         leaveSuccess: state.project.leaveSuccess,
+        joinSuccess: state.project.joinSuccess,
         loggedInUid: state.user.uid
 	}
 }
@@ -198,6 +212,12 @@ function mapDispatchToProps(dispatch) {
         leaveProject: (uid, pid, memberStatus) => {
             dispatch(leaveProject(uid, pid, memberStatus));
         },
+        joinProject: (uid, pid, memberStatus) => {
+            dispatch(joinProject(uid, pid, memberStatus));
+        },
+        resetProjectActionStatus: () => {
+            dispatch(resetProjectActionStatus());
+        }
 	};
 }
 
@@ -206,7 +226,9 @@ Project.propTypes = {
     getProjectInformation: PropTypes.func.isRequired,
     updateProject: PropTypes.func.isRequired,
     deleteProject: PropTypes.func.isRequired,
-    leaveProject: PropTypes.func.isRequired
+    leaveProject: PropTypes.func.isRequired,
+    joinProject: PropTypes.func.isRequired,
+    resetProjectActionStatus: PropTypes.func.isRequired
 };
 
 

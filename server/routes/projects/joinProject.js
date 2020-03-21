@@ -13,7 +13,6 @@ router.post(
 	"/",
 	[
 		check("uid", "UID is required").not().isEmpty(),
-		check("username", "Username is required").not().isEmpty(),
 		check("pid", "PID is required").not().isEmpty(),
 		check("memberStatus", "User must be either a collaborator or owner").isIn(["collaborator", "owner"])
 	],
@@ -49,10 +48,24 @@ router.post(
 				return res.status(409).json({ result: "Unsuccessful. That project already has an owner" });
 			}
 
+			let username;
+			// Get the username associated with this userid
+			const user = await db.models.user.findOne({
+				where: {
+					uid: req.body.uid
+				}
+			});
+			if (user) {
+				username = user.dataValues.username;
+			}
+            else {
+				return res.status(500).json({ errorMessage: "Internal server error" });
+            } 
+
 			// The user hasn't joined the project yet; add them
 			const success = await db.models.user_follows_project.create({
 				userUid: req.body.uid,
-				username: req.body.username,
+				username: username,
 				projectPid: req.body.pid,
 				isOwner: (req.body.memberStatus === "owner") ? true : false
 			});

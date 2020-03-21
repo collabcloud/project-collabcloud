@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_PROJECT, GET_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, GET_PUBLIC_PROJECTS, JOIN_PROJECT, LEAVE_PROJECT } from "./types"
+import { ADD_PROJECT, GET_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, GET_PUBLIC_PROJECTS, JOIN_PROJECT, LEAVE_PROJECT, RESET_PROJECT_ACTION_STATUS } from "./types"
 
 // Add Project Action
 export const addProject = ({ name, desc, isProjectPublic, ownerId, tech, links }) => async dispatch => {
@@ -176,12 +176,9 @@ export const leaveProject = (userId, projectId, memberStatus) => async dispatch 
         memberStatus: memberStatus
     })
 
-    console.log(body);
-
     try {
         const res = await axios.post("/api/projects/leave", body, config);
-        console.log(res.status);
-
+        
         // If success, dispatch action
         if (res.status === 200) {
             dispatch({
@@ -194,4 +191,44 @@ export const leaveProject = (userId, projectId, memberStatus) => async dispatch 
         console.log("Error occured while removing user from project");
         console.log(err);
     }
+}
+
+// Given a userId and projectId, add the user to that project
+export const joinProject = (userId, projectId, memberStatus) => async dispatch => {
+    console.log("Hit joinProject in projectActions");
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    const body = JSON.stringify({
+        uid: userId,
+        pid: projectId,
+        memberStatus: memberStatus
+    })
+
+    try {
+        const res = await axios.post("/api/projects/join", body, config);
+
+        // If success, dispatch action
+        if (res.status === 200) {
+            dispatch({
+                type: JOIN_PROJECT
+            });
+        } else {
+            console.log("Could not add user to project");
+        }
+    } catch (err) {
+        console.log("Error occured while adding user to project");
+        console.log(err);
+    }
+}
+
+// After any project action, resets the "status" of that project action to its default
+// Example: After updating a project successfully, updateSuccess will be true. We reset updateSuccess to false so the next project update works properly
+export const resetProjectActionStatus = () => async dispatch => {
+    dispatch({
+        type: RESET_PROJECT_ACTION_STATUS
+    });   
 }

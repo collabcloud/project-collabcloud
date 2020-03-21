@@ -5,7 +5,8 @@ import {
 	DELETE_PROJECT,
 	GET_PUBLIC_PROJECTS,
 	JOIN_PROJECT,
-	LEAVE_PROJECT
+	LEAVE_PROJECT,
+	RESET_PROJECT_ACTION_STATUS
 } from "../actions/types";
 
 const initialState = {
@@ -13,14 +14,14 @@ const initialState = {
 	loading: true,
 	updateSuccess: false,
 	deleteSuccess: false,
+	joinSuccess: false,
+	leaveSuccess: false,
 	individualProject: {
         "project": {
             "technologiesUsed": []
 		},
 		"collaborators": []
-	},
-	joinSuccess: false,
-	leaveSuccess: false
+	}
 };
 
 export default (state = initialState, action) => {
@@ -68,6 +69,15 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				leaveSuccess: true
+			}
+		// Reset project action status to initial status
+		case RESET_PROJECT_ACTION_STATUS:
+			return {
+				...state,
+				updateSuccess: false,
+				deleteSuccess: false,
+				joinSuccess: false,
+				leaveSuccess: false,
 			}
 		default:
 			return state;
