@@ -4,6 +4,8 @@ import {
 	UPDATE_PROJECT,
 	DELETE_PROJECT,
 	GET_PUBLIC_PROJECTS,
+	JOIN_PROJECT,
+	LEAVE_PROJECT
 } from "../actions/types";
 
 const initialState = {
@@ -16,7 +18,9 @@ const initialState = {
             "technologiesUsed": []
 		},
 		"collaborators": []
-    }
+	},
+	joinSuccess: false,
+	leaveSuccess: false
 };
 
 export default (state = initialState, action) => {
@@ -53,6 +57,18 @@ export default (state = initialState, action) => {
 				...state,
 				deleteSuccess: true
 			};
+		// User joins a project
+		case JOIN_PROJECT:
+			return {
+				...state,
+				joinSuccess: true
+			};
+		// User leaves a project
+		case LEAVE_PROJECT:
+			return {
+				...state,
+				leaveSuccess: true
+			}
 		default:
 			return state;
 	}

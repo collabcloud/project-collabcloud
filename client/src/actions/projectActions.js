@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_PROJECT, GET_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, GET_PUBLIC_PROJECTS } from "./types"
+import { ADD_PROJECT, GET_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, GET_PUBLIC_PROJECTS, JOIN_PROJECT, LEAVE_PROJECT } from "./types"
 
 // Add Project Action
 export const addProject = ({ name, desc, isProjectPublic, ownerId, tech, links }) => async dispatch => {
@@ -157,6 +157,41 @@ export const deleteProject = (projectId) => async dispatch => {
         }
     } catch (err) {
         console.log("Error occured while deleting a project");
+        console.log(err);
+    }
+}
+
+// Given a userId and projectId, yeet the user from that project
+export const leaveProject = (userId, projectId, memberStatus) => async dispatch => {
+    console.log("Hit leaveProject in projectActions");
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    const body = JSON.stringify({
+        uid: userId,
+        pid: projectId,
+        memberStatus: memberStatus
+    })
+
+    console.log(body);
+
+    try {
+        const res = await axios.post("/api/projects/leave", body, config);
+        console.log(res.status);
+
+        // If success, dispatch action
+        if (res.status === 200) {
+            dispatch({
+                type: LEAVE_PROJECT
+            });
+        } else {
+            console.log("Could not remove user from project");
+        }
+    } catch (err) {
+        console.log("Error occured while removing user from project");
         console.log(err);
     }
 }

@@ -24,6 +24,7 @@ const moment = require('moment');
 // This component shows an individual project's view
 export function ProjectOverview(props) {
 	const project = props.projectInformation.project;
+	const userIsProjectOwner = props.loggedInUid === project.ownerId;
 
 	// console.log(props);
 	// console.log(" ");
@@ -147,8 +148,8 @@ export function ProjectOverview(props) {
 										variant="secondary"
 										type="button"
 										onClick={props.toggleSettings}
-										disabled={!props.userIsProjectOwner}
-										style = {{ pointerEvents: (props.userIsProjectOwner ? "" : "none")}}
+										disabled={!userIsProjectOwner}
+										style = {{ pointerEvents: (userIsProjectOwner ? "" : "none")}}
 									>
 										<MdSettings />
 										Settings
@@ -160,9 +161,9 @@ export function ProjectOverview(props) {
 									props.hasUserJoined ? 
 									<Button 
 										variant="danger"
-										onClick={props.leaveProject}
-										disabled={props.userIsProjectOwner}
-										style = {{ pointerEvents: (!props.userIsProjectOwner ? "" : "none")}}
+										onClick={props.requestToLeaveProject}
+										disabled={userIsProjectOwner}
+										style = {{ pointerEvents: (!userIsProjectOwner ? "" : "none")}}
 									>
 										Leave Project
 									</Button>
@@ -171,7 +172,8 @@ export function ProjectOverview(props) {
 										variant="success"
 										onClick={props.requestToJoinProject}
 									>
-										Request to Join
+										Join Project
+										{/* Request to Join TODO: make this requestable*/}
 									</Button>
 								}
 							</p>

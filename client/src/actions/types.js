@@ -4,6 +4,8 @@ export const GET_PROJECT = "GET_PROJECT";
 export const GET_PUBLIC_PROJECTS = "GET_PUBLIC_PROJECTS";
 export const UPDATE_PROJECT = "UPDATE_PROJECT";
 export const DELETE_PROJECT = "DELETE_PROJECT";
+export const JOIN_PROJECT = "JOIN_PROJECT";
+export const LEAVE_PROJECT = "LEAVE_PROJECT";
 
 // Register Actions
 export const GET_TOKEN = "GET_TOKEN";
