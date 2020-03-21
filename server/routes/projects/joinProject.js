@@ -5,6 +5,9 @@ const router = express.Router();
 const { check, validationResult, body} = require("express-validator");
 const db = require("../../database.js");
 
+// Helper functions
+const databaseHelpers = require('../../utils/databaseHelpers');
+
 
 // @route   POST api/projects/join
 // @desc    A user joins a project
@@ -48,19 +51,11 @@ router.post(
 				return res.status(409).json({ result: "Unsuccessful. That project already has an owner" });
 			}
 
-			let username;
-			// Get the username associated with this userid
-			const user = await db.models.user.findOne({
-				where: {
-					uid: req.body.uid
-				}
-			});
-			if (user) {
-				username = user.dataValues.username;
+			// Get username associated with userid
+			let username = await databaseHelpers.getUsername(req.body.uid);
+			if (!username) {
+				return res.status(404).json({ errorMessage: "The provided uid does not exist" });
 			}
-            else {
-				return res.status(500).json({ errorMessage: "Internal server error" });
-            } 
 
 			// The user hasn't joined the project yet; add them
 			const success = await db.models.user_follows_project.create({

@@ -163,7 +163,7 @@ export const deleteProject = (projectId) => async dispatch => {
 
 // Given a userId and projectId, yeet the user from that project
 export const leaveProject = (userId, projectId, memberStatus) => async dispatch => {
-    console.log("Hit leaveProject in projectActions");
+    // console.log("Hit leaveProject in projectActions");
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -195,7 +195,7 @@ export const leaveProject = (userId, projectId, memberStatus) => async dispatch 
 
 // Given a userId and projectId, add the user to that project
 export const joinProject = (userId, projectId, memberStatus) => async dispatch => {
-    console.log("Hit joinProject in projectActions");
+    // console.log("Hit joinProject in projectActions");
     const config = {
         headers: {
             "Content-Type": "application/json"

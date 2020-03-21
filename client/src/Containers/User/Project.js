@@ -29,12 +29,11 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, leavePro
     let requestedToLeave = false;
     let requestedToDelete = false;
 
-
 	// Loads project information
 	useEffect(() => {
         // console.log("Repopulating project information");
         getProjectInformation({ projectId });
-	}, [getProjectInformation, updateSuccess]);
+	}, [getProjectInformation, updateSuccess, joinSuccess, leaveSuccess]);
     
     // Check if the logged in user is part of this project
     useEffect(() => {

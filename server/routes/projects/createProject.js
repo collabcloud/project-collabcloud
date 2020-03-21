@@ -102,6 +102,11 @@ router.post(
 			await projectObject.save();
 			// console.log("The project was saved into the database");
 
+			// Make the user join the project
+
+
+			// Add a notification
+
 			res.status(200).json({
 				result: "Success",
 			});
