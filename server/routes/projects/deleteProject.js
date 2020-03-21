@@ -3,6 +3,9 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const db = require("../../database.js");
 
+// Helper functions
+const databaseHelpers = require('../../utils/databaseHelpers');
+
 // @route   DELETE /api/projects/delete
 // @desc    Delete a project given its PID
 // @access  Public
@@ -23,7 +26,10 @@ router.post("/", async (req, res) => {
 
         // Delete the project
         if (project) {
-            let success = project.destroy();
+			let success = project.destroy();
+			
+			// Remove all users from that project
+			databaseHelpers.removeAllUsersFromProject(req.body.pid);
 
             // Successfully deleted the project
             if (success) {

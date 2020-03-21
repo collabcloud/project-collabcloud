@@ -9,6 +9,8 @@ export const addProject = ({ name, desc, isProjectPublic, ownerId, tech, links }
         }
     };
 
+    // TODO: Add empty input validation for project name and project description
+
     const body = JSON.stringify({
         projectName: name,
         description: desc,

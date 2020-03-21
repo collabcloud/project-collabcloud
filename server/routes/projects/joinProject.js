@@ -52,18 +52,13 @@ router.post(
 			}
 
 			// Get username associated with userid
-			let username = await databaseHelpers.getUsername(req.body.uid);
+			const username = await databaseHelpers.getUsername(req.body.uid);
 			if (!username) {
 				return res.status(404).json({ errorMessage: "The provided uid does not exist" });
 			}
 
 			// The user hasn't joined the project yet; add them
-			const success = await db.models.user_follows_project.create({
-				userUid: req.body.uid,
-				username: username,
-				projectPid: req.body.pid,
-				isOwner: (req.body.memberStatus === "owner") ? true : false
-			});
+			const success = await databaseHelpers.addUserToProject(req.body.uid, username, req.body.pid, req.body.memberStatus);
 			if (success) {
 				return res.status(200).json({ result: "Success" });
 			} else {

@@ -5,6 +5,9 @@ const uuidv5 = require('uuid/v5');
 const db = require("../../database.js");
 require('dotenv').config({ path: './config/.env' });
 
+// Helper functions
+const databaseHelpers = require('../../utils/databaseHelpers');
+
 // Ensures all pid are unique from userid
 const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
 
@@ -102,17 +105,27 @@ router.post(
 			await projectObject.save();
 			// console.log("The project was saved into the database");
 
-			// Make the user join the project
+			// Get username associated with userid
+			const username = await databaseHelpers.getUsername(req.body.ownerUserID);
+			if (!username) {
+				return res.status(404).json({ errorMessage: "The provided ownerUserId does not exist" });
+			}
 
+			// Make the user join the project
+			const success = await databaseHelpers.addUserToProject(req.body.ownerUserID, username, projectID, "owner");
+
+			if (!success) {
+				// Some error with Sequelize
+				console.log(err);
+				return res.status(500).json({ errorMessage: "Internal server error" });
+			}
 
 			// Add a notification
 
-			res.status(200).json({
-				result: "Success",
-			});
+			res.status(200).json({ result: "Success" });
 		} catch (err) {
 			console.error(err);
-			res.status(500).json({ errorMessage: "Internal server error" });
+			return res.status(500).json({ errorMessage: "Internal server error" });
 		}
 	}
 );
