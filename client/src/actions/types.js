@@ -11,6 +11,9 @@ export const GET_PROJECT = "GET_PROJECT";
 export const GET_PUBLIC_PROJECTS = "GET_PUBLIC_PROJECTS";
 export const UPDATE_PROJECT = "UPDATE_PROJECT";
 export const DELETE_PROJECT = "DELETE_PROJECT";
+export const JOIN_PROJECT = "JOIN_PROJECT";
+export const LEAVE_PROJECT = "LEAVE_PROJECT";
+export const RESET_PROJECT_ACTION_STATUS = "RESET_PROJECT_ACTION_STATUS";
 
 // Register Actions
 export const GET_TOKEN = "GET_TOKEN";
@@ -47,3 +50,5 @@ export const GET_POSTS = "GET_POSTS";
 
 
 
+// Notification Actions
+export const GET_PROJECT_NOTIFICATIONS = "GET_PROJECT_NOTIFICATIONS";

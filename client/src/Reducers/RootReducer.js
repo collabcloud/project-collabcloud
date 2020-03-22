@@ -9,8 +9,8 @@ import searchReducer from "./searchReducer";
 import followReducer from "./followReducer";
 import unfollowReducer from "./unfollowReducer";
 import alertReducer from "./alertReducer";
+import notificationReducer from "./notificationReducer";
 import forumReducer from "./forumReducer";
-
 
 export default combineReducers({
     project: projectReducer,
@@ -23,5 +23,6 @@ export default combineReducers({
     follow: followReducer,
     unfollow: unfollowReducer,
     alerts: alertReducer,
+    notifications: notificationReducer,
     forum: forumReducer
 });

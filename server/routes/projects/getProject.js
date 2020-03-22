@@ -4,7 +4,7 @@ const { check, validationResult } = require("express-validator");
 const db = require("../../database.js");
 
 // @route   GET /api/projects/information
-// @desc    Return the full information of a project given its PID
+// @desc    Return the full information of a project given its PID, and its list of collaborators
 // @access  Public
 router.get("/", async (req, res) => {
 	try {
@@ -14,21 +14,42 @@ router.get("/", async (req, res) => {
 			return res.status(422).json({ errors: errors.array() });
 		}
 
-		// TODO: Get the collaborators for this project as well
 		// Get the project
 		const project = await db.models.project.findOne({
 			where: {
-				pid: req.query.pid
+				pid: req.query.projectId
 			}
 		});
 
-		// console.log(project);
-
 		// Successfully retrieved project
 		if (project && project.dataValues) {
-			res.status(200).json({
-				project: project.dataValues
+
+			// Get the collaborators for this project
+			const collaborators = await db.models.user_follows_project.findAll({
+				where: {
+					projectPid: req.query.projectId
+				}
 			});
+
+			// Successfully retrieved collaborators
+			if (collaborators) {				
+				let cleanedCollaborators = collaborators.map(collaborator => collaborator.dataValues)
+				
+				// console.log("List of all collaborators")
+				// console.log(cleanedCollaborators);
+
+				return res.status(200).json({
+					project: project.dataValues,
+					collaborators: cleanedCollaborators
+				});
+			}
+
+			// Could not retrieve any collaborators
+			else {
+				res.status(404).json({
+					errors: "Found that project but could not find its collaborators (it should have at least one, the owner)"
+				});
+			}
 		}
 		// Could not find that project
 		else {
