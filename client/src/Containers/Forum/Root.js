@@ -1,35 +1,81 @@
-import React, { useState } from "react";
-import { Container, Col, Breadcrumb } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Breadcrumb } from "react-bootstrap";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { IoIosChatboxes, IoMdPersonAdd } from "react-icons/io";
+import { FaRegNewspaper, FaBug } from "react-icons/fa";
 import { NavigationBar } from "../../components/base/NavigationBar";
+import SubforumOverview from "../../components/specialized/Forum/SubforumOverview";
 
-import SubforumOverview from '../../components/specialized/Forum/SubforumOverview';
+import { get_subforums, post_subforum } from "../../actions/forumActions";
 
-import { IoIosChatboxes, IoMdPersonAdd } from 'react-icons/io';
-import { FaRegNewspaper, FaBug } from 'react-icons/fa';
+//TODO: Figure out icons
+//Sometimes only pulls 3?
 
+const Root = withRouter(({ get_subforums, subforums, post_subforum }) => {
+  const [subforumsList, setSubforumsList] = useState([]);
+  const icons = [IoIosChatboxes, FaRegNewspaper, FaBug, IoMdPersonAdd];
 
-const subforums = [
-  {id: 1, title: "General", path:"/forum/general", description: "Chat about anything from the daily news to the latest fashion", icon: IoIosChatboxes },
-  {id: 2, title: "Hacker News", path:"/forum/hacker-news", description: "The latest tech industry news stories", icon: FaRegNewspaper},
-  {id: 3, title: "Bug Bounties", path:"/forum/bug-bounties", description: "Help fellow CollabClouders with syntax, runtime, logic errors and more", icon: FaBug},
-  {id: 4, title: "LF Collaborators", path:"/forum/collabs", description: "View projects seeking collaborators", icon: IoMdPersonAdd}
-];
+  useEffect(() => {
+    post_subforum(
+      "General",
+      "Chat about anything from the daily news to the latest fashion"
+    );
 
-const Root = () => {
+    post_subforum("Hacker News", "The latest tech industry news stories");
+    post_subforum(
+      "Bug Bounties",
+      "Help fellow CollabClouders with syntax, runtime, logic errors and more"
+    );
+    post_subforum("Collabs", "View projects seeking collaborators");
+
+    get_subforums();
+  }, [get_subforums, post_subforum]);
+
+  useEffect(() => {
+    setSubforumsList(subforums);
+  }, [subforums]);
+
+  function generateURL(title) {
+    return "/forum/" + title.toLowerCase().replace(" ", "-");
+  }
+
   return (
     <div>
-    <NavigationBar />
-    <Container>
-      <Breadcrumb>
-        <Breadcrumb.Item active>Home</Breadcrumb.Item>
-      </Breadcrumb>
-      <div className="d-flex flex-column">
-        {subforums.map((subforum) => 
-        <SubforumOverview key={subforum.id} path={subforum.path} title={subforum.title} description={subforum.description} icon={subforum.icon}/>)}
-      </div>
-      </Container>    
+      <NavigationBar />
+      <Container>
+        <Breadcrumb>
+          <Breadcrumb.Item active>Home</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="d-flex flex-column">
+          {subforumsList.map((subforum, index) => (
+            <SubforumOverview
+              key={index}
+              path={generateURL(subforum.title)}
+              title={subforum.title}
+              description={subforum.description}
+              icon={icons[index]}
+            />
+          ))}
+        </div>
+      </Container>
     </div>
   );
-};
+});
 
-export default Root;
+function mapStateToProps(state) {
+  return { subforums: state.forum.subforums };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    get_subforums: () => {
+      dispatch(get_subforums());
+    },
+    post_subforum: (title, description) => {
+      dispatch(post_subforum(title, description));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Root);
