@@ -5,6 +5,9 @@ const router = express.Router();
 const { check, validationResult, body} = require("express-validator");
 const db = require("../../database.js");
 
+// Helper functions
+const databaseHelpers = require('../../utils/databaseHelpers');
+const notificationHelpers = require('../../utils/notifications/projectNotifications');
 
 // @route   POST api/projects/leave
 // @desc    A user leaves a project
@@ -52,8 +55,20 @@ router.post(
 			if (record) {
 				let success = record.destroy();
 
+				// Get username associated with userid
+				const username = await databaseHelpers.getUsername(req.body.uid);
+				if (!username) {
+					return res.status(404).json({ errorMessage: "The provided uid does not exist" });
+				}
+
 				// Successfully deleted this record
 				if (success) {
+					// Get project name associated with projectid
+					const projectName = await databaseHelpers.getProjectName(req.body.pid);
+
+					// Add a notification for this project
+					notificationHelpers.addNotification("project_update", req.body.pid, req.body.uid, `${username} left ${projectName} at ${moment(collaborator.createdAt).format("MMMM Do YYYY, h:mm:ss a")}`);
+				
 					return res.status(200).json({
 						result: "Successfully removed user from project"
 					});

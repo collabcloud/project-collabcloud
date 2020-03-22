@@ -7,7 +7,7 @@ const db = require("../../database.js");
 
 // Helper functions
 const databaseHelpers = require('../../utils/databaseHelpers');
-
+const notificationHelpers = require('../../utils/notifications/projectNotifications');
 
 // @route   POST api/projects/join
 // @desc    A user joins a project
@@ -60,6 +60,13 @@ router.post(
 			// The user hasn't joined the project yet; add them
 			const success = await databaseHelpers.addUserToProject(req.body.uid, username, req.body.pid, req.body.memberStatus);
 			if (success) {
+
+				// Get project name associated with projectid
+				const projectName = await databaseHelpers.getProjectName(req.body.pid);
+
+				// Add a notification for this project
+				notificationHelpers.addNotification("project_update", req.body.pid, req.body.uid, `${username} joined ${projectName} at ${moment(collaborator.createdAt).format("MMMM Do YYYY, h:mm:ss a")}! Welcome ${username}!`);
+
 				return res.status(200).json({ result: "Success" });
 			} else {
 				// Some error with Sequelize

@@ -3,10 +3,12 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const uuidv5 = require('uuid/v5');
 const db = require("../../database.js");
+const moment = require('moment');
 require('dotenv').config({ path: './config/.env' });
 
 // Helper functions
 const databaseHelpers = require('../../utils/databaseHelpers');
+const notificationHelpers = require('../../utils/notifications/projectNotifications');
 
 // Ensures all pid are unique from userid
 const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
@@ -120,7 +122,8 @@ router.post(
 				return res.status(500).json({ errorMessage: "Internal server error" });
 			}
 
-			// Add a notification
+			// Add a notification for this project
+			notificationHelpers.addNotification("project_update", projectId, ownerUserID, `${ownerUserID} created ${projectName} at ${moment(collaborator.createdAt).format("MMMM Do YYYY, h:mm:ss a")}!`);
 
 			res.status(200).json({ result: "Success" });
 		} catch (err) {

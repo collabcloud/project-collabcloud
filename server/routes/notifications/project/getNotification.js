@@ -10,7 +10,7 @@ router.get("/",
 [
     check("projectId", "Project ID required").not().isEmpty(),
     // check("notificationType", "Notification type required").isIn(["project_update", "project_join_request"]),
-    check("isProjectOwner").not().isEmpty(),
+    // check("isProjectOwner").not().isEmpty(),
     check("notificationsToGet", "Must specify a maximum number of notifications to get")
 ],
 async (req, res) => {
