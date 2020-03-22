@@ -20,9 +20,11 @@ try {
   console.error("Unable to connect to the database:", error);
 }
 
-// Keep all fields lower case ssince psql does some weird stuff with camel case
-// TODO: Make username a max of 39 characters (longest github username is 39 characters)
-const User = db.define("user", {
+
+// Keep all fields lower case since psql does some weird stuff with camel case
+const User = db.define(
+  "user", 
+  {
     uid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
@@ -30,7 +32,7 @@ const User = db.define("user", {
     },
     username: {
       allowNull: false,
-      type: DataTypes.STRING(25)
+      type: DataTypes.STRING(39)
     },
     password: {
       allowNull: false,
@@ -123,7 +125,6 @@ const project = db.define(
     },
     linkedinLink: {
         type: DataTypes.STRING(50)
-      type: DataTypes.STRING(50)
     }
   },
   {}
