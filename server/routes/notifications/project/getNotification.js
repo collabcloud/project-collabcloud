@@ -3,15 +3,13 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const db = require("../../../database.js");
 
-// @route   GET /api/notification/project/get
+// @route   GET /api/notifications/project/get
 // @desc    Return the notifications for a given project
 // @access  Public
 router.get("/",
 [
-    check("projectId", "Project ID required").not().isEmpty(),
-    // check("notificationType", "Notification type required").isIn(["project_update", "project_join_request"]),
-    // check("isProjectOwner").not().isEmpty(),
-    check("notificationsToGet", "Must specify a maximum number of notifications to get")
+    check("userId", "User ID required").not().isEmpty(),
+    check("notificationsToGet", "Must specify a maximum number of project notifications to get").not().isEmpty(),
 ],
 async (req, res) => {
     try {
@@ -21,27 +19,23 @@ async (req, res) => {
             return res.status(422).json({ errors: errors.array() });
         }
 
-        console.log(req.query);
+        // console.log(req.query);
 
-        // Get any project join request notifications (only the owner gets these)
-        let projectJoinRequests;
-        if (req.query.isProjectOwner) {
-            projectJoinRequests = await db.models.project_notifications.findAll({
-                where: {
-                    pid: req.query.projectId,
-                    notificationType: "project_join_request"
-                },
-                limit: req.query.notificationsToGet,
-                order: [
-                    ['createdAt', 'ASC']
-                ]
-            });
-        } 
+        // Get a list of all the projects the user is in
+        const projectsList = await db.models.user_follows_project.findAll({
+            where: {
+                userUid: req.query.userId
+            }
+        });
 
-        // Get project update notifications (both the owner and follower get these)
+        const listOfProjectIds = projectsList.map(project => project.dataValues.projectPid);
+        // console.log(listOfProjectIds);
+
+        // Get project update notifications from all of the projects the user is in
+        // Messages are stored in reverse-chronological order (most recent first)
         const projectUpdates = await db.models.project_notifications.findAll({
             where: {
-                pid: req.query.projectId,
+                pid: listOfProjectIds,
                 notificationType: "project_update"
             },
             limit: req.query.notificationsToGet,
@@ -50,23 +44,14 @@ async (req, res) => {
             ]
         });
 
-        console.log(projectJoinRequests);
-        console.log(projectUpdates);
+        // console.log(projectUpdates);
+        const notificationMessages = projectUpdates.map(projectUpdate => projectUpdate.dataValues.notificationMessage);
+        // console.log(notificationMessages)
 
-        // Successfully retrieved project notifications
-        if (projectUpdates && projectUpdates.dataValues) {
-            return res.status(200).json({
-                projectUpdates: projectUpdates.dataValues,
-                projectJoinRequests: projectJoinRequests
-            });
-        }
-        // No project notifications
-		else {
-            // TODO: Change this status code
-			res.status(404).json({
-				errors: "No notifications for that specified project"
-			});
-		}
+        // Send back notifications (note that this can still be an empty array)
+        return res.status(200).json({
+            notifications: notificationMessages
+        });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ errorMessage: "Internal server error" });

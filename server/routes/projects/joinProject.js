@@ -4,6 +4,7 @@ const axios = require("axios");
 const router = express.Router();
 const { check, validationResult, body} = require("express-validator");
 const db = require("../../database.js");
+const moment = require('moment');
 
 // Helper functions
 const databaseHelpers = require('../../utils/databaseHelpers');
@@ -65,7 +66,7 @@ router.post(
 				const projectName = await databaseHelpers.getProjectName(req.body.pid);
 
 				// Add a notification for this project
-				notificationHelpers.addNotification("project_update", req.body.pid, req.body.uid, `${username} joined ${projectName} at ${moment(collaborator.createdAt).format("MMMM Do YYYY, h:mm:ss a")}! Welcome ${username}!`);
+				notificationHelpers.addNotification("project_update", req.body.pid, req.body.uid, `${username} joined ${projectName} at ${moment().format("MMMM Do YYYY, h:mm:ss a")}! Welcome ${username}!`);
 
 				return res.status(200).json({ result: "Success" });
 			} else {

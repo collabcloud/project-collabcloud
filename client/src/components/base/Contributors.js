@@ -2,7 +2,7 @@ import React from 'react';
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { GoPerson, GoCalendar, GoInfo, GoClock} from 'react-icons/go';
 import { Jumbotron } from 'react-bootstrap';
-import styles from "../../css/Contributors.css";
+// import styles from "../../css/Contributors.css";
 const moment = require('moment');
 
 export function Contributors(props) {

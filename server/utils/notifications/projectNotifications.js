@@ -20,7 +20,7 @@ const addNotification = async (
 		);
 
 		// Insert the notification into the database
-		let notificationObject = db.models.ProjectNotification.build({
+		let notificationObject = db.models.project_notifications.build({
 			nid: nid,
 			pid: projectId,
 			notificationType: notificationType,

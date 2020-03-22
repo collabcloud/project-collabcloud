@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import { Alert, Card, Button, Container, Row, Col } from "react-bootstrap";
+import { NotificationList } from "./NotificationList";
 import NotificationAlert from "../../components/base/Alert";
 
 // Style Import
 import "../../css/Dashboard.css";
 
-const Dashboard = () => {
+// Redux Imports
+import { connect } from "react-redux"; // connects the CreateProjects component to the Redux store
+import { getProjectNotifications } from "../../actions/notificationActions";
+import PropTypes from "prop-types";
+
+const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications }) => {
 	const [show, setShow] = useState(true);
+
+	// Loads project notifications
+	useEffect(() => {
+		getProjectNotifications( loggedInUid , 10);
+	}, [getProjectNotifications, loggedInUid]);
 
 	return (
 		<div>
@@ -102,6 +113,22 @@ const Dashboard = () => {
 								here are your notifications based on your follow
 								preferences
 							</Alert>
+
+							{/* Project Notifications */}
+							<h4>
+								<span role="img" aria-label="stopwatch">
+									&#9201;
+								</span>
+								Project Notifications
+							</h4>
+							<Card>
+								<NotificationList 
+									projectNotifications={projectNotifications.notifications}
+								/>
+							</Card>
+
+							<br />
+							
 
 							<h4>
 								<span role="img" aria-label="lightbulb">
@@ -299,4 +326,23 @@ const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+function mapStateToProps(state) {
+	return {
+		projectNotifications: state.notifications.projectNotifications,
+		loggedInUid: state.user.uid
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		getProjectNotifications: (uid, notificationsToGet) => {
+			dispatch(getProjectNotifications(uid, notificationsToGet));
+		}
+	};
+}
+
+Dashboard.propTypes = {
+	getProjectNotifications: PropTypes.func.isRequired
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

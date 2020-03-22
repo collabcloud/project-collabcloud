@@ -39,3 +39,5 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 export const GET_INFO = "GET_INFO";
 
 
+// Notification Actions
+export const GET_PROJECT_NOTIFICATIONS = "GET_PROJECT_NOTIFICATIONS";

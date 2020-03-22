@@ -123,7 +123,7 @@ router.post(
 			}
 
 			// Add a notification for this project
-			notificationHelpers.addNotification("project_update", projectId, ownerUserID, `${ownerUserID} created ${projectName} at ${moment(collaborator.createdAt).format("MMMM Do YYYY, h:mm:ss a")}!`);
+			notificationHelpers.addNotification("project_update", projectID, req.body.ownerUserID, `${username} created ${req.body.projectName} at ${moment().format("MMMM Do YYYY, h:mm:ss a")}!`);
 
 			res.status(200).json({ result: "Success" });
 		} catch (err) {

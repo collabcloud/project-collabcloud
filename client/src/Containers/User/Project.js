@@ -14,12 +14,12 @@ import PropTypes from "prop-types";
 
 // TODO: Get the PID of this project from the store, or the name of the project from the dynamic path
 // This is the PID of the project whose information we want to get
-const projectId = "d0f46d7e-e4c9-5811-aa37-c3602cca8cd3";
+const projectId = "de9a7d6d-908e-5973-98b4-34b08215ad91";
 
 const Project = ({ getProjectInformation, updateProject, deleteProject, leaveProject, joinProject, resetProjectActionStatus, projectInformation, updateSuccess, deleteSuccess, leaveSuccess, joinSuccess, loggedInUid }) => {
 
     const history = useHistory();
-    // console.log(`Currently logged in user is: ${loggedInUid}`);
+    console.log(`Currently logged in user is: ${loggedInUid}`);
     const [isShowingSettings, modifySettings] = useState(false);
     const [hasUserJoined, setUserJoinedProject] = useState(false);
     const [successfullyDeleted, setDeleted] = useState(false);
@@ -43,7 +43,7 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, leavePro
                 setUserJoinedProject(true);
             }
         });
-    }, [projectInformation]);
+    }, [projectInformation, loggedInUid]);
 
     // When a user tries to delete their project, check if deletion was successful
     useEffect(() => {
