@@ -12,6 +12,7 @@ const ThreadForm = withRouter(({ post_thread, status, ...props }) => {
   const [subforum, setSubforum] = useState("");
   const [topic, setTopic] = useState("");
   const [content, setContent] = useState("");
+  const [message, setMessage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
@@ -20,11 +21,11 @@ const ThreadForm = withRouter(({ post_thread, status, ...props }) => {
       setUid(props.uid);
       setSubforum(props.subforum);
     }
-  }, []);
+  }, [props]);
 
   function renderMessage() {
     if (showMessage) {
-      return <p>Successfully created a thread.</p>;
+      return <p>{message}</p>;
     }
   }
 
@@ -32,13 +33,12 @@ const ThreadForm = withRouter(({ post_thread, status, ...props }) => {
     e.preventDefault();
     setShowMessage(true);
     await post_thread(sid, uid, subforum, topic, content);
-    console.log("posted!");
+    if (status !== "Success") {
+      setMessage("An error occurred while creating a thread");
+    } else {
+      setMessage("Thread successfully created");
+    }
     props.rerender();
-
-    // Save the project to database
-
-    // Redirect to the new thread
-    //history.push("/explore");
   }
 
   return (

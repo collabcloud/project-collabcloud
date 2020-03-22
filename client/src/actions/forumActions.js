@@ -175,6 +175,7 @@ export const post_thread = (
     topic: topic,
     content: content
   });
+  console.log(body);
 
   axios
     .post(url, body, config)
@@ -211,7 +212,6 @@ export const make_post = (tid, sid, submitter, content) => async dispatch => {
     submitter: submitter,
     content: content
   });
-  console.log(body);
 
   axios
     .post(url, body, config)

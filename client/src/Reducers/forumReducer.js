@@ -28,17 +28,20 @@ export default (state = initialState, action) => {
     case GET_SUBFORUMS:
       return {
         ...state,
-        subforums: action.payload
+        subforums: action.payload,
+        status: "Success"
       };
     case GET_THREADS:
       return {
         ...state,
-        threads: action.payload
+        threads: action.payload,
+        status: "Success"
       };
     case GET_POSTS:
       return {
         ...state,
-        posts: action.payload
+        posts: action.payload,
+        status: "Success"
       };
     case RESOURCE_NOT_FOUND:
       return {

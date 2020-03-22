@@ -48,7 +48,6 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
   }
 
   function onSubmit(e) {
-    console.log("hi");
     e.preventDefault();
     make_post(threadId, sid, submitter, newPost);
     get_posts(threadId);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Col, Breadcrumb } from "react-bootstrap";
+import { Container, Breadcrumb } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { IoIosChatboxes, IoMdPersonAdd } from "react-icons/io";
@@ -30,7 +30,7 @@ const Root = withRouter(({ get_subforums, subforums, post_subforum }) => {
     post_subforum("Collabs", "View projects seeking collaborators");
 
     get_subforums();
-  }, []);
+  }, [get_subforums, post_subforum]);
 
   useEffect(() => {
     setSubforumsList(subforums);

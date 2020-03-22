@@ -45,11 +45,11 @@ const Subforum = withRouter(
       if (sid !== "") {
         get_threads(sid);
       }
-    }, [sid]);
+    }, [get_threads, sid]);
 
     async function rerenderThreads() {
       get_threads(sid);
-      console.log("done rendering...");
+      console.log("getting ...");
     }
 
     function renderThreads() {
@@ -129,9 +129,11 @@ const Subforum = withRouter(
           </div>
           <Table bordered hover>
             <thead>
-              <th className="text-left">Thread</th>
-              <th className="text-center">Stats</th>
-              <th className="text-right">Latest Response</th>
+              <tr>
+                <th className="text-left">Thread</th>
+                <th className="text-center">Stats</th>
+                <th className="text-right">Latest Response</th>
+              </tr>
             </thead>
             <tbody>{renderThreads()}</tbody>
           </Table>
@@ -144,7 +146,6 @@ const Subforum = withRouter(
 );
 
 function mapStateToProps(state) {
-  console.log(state.forum.threads);
   return { threads: state.forum.threads };
 }
 

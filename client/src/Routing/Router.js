@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { get_subforums, get_all_threads } from "../actions/forumActions";
@@ -21,7 +21,7 @@ import Subforum from "../Containers/Forum/Subforum";
 import Thread from "../Containers/Forum/Thread";
 import Search from "../Containers/Search/Search";
 
-const uid = "17044c11-c813-4dd7-94c6-4a387d4c1ede";
+const uid = "55452c81-3295-4ac2-80cd-a5f0b9a86fd6";
 //TODO filter out special chars
 
 const Router = withRouter(
@@ -37,8 +37,9 @@ const Router = withRouter(
 
     function renderSubforums() {
       if (subforums !== undefined || subforums !== null) {
-        const subforum_links = subforums.map(subforum => (
+        const subforum_links = subforums.map((subforum, index) => (
           <Route
+            key={index}
             exact
             path={generateURL(subforum.title, "", true)}
             render={props => (
@@ -59,8 +60,9 @@ const Router = withRouter(
 
     function renderThreads() {
       if (subforums !== undefined || subforums !== null) {
-        const thread_links = threads.map(thread => (
+        const thread_links = threads.map((thread, index) => (
           <Route
+            key={index}
             exact
             path={generateURL(thread.forum_title, thread.topic, false)}
             render={props => (
