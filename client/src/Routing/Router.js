@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute";
 
 // Component Imports
 import LandingPage from "../Containers/LandingPage/LandingPage";
@@ -17,6 +18,7 @@ import Subforum from '../Containers/Forum/Subforum';
 import Thread from '../Containers/Forum/Thread';
 import Search from "../Containers/Search/Search"
 import Logout from "../Containers/Account/Logout/Logout";
+import Page404 from "../Containers/Dashboard/404Page";
 
 
 const posts1 = [
@@ -87,19 +89,26 @@ const subforums = [
 const Router = () => (
     // Render the first <Route> element whose path matches the current URL
     <Switch>
+
+      {/* Public Routes */}
       <Route path="/" component={LandingPage} exact/>
       <Route path="/login" component={Login}/>
       <Route path="/register2" component={Register2} />
       <Route path="/register" component={Register} />
-      <Route path ="/explore" component={Explore} />
-      <Route path="/projects/create" component={CreateProjects} />
-      <Route path="/user/profile" component={Profile} />
-      <Route path="/user/matthuynh" component={OtherProfile} />
-      <Route path="/user/project" component={Project} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/search" component={Search} />
       <Route path="/logout" component={Logout} />
-      <Route exact path="/forum/" component={Root} />
+
+      {/* Auth Routes */}
+      <PrivateRoute path ="/explore" component={Explore} />
+      <PrivateRoute path="/projects/create" component={CreateProjects} />
+      <PrivateRoute path="/user/profile" component={Profile} />
+      <PrivateRoute path="/user/matthuynh" component={OtherProfile} />
+      <PrivateRoute path="/user/project" component={Project} />
+      <PrivateRoute path="/dashboard" component={Dashboard} />
+      <PrivateRoute path="/search" component={Search} />
+      <PrivateRoute exact path="/forum/" component={Root} />
+
+      {/* Catch All -- 404 */}
+      <Route component={Page404} />
 
       {subforums.map((subforum) => 
         <Route key={subforum.id} exact path={subforum.path} render={(props) => <Subforum {...props} 
