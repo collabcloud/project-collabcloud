@@ -1,15 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Card,
-  CardHeader,
-  ListGroup,
-  ListGroupItem
-} from "shards-react";
-import {connect} from "react-redux";
-
+import { Card, CardHeader, ListGroup, ListGroupItem } from "shards-react";
+import { connect } from "react-redux";
 
 //this should be the state passed into it
+
 const UserDetails = ({ userDetails, username, firstname, lastname, city, province,description}) => {
 
 
@@ -25,6 +20,7 @@ function renderName() {
     return firstname + " " + lastname;
   }
 }
+
 
 function renderLocation() {
   if(province == null && city == null) {
@@ -91,23 +87,21 @@ UserDetails.defaultProps = {
     avatar: require("../../avatar.png"),
     jobTitle: "Project Manager",
     metaTitle: "Description",
-    metaValue:
-      "gamers rise up",
+    metaValue: "gamers rise up",
     metalinkTitle: "Links",
     metalinkValue: "github links here"
   }
 };
 
-
-const mapStateToProps = (state) => {
-	return {
+const mapStateToProps = state => {
+  return {
     uid: state.userinfo.profile.uid,
     username: state.userinfo.profile.username,
     firstname: state.userinfo.profile.firstname,
     lastname: state.userinfo.profile.lastname,
     city: state.userinfo.profile.city,
     province: state.userinfo.profile.province,
-    description: state.userinfo.profile.description,
-	};
+    description: state.userinfo.profile.description
+  };
 };
 export default connect(mapStateToProps, {})(UserDetails);

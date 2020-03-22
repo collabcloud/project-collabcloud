@@ -1,10 +1,8 @@
-import {
-    LOGIN
-} from "../actions/types";
+import { LOGIN } from "../actions/types";
 
 const initialState = {
-    loggedIn: false,
-    token: localStorage.getItem("token")
+  loggedIn: false,
+  token: localStorage.getItem("token")
 };
 
 export default (state = initialState, action) => {

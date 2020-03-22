@@ -1,7 +1,7 @@
-import React, {useState} from "react";
-import {connect} from "react-redux";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import {update_user_info} from "../../actions/userActions";
+import { update_user_info } from "../../actions/userActions";
 import {
   Card,
   CardHeader,
@@ -17,9 +17,16 @@ import {
   Button
 } from "shards-react";
 
-
-
-const UserAccountDetails = ({title,uid,firstname,lastname,city,province,description,update_user_info}) => {
+const UserAccountDetails = ({
+  title,
+  uid,
+  firstname,
+  lastname,
+  city,
+  province,
+  description,
+  update_user_info
+}) => {
   //in the future the hooks will be info queried from DB
   const [name, setName] = useState(firstname);
   const [last_name, setlastName] = useState(lastname);
@@ -27,7 +34,7 @@ const UserAccountDetails = ({title,uid,firstname,lastname,city,province,descript
   const [cityfield, setCity] = useState(city);
   const [descriptionfield, setDesc] = useState(description);
 
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault();
     // //console.log(login)
     // //how to do checks?
@@ -151,19 +158,32 @@ UserAccountDetails.defaultProps = {
   title: "Account Details"
 };
 
-async function submitUserProfile(update_user_info,uid,name,last_name,city_field, province,description){
+async function submitUserProfile(
+  update_user_info,
+  uid,
+  name,
+  last_name,
+  city_field,
+  province,
+  description
+) {
   //console.log(username);
   //console.log(password);
   console.log("send to update user info action");
-  console.log(name);
-  await update_user_info({uid,name, last_name, city_field, province,description});
+  await update_user_info({
+    uid,
+    name,
+    last_name,
+    city_field,
+    province,
+    description
+  });
 }
 
-
 UserAccountDetails.propTypes = {
-	update_user_info: PropTypes.func.isRequired
+  update_user_info: PropTypes.func.isRequired
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     uid: state.userinfo.profile.uid,
     firstname: state.userinfo.profile.firstname,
@@ -171,11 +191,9 @@ const mapStateToProps = (state) => {
     city: state.userinfo.profile.city,
     province: state.userinfo.profile.province,
     description: state.userinfo.profile.description
-  }
-}
+  };
+};
 
-
-
-
-
-export default connect(mapStateToProps, {update_user_info})(UserAccountDetails);
+export default connect(mapStateToProps, { update_user_info })(
+  UserAccountDetails
+);

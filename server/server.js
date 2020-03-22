@@ -29,6 +29,11 @@ app.use("/api/github/repos", require("./routes/github/getRepos"));
 app.use("/api/search", require("./routes/search/search"));
 app.use("/api/follow/user", require("./routes/follow/user"));
 app.use("/api/unfollow/user", require("./routes/unfollow/user"));
+app.use("/api/forum/subforum", require("./routes/forum/subforum"));
+app.use("/api/forum/thread", require("./routes/forum/thread"));
+app.use("/api/forum/post", require("./routes/forum/post"));
+app.use("/api/forum/getAllThreads", require("./routes/forum/getAllThreads"));
+
 
 //ask about this
 app.use("/api/users/profile", require("./routes/profile/profile.js"));

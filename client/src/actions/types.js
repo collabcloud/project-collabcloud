@@ -1,3 +1,10 @@
+//General Actions
+export const RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND"; //404
+export const GET_SUCCESSFUL = "GET_SUCCESSFUL"; //200 OK on GET
+export const POST_SUCCESSFUL = "POST_SUCCESSFUL"; //200 OK on POST
+export const ATTEMPT = "ATTEMPT"; //500 Internal Server Error
+
+
 // Project Actions 
 export const ADD_PROJECT = "ADD_PROJECT";
 export const GET_PROJECT = "GET_PROJECT";
@@ -8,7 +15,6 @@ export const DELETE_PROJECT = "DELETE_PROJECT";
 // Register Actions
 export const GET_TOKEN = "GET_TOKEN";
 export const GITHUB_EXISTS = "GITHUB_EXISTS";
-export const ATTEMPT = "ATTEMPT";
 
 // GitHub Repository Actions
 export const GET_GIT_REPOS = "GET_REPOS";
@@ -31,8 +37,13 @@ export const ALREADY_UNFOLLOWED = "ALREADY_UNFOLLOWED";
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 
-
 //profile actions
 export const GET_INFO = "GET_INFO";
+
+//Forum Actions
+export const GET_SUBFORUMS = "GET_SUBFORUMS";
+export const GET_THREADS = "GET_THREADS";
+export const GET_POSTS = "GET_POSTS";
+
 
 

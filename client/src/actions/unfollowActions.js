@@ -9,7 +9,6 @@ export const unfollow_user = (followee, follower) => async dispatch => {
         }
     }
     const url = '/api/unfollow/user';
-    const body = JSON.stringify({followee: followee, follower: follower});
     
     axios.delete(url, {params: {followee: followee, follower: follower}}, config).then((response)=>{
         dispatch({
