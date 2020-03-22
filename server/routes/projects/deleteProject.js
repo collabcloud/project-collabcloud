@@ -31,6 +31,9 @@ router.post("/", async (req, res) => {
 			// Remove all users from that project
 			databaseHelpers.removeAllUsersFromProject(req.body.pid);
 
+			// Remove all notifications about this project
+			databaseHelpers.removeAllProjectNotifications(req.body.pid);
+
             // Successfully deleted the project
             if (success) {
                 return res.status(200).json({

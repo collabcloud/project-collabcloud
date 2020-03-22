@@ -76,9 +76,29 @@ const removeAllUsersFromProject = async (pid) => {
         console.log(err);
         return;
     }
+};
+
+// Given a project, remove all notifications for that project
+const removeAllProjectNotifications = async(pid) => {
+    try {
+        const records = await db.models.project_notifications.destroy({
+            where: {
+                pid: pid
+            }
+        });
+        if (records) {
+            return "success";
+        }
+    } catch (err) {
+        console.log(err);
+        return;
+    }
 }
+
+
 
 exports.getUsername = getUsername;
 exports.addUserToProject = addUserToProject;
 exports.removeAllUsersFromProject = removeAllUsersFromProject;
 exports.getProjectName = getProjectName;
+exports.removeAllProjectNotifications = removeAllProjectNotifications;
