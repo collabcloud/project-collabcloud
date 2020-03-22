@@ -16,6 +16,7 @@ import Root from '../Containers/Forum/Root';
 import Subforum from '../Containers/Forum/Subforum';
 import Thread from '../Containers/Forum/Thread';
 import Search from "../Containers/Search/Search"
+import Logout from "../Containers/Account/Logout/Logout";
 
 
 const posts1 = [
@@ -97,6 +98,7 @@ const Router = () => (
       <Route path="/user/project" component={Project} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/search" component={Search} />
+      <Route path="/logout" component={Logout} />
       <Route exact path="/forum/" component={Root} />
 
       {subforums.map((subforum) => 
