@@ -8,6 +8,7 @@ import Register from "../Containers/Account/Register/RegisterPage";
 import Register2 from "../Containers/Account/Register/RegisterPage2";
 import Explore from "../Containers/Explore/Explore";
 import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects";
+import Trending from "../Containers/Trending/Trending";
 import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
 import OtherProfile from "../Containers/User/OtherProfile";
@@ -92,6 +93,7 @@ const Router = () => (
       <Route path="/register" component={Register} />
       <Route path ="/explore" component={Explore} />
       <Route path="/projects/create" component={CreateProjects} />
+      <Route path="/trending" component={Trending} />
       <Route path="/user/profile" component={Profile} />
       <Route path="/user/matthuynh" component={OtherProfile} />
       <Route path="/user/project" component={Project} />
