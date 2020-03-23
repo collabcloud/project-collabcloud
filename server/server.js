@@ -15,6 +15,17 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+const PORT = process.env.SERVER_PORT;
+const server = app.listen(PORT, () => 
+{
+    console.log(`Server started on port ${PORT}`);
+    
+    
+});
+
+const socketio = require('socket.io');
+const io = socketio(server);
+app.use("/api/message", require("./routes/chat/chat")(io));
 
 app.use("/api/users/register", require("./routes/auth/register"));
 app.use("/api/users/github", require("./routes/auth/github"));
@@ -30,9 +41,8 @@ app.use("/api/search", require("./routes/search/search"));
 app.use("/api/follow/user", require("./routes/follow/user"));
 app.use("/api/unfollow/user", require("./routes/unfollow/user"));
 
+
 //ask about this
 app.use("/api/users/profile", require("./routes/profile/profile.js"));
 
 
-const PORT = process.env.SERVER_PORT;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

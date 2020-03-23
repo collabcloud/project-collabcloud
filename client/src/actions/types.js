@@ -35,4 +35,10 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 //profile actions
 export const GET_INFO = "GET_INFO";
 
+//chat actions
+export const ADD_TO_CHAT = "ADD_TO_CHAT";
+export const INITIALIZE_CHAT = "INITIALIZE_CHAT";
+export const GET_MESSAGES = "GET_MESSAGES";
+export const UPDATE_CHAT = "UPDATE_CHAT";
+
 

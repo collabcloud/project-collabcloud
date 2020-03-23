@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
+
 // Component Imports
 import LandingPage from "../Containers/LandingPage/LandingPage";
 import Login from "../Containers/Account/LogIn/LoginPage";
@@ -15,8 +16,8 @@ import Profile from "../Containers/User/Profile";
 import Root from '../Containers/Forum/Root';
 import Subforum from '../Containers/Forum/Subforum';
 import Thread from '../Containers/Forum/Thread';
-import Search from "../Containers/Search/Search"
-
+import Search from "../Containers/Search/Search";
+import Chat from "../Containers/Chat/Chat";
 
 const posts1 = [
   {id: 1, submitter: "jcserv", status: "ok so basically im monky",
@@ -83,6 +84,7 @@ const subforums = [
   {id: 4, title: "LF Collaborators", path:"/forum/collabs", description: "View projects seeking collaborators"}
 ];
 
+const io = require("socket.io-client");
 const Router = () => (
     // Render the first <Route> element whose path matches the current URL
     <Switch>
@@ -98,6 +100,7 @@ const Router = () => (
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/search" component={Search} />
       <Route exact path="/forum/" component={Root} />
+      <Route path="/message" render={(props) => <Chat {...props} io={io} />} />
 
       {subforums.map((subforum) => 
         <Route key={subforum.id} exact path={subforum.path} render={(props) => <Subforum {...props} 

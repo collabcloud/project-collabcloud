@@ -5,7 +5,7 @@ const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.D
     host: process.env.DB_HOST,
     dialect: 'postgres',
     port: process.env.DB_PORT,
-    logging: (process.env.DB_LOGGING == "TRUE" ? true : false)
+    logging: (process.env.DB_LOGGING == "TRUE" ? console.log : false)
 });
 
 try {
@@ -147,6 +147,36 @@ const Notification = db.define("notification", {
     dateCreated: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.NOW
+    }
+});
+
+
+const chats = db.define("chats", {
+    firstUser: {
+        type:DataTypes.STRING(200),
+        allowNull: false
+    },
+    secondUser:{
+        type: DataTypes.STRING(200),
+        allowNull: false
+    },
+    seen: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
+});
+const messages = db.define("messages", {
+    sender: {
+        type:DataTypes.STRING(200),
+        allowNull: false
+    },
+    receiver:{
+        type: DataTypes.STRING(200),
+        allowNull: false
+    },
+    message:{
+        type: DataTypes.STRING(20000),
+        allowNull: false
     }
 });
 
