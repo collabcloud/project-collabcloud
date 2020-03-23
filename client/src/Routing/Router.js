@@ -98,11 +98,11 @@ const Router = () => (
       <Route path="/logout" component={Logout} />
 
       {/* Auth Routes */}
+      <PrivateRoute path="/project/:pid" component={Project} />
       <PrivateRoute path ="/explore" component={Explore} />
       <PrivateRoute path="/projects/create" component={CreateProjects} />
       <PrivateRoute path="/user/profile" component={Profile} />
       <PrivateRoute path="/user/matthuynh" component={OtherProfile} />
-      <PrivateRoute path="/user/project" component={Project} />
       <PrivateRoute path="/dashboard" component={Dashboard} />
       <PrivateRoute path="/search" component={Search} />
       <PrivateRoute exact path="/forum/" component={Root} />

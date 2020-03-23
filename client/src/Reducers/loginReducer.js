@@ -6,7 +6,8 @@ import {
 } from "../actions/types";
 
 const initialState = {
-    loggedIn: false
+    token: localStorage.getItem("token"),
+    loggedIn: null
 };
 
 export default (state = initialState, action) => {

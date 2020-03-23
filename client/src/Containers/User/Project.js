@@ -17,12 +17,18 @@ import { connect } from "react-redux"; // connects the ProjectForm component to 
 import { updateProject, deleteProject, getProjectInformation } from "../../actions/projectActions";
 import PropTypes from "prop-types";
 
-// TODO: Get the PID of this project from the store, or the name of the project from the dynamic path
-// This is the PID of the project whose information we want to get
-const projectId = "3c9e9769-3e21-5bb7-b24f-fed83f7ff06b";
+const Project = (props) => {
 
-const Project = ({ getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, deleteSuccess }) => {
-    const history = useHistory();
+    const { getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, deleteSuccess, match } = props;
+    console.log(props);
+
+    // This is the PID of the project whose information we want to get
+    const projectId = match.params.pid;
+
+
+
+    
+    // const history = useHistory();
 
 	// Loads project information
 	useEffect(() => {
@@ -35,18 +41,19 @@ const Project = ({ getProjectInformation, updateProject, deleteProject, projectI
     const [successfullyDeleted, setDeleted] = useState(false);
     const [successfullyUpdated, setUpdated] = useState(false);
 
-    // When a user tries to delete their project, check if deletion was successful
-    useEffect(() => {
-        if (deleteSuccess) {
-            setDeleted(true);
-            // console.log("Deletion success");
-            // Redirect user to dashboard (since there is no project to look at anymore)
-            history.push("/dashboard");
-        } else {
-            // TODO: Get Furqan's alerts up here
-            // console.log("Unsuccessful deletion!");
-        }
-    }, [deleteSuccess, history]);
+    // // When a user tries to delete their project, check if deletion was successful
+    // useEffect(() => {
+    //     console.log(deleteSuccess);
+    //     if (deleteSuccess) {
+    //         setDeleted(true);
+    //         // console.log("Deletion success");
+    //         // Redirect user to dashboard (since there is no project to look at anymore)
+    //         history.push("/dashboard");
+    //     } else {
+    //         // TODO: Get Furqan's alerts up here
+    //         // console.log("Unsuccessful deletion!");
+    //     }
+    // }, [deleteSuccess, history]);
 
     // When a user tries to update their project, check if update was successful
     useEffect(() => {
