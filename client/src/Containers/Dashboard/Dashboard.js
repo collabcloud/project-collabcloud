@@ -22,7 +22,7 @@ const Dashboard = () => {
         <NotificationAlert />
         <NavigationBar />
             <div style={{margin: "50px"}}>
-                <h2>&#10024; Welcome to your dashboard, Jarrod &#10024;</h2>
+                <h2>Welcome to your dashboard, Jarrod</h2>
             </div>
         <Row style={{ margin: "25px"}}>
             
@@ -48,7 +48,7 @@ const Dashboard = () => {
                         <Card>
                             <Card.Body>
                                 {/* Card Index 0 */}
-                                <h4>&#128161; Your Projects</h4>
+                                <h4>Your Projects</h4>
                                 <Card.Title><a href="/">jcserv/harmoney</a></Card.Title>
                                 <Card.Title><a href="/">jcserv/grade.io</a></Card.Title>
                                 <Card.Title><a href="/">jcserv/Stock-Trading</a></Card.Title>
@@ -56,7 +56,7 @@ const Dashboard = () => {
                             </Card.Body>
                             <Card.Body>
                                 {/* Card Index 0 */}
-                                <Card.Title>&#128273; Project Requests</Card.Title>
+                                <Card.Title>Project Requests</Card.Title>
                                 <Card.Title><a href="/">jcserv/Optimize.me (1)</a></Card.Title>
                             </Card.Body>
                         </Card>
@@ -72,53 +72,53 @@ const Dashboard = () => {
                             here are your notifications based on your follow preferences
                         </Alert>
 
-                        <h4>&#9201; Recent Activity</h4>
+                        <h4>Recent Activity</h4>
                         <Card>
                             <Card.Body>
                                 {/* Card Index 0 */}
-                                <Card.Title>&#9989; <a href="/">TheRBajaj</a> joined your <a href="/">Optimize.me</a> project!</Card.Title>
+                                <Card.Title><a href="/">TheRBajaj</a> joined your <a href="/">Optimize.me</a> project!</Card.Title>
                                 <Card.Text>
-                                    &#128172; <a href="/">TheRBajaj</a> wrote: I think this project will go well!
+                                    <a href="/">TheRBajaj</a> wrote: I think this project will go well!
                                 </Card.Text>
                                 <Button variant="success">View Project</Button>
                             </Card.Body>
 
                             <Card.Body>
                                 {/* Card Index 1 */}
-                                <Card.Title>&#10067; <a href="/">matthuynh</a> is requesting to join your <a href="/">Stock Trading</a> project!</Card.Title>
+                                <Card.Title><a href="/">matthuynh</a> is requesting to join your <a href="/">Stock Trading</a> project!</Card.Title>
                                 <Card.Text>
-                                    &#128172; <a href="/">matthuynh</a> wrote: I love finance and would like to join this project with you!
+                                    <a href="/">matthuynh</a> wrote: I love finance and would like to join this project with you!
                                 </Card.Text>
                                 <Button variant="success">View Project</Button>
                             </Card.Body>
 
                             <Card.Body>
                                 {/* Card Index 2 */}
-                                <Card.Title>&#11088; <a href="/">Furqan17</a> starred your <a href="/">207 Paint</a> project!</Card.Title>
+                                <Card.Title><a href="/">Furqan17</a> starred your <a href="/">207 Paint</a> project!</Card.Title>
                                 <Button variant="success">View Project</Button>
                             </Card.Body>
 
                             <Card.Body>
                                 {/* Card Index 0 */}
-                                <Card.Title>&#9989; <a href="/">TheRBajaj</a> joined your <a href="/">Optimize.me</a> project!</Card.Title>
+                                <Card.Title><a href="/">TheRBajaj</a> joined your <a href="/">Optimize.me</a> project!</Card.Title>
                                 <Card.Text>
-                                    &#128172; <a href="/">TheRBajaj</a> wrote: I think this project will go well!
+                                    <a href="/">TheRBajaj</a> wrote: I think this project will go well!
                                 </Card.Text>
                                 <Button variant="success">View Project</Button>
                             </Card.Body>
 
                             <Card.Body>
                                 {/* Card Index 1 */}
-                                <Card.Title>&#10067; <a href="/">matthuynh</a> is requesting to join your <a href="/">Stock Trading</a> project!</Card.Title>
+                                <Card.Title><a href="/">matthuynh</a> is requesting to join your <a href="/">Stock Trading</a> project!</Card.Title>
                                 <Card.Text>
-                                    &#128172; <a href="/">matthuynh</a> wrote: I love finance and would like to join this project with you!
+                                    <a href="/">matthuynh</a> wrote: I love finance and would like to join this project with you!
                                 </Card.Text>
                                 <Button variant="success">View Project</Button>
                             </Card.Body>
 
                             <Card.Body>
                                 {/* Card Index 2 */}
-                                <Card.Title>&#11088; <a href="/">Furqan17</a> starred your <a href="/">207 Paint</a> project!</Card.Title>
+                                <Card.Title><a href="/">Furqan17</a> starred your <a href="/">207 Paint</a> project!</Card.Title>
                                 <Button variant="success">View Project</Button>
                             </Card.Body>
 
@@ -135,7 +135,7 @@ const Dashboard = () => {
                         </Alert>
                     {/* Projects interest */}
                     <div>
-                        <h4>&#127942; Projects that you maybe interested in</h4>
+                        <h4>Projects that you maybe interested in</h4>
                         <Card>
                             <Card.Body>
                                 {/* Card Index 0 */}
@@ -157,7 +157,7 @@ const Dashboard = () => {
                     <br></br>
                     {/* Hackathon Panel */}
                     <div>
-                        <h4>&#127751; Nearby Hackathons</h4>
+                        <h4>Nearby Hackathons</h4>
                         <Card>
                             <Card.Body>
                                 {/* Card Index 0 */}
