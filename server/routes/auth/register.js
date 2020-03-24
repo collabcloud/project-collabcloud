@@ -48,7 +48,6 @@ router.post(
 			const code = req.body.code;
 			const clientID = process.env.CLIENT_ID;
 			const clientSecret = process.env.CLIENT_SECRET;
-			//console.log(req.body);
 			// Get access token from GitHub
 			let response = await axios({
 				method: 'post',
@@ -60,7 +59,6 @@ router.post(
 			let accessToken = response.data.access_token;
 			//TODO: Check if the user related to this access token already exists in the DB.
 			// Insert a user into database
-			console.log(accessToken);
 			let newResponse = await axios.get(`https://api.github.com/user`,{
 				headers: { 
 					accept:'application/json',
@@ -75,8 +73,6 @@ router.post(
 					githubid: JSON.stringify(githubId)
 				}
 			});
-			console.log("hello")
-			//console.log(idQuery.length);
 			if(Array.isArray(idQuery) && idQuery.length > 0){
 				res.status(301).json({ result: "Redirect to login!" });
 				return;
@@ -88,7 +84,6 @@ router.post(
 				githubid: githubId
 			});
 			await UserObject.save();
-			
 			res.status(200).json({ result: "Success" });
 			
 			return;

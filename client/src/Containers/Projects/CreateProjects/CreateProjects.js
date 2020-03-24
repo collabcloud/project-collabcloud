@@ -22,31 +22,33 @@ const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
-const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) => {
+const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos, ownerId }) => {
 	// Initialize state hooks
 	const [name, setName] = useState("");
 	const [tech, setTech] = useState([]);
 	const [desc, setDesc] = useState("");
 	const [isProjectPublic, setVisibilityPublic] = useState(true);
-
+	const [githubStars, setStars] = useState("");
 	const [links, setLinks] = useState([
-		{ name: "Github", icon: github, value: "" },
-		{ name: "Website", icon: website, value: "" },
-		{ name: "DevPost", icon: dev, value: "" },
-		{ name: "LinkedIn", icon: linkedin, value: "" }
+		{ name: "Github", icon: github, placeholder: "Enter your project's GitHub URL here", value: "" },
+		{ name: "Website", icon: website, placeholder: "Enter your project's website URL here", value: "" },
+		{ name: "DevPost", icon: dev, placeholder: "Enter your project's DevPost URL here", value: "" },
+		{ name: "LinkedIn", icon: linkedin, placeholder: "Enter your project's LinkedIn URL here", value: "" }
 	]);
+	
 	const [projects, setProjects] = useState([
 		{
 			name: "Example-Project",
 			description: "👋 Hi! This is literally just an example description",
 			isProjectPublic: true,
+			githubStars: 0,
 			links: [
-				{
-					name: "Website",
-					icon: website,
-					value: "https://www.example.org/"
-				}
-			]
+				{ name: "Github", icon: github, placeholder: "Enter your project's GitHub URL here", value: "" },
+				{ name: "Website", icon: website, value: "https://www.example.org/"},
+				{ name: "DevPost", icon: dev, placeholder: "Enter your project's DevPost URL here", value: "" },
+				{ name: "LinkedIn", icon: linkedin, placeholder: "Enter your project's LinkedIn URL here", value: "" }
+			],
+			tech: [{ id: 3, name: "React"}]
 		}
 	]);
 
@@ -54,23 +56,24 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 
 	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
 	useEffect(() => {
-		const githubUsername = "jcserv"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in)
+		const githubUsername = "daniil-oliynyk"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in) 
 
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility: "all" });
 	}, []); // This empty [] ensures that useEffect() does not run forever
+	// NOTE: Even though the React compiler warns about this above line, DO NOT add the 'getGithubRepos' dependency
 
 	// Runs whenever any of the specified props (isLoading, githubRepos) are updated
 	useEffect(() => {
 		// Use githubRepos (state from store) to get projects that we can use with setProjects
 		if (isLoading === false) {
 			let projectsToDisplay = [...projects]; // preserve the pre-existing projects
-
 			for (let i = 0; i < githubRepos.length; i++) {
 				let project = {
 					name: githubRepos[i].repo_name,
 					description: githubRepos[i].repo_description,
 					isProjectPublic: !githubRepos[i].repo_visibility_is_private,
+					githubStars: githubRepos[i].github_stars,
 					tech: [
 						{ id: 1, name: githubRepos[i].repo_main_technology }
 					],
@@ -79,17 +82,22 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 							name: "Github",
 							icon: github,
 							value: githubRepos[i].github_url
-						}
+						},
+						{ name: "Website", icon: website, placeholder: "Enter your project's website URL here", value: ""},
+						{ name: "DevPost", icon: dev, placeholder: "Enter your project's DevPost URL here", value: "" },
+						{ name: "LinkedIn", icon: linkedin, placeholder: "Enter your project's LinkedIn URL here", value: "" }
 					]
 				};
 				projectsToDisplay.push(project);
+				
 			}
 
 			// Update projects state by calling setProjects
 			setProjects(projectsToDisplay);
 		}
 
-	}, [githubRepos, isLoading]); // this effect runs again whenever the elements in this array change
+	}, [githubRepos, isLoading]); // this effect runs again whenever the elements in this dependency array change
+	// NOTE: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
 
 	const tech_suggestions = [
 		{ id: 1, name: "MongoDB" },
@@ -144,18 +152,19 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		setVisibilityPublic(project.isProjectPublic);
 		setLinks(project.links);
 		setTech(project.tech);
+		setStars(project.githubStars);
 	}
 
 	// When the user clicks on "Submit", sends this project over to the back-end
 	function onSubmit(e) {
 		e.preventDefault();
-
-		// Save the project to database
 		addProject({
 			name,
-			tech,
 			desc,
 			isProjectPublic,
+			ownerId,
+			tech,
+			githubStars,
 			links
 		});
 
@@ -205,7 +214,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 							as="textarea"
 							rows="3"
 							className="item"
-							value={desc}
+							value={desc ? desc : ""}
 							name="description"
 							onChange={e => setDesc(e.target.value)}
 						/>
@@ -250,7 +259,6 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 };
 
 // List of dispatch functions that will be available to the component
-
 CreateProjects.propTypes = {
 	addProject: PropTypes.func.isRequired,
 	getGithubRepos: PropTypes.func.isRequired
@@ -261,7 +269,8 @@ CreateProjects.propTypes = {
 const mapStateToProps = state => {
 	return {
 		githubRepos: state.github.githubReposFromState,
-		isLoading: state.github.loading
+		isLoading: state.github.loading,
+		ownerId: state.user.uid
 	};
 };
 

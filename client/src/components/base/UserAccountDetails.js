@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { update_user_info } from "../../actions/userActions";
 import {
   Card,
   CardHeader,
@@ -8,14 +10,39 @@ import {
   Row,
   Col,
   Form,
-  FormGroup,
   FormInput,
   FormSelect,
   FormTextarea,
   Button
 } from "shards-react";
 
-const UserAccountDetails = ({ title }) => (
+const UserAccountDetails = ({
+  title,
+  uid,
+  firstname,
+  lastname,
+  city,
+  province,
+  description,
+  update_user_info
+}) => {
+  //in the future the hooks will be info queried from DB
+  const [name, setName] = useState(firstname);
+  const [last_name, setlastName] = useState(lastname);
+  const [email, setEmail] = useState("w/e@gmail.com");
+  const [cityfield, setCity] = useState(city);
+  const [descriptionfield, setDesc] = useState(description);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    // //how to do checks?
+ 
+
+    submitUserProfile(update_user_info, uid,name,last_name, cityfield, province, descriptionfield);        
+}
+
+  
+  return(
   <Card small className="mb-4">
     <CardHeader className="border-bottom">
       <h6 className="m-0">{title}</h6>
@@ -24,7 +51,7 @@ const UserAccountDetails = ({ title }) => (
       <ListGroupItem className="p-3">
         <Row>
           <Col>
-            <Form>
+            <Form onSubmit={onSubmit}>
               <Row form>
                 {/* First Name */}
                 <Col md="6" className="form-group">
@@ -32,8 +59,8 @@ const UserAccountDetails = ({ title }) => (
                   <FormInput
                     id="feFirstName"
                     placeholder="First Name"
-                    value="Jarrod"
-                    onChange={() => {}}
+                    value={name}
+                    onChange={e => {setName(e.target.value)}}
                   />
                 </Col>
                 {/* Last Name */}
@@ -42,8 +69,8 @@ const UserAccountDetails = ({ title }) => (
                   <FormInput
                     id="feLastName"
                     placeholder="Last Name"
-                    value="Servilla"
-                    onChange={() => {}}
+                    value={last_name}
+                    onChange={e => {setlastName(e.target.value)}}
                   />
                 </Col>
               </Row>
@@ -55,8 +82,8 @@ const UserAccountDetails = ({ title }) => (
                     type="email"
                     id="feEmail"
                     placeholder="Email Address"
-                    value="jarrod.servilla@gmail.com"
-                    onChange={() => {}}
+                    value={email}
+                    onChange={e => {setEmail(e.target.value)}}
                     autoComplete="email"
                   />
                 </Col>
@@ -68,7 +95,6 @@ const UserAccountDetails = ({ title }) => (
                     id="fePassword"
                     placeholder="Password"
                     value="password"
-                    onChange={() => {}}
                     autoComplete="current-password"
                   />
                 </Col>
@@ -81,7 +107,8 @@ const UserAccountDetails = ({ title }) => (
                   <FormInput
                     id="feCity"
                     placeholder="City"
-                    onChange={() => {}}
+                    value = {cityfield}
+                    onChange={e => {setCity(e.target.value)}}
                   />
                 </Col>
                 {/* State */}
@@ -106,17 +133,17 @@ const UserAccountDetails = ({ title }) => (
                 {/* Description */}
                 <Col md="12" className="form-group">
                   <label htmlFor="feDescription">Description</label>
-                  <FormTextarea id="feDescription" rows="3" />
+                  <FormTextarea id="feDescription" rows="3" value={descriptionfield} onChange={e => {setDesc(e.target.value)}}/>
                 </Col>
               </Row>
-              <Button >Update Account</Button>
+              <Button type="submit">Update Account</Button>
             </Form>
           </Col>
         </Row>
       </ListGroupItem>
     </ListGroup>
   </Card>
-);
+)};
 
 UserAccountDetails.propTypes = {
   /**
@@ -129,4 +156,39 @@ UserAccountDetails.defaultProps = {
   title: "Account Details"
 };
 
-export default UserAccountDetails;
+async function submitUserProfile(
+  update_user_info,
+  uid,
+  name,
+  last_name,
+  city_field,
+  province,
+  description
+) {
+  await update_user_info({
+    uid,
+    name,
+    last_name,
+    city_field,
+    province,
+    description
+  });
+}
+
+UserAccountDetails.propTypes = {
+  update_user_info: PropTypes.func.isRequired
+};
+const mapStateToProps = state => {
+  return {
+    uid: state.userinfo.profile.uid,
+    firstname: state.userinfo.profile.firstname,
+    lastname: state.userinfo.profile.lastname,
+    city: state.userinfo.profile.city,
+    province: state.userinfo.profile.province,
+    description: state.userinfo.profile.description
+  };
+};
+
+export default connect(mapStateToProps, { update_user_info })(
+  UserAccountDetails
+);

@@ -1,19 +1,35 @@
 import {
-    LOGIN
+    LOGIN,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGOUT
 } from "../actions/types";
 
-// Add Single Project
 const initialState = {
-    loggedIn: false
+    token: localStorage.getItem("token"),
+    loggedIn: null
 };
 
 export default (state = initialState, action) => {
     // console.log("action type "+action.type);
     switch (action.type) {
-        case LOGIN:
+        case USER_LOADED:
             return {
                 ...state,
                 loggedIn: true
+            }
+        case LOGIN:
+            localStorage.setItem("token", action.payload.token)
+            return {
+                ...state,
+                loggedIn: true
+            };
+        case AUTH_ERROR:
+        case LOGOUT:
+            localStorage.removeItem("token");
+            return {
+                ...state,
+                loggedIn: false
             };
         default:
             return state;

@@ -11,9 +11,19 @@ import Router from "./Routing/Router"
 import { Provider } from 'react-redux';
 import store from "./store";
 
+// Auth Modules
+import setAuthToken from './utils/setAuthToken';
+import { loadUser } from './actions/loginActions';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 
 function App() {
-  
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []) // component did mount
   
   return (
     <Provider store={store}>

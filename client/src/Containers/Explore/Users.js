@@ -40,7 +40,7 @@ const Users = ({ getUsers, users, request_user }) => {
 
 function mapStateToProps(state) {
     return {
-        users: state.user.users
+        users: state.users.users
     };
 }
 

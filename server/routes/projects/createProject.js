@@ -1,11 +1,17 @@
 const express = require("express");
-const axios = require("axios");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const uuidv5 = require('uuid/v5');
-const uuid = require("uuid");
 const db = require("../../database.js");
+const moment = require('moment');
 require('dotenv').config({ path: './config/.env' });
+
+// Helper functions
+const databaseHelpers = require('../../utils/databaseHelpers');
+const notificationHelpers = require('../../utils/notifications/projectNotifications');
+
+// Ensures all pid are unique from userid
+const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
 
 // @route   POST api/projects/create
 // @desc    Allows a user to create a new project
@@ -14,10 +20,9 @@ router.post(
 	"/",
 	[
 		check("projectName", "Project name is required").not().isEmpty(),
-		//check("projectName", "Project name must be 20 or less characters").isLength({ max: 20 }),
 		check("description", "Project description is required").not().isEmpty(),
-		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"])
-		// check("ownerUserID", "The owner of the project is required").not().isEmpty(),
+		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"]),
+		check("ownerUserID", "The owner of the project is required").not().isEmpty(),
 		// check("gitRepoID", "Must provide the ID of the Git repository that this project is associated with").not().isEmpty()
 	],
 	async (req, res) => {
@@ -30,9 +35,8 @@ router.post(
 
 			// TODO: Check if a project using that gitRepoId already exists (Do we want to do this?)
 
-			// Ensures all pid are unique from userid
-			const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
 
+			// TODO: Require this dict from an external JS file instead
 			//technologies dict (you can add more technologies here)
 			const techDict = {
 				"MongoDB": 1,
@@ -65,38 +69,34 @@ router.post(
 			const technologiesArray = req.body.technologiesUsed
 			let techName = technologiesArray.map(tech => tech.name);
 			let techArray = [];
-			//if you add more technologies into the techDict dictionary, then change the total value of the array
+			// If you add more technologies into the techDict dictionary, then change the total value of the array
 			for (i = 0; i < 24; i++) {
 				techArray[i] = 0;
 			}
-
-			//encodes the array
 			if (techName.length > 0) {
 				let techIndex;
 				for (techIndex of techName) {
 					techArray[techDict[techIndex] - 1] = 1;
 				}
 			}
-
 			const encodedTech = techArray.join('');
 
-			//links
+			// Map the links to an array
 			let linkArray = req.body.techLinks.map(link => link.value);
 
-			let currentTime = (new Date()).getTime();
-
 			// Generate a unique project ID, using the project name and current time as a hash
+			let currentTime = (new Date()).getTime();
 			let projectID = uuidv5(req.body.projectName + currentTime, PROJECT_IDS_NAMESPACE);
-
 
 			// Insert the project into the database
 			let projectObject = db.models.project.build({
 				pid: projectID,
-				// uid: req.body.ownerUserID,
+				ownerId: req.body.ownerUserID,
 				// gitRepoID: req.body.gitRepoID,
 				projectName: req.body.projectName,
 				projectDescription: req.body.description,
 				isPrivate: (req.body.visibility == "false" ? true : false),
+				githubStars: req.body.githubStars,
 				technologiesUsed: encodedTech,
 				githubLink: (linkArray[0] ? linkArray[0] : ""),
 				websiteLink: (linkArray[1] ? linkArray[1] : ""),
@@ -104,16 +104,30 @@ router.post(
 				linkedinLink: (linkArray[3] ? linkArray[3] : "")
 			});
 			projectObject.toJSON();
-			// console.log(projectObject);
 			await projectObject.save();
-			console.log("The project was saved into the database");
 
-			res.status(200).json({
-				result: "Success",
-			});
+			// Get username associated with userid
+			const username = await databaseHelpers.getUsername(req.body.ownerUserID);
+			if (!username) {
+				return res.status(404).json({ errorMessage: "The provided ownerUserId does not exist" });
+			}
+
+			// Make the user join the project
+			const success = await databaseHelpers.addUserToProject(req.body.ownerUserID, username, projectID, "owner");
+
+			if (!success) {
+				// Some error with Sequelize
+				console.log(err);
+				return res.status(500).json({ errorMessage: "Internal server error" });
+			}
+
+			// Add a notification for this project
+			notificationHelpers.addNotification("project_update", projectID, req.body.ownerUserID, `${username} created ${req.body.projectName} at ${moment().format("MMMM Do YYYY, h:mm:ss a")}!`);
+
+			res.status(200).json({ result: "Success" });
 		} catch (err) {
 			console.error(err);
-			res.status(500).json({ errorMessage: "Internal server error" });
+			return res.status(500).json({ errorMessage: "Internal server error" });
 		}
 	}
 );
