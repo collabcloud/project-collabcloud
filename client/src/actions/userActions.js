@@ -29,7 +29,6 @@ export const get_user_info = uid => async dispatch => {
       }
       // User logs in successfully
       else if (response.status === 200) {
-        console.log("retrieved the record: " + response.data.user);
         dispatch({
           type: GET_INFO,
           payload: response.data.user

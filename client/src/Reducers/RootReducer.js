@@ -11,18 +11,20 @@ import unfollowReducer from "./unfollowReducer";
 import alertReducer from "./alertReducer";
 import notificationReducer from "./notificationReducer";
 import forumReducer from "./forumReducer";
+import imgReducer from "./imgReducer";
 
 export default combineReducers({
-    project: projectReducer,
-    register: registerReducer,
-    github: githubReducer,
-    login: loginReducer,
-    userinfo: userinfoReducer,
-    user: userReducer,
-   search: searchReducer,
-    follow: followReducer,
-    unfollow: unfollowReducer,
-    alerts: alertReducer,
-    notifications: notificationReducer,
-    forum: forumReducer
+  project: projectReducer,
+  register: registerReducer,
+  github: githubReducer,
+  login: loginReducer,
+  userinfo: userinfoReducer,
+  user: userReducer,
+  search: searchReducer,
+  follow: followReducer,
+  unfollow: unfollowReducer,
+  alerts: alertReducer,
+  notifications: notificationReducer,
+  forum: forumReducer,
+  img: imgReducer
 });
