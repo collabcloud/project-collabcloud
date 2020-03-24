@@ -19,8 +19,6 @@ async (req, res) => {
             return res.status(422).json({ errors: errors.array() });
         }
 
-        // console.log(req.query);
-
         // Get a list of all the projects the user is in
         const projectsList = await db.models.user_follows_project.findAll({
             where: {
@@ -29,7 +27,6 @@ async (req, res) => {
         });
 
         const listOfProjectIds = projectsList.map(project => project.dataValues.projectPid);
-        // console.log(listOfProjectIds);
 
         // Get project update notifications from all of the projects the user is in
         // Messages are stored in reverse-chronological order (most recent first)
@@ -44,9 +41,7 @@ async (req, res) => {
             ]
         });
 
-        // console.log(projectUpdates);
         const notificationMessages = projectUpdates.map(projectUpdate => projectUpdate.dataValues.notificationMessage);
-        // console.log(notificationMessages)
 
         // Send back notifications (note that this can still be an empty array)
         return res.status(200).json({

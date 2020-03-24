@@ -35,7 +35,6 @@ const UserAccountDetails = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    // //console.log(login)
     // //how to do checks?
  
 
@@ -166,9 +165,6 @@ async function submitUserProfile(
   province,
   description
 ) {
-  //console.log(username);
-  //console.log(password);
-  console.log("send to update user info action");
   await update_user_info({
     uid,
     name,

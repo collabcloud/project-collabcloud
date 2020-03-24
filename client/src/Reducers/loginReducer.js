@@ -8,7 +8,6 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case LOGIN:
-            console.log(action.payload);
             localStorage.setItem("token", action.payload.token)
             return {
                 ...state,

@@ -69,7 +69,6 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos, ow
 		if (isLoading === false) {
 			let projectsToDisplay = [...projects]; // preserve the pre-existing projects
 			for (let i = 0; i < githubRepos.length; i++) {
-				console.log("here "+githubRepos[i].github_stars)
 				let project = {
 					name: githubRepos[i].repo_name,
 					description: githubRepos[i].repo_description,
@@ -268,7 +267,6 @@ CreateProjects.propTypes = {
 // Transforms Redux store state into the props for this CreateProjects component
 // This function is called whenever the store state changes
 const mapStateToProps = state => {
-	// console.log(state);
 	return {
 		githubRepos: state.github.githubReposFromState,
 		isLoading: state.github.loading,

@@ -19,7 +19,6 @@ const projectId = "d0f46d7e-e4c9-5811-aa37-c3602cca8cd3";
 const Project = ({ getProjectInformation, updateProject, deleteProject, leaveProject, joinProject, resetProjectActionStatus, projectInformation, updateSuccess, deleteSuccess, leaveSuccess, joinSuccess, loggedInUid }) => {
 
     const history = useHistory();
-    console.log(`Currently logged in user is: ${loggedInUid}`);
     const [isShowingSettings, modifySettings] = useState(false);
     const [hasUserJoined, setUserJoinedProject] = useState(false);
     const [successfullyDeleted, setDeleted] = useState(false);

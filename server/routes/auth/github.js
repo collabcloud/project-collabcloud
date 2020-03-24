@@ -16,7 +16,6 @@ router.post(
   ],
   async (req, res) => {
     try {
-      //console.log(req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -32,20 +31,16 @@ router.post(
         }
       });
       let accessToken = response.data.access_token;
-      //console.log(accessToken);
       const url = "https://api.github.com/user";
       const config = {
         headers: {
           Authorization: `token ${accessToken}`
         }
       };
-      //console.log(config)
       let test_api = await axios.get(url, config);
 
-      //console.log(test_api);
       res.status(200).json({ result: "Success" });
     } catch (err) {
-      //console.log(err)
       res.status(500).json({ errorMessage: "Internal server error" });
     }
   }

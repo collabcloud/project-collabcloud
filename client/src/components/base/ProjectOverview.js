@@ -25,11 +25,7 @@ const moment = require('moment');
 export function ProjectOverview(props) {
 	const project = props.projectInformation.project;
 	const userIsProjectOwner = props.loggedInUid === project.ownerId;
-
-	// console.log(props);
-	// console.log(" ");
-	// console.log(props.toggleSettings);
-
+	
 	const technologiesList = [
 		{ id: 1, name: "MongoDB" },
 		{ id: 2, name: "Express" },
