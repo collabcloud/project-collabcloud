@@ -43,6 +43,10 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 //profile actions
 export const GET_INFO = "GET_INFO";
 
+//Hackathon actions
+export const GET_HACKATHONS = "GET_HACKATHONS";
+export const ADD_HACKATHONS = "ADD_HACKATHONS";
+
 // Auth Actions
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";
