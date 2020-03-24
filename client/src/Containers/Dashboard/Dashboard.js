@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { NavigationBar } from "../../components/base/NavigationBar";
 import { Alert, Card, Button, Container, Row, Col } from "react-bootstrap";
 import { NotificationList } from "./NotificationList";
 import NotificationAlert from "../../components/base/Alert";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Style Import
 import "../../css/Dashboard.css";
@@ -29,6 +29,7 @@ const Dashboard = ({
   const [name, setName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [fullName, setFullName] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   // Loads project notifications
   useEffect(() => {
@@ -39,6 +40,7 @@ const Dashboard = ({
 
   useEffect(() => {
     setName(user.username);
+    setAvatar(user.avatar);
 
     if (
       user.firstname !== undefined &&
@@ -97,7 +99,7 @@ const Dashboard = ({
               <div>
                 <img
                   alt=""
-                  src={require("../../avatar.png")}
+                  src={avatar}
                   width="60"
                   height="60"
                   style={{ marginTop: 10 }}

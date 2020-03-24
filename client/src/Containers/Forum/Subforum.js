@@ -11,8 +11,8 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
 import { timeToDate, generateURL } from "../../utils/helpers";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
-import { NavigationBar } from "../../components/base/NavigationBar";
 import ThreadOverview from "../../components/specialized/Forum/ThreadOverview";
 import ThreadForm from "../../components/specialized/Forum/ThreadForm";
 

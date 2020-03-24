@@ -59,9 +59,9 @@ export const get_all_threads = () => async dispatch => {
       });
     })
     .catch(err => {
-        dispatch({
-          type: ATTEMPT
-        });
+      dispatch({
+        type: ATTEMPT
+      });
     });
 };
 
@@ -109,7 +109,7 @@ export const get_posts = tid => async dispatch => {
   const url = "/api/forum/post";
 
   axios
-    .get(url, {params: {tid: tid} }, config)
+    .get(url, { params: { tid: tid } }, config)
     .then(response => {
       dispatch({
         type: GET_POSTS,
@@ -175,7 +175,6 @@ export const post_thread = (
     topic: topic,
     content: content
   });
-  console.log(body);
 
   axios
     .post(url, body, config)

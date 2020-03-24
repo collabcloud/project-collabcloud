@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectsList } from "../../components/base/ProjectsList";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Redux Imports
 import { connect } from "react-redux";
@@ -10,13 +10,12 @@ import PropTypes from "prop-types";
 
 import "../../css/Explore.css";
 
-const Explore = ({getPublicProjects, projects}) => {
-
+const Explore = ({ getPublicProjects, projects }) => {
   //const [projects, setProjects] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     getPublicProjects();
-  }); 
+  });
 
   return (
     <div>
@@ -24,24 +23,23 @@ const Explore = ({getPublicProjects, projects}) => {
       <Container>
         <h1>Explore Projects</h1>
         <h5>View the top projects on CollabCloud</h5>
-        <ProjectsList projects={projects}/>
+        <ProjectsList projects={projects} />
       </Container>
     </div>
   );
-}
+};
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return { projects: state.project.projects };
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
   return {
-      getPublicProjects: () => {
-          dispatch(getPublicProjects());
-      }
+    getPublicProjects: () => {
+      dispatch(getPublicProjects());
+    }
   };
 }
-
 
 Explore.propTypes = {
   getPublicProjects: PropTypes.func.isRequired

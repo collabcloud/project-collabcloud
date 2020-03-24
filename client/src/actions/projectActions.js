@@ -67,7 +67,6 @@ export const get_user_projects = uid => async dispatch => {
 
   try {
     const url = "/api/projects/user/" + uid;
-    console.log(url);
     const res = await axios.get(url, config);
 
     // If success, dispatch action

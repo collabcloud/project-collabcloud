@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Breadcrumb, Form, Button, Card } from "react-bootstrap";
-import { NavigationBar } from "../../components/base/NavigationBar";
 import Post from "../../components/specialized/Forum/Post";
 
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 //import { GoPlus } from "react-icons/go";
 import { generateURL, timeToDate } from "../../utils/helpers";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 import { get_posts, make_post } from "../../actions/forumActions";
 

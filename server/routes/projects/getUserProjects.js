@@ -10,7 +10,6 @@ const db = require("../../database.js");
 router.get("/:uid", async (req, res) => {
   try {
     const uid = req.params.uid;
-    console.log(uid);
     if (uid === null || uid.length === 0) {
       return res.status(422).json({ errors: errors.array() });
     }

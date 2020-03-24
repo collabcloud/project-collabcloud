@@ -14,7 +14,7 @@ export const postAvatar = (uid, file) => async dispatch => {
     fd.append("image", file);
 
     //const body = JSON.stringify({ uid: uid, file: file });
-    const res = await axios.post("https://api.imgur.com/3/image", fd, {
+    const res = await axios.post(url, fd, {
       headers: {
         Authorization: "Client-ID " + clientId
       }
