@@ -22,8 +22,6 @@ const Search = (props) => {
         props.search(props.location.state.query)
       }
     },[props.location]); 
-    console.log(props.searchedUsers);
-    console.log(props.searchedProjects);
     return (
       <div>
         <NavigationBar />
