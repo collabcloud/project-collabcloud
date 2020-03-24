@@ -49,7 +49,6 @@ router.get(
 					}
 			});
 			if (githubResponse.status == 200) {
-				// console.log(githubResponse);
 				let repos = githubResponse.data;
 				let repoData = [];
 				for (let i = 0; i < repos.length; i++) {
@@ -60,8 +59,8 @@ router.get(
 					repoData[i]["repo_creation_date"] = repos[i].created_at;
 					repoData[i]["repo_main_technology"] = repos[i].language;
 					repoData[i]["repo_visibility_is_private"] = repos[i].private;
+					repoData[i]["github_stars"] = repos[i].stargazers_count;
 				}
-				// console.log(repoData);
 				return res.status(200).json(repoData);
 			}
 			res.status(500).json({ errorMessage: "Internal server error" });

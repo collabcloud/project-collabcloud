@@ -3,13 +3,10 @@ import { Container } from "react-bootstrap";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectResultList } from "../../components/base/ProjectResultList";
 import { UserResultList } from "../../components/base/UserResultList";
-import { FaGithub, FaLinkedin, FaDev } from 'react-icons/fa';
-import { MdWeb } from 'react-icons/md'; 
 
 // Redux Imports
 import { connect } from "react-redux";
 import { search } from "../../actions/searchActions";
-import PropTypes from "prop-types";
 
 import "../../css/Search.css";
 

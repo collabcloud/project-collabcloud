@@ -11,7 +11,6 @@ export function ProjectView(props) {
   return (
     <Container className="project-view">
       {projects.map(function(project, index) {
-        // console.log(index);
         return (<ProjectCard key={index} index={index} name={project.name} description={project.description}
         updateFields={props.updateFields}/>)
       })}

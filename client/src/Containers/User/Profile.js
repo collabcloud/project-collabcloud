@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import { Container, Row, Col, Nav,Navbar } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Container, Row, Col, Nav, Navbar } from "react-bootstrap";
 import PageTitle from "../../components/base/PageTitle";
 import UserDetails from "../../components/base/UserDetails";
 import UserAccountDetails from "../../components/base/UserAccountDetails";
@@ -7,19 +7,16 @@ import { NavigationBar } from "../../components/base/NavigationBar";
 import { connect } from "react-redux";
 import Alert from "../../components/base/Alert";
 
-import {get_user_info} from "../../actions/userActions";
-
+import { get_user_info } from "../../actions/userActions";
 
 import PropTypes from "prop-types";
 
-const Profile = ({uid, get_user_info}) => {
-
-
+const Profile = ({ uid, get_user_info }) => {
   //onload, call the action to retrieve all the data get_user_info
   useEffect(() => {
     const myfunc = async () => {
       await get_user_info(uid);
-    }
+    };
 
     // Populate the Redux store with this user's info by calling the action and have the action do a get request
     myfunc();
@@ -52,10 +49,11 @@ const Profile = ({uid, get_user_info}) => {
     <Alert />
   </Container>
     </div>
-)};
+  );
+};
 
 Profile.propTypes = {
-	get_user_info: PropTypes.func.isRequired
+  get_user_info: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -65,4 +63,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, {get_user_info})(Profile);
+export default connect(mapStateToProps, { get_user_info })(Profile);

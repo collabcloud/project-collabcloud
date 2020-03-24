@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // Individual Imports
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import "../../css/LandingPage.css"
 import "../../index.css"
+import { connect } from "react-redux";
 
-function Landing() {
+function Landing({loggedIn}) {
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if(loggedIn){
+        history.push("/dashboard");
+    }
+  });
   
   return (
   <div>
@@ -53,4 +62,8 @@ function Landing() {
   );
 }
 
-export default Landing;
+function mapStateToProps(state){
+  return {loggedIn: state.login.loggedIn};
+}
+
+export default connect(mapStateToProps, null)(Landing);

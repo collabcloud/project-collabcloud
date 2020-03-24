@@ -10,6 +10,7 @@ export function InputtableItem(props) {
         <Form.Control 
         value={props.item.value}
         name={"link" + props.index} type="text"
+        placeholder={props.item.placeholder}
         onChange={e => props.updateLink(props.index, e.target.value)}/> 
     </ListGroup.Item>);
 }
