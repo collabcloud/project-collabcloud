@@ -1,19 +1,22 @@
 import axios from "axios";
-import { ADD_PROJECT, GET_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, GET_PUBLIC_PROJECTS } from "./types"
+import { ADD_PROJECT, GET_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, GET_PUBLIC_PROJECTS, JOIN_PROJECT, LEAVE_PROJECT, RESET_PROJECT_ACTION_STATUS } from "./types"
 
 // Add Project Action
-export const addProject = ({ name, desc, isProjectPublic, tech, links }) => async dispatch => {
+export const addProject = ({ name, desc, isProjectPublic, ownerId, githubStars, tech, links }) => async dispatch => {
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     };
 
+    // TODO: Add empty input validation for project name and project description
+
     const body = JSON.stringify({
         projectName: name,
         description: desc,
         isProjectPublic: isProjectPublic,
-        // ownerUserID: userid,
+        ownerUserID: ownerId,
+        githubStars: githubStars,
         // gitRepoID: repoID,
         technologiesUsed: tech,
         techLinks: links
@@ -75,7 +78,7 @@ export const getProjectInformation = ({ projectId }) => async dispatch => {
         // Get all information for a given project
         const res = await axios.get("/api/projects/information", {
             params: {
-                pid: projectId
+                projectId: projectId
             }
         }, config);
 
@@ -96,7 +99,7 @@ export const getProjectInformation = ({ projectId }) => async dispatch => {
 };
 
 // Given a projectId and attributes to update, hit the backend to update that project
-export const updateProject = ({ pid, projectName, projectDescription, isProjectPublic, tech, links  }) => async dispatch => {
+export const updateProject = ({ pid, projectName, projectDescription, isProjectPublic, tech, links }) => async dispatch => {
     // console.log("Hit updateProject in projectActions");
     const config = {
         headers: {
@@ -113,7 +116,7 @@ export const updateProject = ({ pid, projectName, projectDescription, isProjectP
         // gitRepoID: repoID,
         technologiesUsed: tech,
         techLinks: links
-    })
+    });
 
     try {
         const res = await axios.post("/api/projects/update", body, config);
@@ -159,4 +162,76 @@ export const deleteProject = (projectId) => async dispatch => {
         console.log("Error occured while deleting a project");
         console.log(err);
     }
+}
+
+// Given a userId and projectId, yeet the user from that project
+export const leaveProject = (userId, projectId, memberStatus) => async dispatch => {
+    // console.log("Hit leaveProject in projectActions");
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    const body = JSON.stringify({
+        uid: userId,
+        pid: projectId,
+        memberStatus: memberStatus
+    })
+
+    try {
+        const res = await axios.post("/api/projects/leave", body, config);
+        
+        // If success, dispatch action
+        if (res.status === 200) {
+            dispatch({
+                type: LEAVE_PROJECT
+            });
+        } else {
+            console.log("Could not remove user from project");
+        }
+    } catch (err) {
+        console.log("Error occured while removing user from project");
+        console.log(err);
+    }
+}
+
+// Given a userId and projectId, add the user to that project
+export const joinProject = (userId, projectId, memberStatus) => async dispatch => {
+    // console.log("Hit joinProject in projectActions");
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    const body = JSON.stringify({
+        uid: userId,
+        pid: projectId,
+        memberStatus: memberStatus
+    })
+
+    try {
+        const res = await axios.post("/api/projects/join", body, config);
+
+        // If success, dispatch action
+        if (res.status === 200) {
+            dispatch({
+                type: JOIN_PROJECT
+            });
+        } else {
+            console.log("Could not add user to project");
+        }
+    } catch (err) {
+        console.log("Error occured while adding user to project");
+        console.log(err);
+    }
+}
+
+// After any project action, resets the "status" of that project action to its default
+// Example: After updating a project successfully, updateSuccess will be true. We reset updateSuccess to false so the next project update works properly
+export const resetProjectActionStatus = () => async dispatch => {
+    dispatch({
+        type: RESET_PROJECT_ACTION_STATUS
+    });   
 }

@@ -45,10 +45,6 @@ router.post(
 				}
 			});
 			*/
-
-
-			console.log(req.body.followee);
-			console.log(req.body.follower);
 			
 			const FollowObject = await db.models.user_followers.create({
 				followeeUid: req.body.followee,
