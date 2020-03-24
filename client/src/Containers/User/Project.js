@@ -12,12 +12,13 @@ import { connect } from "react-redux"; // connects the ProjectForm component to 
 import { updateProject, deleteProject, getProjectInformation, leaveProject, joinProject, resetProjectActionStatus } from "../../actions/projectActions";
 import PropTypes from "prop-types";
 
-// TODO: Get the PID of this project from the store, or the name of the project from the dynamic path
-// This is the PID of the project whose information we want to get
-const projectId = "d0f46d7e-e4c9-5811-aa37-c3602cca8cd3";
+const Project = (props) => {
+  
+    const { getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, joinSuccess, leaveSuccess, loggedInUid, deleteSuccess, match } = props;
 
-const Project = ({ getProjectInformation, updateProject, deleteProject, leaveProject, joinProject, resetProjectActionStatus, projectInformation, updateSuccess, deleteSuccess, leaveSuccess, joinSuccess, loggedInUid }) => {
-
+    // This is the PID of the project whose information we want to get
+    const projectId = match.params.pid;
+  
     const history = useHistory();
     const [isShowingSettings, modifySettings] = useState(false);
     const [hasUserJoined, setUserJoinedProject] = useState(false);
