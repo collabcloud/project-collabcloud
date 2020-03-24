@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 
 const Project = (props) => {
   
-    const { getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, deleteSuccess, match } = props;
+    const { getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, joinSuccess, leaveSuccess, loggedInUid, deleteSuccess, match } = props;
 
     // This is the PID of the project whose information we want to get
     const projectId = match.params.pid;
