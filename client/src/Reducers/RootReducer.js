@@ -3,8 +3,7 @@ import registerReducer from "./registerReducer";
 import projectReducer from "./projectReducer";
 import githubReducer from "./githubReducer";
 import loginReducer from "./loginReducer";
-import userReducer from './userReducer';
-import requestReducer from "./requestReducer";
+import userReducer from './userRequestReducer';
 
 export default combineReducers({
     project: projectReducer,
@@ -12,5 +11,4 @@ export default combineReducers({
     github: githubReducer,
     login: loginReducer,
     user: userReducer,
-    request: requestReducer
 });

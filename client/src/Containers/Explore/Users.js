@@ -6,12 +6,11 @@ import { UsersList } from "../../components/base/UsersList";
 
 //import redux stuff
 import { connect } from "react-redux";
-import { getUsers, request_user } from "../../actions/userAction";
+import { getUsers, request_user } from "../../actions/userRequestAction";
 import PropTypes from "prop-types";
 
 //import css stuff
 import "../../css/Users.css";
-import requestReducer from "../../Reducers/requestReducer";
 
 //use JWT token to put this user in
 const loggedInUser = "575e989c-49f0-4b60-8cf8-f033e4210c3c";
