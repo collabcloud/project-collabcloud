@@ -46,6 +46,11 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 //profile actions
 export const GET_INFO = "GET_INFO";
 
+// Auth Actions
+export const USER_LOADED = "USER_LOADED";
+export const AUTH_ERROR = "AUTH_ERROR";
+export const LOGOUT = "LOGOUT";
+
 //Forum Actions
 export const GET_SUBFORUMS = "GET_SUBFORUMS";
 export const GET_THREADS = "GET_THREADS";

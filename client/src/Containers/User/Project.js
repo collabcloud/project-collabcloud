@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Alert } from "react-bootstrap";
+import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectOverview } from "../../components/base/ProjectOverview";
 import { ProjectForm } from "../../components/base/ProjectForm";
 import { Contributors } from "../../components/base/Contributors";
 import "../../css/Project.css";
-import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Redux imports
 import { connect } from "react-redux"; // connects the ProjectForm component to the Redux store
@@ -19,24 +19,23 @@ import {
 } from "../../actions/projectActions";
 import PropTypes from "prop-types";
 
-// TODO: Get the PID of this project from the store, or the name of the project from the dynamic path
-// This is the PID of the project whose information we want to get
-const projectId = "d0f46d7e-e4c9-5811-aa37-c3602cca8cd3";
+const Project = props => {
+  const {
+    getProjectInformation,
+    updateProject,
+    deleteProject,
+    projectInformation,
+    updateSuccess,
+    joinSuccess,
+    leaveSuccess,
+    loggedInUid,
+    deleteSuccess,
+    match
+  } = props;
 
-const Project = ({
-  getProjectInformation,
-  updateProject,
-  deleteProject,
-  leaveProject,
-  joinProject,
-  resetProjectActionStatus,
-  projectInformation,
-  updateSuccess,
-  deleteSuccess,
-  leaveSuccess,
-  joinSuccess,
-  loggedInUid
-}) => {
+  // This is the PID of the project whose information we want to get
+  const projectId = match.params.pid;
+
   const history = useHistory();
   const [isShowingSettings, modifySettings] = useState(false);
   const [hasUserJoined, setUserJoinedProject] = useState(false);
