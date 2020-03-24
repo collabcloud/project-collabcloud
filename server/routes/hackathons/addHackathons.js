@@ -31,10 +31,9 @@ router.post(
                 location: req.body.location,
                 link: req.body.link
 			});
+
 			hackathonObject.toJSON();
-			//console.log(hackathonObject);
 			await hackathonObject.save();
-			console.log("The hackathon was saved into the database");
 
 			res.status(200).json({
 				result: "Success",

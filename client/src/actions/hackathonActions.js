@@ -73,7 +73,7 @@ export const getHackathons = () => async dispatch => {
     };
 
     try {
-        const res = await axios.get("/api/hackathons/", config);
+        const res = await axios.get("/api/hackathons", config);
         
         // If success, dispatch action
         if (res) {
@@ -81,9 +81,8 @@ export const getHackathons = () => async dispatch => {
                 type: GET_HACKATHONS,
                 payload: res.data.hackathons_obj.hackathons_lst         
             });
-        } else {
-            console.log("Couldn't get hackathons");
         }
+
     } catch (err) {
         console.log("Error occured when retrieving hackathons");
         console.log(err);
