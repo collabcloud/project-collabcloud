@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { Popover, OverlayTrigger} from "react-bootstrap";
 import { Card, CardHeader, ListGroup, ListGroupItem } from "shards-react";
 import { connect } from "react-redux";
 
 //this should be the state passed into it
 
 const UserDetails = ({ userDetails, username, firstname, lastname, city, province,description}) => {
+
+  const popover = (
+    <Popover id="popover-basic" style={{"margin-top": "50px"}}>
+      <Popover.Content>
+        Change your avatar
+      </Popover.Content>
+    </Popover>
+  );
 
 
   // const [name, setName] = useState(firstname);
@@ -48,12 +57,14 @@ return (
   <Card small className="mb-4 pt-3">
     <CardHeader className="border-bottom text-center">
       <div className="mb-3 mx-auto">
-        <img
+        <OverlayTrigger trigger="hover" placement="bottom" overlay={popover}>
+        <a href="#"><img
           className="rounded-circle"
           src={userDetails.avatar}
           alt="hello"
           width="110"
-        />
+        /></a>
+        </OverlayTrigger>
       </div>
 <h4 className="mb-0">{renderName()}</h4>
     </CardHeader>
