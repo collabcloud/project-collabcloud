@@ -27,6 +27,7 @@ app.use("/api/users/login", require("./routes/auth/login"));
 // Project routes
 app.use("/api/projects/create", require("./routes/projects/createProject"));
 app.use("/api/projects/", require("./routes/projects/getPublicProjects"));
+app.use("/api/projects/user/", require("./routes/projects/getUserProjects"));
 app.use("/api/projects/information", require("./routes/projects/getProject"));
 app.use("/api/projects/update", require("./routes/projects/updateProject"));
 app.use("/api/projects/delete", require("./routes/projects/deleteProject"));

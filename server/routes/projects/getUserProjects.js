@@ -4,20 +4,20 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const db = require("../../database.js");
 
-// @route   GET /api/projects
-// @desc    Returns all public projects
+// @route   GET /api/projects/{user}
+// @desc    Returns all projects from the user
 // @access  Public
-router.get("/", async (req, res) => {
+router.get("/:uid", async (req, res) => {
   try {
-    // Use express-validator to validate request
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    const uid = req.params.uid;
+    console.log(uid);
+    if (uid === null || uid.length === 0) {
       return res.status(422).json({ errors: errors.array() });
     }
 
     const projects = await db.models.project.findAll({
       where: {
-        isPrivate: false
+        ownerId: uid
       }
     });
 
