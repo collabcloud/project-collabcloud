@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Alert, Card, Button, Container, Row, Col } from "react-bootstrap";
 import { NotificationList } from "./NotificationList";
 import NotificationAlert from "../../components/base/Alert";
+import Avatar from "../../components/base/Avatar";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Style Import
@@ -14,6 +15,9 @@ import { get_user_info } from "../../actions/userActions";
 import { get_user_projects } from "../../actions/projectActions";
 import { generateURL } from "../../utils/helpers";
 import PropTypes from "prop-types";
+
+const default_avatar =
+  "https://avatars2.githubusercontent.com/u/45340119?s=400&v=4";
 
 const Dashboard = ({
   getProjectNotifications,
@@ -29,11 +33,11 @@ const Dashboard = ({
   const [name, setName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [fullName, setFullName] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState(default_avatar);
 
   // Loads project notifications
   useEffect(() => {
-    get_user_info(loggedInUid);
+    get_info(loggedInUid);
     get_user_projects(loggedInUid);
     getProjectNotifications(loggedInUid, 10);
   }, [getProjectNotifications, loggedInUid, get_user_info, get_user_projects]);
@@ -52,6 +56,10 @@ const Dashboard = ({
       setFullName(user.firstname + " " + user.lastname);
     }
   }, [user]);
+
+  async function get_info(uid) {
+    await get_user_info(uid);
+  }
 
   function renderProjects() {
     if (projects === null || projects === undefined || projects === []) {
@@ -97,14 +105,7 @@ const Dashboard = ({
               </Alert>
               {/* User Display */}
               <div>
-                <img
-                  alt=""
-                  src={avatar}
-                  width="60"
-                  height="60"
-                  style={{ marginTop: 10 }}
-                  className="d-inline-block align-top"
-                />
+                <Avatar src={avatar} width={60} height={60} />
                 <h3>
                   <a href="/">{fullName !== "" ? fullName : name}</a>
                 </h3>

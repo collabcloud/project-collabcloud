@@ -3,6 +3,7 @@ import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import { get_user_info } from "../../../actions/userActions";
 import { connect } from "react-redux";
+import Avatar from "../../base/Avatar";
 import "../../../css/NavigationBar.css";
 
 const NavigationBar = withRouter(
@@ -78,14 +79,7 @@ const NavigationBar = withRouter(
               Logout{" "}
             </Link>
             <a href="/user/profile">
-              <img
-                alt=""
-                src={avatar}
-                width="20"
-                height="20"
-                style={{ marginTop: 10 }}
-                className="d-inline-block align-top"
-              />{" "}
+              <Avatar src={avatar} width={20} height={20} />{" "}
             </a>
           </Nav>
         </Navbar>

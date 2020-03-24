@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { timeToDate } from "../../../utils/helpers";
+import Avatar from "../../base/Avatar";
 import { Card, Container, Row, Col } from "react-bootstrap";
 
 import "../../../css/Forum.css";
@@ -24,14 +25,7 @@ const Post = props => {
           <Container>
             <Row>
               <Col xs={2} className="post">
-                <img
-                  alt=""
-                  src={avatar}
-                  width="60"
-                  height="60"
-                  style={{ marginTop: 10 }}
-                  className="d-inline-block align-top"
-                />
+                <Avatar src={avatar} width={60} height={60} />
                 <p className="submitter">{username}</p>
                 <p>Gamers rise up</p>
               </Col>
