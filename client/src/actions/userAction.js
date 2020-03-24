@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_USERS, USER_REQUESTED, GET_UIDS } from "./types"
+import { GET_USERS, USER_REQUESTED } from "./types"
 
 //Get All Users 
 
@@ -27,33 +27,6 @@ export const getUsers = () => async dispatch => {
         console.log(err);
     }
 };
-
-//Get All Uids
-export const getUids = () => async dispatch => {
-    const config = {
-        headers: {
-            "Content-Type": "application/json"
-        }
-    };
-
-    try {
-        const res = await axios.get("/api/users/publicUid", config);
-
-        // If success, dispatch action
-        if (res) {
-            dispatch({
-                type: GET_UIDS,
-                payload: res.data.uid_obj.uid_lst
-            });
-        } else {
-            console.log("Couldn't get users");
-        }
-    } catch (err) {
-        console.log("Error occured when retrieving users");
-        console.log(err);
-    }
-};
-
 
 // Record the fact that follower follows the followee
 export const request_user = (requestee, requester) => async dispatch => {

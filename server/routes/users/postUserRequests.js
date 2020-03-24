@@ -27,7 +27,6 @@ router.post(
     async (req, res) => {
         try {
             // Use express validator to validate request
-
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 console.log(errors);
@@ -35,9 +34,22 @@ router.post(
             }
 
             //to do: check if both users exist in users (return 404 if any users dont exist)
+            const check = await db.models.user_requests.findAll({
+                where: {
+                    requestee_uid: req.body.requestee,
+                    requester_uid: req.body.requester
+                }
+            });
 
-            console.log(req.body.requestee);
-            console.log(req.body.requester);
+            //request already exists in db
+            if (check.length > 0) {
+                return res.status(400).json({ result: "request already exists" });
+            }
+
+            console.log(check);
+
+            //console.log(req.body.requestee);
+            //console.log(req.body.requester);
 
             const RequestObject = db.models.user_requests.build({
                 requestee_uid: req.body.requestee,

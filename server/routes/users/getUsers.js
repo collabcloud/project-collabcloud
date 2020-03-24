@@ -3,6 +3,7 @@ const axios = require("axios");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const db = require("../../database.js");
+const { Op } = require('sequelize');
 
 // @route   GET /api/users/public
 // @desc    Returns all users 
@@ -17,8 +18,15 @@ router.get(
                 return res.status(422).json({ errors: errors.array() });
             }
 
+            // const users = await db.models.user.findAll({
+            //     where: {
+            //         [Op.not]: [{username: }]
+
+            //     }
+            // })
+
             const users = await db.models.user.findAll({
-                attributes: ['username']
+                attributes: ['username', 'uid']
             });
 
             const users_obj = {

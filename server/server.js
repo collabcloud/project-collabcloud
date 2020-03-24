@@ -23,7 +23,6 @@ app.use("/api/projects/create", require("./routes/projects/createProject"));
 app.use("/api/projects/", require("./routes/projects/getPublicProjects"));
 app.use("/api/github/repos", require("./routes/github/getRepos"));
 app.use("/api/users/public", require("./routes/users/getUsers"));
-app.use("/api/users/publicUid", require("./routes/users/getUsersUid"));
 app.use("/api/users/request", require("./routes/users/postUserRequests"));
 
 
