@@ -85,7 +85,7 @@ async function getMessages(req, res){
     }
     try{
         var chats = await db.models.messages.findAll({
-            attributes: ['sender', 'receiver', 'message'],
+            attributes: ['sender', 'receiver', 'message', 'createdAt'],
             where: {
                 [Op.or]: [
                     {
@@ -103,6 +103,7 @@ async function getMessages(req, res){
             order:  [['createdAt', 'ASC']]
         }).map((value) => {
             var dict = value.dataValues
+            var date = new Date(value.createdAt);
             var ret = {}
             if(dict.sender == req.query.username){
                 ret.type = "other";  
@@ -113,6 +114,7 @@ async function getMessages(req, res){
             }
             ret.name = dict.sender;
             ret.msg = dict.message;
+            ret.time = date;
             return ret;
 
         });
@@ -129,7 +131,6 @@ async function getMessages(req, res){
     }
 }
 module.exports = function(io) {
-    
 
     io.on('connect', connectHandler);
 

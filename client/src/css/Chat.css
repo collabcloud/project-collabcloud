@@ -111,18 +111,28 @@ button > * {
   min-height:100%;
   max-width: 25%;
   word-break: break-all; 
+  margin-top: 1.25rem;
+  border-radius: 20px;
   
+}
+.card-body{
+  padding: .75rem;
 }
 .user .card, .user .card-body{
   margin-right: auto;
+  margin-left: 1rem;
   max-width: 100%;
   text-align: left;
 }
 
 .other .card, .other .card-body{
   margin-left: auto;
+  margin-right: 1rem;
   max-width: 100%;
   text-align: left;
+}
+.date{
+  padding: .5rem;
 }
 .Content{
   box-sizing: border-box;

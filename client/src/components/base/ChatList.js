@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { search } from "../../actions/searchActions";
 import PropTypes from "prop-types";
 import { Scrollbar } from "react-scrollbars-custom"; 
+import { IoMdAddCircleOutline } from "react-icons/io"
 
 import "../../css/Chat.css";
 
@@ -42,10 +43,14 @@ export const ChatList = (props) => {
             if(!value.seen){
                 val = "1";
             }
+            var icon = <Image className = "msgImage float-left img-responsive" src={require("../../avatar.png")} fluid roundedCircle /> 
+            if(value.name == "Message a new user"){
+                icon = <IoMdAddCircleOutline size = {32}/>
+            }
             return (
             <Button key = {index} className = "msgs" size = "lg" variant = "light" type="button" id={"b" + index} onClick={onClick}>                    
                 <div className="msgImage">
-                    <Image className = "msgImage float-left img-responsive" src={require("../../avatar.png")} fluid roundedCircle />
+                    {icon}
             <div className="msgImage label label-default">
                 {
                     value.name

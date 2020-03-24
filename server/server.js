@@ -16,11 +16,8 @@ app.use((req, res, next) => {
     next();
 });
 const PORT = process.env.SERVER_PORT;
-const server = app.listen(PORT, () => 
-{
+const server = app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
-    
-    
 });
 
 const socketio = require('socket.io');

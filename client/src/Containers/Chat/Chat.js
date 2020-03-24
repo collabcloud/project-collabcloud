@@ -35,6 +35,8 @@ const Chat = (props) => {
         });
     const [addUserState, setAddUser] = useState(false);
     const [errMsg, setErrMsg] = useState("");
+
+
     function performWindowAction(windowNum){
         if(windowNum == props.chatList.length - 1){
             setAddUser(true);
@@ -44,13 +46,15 @@ const Chat = (props) => {
             props.changeRecipient(props.profile.username, props.chatList[windowNum].name, setMessageList);
         }
     }
+
     function performSendAction(message){
         var from = props.profile.username;
         var to = messageList.recipient;
         var msg = {
             from: from,
             to: to,
-            message: message.msg
+            message: message.msg,
+            time: message.time
         }
         io.emit("messagesend", JSON.stringify(msg));
         if(message.msg == "") return;
@@ -59,10 +63,12 @@ const Chat = (props) => {
                 recipient: to
         });
     }
+
     function resetAddUserState(){
         setAddUser(false);
         setErrMsg("");
     }
+
     function addUser(user){
         props.addUser(props.profile.username,user, setErrMsg, setAddUser);
     }
@@ -70,10 +76,12 @@ const Chat = (props) => {
     useEffect(function(){
         props.get_user_info(props.uid);
     },[]);
+
     useEffect(function(){
         if(!props.profile) return;
         props.initializeList(props.profile.username);
-    }, [props.profile])
+    }, [props.profile]);
+
     useEffect(function() {
         // setErrMsg("");
         if(props.profile.username === undefined) return;
@@ -133,8 +141,6 @@ const Chat = (props) => {
                 </Row>
                 
             </Container>
-            
-            
         </div>
     );
   }

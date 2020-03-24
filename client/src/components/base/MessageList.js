@@ -21,10 +21,16 @@ export const MessageList = (props) => {
         event.preventDefault();
         var message = event.target[0].value;
         console.log(event.target[0].value);
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
+        date = 
         message = {
             type: "user",
             name: props.user,
-            msg: message
+            msg: message,
+            time: dateTime
         }
         props.sendMessage(message);
 
@@ -35,13 +41,22 @@ export const MessageList = (props) => {
     }
 
     function createMessage(msg, index){
+        var time = ""
+        var today = new Date(msg.time);
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var curtime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+curtime;
+        if(msg.time){
+            time = "Sent at " + dateTime; 
+        }
         return (
             <div key={index} className={msg.type}>
             <Card >
-                <Card.Body className="title"> {msg.name}</Card.Body>
+        <Card.Body className="title"> {msg.name}</Card.Body>
                 <Card.Body className>
                     {msg.msg}
                 </Card.Body>
+        <Card.Body className = "date"> <h6 className ="small">{time} </h6> </Card.Body>
             </Card>
             </div>
         );
@@ -72,7 +87,8 @@ export const MessageList = (props) => {
             </Row>
             <Row className ="w-100 ml-0 mr-0" style={{ height: 100, paddingTop: 0, position: "relative", "borderTop": "solid 1px black"}}>
                 <Form className= "w-100" onSubmit={onSubmit}>
-                <div className= "w-100 h-100"style={{ paddingTop: 0, top: 30, bottom: 30, position: "absolute"}}>
+                <div className= "h-100"style={{ paddingTop: 0, top: 30, bottom: 30, position: "absolute", width: "90%", 
+                left: 0, right: 0, "margin-left": "auto", "margin-right": "auto" }}>
                     <Form.Group className = "h-40">
                     <Form.Control  
                         name="message"
