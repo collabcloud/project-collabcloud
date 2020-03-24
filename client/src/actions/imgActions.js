@@ -1,5 +1,6 @@
 import axios from "axios";
 import { POST_SUCCESSFUL } from "./types";
+import { setAlert } from "./alert";
 
 export const postAvatar = (uid, file) => async dispatch => {
   const config = {
@@ -23,15 +24,28 @@ export const postAvatar = (uid, file) => async dispatch => {
     // If success, dispatch the action
     if (res) {
       // Send our information to the store
-      dispatch({
-        type: POST_SUCCESSFUL,
-        payload: res.data.data.link
-      });
+
+      const link = res.data.data.link;
+
+      const user_url = "/api/users/avatar";
+
+      const body = {
+        uid: uid,
+        image: link
+      };
+
+      let response = await axios.put(user_url, body, config);
+
+      if (response) {
+        dispatch({
+          type: POST_SUCCESSFUL,
+          payload: res.data.data.link
+        });
+      }
     } else {
-      console.log(`An error occured. Error: ${res.status}`);
+      dispatch(setAlert("Error: ${res.status}", "danger"));
     }
   } catch (err) {
-    console.log("Error occurred when uploading image");
-    console.log(err);
+    dispatch(setAlert("Error occurred when uploading an image", "danger"));
   }
 };

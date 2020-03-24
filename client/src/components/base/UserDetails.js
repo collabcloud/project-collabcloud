@@ -16,6 +16,7 @@ const UserDetails = ({
   city,
   province,
   description,
+  avatar,
   link,
   postAvatar
 }) => {
@@ -23,9 +24,7 @@ const UserDetails = ({
   const fileUpload = useRef(null);
 
   useEffect(() => {
-    setAvatarLink(
-      "https://avatars1.githubusercontent.com/u/45128231?s=400&u=08be1d8cf8a3a1a5c2958b1cd2e11fad13078685&v=4"
-    );
+    setAvatarLink(avatar);
   }, [uid]);
 
   useEffect(() => {
@@ -130,7 +129,7 @@ UserDetails.propTypes = {
 UserDetails.defaultProps = {
   userDetails: {
     name: "Jarrod Servilla",
-    avatar: require("../../avatar.png"),
+    avatar: "https://avatars2.githubusercontent.com/u/45340119?s=400&v=4",
     jobTitle: "Project Manager",
     metaTitle: "Description",
     metaValue: "gamers rise up",
@@ -142,6 +141,7 @@ UserDetails.defaultProps = {
 const mapStateToProps = state => {
   return {
     uid: state.userinfo.profile.uid,
+    avatar: state.userinfo.profile.avatar,
     username: state.userinfo.profile.username,
     firstname: state.userinfo.profile.firstname,
     lastname: state.userinfo.profile.lastname,

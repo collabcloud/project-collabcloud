@@ -64,6 +64,7 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
           createdAt={reply.createdAt}
           content={reply.content}
           username={reply.username}
+          avatar={reply.submitter.avatar}
         />
       ));
       return posts_array;

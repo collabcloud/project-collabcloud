@@ -35,9 +35,18 @@ router.get(
       }
 
       const posts = await db.models.post.findAll({
+        attributes: ["createdAt", "content", "username"],
         where: {
           threadTid: req.query.tid
-        }
+        },
+        include: [
+          {
+            model: db.models.user,
+            as: "submitter",
+            attributes: ["avatar"],
+            required: true
+          }
+        ]
       });
 
       res.status(200).json(posts);

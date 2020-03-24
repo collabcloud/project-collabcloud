@@ -21,11 +21,10 @@ import Subforum from "../Containers/Forum/Subforum";
 import Thread from "../Containers/Forum/Thread";
 import Search from "../Containers/Search/Search";
 
-const uid = "55452c81-3295-4ac2-80cd-a5f0b9a86fd6";
 //TODO filter out special chars
 
 const Router = withRouter(
-  ({ get_subforums, get_all_threads, subforums, threads }) => {
+  ({ get_subforums, get_all_threads, subforums, threads, loggedInUid }) => {
     useEffect(() => {
       fetchResources();
     }, []);
@@ -46,7 +45,7 @@ const Router = withRouter(
               <Subforum
                 {...props}
                 sid={subforum.sid}
-                uid={uid}
+                uid={loggedInUid}
                 title={subforum.title}
                 description={subforum.description}
                 threads={subforum.threads}
@@ -105,7 +104,11 @@ const Router = withRouter(
 );
 
 function mapStateToProps(state) {
-  return { subforums: state.forum.subforums, threads: state.forum.threads };
+  return {
+    subforums: state.forum.subforums,
+    threads: state.forum.threads,
+    loggedInUid: state.user.uid
+  };
 }
 
 function mapDispatchToProps(dispatch) {

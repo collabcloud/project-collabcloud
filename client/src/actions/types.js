@@ -2,6 +2,7 @@
 export const RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND"; //404
 export const GET_SUCCESSFUL = "GET_SUCCESSFUL"; //200 OK on GET
 export const POST_SUCCESSFUL = "POST_SUCCESSFUL"; //200 OK on POST
+export const PUT_SUCCESSFUL = "PUT_SUCCESSFUL"; //200 OK on PUT
 export const ATTEMPT = "ATTEMPT"; //500 Internal Server Error
 
 // Project Actions

@@ -8,10 +8,12 @@ const Post = props => {
   const [content, setContent] = useState("");
   const [username, setUsername] = useState("");
   const [createdAt, setCreatedAt] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
     setContent(props.content);
     setUsername(props.username);
+    setAvatar(props.avatar);
     setCreatedAt(props.createdAt);
   }, [props]);
 
@@ -22,6 +24,14 @@ const Post = props => {
           <Container>
             <Row>
               <Col xs={2} className="post">
+                <img
+                  alt=""
+                  src={avatar}
+                  width="60"
+                  height="60"
+                  style={{ marginTop: 10 }}
+                  className="d-inline-block align-top"
+                />
                 <p className="submitter">{username}</p>
                 <p>Gamers rise up</p>
               </Col>

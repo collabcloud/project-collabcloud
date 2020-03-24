@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_INFO } from "./types";
+import { GET_INFO, PUT_SUCCESSFUL } from "./types";
 import { setAlert } from "./alert";
 
 export const get_user_info = uid => async dispatch => {
@@ -94,6 +94,44 @@ export const update_user_info = ({
           }
         });
         dispatch(setAlert("Updated Profile", "success"));
+      }
+      // Internal server error
+      else {
+        console.log("500 Internal Server Error");
+      }
+    } else {
+      console.log("Couldn't retrieve user");
+    }
+  } catch (err) {
+    console.log("Error occurred while retrieving user data");
+    console.log(err);
+  }
+};
+
+export const update_avatar = ({ uid, image }) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const url = "/api/users/avatar";
+    const body = {
+      uid: uid,
+      image: image
+    };
+    let response = await axios.put(url, body, config);
+    if (response) {
+      // Login information is wrong (eg. wrong password or username)
+      if (response.status === 400) {
+        console.log("UID doesn't exist");
+        dispatch(setAlert("UID doesn't exist", "danger"));
+      }
+      // User logs in successfully
+      else if (response.status === 200) {
+        console.log("update success");
+        dispatch({ type: PUT_SUCCESSFUL });
+        dispatch(setAlert("Uploaded avatar", "success"));
       }
       // Internal server error
       else {
