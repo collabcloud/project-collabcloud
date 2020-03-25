@@ -52,7 +52,6 @@ router.post(
 							  return res.status(500).json({ error: error});
 						  } else {
 							// REMOVE PASSWORD
-							console.log("hi");
 							return res.status(200).json({ token: token, uid: validUser[0].dataValues.uid});
 						  }
 						}

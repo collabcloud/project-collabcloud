@@ -9,7 +9,6 @@ const AlertView = ({ alerts }) => {
   const [state, setState] = useState("");  
   useEffect(
     function(){
-      console.log(alerts);
       setState("");
     }
   ,[alerts])

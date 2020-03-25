@@ -9,10 +9,8 @@ const LoginPage = (props) => {
     useEffect(function(){
         
         if(props.location.state){
-            console.log("hi");
             var temp = props.location.state;
             if(!temp.message) return;
-            console.log(temp.message);
             props.setRegisterMessage(temp.message, temp.type, 4000);
         }
     },[]);

@@ -32,9 +32,6 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
         setTimeout(function(){
             window.location.assign("https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo");
         }, 2000);
-
-        
-        console.log("what");
     }
     else if(attempted){
         window.location.assign("https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo");

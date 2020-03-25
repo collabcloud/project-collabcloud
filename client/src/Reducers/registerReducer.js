@@ -44,7 +44,6 @@ export default (state = initialState, action) => {
                 registered: false,
                 wrongUser: true
             };
-            console.log("what")
             return obj3;
         default:
             return state;

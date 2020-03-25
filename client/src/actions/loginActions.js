@@ -27,7 +27,6 @@ export const setRegisterMessage = (error, type, timeout) => async dispatch => {
 	dispatch({
 		type: AUTH_ERROR
 	});
-	console.log(error, type)
 	dispatch(setAlert(error, type, timeout = timeout));	
 }
 
