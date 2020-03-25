@@ -22,7 +22,7 @@ router.post(
 	"/",
 	[
 		check("projectName", "Project name is required").not().isEmpty(),
-		check("description", "Project description is required").not().isEmpty(),
+		// check("description", "Project description is required").not().isEmpty(),
 		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"]),
 		check("ownerUserID", "The owner of the project is required").not().isEmpty(),
 		// check("gitRepoID", "Must provide the ID of the Git repository that this project is associated with").not().isEmpty()
@@ -68,7 +68,7 @@ router.post(
 				ownerId: req.body.ownerUserID,
 				// gitRepoID: req.body.gitRepoID,
 				projectName: req.body.projectName,
-				projectDescription: (req.body.description == "") ? req.body.description : "no description",
+				projectDescription: (req.body.description == "") ? "no description" : req.body.description,
 				isPrivate: (req.body.visibility == "false" ? true : false),
 				githubStars: req.body.githubStars,
 				technologiesUsed: encodedTech,

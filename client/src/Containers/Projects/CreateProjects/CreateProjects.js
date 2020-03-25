@@ -12,8 +12,8 @@ import { MdWeb } from 'react-icons/md';
 // Redux Imports
 import { connect } from "react-redux"; // connects the CreateProjects component to the Redux store
 import { addProject } from "../../../actions/projectActions";
+import { setAlert } from "../../../actions/alert";
 import { getGithubRepos } from "../../../actions/githubActions";
-import { get_user_info } from "../../../actions/userActions";
 import PropTypes from "prop-types";
 
 import "../../../css/CreateProjects.css";
@@ -25,9 +25,9 @@ const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
 const CreateProjects = (props) => {
-	const { addProject, getGithubRepos, isLoading, githubRepos, ownerId, get_user_info, userInformation} = props
+	const { addProject, setAlert, getGithubRepos, isLoading, githubRepos, ownerId, username} = props
 
-	let githubUsername = userInformation.username;
+	let githubUsername = username;
 	const tech_suggestions = tech_suggestions_array;
 	
 	// Initialize state hooks
@@ -61,17 +61,11 @@ const CreateProjects = (props) => {
 
 	const history = useHistory();
 
-	// Get user info of currently logged in user
-	useEffect(() => {
-		get_user_info(ownerId);
-		// ONLY runs once, which is when the component mounts (ie. when the page first loads)
-	}, []); // This empty [] ensures that useEffect() does not run forever
-
 	// Load this user's GitHub repos
 	useEffect(() => {
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility: "all" });
-	}, [userInformation]); 
+	}, []); // WARNING: adding in any dependencies to this array causes the page to loop forever
 
 	// Runs whenever any of the specified props (isLoading, githubRepos) are updated
 	useEffect(() => {
@@ -107,7 +101,7 @@ const CreateProjects = (props) => {
 		}
 
 	}, [githubRepos, isLoading]); // this effect runs again whenever the elements in this dependency array change
-	// NOTE: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
+	// WARNING: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
 
 	function handleAddition(tag) {
 		const technologies = [].concat(tech, tag);
@@ -150,6 +144,7 @@ const CreateProjects = (props) => {
 			githubStars,
 			links
 		});
+		setAlert("Successfully created your project", "success");
 
 		// Redirect to the explore page
 		history.push("/explore");
@@ -250,9 +245,9 @@ function mapDispatchToProps(dispatch) {
         },
         getGithubRepos: ({ githubUsername, repoVisibility }) => {
             dispatch(getGithubRepos({ githubUsername, repoVisibility }));
-        },
-        get_user_info: (ownerId) => {
-            dispatch(get_user_info(ownerId));
+		},
+		setAlert: (message, alertType) => {
+            dispatch(setAlert(message, alertType));
         }
 	};
 }
@@ -261,7 +256,7 @@ function mapDispatchToProps(dispatch) {
 CreateProjects.propTypes = {
 	addProject: PropTypes.func.isRequired,
 	getGithubRepos: PropTypes.func.isRequired,
-	get_user_info: PropTypes.func.isRequired
+	setAlert: PropTypes.func.isRequired
 };
 
 // Transforms Redux store state into the props for this CreateProjects component
@@ -270,8 +265,8 @@ const mapStateToProps = state => {
 	return {
 		githubRepos: state.github.githubReposFromState,
 		isLoading: state.github.loading,
-		ownerId: state.user.uid,
-		userInformation: state.userinfo.profile,
+		ownerId: state.login.profile.uid,
+		username: state.login.profile.username
 	};
 };
 

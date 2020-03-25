@@ -22,7 +22,7 @@ export default combineReducers({
     follow: followReducer,
     unfollow: unfollowReducer,
     alerts: alertReducer,
-    hackathons: hackathonsReducer
+    hackathons: hackathonsReducer,
     notifications: notificationReducer,
     forum: forumReducer
 });

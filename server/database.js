@@ -80,7 +80,7 @@ const project = db.define(
       primaryKey: true
     },
     projectName: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING(500),
       allowNull: false
     },
     ownerId: {
@@ -95,12 +95,8 @@ const project = db.define(
     //     type: DataTypes.STRING(50),
     //     allowNull: false
     // },
-    projectName: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
     projectDescription: {
-      type: DataTypes.STRING(2000),
+      type: DataTypes.STRING(10000),
       allowNull: false
     },
     isPrivate: {
@@ -111,20 +107,20 @@ const project = db.define(
         type: DataTypes.STRING(10)
     },
     technologiesUsed: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING(100),
       allowNull: false
     },
     githubLink: {
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(2048)
     },
     websiteLink: {
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(2048)
     },
     devpostLink: {
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(2048)
     },
     linkedinLink: {
-        type: DataTypes.STRING(50)
+        type: DataTypes.STRING(2048)
     }
   },
   {}

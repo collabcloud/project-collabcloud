@@ -1,18 +1,18 @@
 import React from 'react';
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
-import { GoProject, GoStar, GoEye, GoNote, GoPerson} from 'react-icons/go';
+import { GoProject, GoNote, GoPerson} from 'react-icons/go';
 
 
 export const ProjectResultList = (props) => {
 
-  const order = 'desc';
+  // const order = 'desc';
   
 
   var options = {
     defaultSortName: 'projectName',  // default sort column name
     defaultSortOrder: 'desc'  // default sort order
   }
-  var test = [];
+
   return (
     <div>
        <BootstrapTable data={props.projects} striped hover options={options} >

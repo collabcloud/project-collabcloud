@@ -9,11 +9,12 @@ import "../../css/Project.css";
 
 // Redux imports
 import { connect } from "react-redux"; // connects the ProjectForm component to the Redux store
+import { setAlert } from "../../actions/alert";
 import { updateProject, deleteProject, getProjectInformation, leaveProject, joinProject, resetProjectActionStatus } from "../../actions/projectActions";
 import PropTypes from "prop-types";
 
 const Project = (props) => {  
-    const { getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, joinSuccess, leaveSuccess, loggedInUid, deleteSuccess, match } = props;
+    const { getProjectInformation, updateProject, deleteProject, joinProject, leaveProject, resetProjectActionStatus, projectInformation, updateSuccess, joinSuccess, leaveSuccess, loggedInUid, deleteSuccess, match, setAlert } = props;
 
     // This is the PID of the project whose information we want to get
     const projectId = match.params.pid;
@@ -21,7 +22,6 @@ const Project = (props) => {
     const history = useHistory();
     const [isShowingSettings, modifySettings] = useState(false);
     const [hasUserJoined, setUserJoinedProject] = useState(false);
-    const [successfullyDeleted, setDeleted] = useState(false);
     const [successfullyUpdated, setUpdated] = useState(false);
     let requestedToUpdate = false;
     let requestedToJoin = false;
@@ -32,7 +32,7 @@ const Project = (props) => {
 	useEffect(() => {
         // console.log("Repopulating project information");
         getProjectInformation({ projectId });
-	}, [getProjectInformation, updateSuccess, joinSuccess, leaveSuccess]);
+	}, [getProjectInformation, updateSuccess, joinSuccess, leaveSuccess, projectId]);
     
     // Check if the logged in user is part of this project
     useEffect(() => {
@@ -47,14 +47,14 @@ const Project = (props) => {
     // When a user tries to delete their project, check if deletion was successful
     useEffect(() => {
         if (deleteSuccess) {
-            setDeleted(true);
             resetProjectActionStatus();
+            setAlert("Successfully deleted your project", "success");
+            requestedToDelete = false;
 
             // Redirect user to dashboard (since there is no project to look at anymore)
             history.push("/dashboard");
         } else if (requestedToDelete) {
-            // TODO: Get Furqan's alerts up here
-            console.log("Unsuccessful deletion!");
+            setAlert("Could not delete your project", "danger");
             requestedToDelete = false;
         }
     }, [deleteSuccess, history]);
@@ -62,13 +62,12 @@ const Project = (props) => {
     // When a user tries to update their project, check if update was successful
     useEffect(() => {
         if (updateSuccess) {
-            // console.log("Update success");
             setUpdated(true);
             resetProjectActionStatus();
+            setAlert("Successfully updated your project", "success");
             requestedToUpdate = false;
         } else if (requestedToUpdate){
-            // TODO: Get Furqan's alerts up here
-            console.log("Unsuccessful update");
+            setAlert("Could not update your project", "danger");
             requestedToUpdate = false;
         }
     }, [updateSuccess]);
@@ -76,13 +75,12 @@ const Project = (props) => {
     // When a user tries to leave a project, check if leaving was successful
     useEffect(() => {
         if (leaveSuccess) {
-            // console.log("Successfully left project");
             requestedToLeave = false;
             setUserJoinedProject(false);
             resetProjectActionStatus();
+            setAlert("Successfully left project", "success");
         } else if (requestedToLeave) {
-            // TODO: Get Furqan's alerts up here
-            console.log("Could not leave project");
+            setAlert("Could not leave your project", "danger");
             requestedToLeave = false;
         }
     }, [leaveSuccess]);
@@ -94,9 +92,9 @@ const Project = (props) => {
             requestedToJoin = false;
             setUserJoinedProject(true);
             resetProjectActionStatus();
+            setAlert("Successfully joined project", "success");
         } else if (requestedToJoin){
-            // TODO: Get Furqan's alerts up here
-            console.log("Could not join project");
+            setAlert("Could not join project", "danger");
             requestedToJoin = false;
         }
     }, [joinSuccess]);
@@ -215,6 +213,9 @@ function mapDispatchToProps(dispatch) {
         },
         resetProjectActionStatus: () => {
             dispatch(resetProjectActionStatus());
+        },
+        setAlert: (message, alertType) => {
+            dispatch(setAlert(message, alertType));
         }
 	};
 }
@@ -226,7 +227,8 @@ Project.propTypes = {
     deleteProject: PropTypes.func.isRequired,
     leaveProject: PropTypes.func.isRequired,
     joinProject: PropTypes.func.isRequired,
-    resetProjectActionStatus: PropTypes.func.isRequired
+    resetProjectActionStatus: PropTypes.func.isRequired,
+    setAlert: PropTypes.func.isRequired
 };
 
 
