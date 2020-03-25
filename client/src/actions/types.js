@@ -18,6 +18,7 @@ export const RESET_PROJECT_ACTION_STATUS = "RESET_PROJECT_ACTION_STATUS";
 // Register Actions
 export const GET_TOKEN = "GET_TOKEN";
 export const GITHUB_EXISTS = "GITHUB_EXISTS";
+export const GITHUB_USERNAME_NOMATCH = "GITHUB_USERNAME_NOMATCH";
 
 // GitHub Repository Actions
 export const GET_GIT_REPOS = "GET_REPOS";
