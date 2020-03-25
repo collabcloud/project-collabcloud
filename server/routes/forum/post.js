@@ -34,7 +34,6 @@ router.get(
         console.log(errors);
         return res.status(422).json({ errors: errors.array() });
       }
-      console.log(req.query.tid);
 
       const posts = await db.models.post.findAll({
         include: {
