@@ -9,7 +9,7 @@ export const UserResultList = (props) => {
   
 
   var options = {
-    defaultSortName: 'name',  // default sort column name
+    defaultSortName: 'username',  // default sort column name
     defaultSortOrder: 'desc'  // default sort order
   }
 

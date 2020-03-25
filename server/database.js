@@ -9,9 +9,8 @@ const db = new Sequelize(
     host: process.env.DB_HOST,
     dialect: "postgres",
     port: process.env.DB_PORT,
-    logging: process.env.DB_LOGGING == "TRUE" ? true : false
-  }
-);
+    logging: (process.env.DB_LOGGING == "TRUE" ? console.log : false)
+});
 
 try {
   db.authenticate();
@@ -216,6 +215,37 @@ const user_follows_project = db.define('user_follows_project', {
 user_follows_project.belongsTo(User, {as: "user"});
 user_follows_project.belongsTo(project, {as: "project"});
 
+
+const chats = db.define("chats", {
+    firstUser: {
+        type:DataTypes.STRING(200),
+        allowNull: false
+    },
+    secondUser:{
+        type: DataTypes.STRING(200),
+        allowNull: false
+    },
+    seen: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
+});
+const messages = db.define("messages", {
+    sender: {
+        type:DataTypes.STRING(200),
+        allowNull: false
+    },
+    receiver:{
+        type: DataTypes.STRING(200),
+        allowNull: false
+    },
+    message:{
+        type: DataTypes.STRING(20000),
+        allowNull: false
+    }
+});
+
+
 const Thread = db.define(
   "thread",
   {
@@ -304,12 +334,10 @@ const Notification = db.define("notification", {
     defaultValue: Sequelize.NOW
   }
 });
-
 // Relation that stores a relationship between a Notification and a User
-const users_notifications = db.define("users_notifications");
-users_notifications.belongsTo(User, { as: "notifee" });
-users_notifications.belongsTo(Notification, { as: "notification" });
-
+const users_notifications = db.define('users_notifications');
+users_notifications.belongsTo(User, {as: "notifee"});
+users_notifications.belongsTo(Notification, {as: "notification"});
 db.sync({ force: false })
   .then(message => {
     console.log("Database synced");
