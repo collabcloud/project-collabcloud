@@ -18,7 +18,7 @@ const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getPro
 	const [show, setShow] = useState(true);
 
     useEffect(()=>{
-        addHackathons();  
+		addHackathons();  
     },[]);  
     useEffect(()=>{
         getHackathons();
@@ -34,7 +34,7 @@ const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getPro
 		<div>
 			<NotificationAlert />
 			<NavigationBar />
-			<div style={{ margin: "50px" }}>
+			<div>
 				<h2>
 					<span role="img" aria-label="stars">
 						&#10024;
@@ -45,7 +45,7 @@ const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getPro
 					</span>
 				</h2>
 			</div>
-			<Row style={{ margin: "25px" }}>
+			<Row>
 				{/* Col 1 */}
 				<Col md={3} lg={3} xl={3}>
 					<Container>
@@ -323,9 +323,9 @@ function mapStateToProps(state){
         addHackathons: () => {
             dispatch(addHackathons());
         },
-      getProjectNotifications: (uid, notificationsToGet) => {
-			  dispatch(getProjectNotifications(uid, notificationsToGet));
-		  }
+		getProjectNotifications: (uid, notificationsToGet) => {
+			dispatch(getProjectNotifications(uid, notificationsToGet));
+		},
     };
   }
   
@@ -333,7 +333,7 @@ function mapStateToProps(state){
   Dashboard.propTypes = {
     getHackathons: PropTypes.func.isRequired,
     addHackathons: PropTypes.func.isRequired,
-    getProjectNotifications: PropTypes.func.isRequired
+	getProjectNotifications: PropTypes.func.isRequired
   };
   
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

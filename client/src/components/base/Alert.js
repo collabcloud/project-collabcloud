@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import '../../css/Alerts.css';
 
-// TODO: Fix CSS for alerts 
-
 const AlertView = ({ alerts }) => {
   const [state, setState] = useState("");  
   useEffect(
@@ -18,7 +16,7 @@ const AlertView = ({ alerts }) => {
         alerts.length > 0 &&
         alerts.map(alert => (
           <div key={alert.id} className={`collab-alerts ${alert.alertType}`}>
-            <div>{alert.msg}</div>
+            <p className="alerts-text">{alert.msg}</p>
           </div>
         ))}
     </div>
