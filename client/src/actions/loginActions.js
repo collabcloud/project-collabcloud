@@ -11,10 +11,9 @@ export const loadUser = () => async dispatch => {
   
 	try {
 	  const res = await axios.get("/api/users/auth");
-  
 	  dispatch({
 		type: USER_LOADED,
-		payload: res.data
+		payload: res.data[0]
 	  });
 
 	} catch (err) {
@@ -34,7 +33,6 @@ export const login = (username, password) => async dispatch => {
 	try {
 		const url = "/api/users/login";
 		const body = JSON.stringify({ username, password });
-
 		let response = await axios.post(url, body, config);
         // TODO: Add in a type for if the response fails, and then catch that type
 		if (response) {

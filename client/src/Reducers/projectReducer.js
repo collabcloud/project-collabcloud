@@ -2,6 +2,7 @@ import {
 	ADD_PROJECT,
 	GET_PROJECT,
 	UPDATE_PROJECT,
+	RECOMMEND,
 	DELETE_PROJECT,
 	GET_PUBLIC_PROJECTS,
 	JOIN_PROJECT,
@@ -11,6 +12,7 @@ import {
 
 const initialState = {
 	projects: [],
+	recommendedprojects: [],
 	loading: true,
 	updateSuccess: false,
 	deleteSuccess: false,
@@ -39,6 +41,12 @@ export default (state = initialState, action) => {
 				loading: false,
 				projects: action.payload
 			};
+		case RECOMMEND:
+			return {
+				...state,
+				loading: false,
+				recommendedprojects: action.payload
+			}
 		// Get all information for a project
 		case GET_PROJECT:
 			return {

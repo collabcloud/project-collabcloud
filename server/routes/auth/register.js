@@ -43,6 +43,48 @@ router.post(
 				console.log(errors);
 				return res.status(422).json({ errors: errors.array()});
 			}
+			const techDict = {
+				"MongoDB": 1,
+				"Express": 2,
+				"React": 3,
+				"Node.js": 4,
+				"Python": 5,
+				"JavaScript": 6,
+				"Java": 7,
+				"C++": 8,
+				"C#": 9,
+				"HTML/CSS": 10,
+				"Swift": 11,
+				"SQL": 12,
+				"MongoDB": 13,
+				"Express": 14,
+				"React": 15,
+				"Angular": 16,
+				"VueJS": 17,
+				"Flutter": 18,
+				"Kubernetes": 19,
+				"Jupyter": 20,
+				"Pytorch": 21,
+				"Numpy": 22,
+				"Passport": 23,
+				"Kotlin": 24
+			}
+
+			// Given the technologies used, construct an encoding string that can be inserted into PSQL
+			const technologiesArray = req.body.technologies;
+			let techName = technologiesArray.map(tech => tech.name);
+			let techArray = [];
+			// If you add more technologies into the techDict dictionary, then change the total value of the array
+			for (i = 0; i < 24; i++) {
+				techArray[i] = 0;
+			}
+			if (techName.length > 0) {
+				let techIndex;
+				for (techIndex of techName) {
+					techArray[techDict[techIndex] - 1] = 1;
+				}
+			}
+			const encodedTech = techArray.join('');
 		
 			// This is the GitHub auth code
 			const code = req.body.code;
@@ -81,6 +123,7 @@ router.post(
 				username: req.body.username,
 				password: req.body.password,
 				authtoken: accessToken,
+				interestedTech: encodedTech,
 				githubid: githubId
 			});
 			await UserObject.save();

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavigationBar } from "../../components/base/NavigationBar";
+import {Recommendations} from "../../components/base/Recommend";
 import { Alert, Card, Button, Container, Row, Col } from "react-bootstrap";
 import { NotificationList } from "./NotificationList";
 import NotificationAlert from "../../components/base/Alert";
@@ -10,15 +11,20 @@ import "../../css/Dashboard.css";
 // Redux Imports
 import { connect } from "react-redux"; // connects the CreateProjects component to the Redux store
 import { getProjectNotifications } from "../../actions/notificationActions";
+import {recommendProjects} from "../../actions/recommendAction";
 import PropTypes from "prop-types";
 
-const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications }) => {
+const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications, projects, recommendProjects }) => {
 	const [show, setShow] = useState(true);
 
 	// Loads project notifications
 	useEffect(() => {
 		getProjectNotifications( loggedInUid , 10);
 	}, [getProjectNotifications, loggedInUid]);
+
+	useEffect(() => {
+		recommendProjects();
+	}, []);
 
 	return (
 		<div>
@@ -236,18 +242,19 @@ const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications 
 				{/* Col 4 */}
 				<Col md={3} lg={3} xl={3}>
 					<Container>
-						<Alert
+						{/* <Alert
 							variant={"primary"}
 							onClose={() => setShow(false)}
 							dismissible
 						>
 							here are some project based on your preferences
-						</Alert>
+						</Alert> */}
 						{/* Projects interest */}
 						<div>
 							<h4>
 								&#127942; Projects that you maybe interested in
 							</h4>
+							<Recommendations projects={projects}/>
 							<Card>
 								<Card.Body>
 									{/* Card Index 0 */}
@@ -329,6 +336,7 @@ const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications 
 function mapStateToProps(state) {
 	return {
 		projectNotifications: state.notifications.projectNotifications,
+		projects: state.project.recommendedprojects,
 		loggedInUid: state.user.uid
 	};
 }
@@ -337,6 +345,9 @@ function mapDispatchToProps(dispatch) {
 	return {
 		getProjectNotifications: (uid, notificationsToGet) => {
 			dispatch(getProjectNotifications(uid, notificationsToGet));
+		},
+		recommendProjects: () => {
+			dispatch(recommendProjects());
 		}
 	};
 }

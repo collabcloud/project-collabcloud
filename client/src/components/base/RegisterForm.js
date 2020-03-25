@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import ReactTags from "react-tag-autocomplete";
 
 import "../../css/RegisterForm.css"
 
@@ -11,6 +12,35 @@ import { withRouter } from 'react-router-dom';
 
 
 const RegisterForm = withRouter(({register, registered, githubExists, attempted, history}) => {
+
+    const tech_suggestions = [
+		{ id: 1, name: "MongoDB" },
+		{ id: 2, name: "Express" },
+		{ id: 3, name: "React" },
+		{ id: 4, name: "Node.js" },
+		{ id: 5, name: "Python" },
+		{ id: 6, name: "JavaScript" },
+		{ id: 7, name: "Java" },
+		{ id: 8, name: "C++" },
+		{ id: 9, name: "C#" },
+		{ id: 10, name: "HTML/CSS" },
+		{ id: 11, name: "Swift" },
+		{ id: 12, name: "SQL" },
+		{ id: 13, name: "MongoDB" },
+		{ id: 14, name: "Express" },
+		{ id: 15, name: "React" },
+		{ id: 16, name: "Angular" },
+		{ id: 17, name: "VueJS" },
+		{ id: 18, name: "Flutter" },
+		{ id: 19, name: "Kubernetes" },
+		{ id: 20, name: "Jupyter" },
+		{ id: 21, name: "Pytorch" },
+		{ id: 22, name: "Numpy" },
+		{ id: 23, name: "Passport" },
+		{ id: 24, name: "Kotlin" },
+    ];
+    
+    const [tech, setTech] = useState([]);
 
    
     useEffect(() => {
@@ -47,6 +77,18 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
       * Modify the formData when something has been changed
       * 
       */
+
+     function handleAddition(tag) {
+		const technologies = [].concat(tech, tag);
+		setTech(technologies);
+	}
+
+	function handleDelete(i) {
+		const technologies = tech.slice(0);
+		technologies.splice(i, 1);
+		setTech(technologies);
+    }
+    
     const onChange = e =>{
         setFormData({...formData, [e.target.name]: e.target.value});
     }
@@ -64,6 +106,8 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
         else{
             setErrors([]);
         }
+        formData['technologies'] = tech;
+        console.log(JSON.stringify(formData));
         githubAuth(register, formData);
         
     }
@@ -122,6 +166,14 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
                         onChange={onChange}/>
                         <Form.Control.Feedback type="invalid">Please enter Email  </Form.Control.Feedback>
                 </Form.Group>
+                <label>Interested Languages/Tech</label>
+                <ReactTags
+							className="item"
+							tags={tech}
+							suggestions={tech_suggestions}
+							handleDelete={handleDelete}
+							handleAddition={handleAddition}
+						/>
                 <Form.Group controlId="formBasicCheckbox">
                     <Form.Check type="checkbox" name="terms" className="float-left"/>
                     <label htmlFor= "terms">I agree to the <a href='register2'>Terms of service </a></label>

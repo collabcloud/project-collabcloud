@@ -15,8 +15,7 @@ import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects
 import Trending from "../Containers/Trending/Trending";
 import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
-import OtherProfile from "../Containers/User/OtherProfile";
-import Profile from "../Containers/User/Profile";
+import OtherProfile from "../Containers/User/Profile";
 import Root from '../Containers/Forum/Root';
 import Subforum from '../Containers/Forum/Subforum';
 import Thread from '../Containers/Forum/Thread';
@@ -98,8 +97,7 @@ const Router = withRouter(
         <PrivateRoute path="/project/:pid" component={Project} />
         <PrivateRoute path ="/explore" component={Explore} />
         <PrivateRoute path="/projects/create" component={CreateProjects} />
-        <PrivateRoute path="/user/profile" component={Profile} />
-        <PrivateRoute path="/user/matthuynh" component={OtherProfile} />
+        <PrivateRoute path="/user/profile" component={OtherProfile} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/search" component={Search} />
         <PrivateRoute exact path="/forum/" component={Root} />
