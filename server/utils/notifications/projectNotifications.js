@@ -28,7 +28,6 @@ const addNotification = async (
 			notificationMessage: notificationMessage
 		});
 		notificationObject.toJSON();
-		// console.log(notificationObject);
 		await notificationObject.save();
 
 		// Successfully inserted project notification

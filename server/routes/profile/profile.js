@@ -15,10 +15,8 @@ router.get(
 	async (req, res) => {
 		try {
 			// Use express-validator to validate request
-			// console.log("GET");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
-                console.log(req.body);
 				return res.status(422).json({ errors: errors.array() });
 			}
 			// Get the GitHub auth token for the given username (IMPORTANT that the username in the db matches that of GitHub username)
@@ -53,13 +51,10 @@ router.put(
 	async (req, res) => {
 		try {
 			// Use express-validator to validate request
-			console.log("PUT");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
-                console.log(req.query.uid);
 				return res.status(422).json({ errors: errors.array() });
 			}
-			console.log("uid is:" + req.body.uid);
 			// Get the GitHub auth token for the given username (IMPORTANT that the username in the db matches that of GitHub username)
 			const values = {
 				firstname: req.body.name,

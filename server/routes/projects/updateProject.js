@@ -19,8 +19,6 @@ router.post(
 	],
 	async (req, res) => {
 		try {
-            // console.log("Hit updateProject in back-end");
-            // console.log(req.body);
 
 			// Use express-validator to validate request
 			const errors = validationResult(req);
@@ -75,18 +73,15 @@ router.post(
             if (projectToUpdate) {
                 let success = projectToUpdate.update(updates);
                 if (success) {
-                    // console.log("The project was updated in the database!");
                     return res.status(200).json({
                         result: "Success",
                     });
                 } else {
-                    // console.log("Could not update project");
                     return res.status(500).json({
                         result: "Internal server errors",
                     });
                 }
             } else {
-                // console.log("Could not update project");
                 return res.status(404).json({
                     result: "Could not find that Project",
                 });

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import PrivateRoute from "./PrivateRoute";
 import { get_subforums, get_all_threads } from "../actions/forumActions";
 import { generateURL } from "../utils/helpers";
 
@@ -14,12 +15,13 @@ import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects
 import Trending from "../Containers/Trending/Trending";
 import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
-import OtherProfile from "../Containers/User/OtherProfile";
-import Profile from "../Containers/User/Profile";
-import Root from "../Containers/Forum/Root";
-import Subforum from "../Containers/Forum/Subforum";
-import Thread from "../Containers/Forum/Thread";
-import Search from "../Containers/Search/Search";
+import OtherProfile from "../Containers/User/Profile";
+import Root from '../Containers/Forum/Root';
+import Subforum from '../Containers/Forum/Subforum';
+import Thread from '../Containers/Forum/Thread';
+import Search from "../Containers/Search/Search"
+import Logout from "../Containers/Account/Logout/Logout";
+import Page404 from "../Containers/Dashboard/404Page";
 
 const uid = "55452c81-3295-4ac2-80cd-a5f0b9a86fd6";
 //TODO filter out special chars
@@ -81,22 +83,29 @@ const Router = withRouter(
         return thread_links;
       }
     }
-
-    // Render the first <Route> element whose path matches the current URL
+    
     return (
       <Switch>
-        <Route path="/" component={LandingPage} exact />
-        <Route path="/login" component={Login} />
+         {/* Public Routes */}
+        <Route path="/" component={LandingPage} exact/>
+        <Route path="/login" component={Login}/>
         <Route path="/register2" component={Register2} />
         <Route path="/register" component={Register} />
-        <Route path="/explore" component={Explore} />
-        <Route path="/projects/create" component={CreateProjects} />
-        <Route path="/user/profile" component={Profile} />
-        <Route path="/user/matthuynh" component={OtherProfile} />
-        <Route path="/user/project" component={Project} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/search" component={Search} />
-        <Route exact path="/forum/" component={Root} />
+        <Route path="/logout" component={Logout} />
+
+        {/* Auth Routes */}
+        <PrivateRoute path="/project/:pid" component={Project} />
+        <PrivateRoute path ="/explore" component={Explore} />
+        <PrivateRoute path="/projects/create" component={CreateProjects} />
+        {/* <PrivateRoute path="/user/profile" component={Profile} /> */}
+        <PrivateRoute path="/user/profile" component={OtherProfile} />
+        <PrivateRoute path="/dashboard" component={Dashboard} />
+        <PrivateRoute path="/search" component={Search} />
+        <PrivateRoute exact path="/forum/" component={Root} />
+
+        {/* Catch All -- 404 */}
+        <Route component={Page404} />
+      
         {renderSubforums()}
         {renderThreads()}
       </Switch>

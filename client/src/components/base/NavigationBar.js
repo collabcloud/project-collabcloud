@@ -49,7 +49,7 @@ export const NavigationBar = withRouter(({history}) => {
         <Link to="/trending" className="p-2 link"> Trending </Link>
         <Link to="/explore" className="p-2 link"> Explore </Link>
         <Link to="/forum" className="p-2 link"> Forum </Link>
-        <Link to="/" className="p-2 link"> Logout </Link>
+        <Link to="/logout" className="p-2 link"> Logout </Link>
         <a href="/user/profile">
           <img
             alt=""
