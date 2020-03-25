@@ -15,18 +15,18 @@ import forumReducer from "./forumReducer";
 import imgReducer from "./imgReducer";
 
 export default combineReducers({
-    project: projectReducer,
-    register: registerReducer,
-    github: githubReducer,
-    login: loginReducer,
-    userinfo: userinfoReducer,
-    user: userReducer,
-    search: searchReducer,
-    follow: followReducer,
-    unfollow: unfollowReducer,
-    alerts: alertReducer,
-    hackathons: hackathonsReducer
-    notifications: notificationReducer,
-    forum: forumReducer,
-    img: imgReducer
+  project: projectReducer,
+  register: registerReducer,
+  github: githubReducer,
+  login: loginReducer,
+  userinfo: userinfoReducer,
+  user: userReducer,
+  search: searchReducer,
+  follow: followReducer,
+  unfollow: unfollowReducer,
+  alerts: alertReducer,
+  hackathons: hackathonsReducer,
+  notifications: notificationReducer,
+  forum: forumReducer,
+  img: imgReducer
 });

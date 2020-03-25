@@ -42,27 +42,6 @@ router.get(
           required: true
         }
       });
-
-      console.log(posts);
-      /*
-      const posts = await db.models.post.findAll({
-        attributes: ["createdAt", "content", "username"],
-        where: {
-          threadTid: req.query.tid
-        },
-        include: [
-          {
-            model: db.models.user,
-            as: "submitter",
-            attributes: ["avatar", "description"],
-            required: false,
-            where: {
-              uid: Sequelize.col("post.submitterUid")
-            }
-          }
-        ]
-      });
-      */
       res.status(200).json(posts);
 
       return;

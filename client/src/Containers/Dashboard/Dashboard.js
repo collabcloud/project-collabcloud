@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { NavigationBar } from "../../components/base/NavigationBar";
 import { HackathonCard } from "../../components/base/HackathonCard";
-import { Alert, Card, Button, Container, Row, Col, Jumbotron  } from "react-bootstrap";
+import {
+  Alert,
+  Card,
+  Button,
+  Container,
+  Row,
+  Col,
+  Jumbotron
+} from "react-bootstrap";
 import { NotificationList } from "./NotificationList";
 import NotificationAlert from "../../components/base/Alert";
 import Avatar from "../../components/base/Avatar";
@@ -16,23 +23,34 @@ import { get_user_projects } from "../../actions/projectActions";
 import { generateURL } from "../../utils/helpers";
 import PropTypes from "prop-types";
 
-
 const default_avatar =
   "https://avatars2.githubusercontent.com/u/45340119?s=400&v=4";
 
-const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getProjectNotifications, loggedInUid, projectNotifications, user, get_user_projects, projects, get_user_info }) => {
-	const [show, setShow] = useState(true);
+const Dashboard = ({
+  addHackathons,
+  getHackathons,
+  hackathons,
+  isLoading,
+  getProjectNotifications,
+  loggedInUid,
+  projectNotifications,
+  user,
+  get_user_projects,
+  projects,
+  get_user_info
+}) => {
+  const [show, setShow] = useState(true);
   const [name, setName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [fullName, setFullName] = useState("");
   const [avatar, setAvatar] = useState(default_avatar);
-  
-    useEffect(()=>{
-        addHackathons();  
-    },[]);  
-    useEffect(()=>{
-        getHackathons();
-    },[isLoading]); 
+
+  useEffect(() => {
+    addHackathons();
+  }, []);
+  useEffect(() => {
+    getHackathons();
+  }, [isLoading]);
 
   // Loads project notifications
   useEffect(() => {
@@ -306,12 +324,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-     getHackathons: () => {
-            dispatch(getHackathons());
-     },
-     addHackathons: () => {
-            dispatch(addHackathons());
-        },
+    getHackathons: () => {
+      dispatch(getHackathons());
+    },
+    addHackathons: () => {
+      dispatch(addHackathons());
+    },
     getProjectNotifications: (uid, notificationsToGet) => {
       dispatch(getProjectNotifications(uid, notificationsToGet));
     },
@@ -323,11 +341,10 @@ function mapDispatchToProps(dispatch) {
     }
   };
 }
-  Dashboard.propTypes = {
-    getHackathons: PropTypes.func.isRequired,
-    addHackathons: PropTypes.func.isRequired,
-    getProjectNotifications: PropTypes.func.isRequired
-  };
-  
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+Dashboard.propTypes = {
+  getHackathons: PropTypes.func.isRequired,
+  addHackathons: PropTypes.func.isRequired,
+  getProjectNotifications: PropTypes.func.isRequired
+};
 
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
