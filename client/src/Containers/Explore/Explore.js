@@ -16,7 +16,7 @@ const Explore = ({getPublicProjects, projects}) => {
 
   useEffect(()=>{
     getPublicProjects();
-  }); 
+  }, [getPublicProjects]); 
 
   return (
     <div>

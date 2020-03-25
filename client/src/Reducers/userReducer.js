@@ -1,4 +1,6 @@
-import { LOGIN } from "../actions/types";
+import {
+    LOGIN
+} from "../actions/types";
 
 const initialState = {
     uid: localStorage.getItem("uid")
@@ -13,7 +15,6 @@ export default (state = initialState, action) => {
                 ...action.payload.uid
             };
         default:
-            // console.log(state);
             return state;
     }
 };

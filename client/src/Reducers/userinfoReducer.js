@@ -10,7 +10,6 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case GET_INFO:
-            // console.log("adding user info to state");
             return {
                 ...state,
                 profile: action.payload 

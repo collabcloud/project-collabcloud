@@ -49,7 +49,6 @@ const Subforum = withRouter(
 
     async function rerenderThreads() {
       get_threads(sid);
-      console.log("getting ...");
     }
 
     function renderThreads() {

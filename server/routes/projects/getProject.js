@@ -34,9 +34,6 @@ router.get("/", async (req, res) => {
 			// Successfully retrieved collaborators
 			if (collaborators) {				
 				let cleanedCollaborators = collaborators.map(collaborator => collaborator.dataValues)
-				
-				// console.log("List of all collaborators")
-				// console.log(cleanedCollaborators);
 
 				return res.status(200).json({
 					project: project.dataValues,

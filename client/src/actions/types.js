@@ -43,12 +43,19 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 //profile actions
 export const GET_INFO = "GET_INFO";
 
+//Hackathon actions
+export const GET_HACKATHONS = "GET_HACKATHONS";
+export const ADD_HACKATHONS = "ADD_HACKATHONS";
+
+// Auth Actions
+export const USER_LOADED = "USER_LOADED";
+export const AUTH_ERROR = "AUTH_ERROR";
+export const LOGOUT = "LOGOUT";
+
 //Forum Actions
 export const GET_SUBFORUMS = "GET_SUBFORUMS";
 export const GET_THREADS = "GET_THREADS";
 export const GET_POSTS = "GET_POSTS";
-
-
 
 // Notification Actions
 export const GET_PROJECT_NOTIFICATIONS = "GET_PROJECT_NOTIFICATIONS";

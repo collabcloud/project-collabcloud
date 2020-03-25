@@ -77,7 +77,6 @@ router.post(
 		} catch (err) {
 			// This error could be thrown if the user tried to insert a relation for
 			// a UID or PID that isn't in the users or projects table
-			console.log("Check server/routes/projects/joinProject.js");
 			console.log(err);
 			res.status(500).json({ errorMessage: "Internal server error" });
 		}
