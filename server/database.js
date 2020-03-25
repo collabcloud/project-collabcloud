@@ -245,10 +245,7 @@ const messages = db.define("messages", {
     }
 });
 
-// Relation that stores a relationship between a Notification and a User
-const users_notifications = db.define('users_notifications');
-users_notifications.belongsTo(User, {as: "notifee"});
-users_notifications.belongsTo(Notification, {as: "notification"});
+
 const Thread = db.define(
   "thread",
   {
@@ -337,12 +334,10 @@ const Notification = db.define("notification", {
     defaultValue: Sequelize.NOW
   }
 });
-
 // Relation that stores a relationship between a Notification and a User
-const users_notifications = db.define("users_notifications");
-users_notifications.belongsTo(User, { as: "notifee" });
-users_notifications.belongsTo(Notification, { as: "notification" });
-
+const users_notifications = db.define('users_notifications');
+users_notifications.belongsTo(User, {as: "notifee"});
+users_notifications.belongsTo(Notification, {as: "notification"});
 db.sync({ force: false })
   .then(message => {
     console.log("Database synced");

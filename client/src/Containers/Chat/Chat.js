@@ -4,7 +4,6 @@ import { NavigationBar } from "../../components/base/NavigationBar";
 
 // Redux Imports
 import { connect } from "react-redux";
-import {get_user_info} from "../../actions/userActions";
 import PropTypes from "prop-types";
 import { ChatList } from "../../components/base/ChatList";
 import { MessageList } from "../../components/base/MessageList";
@@ -151,9 +150,6 @@ return {
     },
     addUser: (myuser,username, setErrMsg, setAddUser) => {
         dispatch(addUser(myuser,username, setErrMsg, setAddUser))
-    },
-    get_user_info: (uid) =>{
-        dispatch(get_user_info(uid));
     },
     changeRecipient: (from, to, setMessageList) =>{
         dispatch(changeRecipient(from, to, setMessageList));

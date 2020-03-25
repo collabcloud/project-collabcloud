@@ -28,6 +28,7 @@ function messageSendHandler(data){
         ret.type = "other";
         ret.name = data.from;
         ret.msg = data.message;
+        ret.time = new Date();
         to.emit("messagesend", JSON.stringify(ret));
         // db.models.chats.update({firstUser: data.to, secondUser: data.from, seen: true},{
         //     where:{

@@ -24,7 +24,7 @@ export default combineReducers({
     unfollow: unfollowReducer,
     alerts: alertReducer,
     chat: chatReducer,
-    hackathons: hackathonsReducer
+    hackathons: hackathonsReducer,
     notifications: notificationReducer,
     forum: forumReducer
 });

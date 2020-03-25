@@ -42,11 +42,12 @@ export const MessageList = (props) => {
 
     function createMessage(msg, index){
         var time = ""
-        var today = new Date(msg.time);
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var curtime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date+' '+curtime;
+        
         if(msg.time){
+            var today = new Date(msg.time);
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var curtime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date+' '+curtime;
             time = "Sent at " + dateTime; 
         }
         return (
