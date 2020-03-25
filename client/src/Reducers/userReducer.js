@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-    console.log(state.uid);
+    
     switch (action.type) {
         case LOGIN:
             localStorage.setItem("uid", action.payload.uid);
@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
                 uid: action.payload.uid
             };
         default:
-            // console.log(state);
+            
             return state;
     }
    

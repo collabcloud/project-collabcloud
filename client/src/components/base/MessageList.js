@@ -13,6 +13,7 @@ export const MessageList = (props) => {
     useEffect(()=>{
         scrollbar.current.scrollToBottom();
     },[]);
+    
     useEffect(() => {
         setMessage("");
         scrollbar.current.scrollToBottom();
@@ -20,7 +21,6 @@ export const MessageList = (props) => {
     function onSubmit(event){
         event.preventDefault();
         var message = event.target[0].value;
-        console.log(event.target[0].value);
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -63,6 +63,7 @@ export const MessageList = (props) => {
 
     }
     var page = (
+        
     
     <Scrollbar 
         ref = {scrollbar}
