@@ -114,7 +114,7 @@ const Chat = (props) => {
                 <NavigationBar />
             </div>
             <Container className = "msgcontainer" fluid style={{ paddingLeft: 0, paddingRight: 0}}>
-                <Row className = "fill-height ml-0 mr-0">
+                <Row className = " chatrow fill-height ml-0 mr-0">
                     <Col className = "msg fill-height" xs ={3} style={{ paddingLeft: 0, paddingRight: 0}}  >
                         <ChatList 
                             changeWindow={performWindowAction} 
