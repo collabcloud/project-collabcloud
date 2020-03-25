@@ -36,7 +36,7 @@ const User = db.define(
     },
     password: {
       allowNull: false,
-      type: DataTypes.STRING(25)
+      type: DataTypes.STRING(255)
     },
     authtoken: {
       allowNull: false,
