@@ -1,21 +1,39 @@
 import {
-    LOGIN
+    LOGIN,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGOUT
 } from "../actions/types";
 
 const initialState = {
-    loggedIn: false,
-    token: localStorage.getItem("token")
+    token: localStorage.getItem("token"),
+    loggedIn: null,
+    profile: {}
 };
 
 export default (state = initialState, action) => {
+    // console.log("action type "+action.type);
     switch (action.type) {
+        case USER_LOADED:
+            return {
+                ...state,
+                loggedIn: true,
+                profile: action.payload
+            }
         case LOGIN:
-            console.log(action.payload);
             localStorage.setItem("token", action.payload.token)
             return {
                 ...state,
-                ...action.payload.token,
-                loggedIn: true
+                loggedIn: true,
+                profile: action.payload
+            };
+        case AUTH_ERROR:
+        case LOGOUT:
+            localStorage.removeItem("token");
+            return {
+                ...state,
+                loggedIn: false,
+                profile: {}
             };
         default:
             return state;

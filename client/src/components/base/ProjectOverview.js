@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import { Item } from "./Item";
 import logo from "../../harmoney.png";
-
 import "../../css/Project.css";
 
 // Icons for website buttons
@@ -20,15 +19,13 @@ const github = <FaGithub />;
 const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
+const moment = require('moment');
 
 // This component shows an individual project's view
 export function ProjectOverview(props) {
 	const project = props.projectInformation.project;
-
-	// console.log(props);
-	// console.log(" ");
-	// console.log(props.toggleSettings);
-
+	const userIsProjectOwner = props.loggedInUid === project.ownerId;
+	
 	const technologiesList = [
 		{ id: 1, name: "MongoDB" },
 		{ id: 2, name: "Express" },
@@ -93,10 +90,12 @@ export function ProjectOverview(props) {
 
 					<Col className="d-flex align-items-start flex-column">
 						{/* General Project Information */}
-						<h1>{project.projectName}</h1>
+						<h1 className="projectName">{project.projectName}</h1>
 						<div className="innerbox">
 							<p>{project.projectDescription}</p>
+							<p> CollabClouding since {moment(project.createdAt).format("MMMM Do YYYY")}</p>
 						</div>
+						<br />
 
 						{/* List of technologies used for this project */}
 						<h4> Technologies Used </h4>
@@ -140,10 +139,27 @@ export function ProjectOverview(props) {
 						<Row>
 							<p className="project-view-submit-buttons">
 								{
-									props.hasJoinedProject ? 
+									props.hasUserJoined &&
+									<Button
+										variant="secondary"
+										type="button"
+										onClick={props.toggleSettings}
+										disabled={!userIsProjectOwner}
+										style = {{ pointerEvents: (userIsProjectOwner ? "" : "none")}}
+									>
+										<MdSettings />
+										Settings
+									</Button>
+								}
+							</p>
+							<p className="project-view-submit-buttons">
+								{
+									props.hasUserJoined ? 
 									<Button 
 										variant="danger"
-										onClick={props.leaveProject}
+										onClick={props.requestToLeaveProject}
+										disabled={userIsProjectOwner}
+										style = {{ pointerEvents: (!userIsProjectOwner ? "" : "none")}}
 									>
 										Leave Project
 									</Button>
@@ -152,20 +168,10 @@ export function ProjectOverview(props) {
 										variant="success"
 										onClick={props.requestToJoinProject}
 									>
-										Request to Join
+										Join Project
+										{/* Request to Join TODO: make this requestable*/}
 									</Button>
 								}
-							</p>
-
-							<p className="project-view-submit-buttons">
-								<Button
-									variant="secondary"
-									type="button"
-									onClick={props.toggleSettings}
-								>
-									<MdSettings />
-									Settings
-								</Button>
 							</p>
 						</Row>
 					</Col>

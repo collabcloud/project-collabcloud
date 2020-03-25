@@ -16,7 +16,6 @@ export default (state = initialState, action) => {
                 uid: action.payload.uid
             };
         default:
-            
             return state;
     }
    
