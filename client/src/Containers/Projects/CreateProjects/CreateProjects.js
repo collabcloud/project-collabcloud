@@ -22,17 +22,18 @@ const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
-const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) => {
+const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos, ownerId }) => {
 	// Initialize state hooks
 	const [name, setName] = useState("");
 	const [tech, setTech] = useState([]);
 	const [desc, setDesc] = useState("");
 	const [isProjectPublic, setVisibilityPublic] = useState(true);
+	const [githubStars, setStars] = useState("");
 	const [links, setLinks] = useState([
-		{ name: "Github", icon: github, value: "" },
-		{ name: "Website", icon: website, value: "" },
-		{ name: "DevPost", icon: dev, value: "" },
-		{ name: "LinkedIn", icon: linkedin, value: "" }
+		{ name: "Github", icon: github, placeholder: "Enter your project's GitHub URL here", value: "" },
+		{ name: "Website", icon: website, placeholder: "Enter your project's website URL here", value: "" },
+		{ name: "DevPost", icon: dev, placeholder: "Enter your project's DevPost URL here", value: "" },
+		{ name: "LinkedIn", icon: linkedin, placeholder: "Enter your project's LinkedIn URL here", value: "" }
 	]);
 	
 	const [projects, setProjects] = useState([
@@ -40,11 +41,12 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 			name: "Example-Project",
 			description: "👋 Hi! This is literally just an example description",
 			isProjectPublic: true,
+			githubStars: 0,
 			links: [
-				{ name: "Github", icon: github, value: "" },
+				{ name: "Github", icon: github, placeholder: "Enter your project's GitHub URL here", value: "" },
 				{ name: "Website", icon: website, value: "https://www.example.org/"},
-				{ name: "DevPost", icon: dev, value: "" },
-				{ name: "LinkedIn", icon: linkedin, value: "" }
+				{ name: "DevPost", icon: dev, placeholder: "Enter your project's DevPost URL here", value: "" },
+				{ name: "LinkedIn", icon: linkedin, placeholder: "Enter your project's LinkedIn URL here", value: "" }
 			],
 			tech: [{ id: 3, name: "React"}]
 		}
@@ -54,7 +56,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 
 	// ONLY runs once, which is when the component mounts (ie. when the page first loads)
 	useEffect(() => {
-		const githubUsername = "matthuynh"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in) 
+		const githubUsername = "daniil-oliynyk"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in) 
 
 		// Populate the Redux store with this user's GitHub repos
 		getGithubRepos({ githubUsername, repoVisibility: "all" });
@@ -71,6 +73,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 					name: githubRepos[i].repo_name,
 					description: githubRepos[i].repo_description,
 					isProjectPublic: !githubRepos[i].repo_visibility_is_private,
+					githubStars: githubRepos[i].github_stars,
 					tech: [
 						{ id: 1, name: githubRepos[i].repo_main_technology }
 					],
@@ -80,12 +83,13 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 							icon: github,
 							value: githubRepos[i].github_url
 						},
-						{ name: "Website", icon: website, value: ""},
-						{ name: "DevPost", icon: dev, value: "" },
-						{ name: "LinkedIn", icon: linkedin, value: "" }
+						{ name: "Website", icon: website, placeholder: "Enter your project's website URL here", value: ""},
+						{ name: "DevPost", icon: dev, placeholder: "Enter your project's DevPost URL here", value: "" },
+						{ name: "LinkedIn", icon: linkedin, placeholder: "Enter your project's LinkedIn URL here", value: "" }
 					]
 				};
 				projectsToDisplay.push(project);
+				
 			}
 
 			// Update projects state by calling setProjects
@@ -148,18 +152,19 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 		setVisibilityPublic(project.isProjectPublic);
 		setLinks(project.links);
 		setTech(project.tech);
+		setStars(project.githubStars);
 	}
 
 	// When the user clicks on "Submit", sends this project over to the back-end
 	function onSubmit(e) {
 		e.preventDefault();
-
-		// Save the project to database
 		addProject({
 			name,
-			tech,
 			desc,
 			isProjectPublic,
+			ownerId,
+			tech,
+			githubStars,
 			links
 		});
 
@@ -209,7 +214,7 @@ const CreateProjects = ({ addProject, getGithubRepos, isLoading, githubRepos }) 
 							as="textarea"
 							rows="3"
 							className="item"
-							value={desc}
+							value={desc ? desc : ""}
 							name="description"
 							onChange={e => setDesc(e.target.value)}
 						/>
@@ -262,10 +267,10 @@ CreateProjects.propTypes = {
 // Transforms Redux store state into the props for this CreateProjects component
 // This function is called whenever the store state changes
 const mapStateToProps = state => {
-	// console.log(state);
 	return {
 		githubRepos: state.github.githubReposFromState,
-		isLoading: state.github.loading
+		isLoading: state.github.loading,
+		ownerId: state.user.uid
 	};
 };
 

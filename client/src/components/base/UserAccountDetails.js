@@ -19,31 +19,27 @@ import {
 
 
 
-const UserAccountDetails = ({title,uid,firstname,lastname,city,province,description,update_user_info}) => {
-  //in the future the hooks will be info queried from DB
+const UserAccountDetails = ({title,uid,username,firstname,lastname,city,province,description,update_user_info}) => {
   const [name, setName] = useState(firstname);
   const [last_name, setlastName] = useState(lastname);
   const [email, setEmail] = useState("w/e@gmail.com");
   const [cityfield, setCity] = useState(city);
   const [descriptionfield, setDesc] = useState(description);
+  const [provincefield, setProvince] = useState(province);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // //console.log(login)
-    // //how to do checks?
- 
-
-    submitUserProfile(update_user_info, uid,name,last_name, cityfield, province, descriptionfield);        
+    submitUserProfile(update_user_info, uid,username,name,last_name, cityfield, provincefield, descriptionfield);        
 }
 
   
   return(
-  <Card small className="mb-4">
-    <CardHeader className="border-bottom">
+  <Card style={{height: '30rem',backgroundColor: '#343a40'}}>
+    <CardHeader style={{color: 'white'}}>
       <h6 className="m-0">{title}</h6>
     </CardHeader>
-    <ListGroup flush>
-      <ListGroupItem className="p-3">
+    <ListGroup small>
+      <ListGroupItem className="p-1">
         <Row>
           <Col>
             <Form onSubmit={onSubmit}>
@@ -90,6 +86,7 @@ const UserAccountDetails = ({title,uid,firstname,lastname,city,province,descript
                     id="fePassword"
                     placeholder="Password"
                     value="password"
+                    disabled={true}
                     autoComplete="current-password"
                   />
                 </Col>
@@ -107,31 +104,34 @@ const UserAccountDetails = ({title,uid,firstname,lastname,city,province,descript
                   />
                 </Col>
                 {/* State */}
-                <Col md="4" className="form-group">
-                  <label htmlFor="feInputState">State</label>
-                  <FormSelect id="feInputState">
+                <Col md="6" className="form-group">
+                  <label htmlFor="feInputState">Province</label>
+                  <FormSelect id="feInputState" onChange={e => {setProvince(e.target.value)}}>
                     <option>Choose...</option>
-                    <option>...</option>
+                    <option value="AB">Alberta</option>
+                    <option value="BC">British Columbia</option>
+                    <option value="MB">Manitoba</option>
+                    <option value="NB">New Brunswick</option>
+                    <option value="NL">Newfoundland and Labrador</option>
+                    <option value="NS">Nova Scotia</option>
+                    <option value="ON">Ontario</option>
+                    <option value="PE">Prince Edward Island</option>
+                    <option value="QC">Quebec</option>
+                    <option value="SK">Saskatchewan</option>
+                    <option value="NT">Northwest Territories</option>
+                    <option value="NU">Nunavut</option>
+                    <option value="YT">Yukon</option>
                   </FormSelect>
-                </Col>
-                {/* Zip Code */}
-                <Col md="2" className="form-group">
-                  <label htmlFor="feZipCode">Zip</label>
-                  <FormInput
-                    id="feZipCode"
-                    placeholder="Zip"
-                    onChange={() => {}}
-                  />
                 </Col>
               </Row>
               <Row form>
                 {/* Description */}
                 <Col md="12" className="form-group">
-                  <label htmlFor="feDescription">Description</label>
+                  {/* <label htmlFor="feDescription">Description</label> */}
                   <FormTextarea id="feDescription" rows="3" value={descriptionfield} onChange={e => {setDesc(e.target.value)}}/>
                 </Col>
               </Row>
-              <Button type="submit">Update Account</Button>
+              <Button type="submit">Update Profile</Button>
             </Form>
           </Col>
         </Row>
@@ -151,12 +151,8 @@ UserAccountDetails.defaultProps = {
   title: "Account Details"
 };
 
-async function submitUserProfile(update_user_info,uid,name,last_name,city_field, province,description){
-  //console.log(username);
-  //console.log(password);
-  console.log("send to update user info action");
-  console.log(name);
-  await update_user_info({uid,name, last_name, city_field, province,description});
+async function submitUserProfile(update_user_info,uid,username,name,last_name,city_field, province,description){
+  await update_user_info({uid,username,name, last_name, city_field, province,description});
 }
 
 
@@ -165,12 +161,13 @@ UserAccountDetails.propTypes = {
 };
 const mapStateToProps = (state) => {
   return {
-    uid: state.userinfo.profile.uid,
-    firstname: state.userinfo.profile.firstname,
-    lastname: state.userinfo.profile.lastname,
-    city: state.userinfo.profile.city,
-    province: state.userinfo.profile.province,
-    description: state.userinfo.profile.description
+    uid: state.login.profile.uid,
+    username: state.login.profile.username,
+    firstname: state.login.profile.firstname,
+    lastname: state.login.profile.lastname,
+    city: state.login.profile.city,
+    province: state.login.profile.province,
+    description: state.login.profile.description
   }
 }
 

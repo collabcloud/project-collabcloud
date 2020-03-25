@@ -1,7 +1,8 @@
 {
   "name": "collabcloud",
   "version": "1.0.0",
-  "description": "",
+  "description": "A social networking platform for Developers",
+  "repository": "https://github.com/UTMCSC301/project-collabcloud",
   "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
@@ -19,10 +20,10 @@
     "express-validator": "^6.3.1",
     "jest": "^25.1.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
     "mongoose": "^5.8.10",
     "passport": "^0.4.1",
     "pg": "^7.18.1",
-    "react-icons": "^3.9.0",
     "sequelize": "^5.21.3",
     "socket.io": "^2.3.0",
     "uuid": "^3.4.0"
