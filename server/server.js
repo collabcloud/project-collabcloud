@@ -45,6 +45,10 @@ app.use("/api/search", require("./routes/search/search"));
 // Follow/unfollow routes
 app.use("/api/follow/user", require("./routes/follow/user"));
 app.use("/api/unfollow/user", require("./routes/unfollow/user"));
+
+app.use("/api/hackathons", require("./routes/hackathons/getHackathons"));
+app.use("/api/hackathons/add", require("./routes/hackathons/addHackathons"));
+
 app.use("/api/users/auth", require("./routes/auth/auth"));
 
 // Notification routes
