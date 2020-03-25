@@ -15,7 +15,6 @@ export default (state = initialState, action) => {
     // console.log("action type "+action.type);
     switch (action.type) {
         case USER_LOADED:
-            console.log("SETTING PROFILE" + JSON.stringify(action.payload));
             return {
                 ...state,
                 loggedIn: true,

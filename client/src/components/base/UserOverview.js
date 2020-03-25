@@ -14,7 +14,6 @@ const tags = [
 ];
 
 const UserDetails = (props) => {
-  console.log(props);
 
 
 
@@ -57,7 +56,6 @@ const UserDetails = (props) => {
 );
             };
 function mapStateToProps(state) {
-  console.log(state.login);
   return {
     username: state.login.profile.username,
     firstname: state.login.profile.firstname,

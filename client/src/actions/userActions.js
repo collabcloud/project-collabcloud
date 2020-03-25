@@ -19,19 +19,16 @@ export const update_user_info = ({uid, username, name, last_name, city_field, pr
                 city_field: city_field, 
                 province: province, 
                 description: description};
-            console.log(body);
             let response = await axios.put(url, body, config);
             // TODO: Add in a type for if the response fails, and then catch that type
             if (response) {
                 //uid doesnt exist
                 if (response.status === 400) {
-                    console.log("UID doesn't exist");
                     dispatch(
                         setAlert("UID doesn't exist", "danger")
                     );
                 }
                 else if (response.status === 200) {
-                    console.log("update success")
                     dispatch({
                         type: USER_LOADED,
                         payload: {
