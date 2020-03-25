@@ -8,6 +8,7 @@ import searchReducer from "./searchReducer";
 import followReducer from "./followReducer";
 import unfollowReducer from "./unfollowReducer";
 import alertReducer from "./alertReducer";
+import chatReducer from "./chatReducer";
 import hackathonsReducer from "./hackathonsReducer";
 import notificationReducer from "./notificationReducer";
 import forumReducer from "./forumReducer";
@@ -22,7 +23,8 @@ export default combineReducers({
     follow: followReducer,
     unfollow: unfollowReducer,
     alerts: alertReducer,
-    hackathons: hackathonsReducer
+    chat: chatReducer,
+    hackathons: hackathonsReducer,
     notifications: notificationReducer,
     forum: forumReducer
 });

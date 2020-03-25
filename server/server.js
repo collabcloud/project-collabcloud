@@ -15,6 +15,14 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+const PORT = process.env.SERVER_PORT;
+const server = app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+});
+
+const socketio = require('socket.io');
+const io = socketio(server);
+app.use("/api/message", require("./routes/chat/chat")(io));
 
 // Authentication routes
 app.use("/api/users/register", require("./routes/auth/register"));
@@ -55,10 +63,7 @@ app.use("/api/forum/thread", require("./routes/forum/thread"));
 app.use("/api/forum/post", require("./routes/forum/post"));
 app.use("/api/forum/getAllThreads", require("./routes/forum/getAllThreads"));
 
-
 //ask about this
 app.use("/api/users/profile", require("./routes/profile/profile.js"));
 
 
-const PORT = process.env.SERVER_PORT;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
