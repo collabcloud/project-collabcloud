@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 
 // TODO: Get the PID of this project from the store, or the name of the project from the dynamic path
 // This is the PID of the project whose information we want to get
-const projectId = "d0f46d7e-e4c9-5811-aa37-c3602cca8cd3";
+const projectId = "9807ee85-4f86-5a01-aca3-009fbb0c278f";
 
 const Project = ({ getProjectInformation, updateProject, deleteProject, leaveProject, joinProject, resetProjectActionStatus, projectInformation, updateSuccess, deleteSuccess, leaveSuccess, joinSuccess, loggedInUid }) => {
 

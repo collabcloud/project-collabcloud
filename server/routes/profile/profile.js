@@ -15,7 +15,7 @@ router.get(
 	async (req, res) => {
 		try {
 			// Use express-validator to validate request
-			console.log("GET");
+			// console.log("GET");
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
                 console.log(req.body);
