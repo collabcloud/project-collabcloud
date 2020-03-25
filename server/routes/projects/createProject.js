@@ -69,7 +69,7 @@ router.post(
 				ownerId: req.body.ownerUserID,
 				// gitRepoID: req.body.gitRepoID,
 				projectName: req.body.projectName,
-				projectDescription: req.body.description,
+				projectDescription: (req.body.description == "") ? req.body.description : "no description",
 				isPrivate: (req.body.visibility == "false" ? true : false),
 				githubStars: req.body.githubStars,
 				technologiesUsed: encodedTech,
