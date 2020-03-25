@@ -43,7 +43,7 @@ router.get(
           {
             model: db.models.user,
             as: "submitter",
-            attributes: ["avatar"],
+            attributes: ["avatar", "description"],
             required: true
           }
         ]

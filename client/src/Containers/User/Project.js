@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Alert } from "react-bootstrap";
-import { NavigationBar } from "../../components/base/NavigationBar";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import { ProjectOverview } from "../../components/base/ProjectOverview";
 import { ProjectForm } from "../../components/base/ProjectForm";
 import { Contributors } from "../../components/base/Contributors";

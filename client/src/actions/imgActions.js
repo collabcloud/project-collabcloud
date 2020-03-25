@@ -43,7 +43,7 @@ export const postAvatar = (uid, file) => async dispatch => {
         });
       }
     } else {
-      dispatch(setAlert("Error: ${res.status}", "danger"));
+      dispatch(setAlert("Internal server error", "danger"));
     }
   } catch (err) {
     dispatch(setAlert("Error occurred when uploading an image", "danger"));

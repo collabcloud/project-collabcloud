@@ -10,8 +10,6 @@ export const get_user_info = uid => async dispatch => {
   };
   try {
     const url = "/api/users/profile";
-    const body = JSON.stringify({ uid });
-    console.log("body is " + body);
     let response = await axios.get(
       url,
       {

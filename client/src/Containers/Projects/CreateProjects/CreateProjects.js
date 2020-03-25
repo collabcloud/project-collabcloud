@@ -101,7 +101,7 @@ const CreateProjects = ({
 
     // Populate the Redux store with this user's GitHub repos
     getGithubRepos({ githubUsername, repoVisibility: "all" });
-  }, []); // This empty [] ensures that useEffect() does not run forever
+  }, [getGithubRepos]); // This empty [] ensures that useEffect() does not run forever
   // NOTE: Even though the React compiler warns about this above line, DO NOT add the 'getGithubRepos' dependency
 
   // Runs whenever any of the specified props (isLoading, githubRepos) are updated
@@ -148,7 +148,7 @@ const CreateProjects = ({
       // Update projects state by calling setProjects
       setProjects(projectsToDisplay);
     }
-  }, [githubRepos, isLoading]); // this effect runs again whenever the elements in this dependency array change
+  }, [githubRepos, isLoading, projects]); // this effect runs again whenever the elements in this dependency array change
   // NOTE: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
 
   const tech_suggestions = [

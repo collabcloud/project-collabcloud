@@ -10,12 +10,14 @@ const Post = props => {
   const [username, setUsername] = useState("");
   const [createdAt, setCreatedAt] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     setContent(props.content);
     setUsername(props.username);
     setAvatar(props.avatar);
     setCreatedAt(props.createdAt);
+    setStatus(props.description);
   }, [props]);
 
   return (
@@ -27,7 +29,7 @@ const Post = props => {
               <Col xs={2} className="post">
                 <Avatar src={avatar} width={60} height={60} />
                 <p className="submitter">{username}</p>
-                <p>Gamers rise up</p>
+                <p>{status}</p>
               </Col>
               <Col>
                 <Card.Text className="post text-left">

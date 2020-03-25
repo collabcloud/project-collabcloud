@@ -16,7 +16,7 @@ const NavigationBar = withRouter(
 
     function onSubmit(e) {
       e.preventDefault();
-      if (search == "") return;
+      if (search === "") return;
       history.push({
         pathname: "/search",
         state: { query: search }

@@ -3,6 +3,7 @@ import {
   RESOURCE_NOT_FOUND,
   ATTEMPT,
   POST_SUCCESSFUL,
+  GET_SUBFORUM,
   GET_SUBFORUMS,
   GET_THREADS,
   GET_POSTS
@@ -24,6 +25,38 @@ export const get_subforums = () => async dispatch => {
     .then(response => {
       dispatch({
         type: GET_SUBFORUMS,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      if (err.response.status === 404) {
+        dispatch({
+          type: RESOURCE_NOT_FOUND
+        });
+      } else {
+        dispatch({
+          type: ATTEMPT
+        });
+      }
+    });
+};
+
+//Returns a list of subforum objects
+//{sid: XXXXX, name: XXXXX, desc: XXXXX}
+export const get_subforum = subforumName => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const url = "/api/forum/subforum/" + subforumName;
+
+  axios
+    .get(url, config)
+    .then(response => {
+      dispatch({
+        type: GET_SUBFORUM,
         payload: response.data
       });
     })
@@ -75,7 +108,6 @@ export const get_threads = sid => async dispatch => {
   };
 
   const url = "/api/forum/thread";
-
   axios
     .get(url, { params: { sid: sid } }, config)
     .then(response => {

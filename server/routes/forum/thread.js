@@ -28,7 +28,6 @@ router.get(
   async (req, res) => {
     try {
       // Use express validator to validate request
-
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         console.log(errors);
@@ -60,8 +59,8 @@ router.post(
       .not()
       .isEmpty(),
     check("subforum", "Subforum name is required")
-    .not()
-    .isEmpty(),
+      .not()
+      .isEmpty(),
     check("sid", "sid is required")
       .not()
       .isEmpty(),
@@ -94,7 +93,7 @@ router.post(
       });
 
       if (user === null) {
-        return res.status(404).json({status: 404});
+        return res.status(404).json({ status: 404 });
       }
 
       const submitterName = user.username;

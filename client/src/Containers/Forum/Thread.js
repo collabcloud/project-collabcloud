@@ -36,7 +36,7 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
     if (threadId) {
       get_posts(threadId);
     }
-  }, [threadId]);
+  }, [threadId, get_posts]);
 
   useEffect(() => {
     setPostsList(posts);
@@ -65,6 +65,7 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
           content={reply.content}
           username={reply.username}
           avatar={reply.submitter.avatar}
+          description={reply.submitter.description}
         />
       ));
       return posts_array;

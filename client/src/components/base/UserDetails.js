@@ -25,7 +25,7 @@ const UserDetails = ({
 
   useEffect(() => {
     setAvatarLink(avatar);
-  }, [uid]);
+  }, [uid, avatar]);
 
   useEffect(() => {
     setAvatarLink(link);
@@ -42,7 +42,6 @@ const UserDetails = ({
   );
 
   async function fileSelectedHandler(e) {
-    const fd = new FormData();
     const file = e.target.files[0];
     await postAvatar(uid, file);
   }

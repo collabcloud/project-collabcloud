@@ -20,7 +20,7 @@ const Profile = ({ uid, get_user_info }) => {
 
     // Populate the Redux store with this user's info by calling the action and have the action do a get request
     myfunc();
-  }, []);
+  }, [get_user_info, uid]);
 
   return (
     <div>
