@@ -19,7 +19,6 @@ const Search = (props) => {
         props.search(props.location.state.query)
       }
     },[props.location]); 
-  
     return (
       <div>
         <NavigationBar />
