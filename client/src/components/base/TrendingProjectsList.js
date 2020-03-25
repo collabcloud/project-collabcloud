@@ -1,6 +1,6 @@
 import React from 'react';
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
-import { GoProject, GoStar, GoEye, GoNote, GoPerson} from 'react-icons/go';
+import { GoProject, GoStar, GoNote, GoPerson} from 'react-icons/go';
 
 
 export const TrendingProjectsList = (props) => {
