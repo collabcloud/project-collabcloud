@@ -20,10 +20,9 @@ try {
   console.error("Unable to connect to the database:", error);
 }
 
-
 // Keep all fields lower case since psql does some weird stuff with camel case
 const User = db.define(
-  "user", 
+  "user",
   {
     uid: {
       type: Sequelize.UUID,
@@ -66,6 +65,10 @@ const User = db.define(
     description: {
       allowNull: true,
       type: DataTypes.STRING(1000)
+    },
+    avatar: {
+      allowNull: false,
+      type: DataTypes.STRING(100)
     }
   },
   {}
@@ -84,12 +87,12 @@ const project = db.define(
       allowNull: false
     },
     ownerId: {
-        type: DataTypes.UUID,
-        references: {
-            model: 'users',
-            key: 'uid'
-        },
-        primaryKey: true
+      type: DataTypes.UUID,
+      references: {
+        model: "users",
+        key: "uid"
+      },
+      primaryKey: true
     },
     // gitRepoID: {
     //     type: DataTypes.STRING(50),
@@ -108,7 +111,7 @@ const project = db.define(
       allowNull: false
     },
     githubStars: {
-        type: DataTypes.STRING(10)
+      type: DataTypes.STRING(10)
     },
     technologiesUsed: {
       type: DataTypes.STRING(25),
@@ -124,7 +127,7 @@ const project = db.define(
       type: DataTypes.STRING(50)
     },
     linkedinLink: {
-        type: DataTypes.STRING(50)
+      type: DataTypes.STRING(50)
     }
   },
   {}
@@ -133,6 +136,23 @@ const project = db.define(
 const user_followers = db.define("user_followers");
 user_followers.belongsTo(User, { as: "follower" });
 user_followers.belongsTo(User, { as: "followee" });
+
+// Table to store hackathons for 2020 season. For now hardcoded all hackathons but could be web scraped in the future.
+const Hackathons = db.define("hackathons", {
+    name: {
+        type: DataTypes.STRING(25),
+        primaryKey: true
+    },
+    date: {
+       type:  DataTypes.STRING(25)
+    },
+    location: {
+        type: DataTypes.STRING(25)
+    },
+    link: {
+        type: DataTypes.STRING(50)
+    }
+});
 
 const Subforum = db.define(
   "subforum",
@@ -156,48 +176,48 @@ const Subforum = db.define(
 
 // Relation used to store Notifications
 db.define("project_notifications", {
-    nid: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        primaryKey: true
-    },
-    pid: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        primaryKey: true
-    },
-    notificationType: {
-        type: DataTypes.ENUM("project_update", "project_join_request"),
-        allowNull: false,
-        primaryKey: true
-    },
-    notificationCreator: {
-        type: Sequelize.UUID,
-        allowNull: false,
-    },
-    notificationMessage: {
-        type: DataTypes.STRING(2000),
-        allowNull: false
-    }
-    // dateCreated: {
-    //     type: DataTypes.DATE,
-    //     defaultValue: Sequelize.NOW
-    // }
+  nid: {
+    type: Sequelize.UUID,
+    allowNull: false,
+    primaryKey: true
+  },
+  pid: {
+    type: Sequelize.UUID,
+    allowNull: false,
+    primaryKey: true
+  },
+  notificationType: {
+    type: DataTypes.ENUM("project_update", "project_join_request"),
+    allowNull: false,
+    primaryKey: true
+  },
+  notificationCreator: {
+    type: Sequelize.UUID,
+    allowNull: false
+  },
+  notificationMessage: {
+    type: DataTypes.STRING(2000),
+    allowNull: false
+  }
+  // dateCreated: {
+  //     type: DataTypes.DATE,
+  //     defaultValue: Sequelize.NOW
+  // }
 });
 
 // Relation that stores a Follows relationship between a Project and a User
-const user_follows_project = db.define('user_follows_project', {
-    isOwner: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    },
-    username: {
-        type: DataTypes.STRING(25),
-        allowNull: false
-    }
+const user_follows_project = db.define("user_follows_project", {
+  isOwner: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  },
+  username: {
+    type: DataTypes.STRING(25),
+    allowNull: false
+  }
 });
-user_follows_project.belongsTo(User, {as: "user"});
-user_follows_project.belongsTo(project, {as: "project"});
+user_follows_project.belongsTo(User, { as: "user" });
+user_follows_project.belongsTo(project, { as: "project" });
 
 const Thread = db.define(
   "thread",

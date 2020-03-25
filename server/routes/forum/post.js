@@ -5,6 +5,7 @@ require("dotenv").config({ path: "../config/.env" });
 const express = require("express");
 const axios = require("axios");
 const uuidv5 = require("uuid/v5");
+const Sequelize = require("sequelize");
 const router = express.Router();
 const { check, validationResult, body } = require("express-validator");
 const db = require("../../database.js");
@@ -35,11 +36,33 @@ router.get(
       }
 
       const posts = await db.models.post.findAll({
-        where: {
-          threadTid: req.query.tid
+        include: {
+          model: db.models.user,
+          as: "submitter",
+          required: true
         }
       });
 
+      console.log(posts);
+      /*
+      const posts = await db.models.post.findAll({
+        attributes: ["createdAt", "content", "username"],
+        where: {
+          threadTid: req.query.tid
+        },
+        include: [
+          {
+            model: db.models.user,
+            as: "submitter",
+            attributes: ["avatar", "description"],
+            required: false,
+            where: {
+              uid: Sequelize.col("post.submitterUid")
+            }
+          }
+        ]
+      });
+      */
       res.status(200).json(posts);
 
       return;
@@ -65,6 +88,9 @@ router.post(
     check("submitter", "Submitter is required")
       .not()
       .isEmpty(),
+    check("submitterUid", "Submitter UID is required")
+      .not()
+      .isEmpty(),
     check("content", "Content is required")
       .not()
       .isEmpty()
@@ -86,6 +112,7 @@ router.post(
 
       const sid = req.body.sid;
       const submitter = req.body.submitter;
+      const submitterUid = req.body.submitterUid;
       const content = req.body.content;
       let currentTime = new Date().getTime();
 
@@ -99,6 +126,7 @@ router.post(
         threadTid: tid,
         subforumSid: sid,
         username: submitter,
+        submitterUid: submitterUid,
         content: content
       });
 

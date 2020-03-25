@@ -2,10 +2,10 @@
 export const RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND"; //404
 export const GET_SUCCESSFUL = "GET_SUCCESSFUL"; //200 OK on GET
 export const POST_SUCCESSFUL = "POST_SUCCESSFUL"; //200 OK on POST
+export const PUT_SUCCESSFUL = "PUT_SUCCESSFUL"; //200 OK on PUT
 export const ATTEMPT = "ATTEMPT"; //500 Internal Server Error
 
-
-// Project Actions 
+// Project Actions
 export const ADD_PROJECT = "ADD_PROJECT";
 export const GET_PROJECT = "GET_PROJECT";
 export const GET_PUBLIC_PROJECTS = "GET_PUBLIC_PROJECTS";
@@ -36,12 +36,19 @@ export const ALREADY_FOLLOWED = "ALREADY_FOLLOWED";
 //Unfollow Actions
 export const ALREADY_UNFOLLOWED = "ALREADY_UNFOLLOWED";
 
+//Image Actions
+export const UPLOAD_SUCCESSFUL = "UPLOAD_SUCCESSFUL";
+
 //Alert Actions
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 
 //profile actions
 export const GET_INFO = "GET_INFO";
+
+//Hackathon actions
+export const GET_HACKATHONS = "GET_HACKATHONS";
+export const ADD_HACKATHONS = "ADD_HACKATHONS";
 
 // Auth Actions
 export const USER_LOADED = "USER_LOADED";
@@ -50,6 +57,8 @@ export const LOGOUT = "LOGOUT";
 
 //Forum Actions
 export const GET_SUBFORUMS = "GET_SUBFORUMS";
+export const GET_SUBFORUM = "GET_SUBFORUM";
+export const GET_THREAD = "GET_THREAD";
 export const GET_THREADS = "GET_THREADS";
 export const GET_POSTS = "GET_POSTS";
 

@@ -2,6 +2,8 @@ import {
   RESOURCE_NOT_FOUND,
   POST_SUCCESSFUL,
   GET_SUBFORUMS,
+  GET_SUBFORUM,
+  GET_THREAD,
   GET_THREADS,
   GET_POSTS,
   ATTEMPT
@@ -11,6 +13,8 @@ import {
 const initialState = {
   followed: false,
   status: "",
+  subforum: "",
+  thread: "",
   subforums: [],
   threads: [],
   posts: []
@@ -25,10 +29,22 @@ export default (state = initialState, action) => {
         ...state,
         status: "Success"
       };
+    case GET_SUBFORUM:
+      return {
+        ...state,
+        subforum: action.payload,
+        status: "Success"
+      };
     case GET_SUBFORUMS:
       return {
         ...state,
         subforums: action.payload,
+        status: "Success"
+      };
+    case GET_THREAD:
+      return {
+        ...state,
+        thread: action.payload,
         status: "Success"
       };
     case GET_THREADS:
