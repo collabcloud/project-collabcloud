@@ -115,17 +115,17 @@ button > * {
   border-radius: 20px;
   
 }
-.title, .msgCard, .date{
+.title, .msgCardBody, .date{
   padding: .75rem;
 }
-.user .card, .user .card-body{
+.user .msgCard, .user .card-body{
   margin-right: auto;
   margin-left: 1rem;
   max-width: 100%;
   text-align: left;
 }
 
-.other .card, .other .card-body{
+.other .msgCard, .other .card-body{
   margin-left: auto;
   margin-right: 1rem;
   max-width: 100%;

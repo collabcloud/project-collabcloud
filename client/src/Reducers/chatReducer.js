@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
         case ADD_TO_CHAT:
             var newState = {
                 ...state,
-                chatList: [action.payload.username, ...state.chatList],
+                chatList: [action.payload, ...state.chatList],
             }
             localStorage.setItem("chatList", JSON.stringify(newState.chatList));
             return newState;

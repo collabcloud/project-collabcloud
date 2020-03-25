@@ -51,7 +51,8 @@ export const addUser = (myuser,username, setErrMsg, setAddUser) => async dispatc
         dispatch({
             type: ADD_TO_CHAT,
             payload: {
-                username: username
+                name: username,
+                seen: true
             }
         });
         setAddUser(false);

@@ -83,7 +83,7 @@ const Chat = (props) => {
     }, [props.profile]);
 
     useEffect(function() {
-        // setErrMsg("");
+        setErrMsg("");
         if(props.profile.username === undefined) return;
         if(io) return;
         io = props.io.connect("http://localhost:5000");
