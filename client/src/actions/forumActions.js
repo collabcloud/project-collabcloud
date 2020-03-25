@@ -5,6 +5,7 @@ import {
   POST_SUCCESSFUL,
   GET_SUBFORUM,
   GET_SUBFORUMS,
+  GET_THREAD,
   GET_THREADS,
   GET_POSTS
 } from "./types";
@@ -95,6 +96,37 @@ export const get_all_threads = () => async dispatch => {
       dispatch({
         type: ATTEMPT
       });
+    });
+};
+
+//Returns a list of subforum objects
+//{sid: XXXXX, name: XXXXX, desc: XXXXX}
+export const get_thread = (subforum, threadName) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const url = "/api/forum/thread/" + subforum + "/" + threadName;
+  axios
+    .get(url, config)
+    .then(response => {
+      dispatch({
+        type: GET_THREAD,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      if (err.response.status === 404) {
+        dispatch({
+          type: RESOURCE_NOT_FOUND
+        });
+      } else {
+        dispatch({
+          type: ATTEMPT
+        });
+      }
     });
 };
 
@@ -229,7 +261,13 @@ export const post_thread = (
     });
 };
 
-export const make_post = (tid, sid, submitter, content) => async dispatch => {
+export const make_post = (
+  tid,
+  sid,
+  submitter,
+  submitterUid,
+  content
+) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -241,6 +279,7 @@ export const make_post = (tid, sid, submitter, content) => async dispatch => {
     tid: tid,
     sid: sid,
     submitter: submitter,
+    submitterUid: submitterUid,
     content: content
   });
 

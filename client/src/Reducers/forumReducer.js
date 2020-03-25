@@ -3,6 +3,7 @@ import {
   POST_SUCCESSFUL,
   GET_SUBFORUMS,
   GET_SUBFORUM,
+  GET_THREAD,
   GET_THREADS,
   GET_POSTS,
   ATTEMPT
@@ -13,6 +14,7 @@ const initialState = {
   followed: false,
   status: "",
   subforum: "",
+  thread: "",
   subforums: [],
   threads: [],
   posts: []
@@ -37,6 +39,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         subforums: action.payload,
+        status: "Success"
+      };
+    case GET_THREAD:
+      return {
+        ...state,
+        thread: action.payload,
         status: "Success"
       };
     case GET_THREADS:

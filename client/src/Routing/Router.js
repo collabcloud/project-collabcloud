@@ -41,8 +41,8 @@ const Router = () => {
       <PrivateRoute path="/dashboard" component={Dashboard} />
       <PrivateRoute path="/search" component={Search} />
       <PrivateRoute exact path="/forum/" component={Root} />
-      <PrivateRoute path="/forum/:subforum" component={Subforum} />
-      <PrivateRoute path="/forum/:subforum/:thread" component={Thread} />
+      <PrivateRoute exact path="/forum/:subforum" component={Subforum} />
+      <PrivateRoute exact path="/forum/:subforum/:thread" component={Thread} />
 
       {/* Catch All -- 404 */}
       <Route component={Page404} />

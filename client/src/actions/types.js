@@ -54,6 +54,7 @@ export const LOGOUT = "LOGOUT";
 //Forum Actions
 export const GET_SUBFORUMS = "GET_SUBFORUMS";
 export const GET_SUBFORUM = "GET_SUBFORUM";
+export const GET_THREAD = "GET_THREAD";
 export const GET_THREADS = "GET_THREADS";
 export const GET_POSTS = "GET_POSTS";
 
