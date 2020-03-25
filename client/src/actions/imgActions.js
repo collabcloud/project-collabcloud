@@ -9,6 +9,7 @@ export const postAvatar = (uid, file) => async dispatch => {
     }
   };
   try {
+    console.log("uploading");
     const url =
       "https://cors-anywhere.herokuapp.com/https://api.imgur.com/3/image";
     const clientId = "d162fd6f83e78ed";

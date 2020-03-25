@@ -13,81 +13,91 @@ import { withRouter } from "react-router-dom";
 const jarrod_uid = "00744dfb-f53c-4298-ada4-b3867e2f1fe6";
 const matt_uid = "8a71a5b4-3889-4711-9525-8fa74fe8933d";
 
-const OtherProfile = withRouter(({ follow_user, unfollow_user, followed }) => {
-  const [show, setShow] = useState(false);
-  const [btnText, setBtnText] = useState("Follow");
-  const [btnColour, setBtnColour] = useState("primary");
-  const [message, setMessage] = useState("");
-  const [followers, setFollowers] = useState(769);
+const OtherProfile = withRouter(
+  ({ follow_user, unfollow_user, followed, user }) => {
+    const [show, setShow] = useState(false);
+    const [btnText, setBtnText] = useState("Follow");
+    const [btnColour, setBtnColour] = useState("primary");
+    const [message, setMessage] = useState("");
+    const [followers, setFollowers] = useState(769);
+    const [avImg, setAvImg] = useState("");
 
-  const [showform, setForm] = useState(false);
+    const [showform, setForm] = useState(false);
 
-  const onClickprofile = () => setForm(showform => !showform);
+    const onClickprofile = () => setForm(showform => !showform);
 
-  function followUser() {
-    if (!followed) {
-      setFollowers(followers + 1);
-      setMessage("Followed matthuynh");
-      setBtnText("Following");
-      setBtnColour("danger");
+    function followUser() {
+      if (!followed) {
+        setFollowers(followers + 1);
+        setMessage("Followed matthuynh");
+        setBtnText("Following");
+        setBtnColour("danger");
 
-      follow_user(matt_uid, jarrod_uid);
-      setShow(true);
-    } else {
-      setFollowers(followers - 1);
-      setMessage("Unfollowed matthuynh");
-      setBtnText("Follow");
-      setBtnColour("primary");
+        follow_user(matt_uid, jarrod_uid);
+        setShow(true);
+      } else {
+        setFollowers(followers - 1);
+        setMessage("Unfollowed matthuynh");
+        setBtnText("Follow");
+        setBtnColour("primary");
 
-      unfollow_user(matt_uid, jarrod_uid);
-      setShow(true);
-      followed = !followed;
+        unfollow_user(matt_uid, jarrod_uid);
+        setShow(true);
+        followed = !followed;
+      }
     }
-  }
 
-  function renderform() {
-    if (showform == true) {
-      return (
-        <Col sm={4}>
-          <UserAccountDetails />
-        </Col>
-      );
-    }
-  }
-
-  return (
-    <div>
-      <NavigationBar />
-      <Container
-        fluid
-        className="col-md-8 align-items-start"
-        style={{ paddingTop: "50px" }}
-      >
-        <Row>
-          <Col xs={true}>
-            <UserOverview
-              onClick={followUser}
-              onClickprofile={onClickprofile}
-              followers={followers}
-              btnText={btnText}
-              btnColour={btnColour}
-            />
+    function renderform() {
+      if (showform == true) {
+        return (
+          <Col sm={4}>
+            <UserAccountDetails />
           </Col>
-          {renderform()}
-        </Row>
-        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
-          <Toast.Body>{message}</Toast.Body>
-        </Toast>
-        <h1>Projects</h1>
-        <ProjectDisplay />
-      </Container>
-    </div>
-  );
-});
+        );
+      }
+    }
+
+    return (
+      <div>
+        <NavigationBar />
+        <Container
+          fluid
+          className="col-md-8 align-items-start"
+          style={{ paddingTop: "50px" }}
+        >
+          <Row>
+            <Col xs={true}>
+              <UserOverview
+                onClick={followUser}
+                onClickprofile={onClickprofile}
+                followers={followers}
+                btnText={btnText}
+                btnColour={btnColour}
+                avImg={setAvImg}
+              />
+            </Col>
+            {renderform()}
+          </Row>
+          <Toast
+            onClose={() => setShow(false)}
+            show={show}
+            delay={3000}
+            autohide
+          >
+            <Toast.Body>{message}</Toast.Body>
+          </Toast>
+          <h1>Projects</h1>
+          <ProjectDisplay />
+        </Container>
+      </div>
+    );
+  }
+);
 
 function mapStateToProps(state) {
   return {
-    followed: state.follow.followed
+    followed: state.follow.followed,
+    user: state.user.profile
   };
 }
 

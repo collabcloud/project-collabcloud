@@ -29,6 +29,7 @@ const UserDetails = ({
 
   useEffect(() => {
     setAvatarLink(link);
+    props.avImg(link);
   }, [link]);
 
   const onAvatarClick = () => {
