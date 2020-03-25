@@ -18,7 +18,7 @@ const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getPro
 	const [show, setShow] = useState(true);
 
     useEffect(()=>{
-        // addHackathons();  
+        addHackathons();  
     },[]);  
     useEffect(()=>{
         getHackathons();
