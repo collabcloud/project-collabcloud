@@ -74,13 +74,8 @@ const Chat = (props) => {
     }
     
     useEffect(function(){
-        props.get_user_info(props.uid);
-    },[]);
-
-    useEffect(function(){
-        if(!props.profile) return;
         props.initializeList(props.profile.username);
-    }, [props.profile]);
+    },[]);
 
     useEffect(function() {
         setErrMsg("");
@@ -146,7 +141,7 @@ const Chat = (props) => {
   }
   
 function mapStateToProps(state){
-    return {chatList: state.chat.chatList, messageList: state.chat.messageList, uid: state.user.uid, profile: state.userinfo.profile};
+    return {chatList: state.chat.chatList, messageList: state.chat.messageList, uid: state.user.uid, profile: state.login.profile};
 }
 
 function mapDispatchToProps(dispatch){
