@@ -55,7 +55,7 @@ export const ChatList = (props) => {
                 {
                     value.name
                 }
-                <span className="badge">
+                <span className="badge notify">
                     {val}
                 </span>
             </div>

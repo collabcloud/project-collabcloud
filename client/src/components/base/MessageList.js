@@ -53,7 +53,7 @@ export const MessageList = (props) => {
             <div key={index} className={msg.type}>
             <Card >
         <Card.Body className="title"> {msg.name}</Card.Body>
-                <Card.Body className>
+                <Card.Body className = "msgCard">
                     {msg.msg}
                 </Card.Body>
         <Card.Body className = "date"> <h6 className ="small">{time} </h6> </Card.Body>

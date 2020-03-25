@@ -106,7 +106,7 @@ button > * {
 }
 
 
-.card{
+.msgCard{
   width: 25%;
   min-height:100%;
   max-width: 25%;
@@ -115,7 +115,7 @@ button > * {
   border-radius: 20px;
   
 }
-.card-body{
+.title, .msgCard, .date{
   padding: .75rem;
 }
 .user .card, .user .card-body{
@@ -145,7 +145,7 @@ button > * {
   font-weight:600;
 }
 
-.btn .badge{
+.btn .notify{
   color: white;
   background-color: black;
 }
