@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
+import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectResultList } from "../../components/base/ProjectResultList";
 import { UserResultList } from "../../components/base/UserResultList";
-import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Redux Imports
 import { connect } from "react-redux";
@@ -14,11 +14,10 @@ const Search = props => {
   //const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    if (props.location.query !== "") {
+    if (props.location.query != "") {
       props.search(props.location.state.query);
     }
-  }, [props]);
-
+  }, [props.location]);
   return (
     <div>
       <NavigationBar />

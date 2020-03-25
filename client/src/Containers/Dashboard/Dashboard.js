@@ -18,7 +18,6 @@ import "../../css/Dashboard.css";
 import { connect } from "react-redux";
 import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
-import { get_user_info } from "../../actions/userActions";
 import { get_user_projects } from "../../actions/projectActions";
 import { generateURL } from "../../utils/helpers";
 import PropTypes from "prop-types";
@@ -36,8 +35,7 @@ const Dashboard = ({
   projectNotifications,
   user,
   get_user_projects,
-  projects,
-  get_user_info
+  projects
 }) => {
   const [show, setShow] = useState(true);
   const [name, setName] = useState("");
@@ -54,10 +52,9 @@ const Dashboard = ({
 
   // Loads project notifications
   useEffect(() => {
-    get_info(loggedInUid);
     get_user_projects(loggedInUid);
     getProjectNotifications(loggedInUid, 10);
-  }, [getProjectNotifications, loggedInUid, get_user_info, get_user_projects]);
+  }, [getProjectNotifications, loggedInUid, get_user_projects]);
 
   useEffect(() => {
     setName(user.username);
@@ -73,10 +70,6 @@ const Dashboard = ({
       setFullName(user.firstname + " " + user.lastname);
     }
   }, [user]);
-
-  async function get_info(uid) {
-    await get_user_info(uid);
-  }
 
   function renderProjects() {
     if (projects === null || projects === undefined || projects === []) {
@@ -317,7 +310,7 @@ function mapStateToProps(state) {
     isLoading: state.hackathons.loading,
     projectNotifications: state.notifications.projectNotifications,
     loggedInUid: state.user.uid,
-    user: state.userinfo.profile,
+    user: state.login.profile,
     projects: state.project.projects
   };
 }
@@ -332,9 +325,6 @@ function mapDispatchToProps(dispatch) {
     },
     getProjectNotifications: (uid, notificationsToGet) => {
       dispatch(getProjectNotifications(uid, notificationsToGet));
-    },
-    get_user_info: uid => {
-      dispatch(get_user_info(uid));
     },
     get_user_projects: uid => {
       dispatch(get_user_projects(uid));

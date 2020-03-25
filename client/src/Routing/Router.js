@@ -21,8 +21,10 @@ import Subforum from "../Containers/Forum/Subforum";
 import Thread from "../Containers/Forum/Thread";
 import Search from "../Containers/Search/Search";
 import Logout from "../Containers/Account/Logout/Logout";
+import Chat from "../Containers/Chat/Chat";
 import Page404 from "../Containers/Dashboard/404Page";
 
+const io = require("socket.io-client");
 const Router = () => {
   return (
     <Switch>
@@ -43,6 +45,10 @@ const Router = () => {
       <PrivateRoute exact path="/forum/" component={Root} />
       <PrivateRoute exact path="/forum/:subforum" component={Subforum} />
       <PrivateRoute exact path="/forum/:subforum/:thread" component={Thread} />
+      <PrivateRoute
+        path="/message"
+        component={props => <Chat {...props} io={io} />}
+      />
 
       {/* Catch All -- 404 */}
       <Route component={Page404} />
