@@ -17,6 +17,9 @@
 .collab-alerts.danger {
     background-color: red;
 }
+.collab-alerts.warning {
+    background-color: #856404;
+}
 
 .collab-alerts.success {
     background-color: green;
