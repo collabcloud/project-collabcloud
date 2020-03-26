@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavigationBar } from "../../components/base/NavigationBar";
+import {Recommendations} from "../../components/base/Recommend";
 import { HackathonCard } from "../../components/base/HackathonCard";
 import { Alert, Card, Button, Container, Row, Col, Jumbotron  } from "react-bootstrap";
 import { NotificationList } from "./NotificationList";
@@ -9,12 +10,13 @@ import NotificationAlert from "../../components/base/Alert";
 import { connect } from "react-redux";
 import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
+import {recommendProjects} from "../../actions/recommendAction";
 import PropTypes from "prop-types";
 
 // Style Import
 import "../../css/Dashboard.css";
 
-const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getProjectNotifications, loggedInUid, projectNotifications }) => {
+const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getProjectNotifications, loggedInUid, projectNotifications, projects, recommendProjects}) => {
 	const [show, setShow] = useState(true);
 
     useEffect(()=>{
@@ -29,6 +31,10 @@ const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getPro
 	useEffect(() => {
 		getProjectNotifications( loggedInUid , 10);
 	}, [getProjectNotifications, loggedInUid]);
+
+	useEffect(() => {
+		recommendProjects();
+	}, []);
 
 	return (
 		<div>
@@ -246,18 +252,19 @@ const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getPro
 				{/* Col 4 */}
 				<Col md={3} lg={3} xl={3}>
 					<Container>
-						<Alert
+						{/* <Alert
 							variant={"primary"}
 							onClose={() => setShow(false)}
 							dismissible
 						>
 							here are some project based on your preferences
-						</Alert>
+						</Alert> */}
 						{/* Projects interest */}
 						<div>
 							<h4>
 								&#127942; Projects that you maybe interested in
 							</h4>
+							<Recommendations projects={projects}/>
 							<Card>
 								<Card.Body>
 									{/* Card Index 0 */}
@@ -305,11 +312,13 @@ const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getPro
 };
 
 
+
 function mapStateToProps(state){
     return { 
         hackathons: state.hackathons.hackathons,
         isLoading: state.hackathons.loading,
         projectNotifications: state.notifications.projectNotifications,
+        projects: state.project.recommendedprojects,
 		    loggedInUid: state.user.uid
 
      };
@@ -326,13 +335,18 @@ function mapStateToProps(state){
 		getProjectNotifications: (uid, notificationsToGet) => {
 			dispatch(getProjectNotifications(uid, notificationsToGet));
 		},
-    };
-  }
+		recommendProjects: () => {
+			dispatch(recommendProjects());
+		}
+	};
+}
+
   
   
   Dashboard.propTypes = {
     getHackathons: PropTypes.func.isRequired,
     addHackathons: PropTypes.func.isRequired,
+    recommendProjects,
 	getProjectNotifications: PropTypes.func.isRequired
   };
   

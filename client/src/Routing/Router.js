@@ -98,7 +98,6 @@ const Router = withRouter(
         <PrivateRoute path="/project/:pid" component={Project} />
         <PrivateRoute path ="/explore" component={Explore} />
         <PrivateRoute path="/projects/create" component={CreateProjects} />
-        {/* <PrivateRoute path="/user/profile" component={Profile} /> */}
         <PrivateRoute path="/user/profile" component={OtherProfile} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/search" component={Search} />

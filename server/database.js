@@ -41,6 +41,10 @@ const User = db.define(
       allowNull: false,
       type: DataTypes.STRING(50)
     },
+    interestedTech: {
+      type: DataTypes.STRING(25),
+      allowNull: true
+    },
     githubid: {
       allowNull: false,
       unique: true,
