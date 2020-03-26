@@ -19,6 +19,7 @@ export const RECOMMEND = "RECOMMEND";
 // Register Actions
 export const GET_TOKEN = "GET_TOKEN";
 export const GITHUB_EXISTS = "GITHUB_EXISTS";
+export const GITHUB_USERNAME_NOMATCH = "GITHUB_USERNAME_NOMATCH";
 
 // GitHub Repository Actions
 export const GET_GIT_REPOS = "GET_REPOS";
@@ -43,6 +44,17 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 
 //profile actions
 export const GET_INFO = "GET_INFO";
+
+
+//chat actions
+export const ADD_TO_CHAT = "ADD_TO_CHAT";
+export const INITIALIZE_CHAT = "INITIALIZE_CHAT";
+export const GET_MESSAGES = "GET_MESSAGES";
+export const UPDATE_CHAT = "UPDATE_CHAT";
+
+//Hackathon actions
+export const GET_HACKATHONS = "GET_HACKATHONS";
+export const ADD_HACKATHONS = "ADD_HACKATHONS";
 
 // Auth Actions
 export const USER_LOADED = "USER_LOADED";

@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { NavigationBar } from "../../components/base/NavigationBar";
 import {Recommendations} from "../../components/base/Recommend";
-import { Alert, Card, Button, Container, Row, Col } from "react-bootstrap";
+import { HackathonCard } from "../../components/base/HackathonCard";
+import { Alert, Card, Button, Container, Row, Col, Jumbotron  } from "react-bootstrap";
 import { NotificationList } from "./NotificationList";
 import NotificationAlert from "../../components/base/Alert";
 
-// Style Import
-import "../../css/Dashboard.css";
-
-// Redux Imports
-import { connect } from "react-redux"; // connects the CreateProjects component to the Redux store
+// redux imports
+import { connect } from "react-redux";
+import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
 import {recommendProjects} from "../../actions/recommendAction";
 import PropTypes from "prop-types";
 
-const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications, projects, recommendProjects }) => {
+// Style Import
+import "../../css/Dashboard.css";
+
+const Dashboard = ({ addHackathons, getHackathons, hackathons, isLoading, getProjectNotifications, loggedInUid, projectNotifications, projects, recommendProjects}) => {
 	const [show, setShow] = useState(true);
+
+    useEffect(()=>{
+		addHackathons();  
+    },[]);  
+    useEffect(()=>{
+        getHackathons();
+    },[isLoading]); 
+
 
 	// Loads project notifications
 	useEffect(() => {
@@ -30,7 +40,7 @@ const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications,
 		<div>
 			<NotificationAlert />
 			<NavigationBar />
-			<div style={{ margin: "50px" }}>
+			<div>
 				<h2>
 					<span role="img" aria-label="stars">
 						&#10024;
@@ -41,7 +51,7 @@ const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications,
 					</span>
 				</h2>
 			</div>
-			<Row style={{ margin: "25px" }}>
+			<Row>
 				{/* Col 1 */}
 				<Col md={3} lg={3} xl={3}>
 					<Container>
@@ -290,42 +300,10 @@ const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications,
 
 						<br></br>
 						{/* Hackathon Panel */}
-						<div>
-							<h4>&#127751; Nearby Hackathons</h4>
-							<Card>
-								<Card.Body>
-									{/* Card Index 0 */}
-									<Card.Title>
-										{" "}
-										<a href="/">UofT Hacks</a>
-									</Card.Title>
-									<Card.Text>
-										<b>
-											Jan 17-20 <br></br> Toronto, Ont
-										</b>
-									</Card.Text>
-									<Button variant="info">
-										Check out Hackathon
-									</Button>
-								</Card.Body>
-
-								<Card.Body>
-									{/* Card Index 0 */}
-									<Card.Title>
-										{" "}
-										<a href="/">Hack the North</a>
-									</Card.Title>
-									<Card.Text>
-										<b>
-											Sept 23-26 <br></br> Waterloo, Ont
-										</b>
-									</Card.Text>
-									<Button variant="info">
-										Check out Hackathon
-									</Button>
-								</Card.Body>
-							</Card>
-						</div>
+						  <div>
+                <h4>&#127751; Upcoming Hackathons</h4>
+                <HackathonCard hackathons={hackathons}  />
+              </div>
 					</Container>
 				</Col>
 			</Row>
@@ -333,16 +311,27 @@ const Dashboard = ({ getProjectNotifications, loggedInUid, projectNotifications,
 	);
 };
 
-function mapStateToProps(state) {
-	return {
-		projectNotifications: state.notifications.projectNotifications,
-		projects: state.project.recommendedprojects,
-		loggedInUid: state.user.uid
-	};
-}
 
-function mapDispatchToProps(dispatch) {
-	return {
+
+function mapStateToProps(state){
+    return { 
+        hackathons: state.hackathons.hackathons,
+        isLoading: state.hackathons.loading,
+        projectNotifications: state.notifications.projectNotifications,
+        projects: state.project.recommendedprojects,
+		    loggedInUid: state.user.uid
+
+     };
+  }
+  
+  function mapDispatchToProps(dispatch){
+    return {
+        getHackathons: () => {
+            dispatch(getHackathons());
+        },
+        addHackathons: () => {
+            dispatch(addHackathons());
+        },
 		getProjectNotifications: (uid, notificationsToGet) => {
 			dispatch(getProjectNotifications(uid, notificationsToGet));
 		},
@@ -352,8 +341,14 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-Dashboard.propTypes = {
+  
+  
+  Dashboard.propTypes = {
+    getHackathons: PropTypes.func.isRequired,
+    addHackathons: PropTypes.func.isRequired,
+    recommendProjects,
 	getProjectNotifications: PropTypes.func.isRequired
-};
-
+  };
+  
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+

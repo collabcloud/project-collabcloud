@@ -7,8 +7,8 @@ import {
 
 const initialState = {
     token: localStorage.getItem("token"),
-    profile: {},
-    loggedIn: null
+    loggedIn: null,
+    profile: {}
 };
 
 export default (state = initialState, action) => {
@@ -17,23 +17,23 @@ export default (state = initialState, action) => {
         case USER_LOADED:
             return {
                 ...state,
-                profile: action.payload,
-                loggedIn: true
+                loggedIn: true,
+                profile: action.payload
             }
         case LOGIN:
             localStorage.setItem("token", action.payload.token)
             return {
                 ...state,
-                profile:action.payload,
-                loggedIn: true
+                loggedIn: true,
+                profile: action.payload
             };
         case AUTH_ERROR:
         case LOGOUT:
             localStorage.removeItem("token");
             return {
                 ...state,
-                profile: {},
-                loggedIn: false
+                loggedIn: false,
+                profile: {}
             };
         default:
             return state;

@@ -8,9 +8,8 @@ const router = express.Router();
 const { check, validationResult, body} = require("express-validator");
 const db = require("../../database.js");
 
-
-
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10; 
 // @route   POST api/users/register
 // @desc    Register User
 // @access  Public
@@ -40,7 +39,6 @@ router.post(
 			
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
-				console.log(errors);
 				return res.status(422).json({ errors: errors.array()});
 			}
 			const techDict = {
@@ -108,6 +106,10 @@ router.post(
 				}
 				
 			});
+			let githubUsername = newResponse.data.login;
+			if(githubUsername != req.body.username){
+				return res.status("400").json({ result: "Username must match Github Username"})
+			}
 			let githubId = newResponse.data.id;
 			const idQuery = await db.models.user.findAll({
 				attributes:[`githubid`],
@@ -119,15 +121,20 @@ router.post(
 				res.status(301).json({ result: "Redirect to login!" });
 				return;
 			}
-			const UserObject = db.models.user.build({
-				username: req.body.username,
-				password: req.body.password,
-				authtoken: accessToken,
-				interestedTech: encodedTech,
-				githubid: githubId
+
+			bcrypt.hash(req.body.password, saltRounds, async function(err, hash){
+				const UserObject = db.models.user.build({
+					username: req.body.username,
+					password: hash,
+					authtoken: accessToken,
+          interestedTech: encodedTech,
+					githubid: githubId
+				});
+				await UserObject.save();
+				res.status(200).json({ result: "Success" });
 			});
-			await UserObject.save();
-			res.status(200).json({ result: "Success" });
+			
+			
 			
 			return;
 		} catch (err) {

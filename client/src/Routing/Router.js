@@ -5,6 +5,7 @@ import PrivateRoute from "./PrivateRoute";
 import { get_subforums, get_all_threads } from "../actions/forumActions";
 import { generateURL } from "../utils/helpers";
 
+
 // Component Imports
 import LandingPage from "../Containers/LandingPage/LandingPage";
 import Login from "../Containers/Account/LogIn/LoginPage";
@@ -22,10 +23,10 @@ import Thread from '../Containers/Forum/Thread';
 import Search from "../Containers/Search/Search"
 import Logout from "../Containers/Account/Logout/Logout";
 import Page404 from "../Containers/Dashboard/404Page";
-
+import Chat from "../Containers/Chat/Chat";
 const uid = "55452c81-3295-4ac2-80cd-a5f0b9a86fd6";
 //TODO filter out special chars
-
+const io = require("socket.io-client");
 const Router = withRouter(
   ({ get_subforums, get_all_threads, subforums, threads }) => {
     useEffect(() => {
@@ -101,7 +102,7 @@ const Router = withRouter(
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/search" component={Search} />
         <PrivateRoute exact path="/forum/" component={Root} />
-
+        <PrivateRoute path="/message" component={(props) => <Chat {...props} io={io} />} />
         {/* Catch All -- 404 */}
         <Route component={Page404} />
       
