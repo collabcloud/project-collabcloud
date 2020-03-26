@@ -90,7 +90,7 @@ export const MessageList = (props) => {
             <Row className ="w-100 ml-0 mr-0" style={{ height: 100, paddingTop: 0, position: "relative", "borderTop": "solid 1px black"}}>
                 <Form className= "w-100" onSubmit={onSubmit}>
                 <div className= "h-100"style={{ paddingTop: 0, top: 30, bottom: 30, position: "absolute", width: "90%", 
-                left: 0, right: 0, "margin-left": "auto", "margin-right": "auto" }}>
+                left: 0, right: 0, marginLeft: "auto", marginRight: "auto" }}>
                     <Form.Group className = "h-40">
                     <Form.Control  
                         name="message"

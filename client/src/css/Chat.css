@@ -116,15 +116,19 @@ button > * {
   padding: .75rem;
 }
 .user .msgCard, .user .card-body{
-  margin-right: auto;
-  margin-left: 1rem;
+  margin-left: auto;
+  margin-right: 1rem;
   max-width: 100%;
   text-align: left;
+  
+}
+.user .msgCard{
+  background-color: #007bffc8;
 }
 
 .other .msgCard, .other .card-body{
-  margin-left: auto;
-  margin-right: 1rem;
+  margin-right: auto;
+  margin-left: 1rem;
   max-width: 100%;
   text-align: left;
 }

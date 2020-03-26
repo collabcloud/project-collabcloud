@@ -74,16 +74,18 @@ const Chat = (props) => {
     
     useEffect(function(){
         props.initializeList(props.profile.username);
+        if(io) {
+            io.disconnect();
+        }
+        io = props.io.connect("http://localhost:5000");
+        io.on('message',function(data){
+            io.emit("reply", props.profile.username);
+        });
     },[]);
 
     useEffect(function() {
         setErrMsg("");
         if(props.profile.username === undefined) return;
-        if(io) return;
-        io = props.io.connect("http://localhost:5000");
-        io.on('message',function(data){
-            io.emit("reply", props.profile.username);
-        });
     }, [props.chatList, props.messageList]);
 
     if(io){

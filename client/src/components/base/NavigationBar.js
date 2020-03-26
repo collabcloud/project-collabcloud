@@ -57,7 +57,7 @@ export const NavigationBar = withRouter(({history}) => {
             src={require('../../avatar.png')}
             width="20"
             height="20"
-            style={{marginTop: 10}}
+            style={{marginTop: 10, marginLeft: 10, marginRight: 10}}
             className="d-inline-block align-top"
           />{' '}
           </a>
