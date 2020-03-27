@@ -9,8 +9,9 @@ const db = new Sequelize(
     host: process.env.DB_HOST,
     dialect: "postgres",
     port: process.env.DB_PORT,
-    logging: (process.env.DB_LOGGING == "TRUE" ? console.log : false)
-});
+    logging: process.env.DB_LOGGING == "TRUE" ? console.log : false
+  }
+);
 
 try {
   db.authenticate();
@@ -34,11 +35,15 @@ const User = db.define(
     },
     password: {
       allowNull: false,
-      type: DataTypes.STRING(25)
+      type: DataTypes.STRING(255)
     },
     authtoken: {
       allowNull: false,
       type: DataTypes.STRING(50)
+    },
+    interestedTech: {
+      type: DataTypes.STRING(25),
+      allowNull: true
     },
     githubid: {
       allowNull: false,
@@ -82,7 +87,7 @@ const project = db.define(
       primaryKey: true
     },
     projectName: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING(500),
       allowNull: false
     },
     ownerId: {
@@ -97,12 +102,8 @@ const project = db.define(
     //     type: DataTypes.STRING(50),
     //     allowNull: false
     // },
-    projectName: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
     projectDescription: {
-      type: DataTypes.STRING(2000),
+      type: DataTypes.STRING(10000),
       allowNull: false
     },
     isPrivate: {
@@ -113,20 +114,20 @@ const project = db.define(
       type: DataTypes.STRING(10)
     },
     technologiesUsed: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING(100),
       allowNull: false
     },
     githubLink: {
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(2048)
     },
     websiteLink: {
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(2048)
     },
     devpostLink: {
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(2048)
     },
     linkedinLink: {
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(2048)
     }
   },
   {}
@@ -138,19 +139,19 @@ user_followers.belongsTo(User, { as: "followee" });
 
 // Table to store hackathons for 2020 season. For now hardcoded all hackathons but could be web scraped in the future.
 const Hackathons = db.define("hackathons", {
-    name: {
-        type: DataTypes.STRING(25),
-        primaryKey: true
-    },
-    date: {
-       type:  DataTypes.STRING(25)
-    },
-    location: {
-        type: DataTypes.STRING(25)
-    },
-    link: {
-        type: DataTypes.STRING(50)
-    }
+  name: {
+    type: DataTypes.STRING(25),
+    primaryKey: true
+  },
+  date: {
+    type: DataTypes.STRING(25)
+  },
+  location: {
+    type: DataTypes.STRING(25)
+  },
+  link: {
+    type: DataTypes.STRING(50)
+  }
 });
 
 const Subforum = db.define(
@@ -218,36 +219,34 @@ const user_follows_project = db.define("user_follows_project", {
 user_follows_project.belongsTo(User, { as: "user" });
 user_follows_project.belongsTo(project, { as: "project" });
 
-
 const chats = db.define("chats", {
-    firstUser: {
-        type:DataTypes.STRING(200),
-        allowNull: false
-    },
-    secondUser:{
-        type: DataTypes.STRING(200),
-        allowNull: false
-    },
-    seen: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    }
+  firstUser: {
+    type: DataTypes.STRING(200),
+    allowNull: false
+  },
+  secondUser: {
+    type: DataTypes.STRING(200),
+    allowNull: false
+  },
+  seen: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  }
 });
 const messages = db.define("messages", {
-    sender: {
-        type:DataTypes.STRING(200),
-        allowNull: false
-    },
-    receiver:{
-        type: DataTypes.STRING(200),
-        allowNull: false
-    },
-    message:{
-        type: DataTypes.STRING(20000),
-        allowNull: false
-    }
+  sender: {
+    type: DataTypes.STRING(200),
+    allowNull: false
+  },
+  receiver: {
+    type: DataTypes.STRING(200),
+    allowNull: false
+  },
+  message: {
+    type: DataTypes.STRING(20000),
+    allowNull: false
+  }
 });
-
 
 const Thread = db.define(
   "thread",
@@ -338,9 +337,9 @@ const Notification = db.define("notification", {
   }
 });
 // Relation that stores a relationship between a Notification and a User
-const users_notifications = db.define('users_notifications');
-users_notifications.belongsTo(User, {as: "notifee"});
-users_notifications.belongsTo(Notification, {as: "notification"});
+const users_notifications = db.define("users_notifications");
+users_notifications.belongsTo(User, { as: "notifee" });
+users_notifications.belongsTo(Notification, { as: "notification" });
 db.sync({ force: false })
   .then(message => {
     console.log("Database synced");

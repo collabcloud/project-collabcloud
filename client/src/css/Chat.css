@@ -39,12 +39,12 @@ html {
   position: relative;
 }
 @media only screen and (min-width: 998px) {
-  .row {
+  .chatrow {
     padding-top: 73px;
   }
 }
 @media only screen and (max-width: 997px) {
-  .row {
+  .chatrow {
     padding-top: 113px;
   }
 }
@@ -53,10 +53,7 @@ html {
   position: absolute;
   z-index: 1;
 }
-/*
-    Scrollbar stuff
-    34 3a 40
-  */
+
 .trackY {
   position: absolute;
   overflow: hidden;
@@ -122,16 +119,19 @@ button > * {
 }
 .user .msgCard,
 .user .card-body {
-  margin-right: auto;
-  margin-left: 1rem;
+  margin-left: auto;
+  margin-right: 1rem;
   max-width: 100%;
   text-align: left;
+}
+.user .msgCard {
+  background-color: #007bffc8;
 }
 
 .other .msgCard,
 .other .card-body {
-  margin-left: auto;
-  margin-right: 1rem;
+  margin-right: auto;
+  margin-left: 1rem;
   max-width: 100%;
   text-align: left;
 }

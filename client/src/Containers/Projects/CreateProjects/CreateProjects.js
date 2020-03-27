@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import ReactTags from "react-tag-autocomplete";
+import NavigationBar from "../../../components/specialized/Nav/NavigationBar";
 import { ProjectView } from "../../../components/specialized/ProjectView";
 import { ItemsList } from "../../../components/base/ItemsList";
-import NavigationBar from "../../../components/specialized/Nav/NavigationBar";
 
 import { FaGithub, FaLinkedin, FaDev } from "react-icons/fa";
 import { MdWeb } from "react-icons/md";
@@ -12,23 +12,32 @@ import { MdWeb } from "react-icons/md";
 // Redux Imports
 import { connect } from "react-redux"; // connects the CreateProjects component to the Redux store
 import { addProject } from "../../../actions/projectActions";
+import { setAlert } from "../../../actions/alert";
 import { getGithubRepos } from "../../../actions/githubActions";
 import PropTypes from "prop-types";
 
 import "../../../css/CreateProjects.css";
+import tech_suggestions_array from "../../../utils/techSuggestions";
 
 const github = <FaGithub />;
 const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
-const CreateProjects = ({
-  addProject,
-  getGithubRepos,
-  isLoading,
-  githubRepos,
-  ownerId
-}) => {
+const CreateProjects = props => {
+  const {
+    addProject,
+    setAlert,
+    getGithubRepos,
+    isLoading,
+    githubRepos,
+    ownerId,
+    username
+  } = props;
+
+  let githubUsername = username;
+  const tech_suggestions = tech_suggestions_array;
+
   // Initialize state hooks
   const [name, setName] = useState("");
   const [tech, setTech] = useState([]);
@@ -65,7 +74,7 @@ const CreateProjects = ({
   const [projects, setProjects] = useState([
     {
       name: "Example-Project",
-      description: "👋 Hi! This is literally just an example description",
+      description: "Hi! This is literally just an example description",
       isProjectPublic: true,
       githubStars: 0,
       links: [
@@ -95,14 +104,11 @@ const CreateProjects = ({
 
   const history = useHistory();
 
-  // ONLY runs once, which is when the component mounts (ie. when the page first loads)
+  // Load this user's GitHub repos
   useEffect(() => {
-    const githubUsername = "daniil-oliynyk"; // todo: Get this value from state (GitHub username associated to whoever is currently logged in)
-
     // Populate the Redux store with this user's GitHub repos
     getGithubRepos({ githubUsername, repoVisibility: "all" });
-  }, [getGithubRepos]); // This empty [] ensures that useEffect() does not run forever
-  // NOTE: Even though the React compiler warns about this above line, DO NOT add the 'getGithubRepos' dependency
+  }, []); // WARNING: adding in any dependencies to this array causes the page to loop forever
 
   // Runs whenever any of the specified props (isLoading, githubRepos) are updated
   useEffect(() => {
@@ -148,35 +154,8 @@ const CreateProjects = ({
       // Update projects state by calling setProjects
       setProjects(projectsToDisplay);
     }
-  }, [githubRepos, isLoading, projects]); // this effect runs again whenever the elements in this dependency array change
-  // NOTE: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
-
-  const tech_suggestions = [
-    { id: 1, name: "MongoDB" },
-    { id: 2, name: "Express" },
-    { id: 3, name: "React" },
-    { id: 4, name: "Node.js" },
-    { id: 5, name: "Python" },
-    { id: 6, name: "JavaScript" },
-    { id: 7, name: "Java" },
-    { id: 8, name: "C++" },
-    { id: 9, name: "C#" },
-    { id: 10, name: "HTML/CSS" },
-    { id: 11, name: "Swift" },
-    { id: 12, name: "SQL" },
-    { id: 13, name: "MongoDB" },
-    { id: 14, name: "Express" },
-    { id: 15, name: "React" },
-    { id: 16, name: "Angular" },
-    { id: 17, name: "VueJS" },
-    { id: 18, name: "Flutter" },
-    { id: 19, name: "Kubernetes" },
-    { id: 20, name: "Jupyter" },
-    { id: 21, name: "Pytorch" },
-    { id: 22, name: "Numpy" },
-    { id: 23, name: "Passport" },
-    { id: 24, name: "Kotlin" }
-  ];
+  }, [githubRepos, isLoading]); // this effect runs again whenever the elements in this dependency array change
+  // WARNING: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
 
   function handleAddition(tag) {
     const technologies = [].concat(tech, tag);
@@ -219,6 +198,7 @@ const CreateProjects = ({
       githubStars,
       links
     });
+    setAlert("Successfully created your project", "success");
 
     // Redirect to the explore page
     history.push("/explore");
@@ -301,10 +281,44 @@ const CreateProjects = ({
   );
 };
 
+// Gives our Project component access to the redux dispatch functions
+function mapDispatchToProps(dispatch) {
+  return {
+    addProject: (
+      name,
+      desc,
+      isProjectPublic,
+      ownerId,
+      tech,
+      githubStars,
+      links
+    ) => {
+      dispatch(
+        addProject(
+          name,
+          desc,
+          isProjectPublic,
+          ownerId,
+          tech,
+          githubStars,
+          links
+        )
+      );
+    },
+    getGithubRepos: ({ githubUsername, repoVisibility }) => {
+      dispatch(getGithubRepos({ githubUsername, repoVisibility }));
+    },
+    setAlert: (message, alertType) => {
+      dispatch(setAlert(message, alertType));
+    }
+  };
+}
+
 // List of dispatch functions that will be available to the component
 CreateProjects.propTypes = {
   addProject: PropTypes.func.isRequired,
-  getGithubRepos: PropTypes.func.isRequired
+  getGithubRepos: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired
 };
 
 // Transforms Redux store state into the props for this CreateProjects component
@@ -313,11 +327,10 @@ const mapStateToProps = state => {
   return {
     githubRepos: state.github.githubReposFromState,
     isLoading: state.github.loading,
-    ownerId: state.user.uid
+    ownerId: state.login.profile.uid,
+    username: state.login.profile.username
   };
 };
 
 // Provides this React component with the given dispatch functions, and maps Redux store state to component props
-export default connect(mapStateToProps, { addProject, getGithubRepos })(
-  CreateProjects
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProjects);

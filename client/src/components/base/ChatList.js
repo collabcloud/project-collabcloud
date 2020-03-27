@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { Scrollbar } from "react-scrollbars-custom";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
-//import "../../css/Chat.css";
+import "../../css/Chat.css";
 
 export const ChatList = props => {
   const [username, setFormData] = useState("");

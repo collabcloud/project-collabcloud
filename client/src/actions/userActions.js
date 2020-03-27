@@ -18,6 +18,17 @@ export const update_user_info = ({
   };
   try {
     const url = "/api/users/profile";
+    if (province == "Choose...") {
+      province = undefined;
+      city_field = undefined;
+    }
+    if (name == "" || last_name == "") {
+      name = undefined;
+      last_name = undefined;
+    }
+    if (description == "") {
+      description = undefined;
+    }
     const body = {
       uid: uid,
       name: name,

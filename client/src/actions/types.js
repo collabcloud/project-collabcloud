@@ -14,10 +14,12 @@ export const DELETE_PROJECT = "DELETE_PROJECT";
 export const JOIN_PROJECT = "JOIN_PROJECT";
 export const LEAVE_PROJECT = "LEAVE_PROJECT";
 export const RESET_PROJECT_ACTION_STATUS = "RESET_PROJECT_ACTION_STATUS";
+export const RECOMMEND = "RECOMMEND";
 
 // Register Actions
 export const GET_TOKEN = "GET_TOKEN";
 export const GITHUB_EXISTS = "GITHUB_EXISTS";
+export const GITHUB_USERNAME_NOMATCH = "GITHUB_USERNAME_NOMATCH";
 
 // GitHub Repository Actions
 export const GET_GIT_REPOS = "GET_REPOS";

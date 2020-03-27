@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Recommendations } from "../../components/base/Recommend";
 import { HackathonCard } from "../../components/base/HackathonCard";
 import {
   Alert,
@@ -15,11 +16,13 @@ import Avatar from "../../components/base/Avatar";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import "../../css/Dashboard.css";
 // redux imports
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
 import { get_user_projects } from "../../actions/projectActions";
 import { generateURL } from "../../utils/helpers";
+import { recommendProjects } from "../../actions/recommendAction";
 import PropTypes from "prop-types";
 
 const default_avatar =
@@ -35,6 +38,7 @@ const Dashboard = ({
   projectNotifications,
   user,
   get_user_projects,
+  recommendations,
   projects
 }) => {
   const [show, setShow] = useState(true);
@@ -44,7 +48,7 @@ const Dashboard = ({
   const [avatar, setAvatar] = useState(default_avatar);
 
   useEffect(() => {
-    addHackathons();
+    //addHackathons();
   }, []);
   useEffect(() => {
     getHackathons();
@@ -57,9 +61,12 @@ const Dashboard = ({
   }, [getProjectNotifications, loggedInUid, get_user_projects]);
 
   useEffect(() => {
+    recommendProjects();
+  }, []);
+
+  useEffect(() => {
     setName(user.username);
     setAvatar(user.avatar);
-
     if (
       user.firstname !== undefined &&
       user.lastname !== undefined &&
@@ -77,9 +84,9 @@ const Dashboard = ({
     } else {
       const project_links = projects.map((project, index) => (
         <Card.Title key={index}>
-          <a href="/">
+          <Link to={"/project/" + project.pid}>
             {name}/{project.projectName}
-          </a>
+          </Link>
         </Card.Title>
       ));
       return project_links;
@@ -225,77 +232,24 @@ const Dashboard = ({
         {/* Col 4 */}
         <Col md={3} lg={3} xl={3}>
           <Container>
-            <Alert
-              variant={"primary"}
-              onClose={() => setShow(false)}
-              dismissible
-            >
-              here are some project based on your preferences
-            </Alert>
+            {/* <Alert
+							variant={"primary"}
+							onClose={() => setShow(false)}
+							dismissible
+						>
+							here are some project based on your preferences
+						</Alert> */}
             {/* Projects interest */}
             <div>
               <h4>&#127942; Projects that you maybe interested in</h4>
-              <Card>
-                <Card.Body>
-                  {/* Card Index 0 */}
-                  <Card.Title>
-                    <a href="/">Gradeulator</a>
-                  </Card.Title>
-                  <Card.Text>
-                    {" "}
-                    a grade calculator <br></br> by: <a href="/">Furqan17</a>
-                  </Card.Text>
-                  <Button variant="primary">Check out Project</Button>
-                </Card.Body>
-
-                <Card.Body>
-                  {/* Card Index 0 */}
-                  <Card.Title>
-                    <a href="/">CodePrep</a>
-                  </Card.Title>
-                  <Card.Text>
-                    {" "}
-                    an open source coding platform <br></br> by:{" "}
-                    <a href="/">Furqan17</a>
-                  </Card.Text>
-                  <Button variant="primary">Check out Project</Button>
-                </Card.Body>
-              </Card>
+              <Recommendations projects={recommendations} />
             </div>
 
             <br></br>
             {/* Hackathon Panel */}
             <div>
-              <h4>&#127751; Nearby Hackathons</h4>
-              <Card>
-                <Card.Body>
-                  {/* Card Index 0 */}
-                  <Card.Title>
-                    {" "}
-                    <a href="/">UofT Hacks</a>
-                  </Card.Title>
-                  <Card.Text>
-                    <b>
-                      Jan 17-20 <br></br> Toronto, Ont
-                    </b>
-                  </Card.Text>
-                  <Button variant="info">Check out Hackathon</Button>
-                </Card.Body>
-
-                <Card.Body>
-                  {/* Card Index 0 */}
-                  <Card.Title>
-                    {" "}
-                    <a href="/">Hack the North</a>
-                  </Card.Title>
-                  <Card.Text>
-                    <b>
-                      Sept 23-26 <br></br> Waterloo, Ont
-                    </b>
-                  </Card.Text>
-                  <Button variant="info">Check out Hackathon</Button>
-                </Card.Body>
-              </Card>
+              <h4>&#127751; Upcoming Hackathons</h4>
+              <HackathonCard hackathons={hackathons} />
             </div>
           </Container>
         </Col>
@@ -311,6 +265,7 @@ function mapStateToProps(state) {
     projectNotifications: state.notifications.projectNotifications,
     loggedInUid: state.user.uid,
     user: state.login.profile,
+    recommendations: state.project.recommendedprojects,
     projects: state.project.projects
   };
 }
@@ -328,12 +283,16 @@ function mapDispatchToProps(dispatch) {
     },
     get_user_projects: uid => {
       dispatch(get_user_projects(uid));
+    },
+    recommendProjects: () => {
+      dispatch(recommendProjects());
     }
   };
 }
 Dashboard.propTypes = {
   getHackathons: PropTypes.func.isRequired,
   addHackathons: PropTypes.func.isRequired,
+  recommendProjects,
   getProjectNotifications: PropTypes.func.isRequired
 };
 

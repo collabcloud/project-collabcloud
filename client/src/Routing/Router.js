@@ -11,6 +11,7 @@ import Login from "../Containers/Account/LogIn/LoginPage";
 import Register from "../Containers/Account/Register/RegisterPage";
 import Register2 from "../Containers/Account/Register/RegisterPage2";
 import Explore from "../Containers/Explore/Explore";
+import Trending from "../Containers/Trending/Trending";
 import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects";
 import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
@@ -23,6 +24,7 @@ import Search from "../Containers/Search/Search";
 import Logout from "../Containers/Account/Logout/Logout";
 import Chat from "../Containers/Chat/Chat";
 import Page404 from "../Containers/Dashboard/404Page";
+const io = require("socket.io-client");
 
 const io = require("socket.io-client");
 const Router = () => {
@@ -37,6 +39,7 @@ const Router = () => {
       {/* Auth Routes */}
       <PrivateRoute path="/project/:pid" component={Project} />
       <PrivateRoute path="/explore" component={Explore} />
+      <PrivateRoute path="/trending" component={Trending} />
       <PrivateRoute path="/projects/create" component={CreateProjects} />
       <PrivateRoute path="/user/profile" component={Profile} />
       <PrivateRoute path="/user/matthuynh" component={OtherProfile} />

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Scrollbar } from "react-scrollbars-custom";
 import { Card, Form, Button, Container, Row } from "react-bootstrap";
 
-//import "../../css/Chat.css";
+import "../../css/Chat.css";
 
 export const MessageList = props => {
   var scrollbar = React.createRef();
@@ -124,8 +124,8 @@ export const MessageList = props => {
               width: "90%",
               left: 0,
               right: 0,
-              "margin-left": "auto",
-              "margin-right": "auto"
+              marginLeft: "auto",
+              marginRight: "auto"
             }}
           >
             <Form.Group className="h-40">

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
-import { get_user_info } from "../../../actions/userActions";
 import { connect } from "react-redux";
 import Avatar from "../../base/Avatar";
 import "../../../css/NavigationBar.css";
 
-const NavigationBar = withRouter(({ history, loggedInUid, avatar }) => {
+const NavigationBar = withRouter(({ history, loggedInUid, user, avatar }) => {
   const [search, setSearch] = useState("");
 
   function onSubmit(e) {
@@ -64,6 +63,10 @@ const NavigationBar = withRouter(({ history, loggedInUid, avatar }) => {
           <Link to="/explore" className="p-2 link">
             {" "}
             Explore{" "}
+          </Link>
+          <Link to="/message" className="p-2 link">
+            {" "}
+            Chat{" "}
           </Link>
           <Link to="/forum" className="p-2 link">
             {" "}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "../../css/NotificationList.css";
 
 export function NotificationList(props) {
@@ -21,7 +22,9 @@ export function NotificationList(props) {
               <span className="notificationText">{projectNotification}</span>
             </Card.Text>
 
-            <Button variant="success">View Project</Button>
+            <Link to={"/project/" + projectNotification.pid}>
+              <Button variant="success">View Project</Button>
+            </Link>
           </Card.Body>
         ))}
       </div>

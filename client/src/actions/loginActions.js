@@ -23,6 +23,13 @@ export const loadUser = () => async dispatch => {
 	}
 };
 
+export const setRegisterMessage = (error, type, timeout) => async dispatch => {
+	dispatch({
+		type: AUTH_ERROR
+	});
+	dispatch(setAlert(error, type, timeout = timeout));	
+}
+
 export const login = (username, password) => async dispatch => {
 
 	const config = {
@@ -33,7 +40,6 @@ export const login = (username, password) => async dispatch => {
 	try {
 		const url = "/api/users/login";
 		const body = JSON.stringify({ username, password });
-
 		let response = await axios.post(url, body, config);
         // TODO: Add in a type for if the response fails, and then catch that type
 		if (response) {

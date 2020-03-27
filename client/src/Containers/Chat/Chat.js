@@ -6,14 +6,14 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from "react-bootstrap";
-import { NavigationBar } from "../../components/base/NavigationBar";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Redux Imports
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { ChatList } from "../../components/base/ChatList";
 import { MessageList } from "../../components/base/MessageList";
-//import "../../css/Chat.css";
+import "../../css/Chat.css";
 
 import {
   addUser,
@@ -82,17 +82,19 @@ const Chat = props => {
 
   useEffect(function() {
     props.initializeList(props.profile.username);
+    if (io) {
+      io.disconnect();
+    }
+    io = props.io.connect("http://localhost:5000");
+    io.on("message", function(data) {
+      io.emit("reply", props.profile.username);
+    });
   }, []);
 
   useEffect(
     function() {
       setErrMsg("");
       if (props.profile.username === undefined) return;
-      if (io) return;
-      io = props.io.connect("http://localhost:5000");
-      io.on("message", function(data) {
-        io.emit("reply", props.profile.username);
-      });
     },
     [props.chatList, props.messageList]
   );
@@ -127,7 +129,7 @@ const Chat = props => {
         fluid
         style={{ paddingLeft: 0, paddingRight: 0 }}
       >
-        <Row className="fill-height ml-0 mr-0">
+        <Row className=" chatrow fill-height ml-0 mr-0">
           <Col
             className="msg fill-height"
             xs={3}

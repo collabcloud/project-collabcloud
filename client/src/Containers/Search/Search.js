@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { NavigationBar } from "../../components/base/NavigationBar";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import { ProjectResultList } from "../../components/base/ProjectResultList";
 import { UserResultList } from "../../components/base/UserResultList";
 

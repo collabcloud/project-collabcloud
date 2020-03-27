@@ -12,6 +12,12 @@ const Avatar = props => {
     setHeight(props.height);
   }, [props]);
 
+  function onClick() {
+    if (typeof props.onClick !== "undefined") {
+      props.onClick();
+    }
+  }
+
   return (
     <img
       alt=""
@@ -24,6 +30,7 @@ const Avatar = props => {
       height={height}
       style={{ marginTop: 10 }}
       className="d-inline-block align-top"
+      onClick={onClick}
     />
   );
 };
