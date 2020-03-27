@@ -25,8 +25,6 @@ import Logout from "../Containers/Account/Logout/Logout";
 import Chat from "../Containers/Chat/Chat";
 import Page404 from "../Containers/Dashboard/404Page";
 const io = require("socket.io-client");
-
-const io = require("socket.io-client");
 const Router = () => {
   return (
     <Switch>

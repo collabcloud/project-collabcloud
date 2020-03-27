@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Nav, Navbar, Toast } from "react-bootstrap";
-import PageTitle from "../../components/base/PageTitle";
-import UserDetails from "../../components/base/UserDetails";
+import React, { useState } from "react";
+import { Container, Row, Col, Toast } from "react-bootstrap";
 import UserOverview from "../../components/base/UserOverview";
 import UserAccountDetails from "../../components/base/UserAccountDetails";
-import Alert from "../../components/base/Alert";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import ProjectDisplay from "../../components/base/ProjectDisplay";
 import { follow_user } from "../../actions/followActions";
