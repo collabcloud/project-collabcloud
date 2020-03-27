@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -72,7 +72,7 @@ const NavigationBar = withRouter(({ history, loggedInUid, user, avatar }) => {
             {" "}
             Forum{" "}
           </Link>
-          <Link to="/" className="p-2 link">
+          <Link to="/logout" className="p-2 link">
             {" "}
             Logout{" "}
           </Link>

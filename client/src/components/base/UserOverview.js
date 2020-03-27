@@ -6,7 +6,6 @@ import {
   Row,
   Col,
   ListGroup,
-  Image,
   Popover,
   OverlayTrigger
 } from "react-bootstrap";
@@ -16,7 +15,6 @@ import { postAvatar } from "../../actions/imgActions";
 import { connect } from "react-redux";
 
 import { Item } from "./Item";
-import Avatar from "./Avatar";
 
 const tags = [
   { id: 1, name: "MongoDB" },
@@ -42,7 +40,7 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
   };
 
   const popover = (
-    <Popover id="popover-basic" style={{ marginTop: "50px" }}>
+    <Popover id="popover-basic" style={{ marginTop: "10px" }}>
       <Popover.Content>Change your avatar</Popover.Content>
     </Popover>
   );
@@ -53,7 +51,7 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
   }
 
   function renderName() {
-    if (props.firstname == null || props.lastname == null) {
+    if (props.firstname === null || props.lastname === null) {
       return "";
     } else {
       return props.firstname + " " + props.lastname;
@@ -61,14 +59,14 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
   }
 
   function renderLocation() {
-    if (props.province == null || props.city == null) {
+    if (props.province === null || props.city === null) {
       return "Not stated";
     }
     return props.city + ", " + props.province;
   }
 
   function renderDescription() {
-    if (props.description == null || props.description == "") {
+    if (props.description === null || props.description === "") {
       return "No Bio added";
     } else {
       return props.description;
@@ -93,10 +91,13 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
                 placement="bottom"
                 overlay={popover}
               >
-                <Avatar
+                <img
+                  alt=""
                   src={avatarLink}
-                  width={125}
-                  height={125}
+                  width="125"
+                  height="125"
+                  style={{ marginTop: 10 }}
+                  className="d-inline-block align-top"
                   onClick={onAvatarClick}
                 />
               </OverlayTrigger>

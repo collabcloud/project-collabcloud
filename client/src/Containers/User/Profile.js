@@ -44,7 +44,7 @@ const OtherProfile = withRouter(({ follow_user, unfollow_user, followed }) => {
   }
 
   function renderform() {
-    if (showform == true) {
+    if (showform === true) {
       return (
         <Col sm={4}>
           <UserAccountDetails />

@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
-import { get_subforums, get_all_threads } from "../actions/forumActions";
-import { generateURL } from "../utils/helpers";
 
 // Component Imports
 import LandingPage from "../Containers/LandingPage/LandingPage";
