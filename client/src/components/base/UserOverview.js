@@ -15,8 +15,6 @@ import { postAvatar } from "../../actions/imgActions";
 import { connect } from "react-redux";
 import { Item } from "./Item";
 
-const UserDetails = (props) => {
-
 const tags = [
   { id: 1, name: "MongoDB" },
   { id: 2, name: "Express" },
@@ -68,7 +66,6 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
     return props.city + ", " + props.province;
   }
 
-
   function renderDescription() {
     if (props.description === null || props.description === "") {
       return "No Bio added";
@@ -80,7 +77,7 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
   return (
     <Card style={{ height: "30rem" }} hoverable="true" bg="dark" text="white">
       <Card.Body>
-        <Container >
+        <Container>
           <Row>
             <Col xs={"auto"}>
               <input
@@ -147,6 +144,7 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
     </Card>
   );
 };
+
 function mapStateToProps(state) {
   return {
     uid: state.user.uid,

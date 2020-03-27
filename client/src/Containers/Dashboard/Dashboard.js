@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Recommendations } from "../../components/base/Recommend";
-import {Recommendations} from "../../components/base/Recommend";
 import { HackathonCard } from "../../components/base/HackathonCard";
 import {
   Alert,
@@ -17,7 +16,7 @@ import Avatar from "../../components/base/Avatar";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import "../../css/Dashboard.css";
 // redux imports
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
@@ -48,7 +47,8 @@ const Dashboard = ({
   const [firstName, setFirstName] = useState("");
   const [fullName, setFullName] = useState("");
   const [avatar, setAvatar] = useState(default_avatar);
-  
+  const history = useHistory();
+
   useEffect(() => {
     //addHackathons();
   }, []);
@@ -62,11 +62,10 @@ const Dashboard = ({
     getProjectNotifications(loggedInUid, 10);
   }, [getProjectNotifications, loggedInUid, get_user_projects]);
 
-
   useEffect(() => {
     recommendProjects();
   }, []);
-  
+
   useEffect(() => {
     setName(user.username);
     setAvatar(user.avatar);
@@ -126,8 +125,12 @@ const Dashboard = ({
               {/* User Display */}
               <div>
                 <Avatar src={avatar} width={60} height={60} />
-                <h3>
-                  <a href="/">{fullName !== "" ? fullName : name}</a>
+                <h3
+                  onClick={() => {
+                    history.push("/user/profile");
+                  }}
+                >
+                  <a href="">{fullName !== "" ? fullName : name}</a>
                 </h3>
               </div>
               {/* User Options */}
@@ -232,7 +235,6 @@ const Dashboard = ({
           </Container>
         </Col>
 
-
         {/* Col 4 */}
         <Col md={3} lg={3} xl={3}>
           <Container>
@@ -273,7 +275,6 @@ function mapStateToProps(state) {
     projects: state.project.projects
   };
 }
-
 
 function mapDispatchToProps(dispatch) {
   return {

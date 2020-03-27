@@ -127,7 +127,7 @@ const project = db.define(
       type: DataTypes.STRING(2048)
     },
     linkedinLink: {
-        type: DataTypes.STRING(2048)
+      type: DataTypes.STRING(2048)
     }
   },
   {}
@@ -247,37 +247,6 @@ const messages = db.define("messages", {
     allowNull: false
   }
 });
-
-
-const chats = db.define("chats", {
-    firstUser: {
-        type:DataTypes.STRING(200),
-        allowNull: false
-    },
-    secondUser:{
-        type: DataTypes.STRING(200),
-        allowNull: false
-    },
-    seen: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    }
-});
-const messages = db.define("messages", {
-    sender: {
-        type:DataTypes.STRING(200),
-        allowNull: false
-    },
-    receiver:{
-        type: DataTypes.STRING(200),
-        allowNull: false
-    },
-    message:{
-        type: DataTypes.STRING(20000),
-        allowNull: false
-    }
-});
-
 
 const Thread = db.define(
   "thread",
