@@ -1,42 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { Container, Breadcrumb, Form, Button, Card } from "react-bootstrap";
-import { NavigationBar } from "../../components/base/NavigationBar";
 import Post from "../../components/specialized/Forum/Post";
 
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
-//import { GoPlus } from "react-icons/go";
-import { generateURL, timeToDate } from "../../utils/helpers";
+import { Link } from "react-router-dom";
+import { generateURL, timeToDate, convertToTitle } from "../../utils/helpers";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
-import { get_posts, make_post } from "../../actions/forumActions";
+import { get_posts, make_post, get_thread } from "../../actions/forumActions";
 
-const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
-  //Initially received from props
+const Thread = props => {
+  const { get_thread, thread, get_posts, make_post, posts, uid, match } = props;
+
+  const subforum = match.params.subforum;
+  const threadTopic = match.params.thread;
+
+  //Thread Information
   const [threadId, setThreadId] = useState("");
-  const [title, setTitle] = useState("");
   const [sid, setSid] = useState("");
-  const [subforum, setSubforum] = useState("");
   const [submitter, setSubmitter] = useState("");
-
-  //Retrieved after GET
   const [createdAt, setCreatedAt] = useState("");
+
+  //Posts
   const [postsList, setPostsList] = useState([]);
   const [newPost, setNewPost] = useState("");
 
   useEffect(() => {
-    setTitle(props.title);
-    setThreadId(props.threadId);
-    setSid(props.sid);
-    setSubforum(props.subforum);
-    setSubmitter(props.submitter);
-    setCreatedAt(props.createdAt);
-  }, [props]);
+    if (threadTopic !== "") {
+      get_thread(subforum, threadTopic);
+    }
+  }, [get_thread, subforum, threadTopic]);
 
   useEffect(() => {
-    if (threadId) {
-      get_posts(threadId);
+    if (typeof thread.tid !== "undefined") {
+      setThreadId(thread.tid);
+      setSid(thread.subforumSid);
+      setSubmitter(thread.username);
+      setCreatedAt(thread.createdAt);
+      get_posts(thread.tid);
+      get_posts(thread.tid);
     }
-  }, [threadId]);
+  }, [get_posts, thread]);
 
   useEffect(() => {
     setPostsList(posts);
@@ -49,7 +53,8 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
 
   function onSubmit(e) {
     e.preventDefault();
-    make_post(threadId, sid, submitter, newPost);
+    make_post(threadId, sid, submitter, uid, newPost);
+    get_posts(threadId);
     get_posts(threadId);
     setNewPost("");
   }
@@ -64,6 +69,8 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
           createdAt={reply.createdAt}
           content={reply.content}
           username={reply.username}
+          avatar={reply.submitter.avatar}
+          description={reply.submitter.description}
         />
       ));
       return posts_array;
@@ -79,12 +86,16 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
             <Link to="/forum/">Home</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to={generateURL(subforum, "", true)}>{subforum}</Link>
+            <Link to={generateURL(subforum, "", true)}>
+              {convertToTitle(subforum)}
+            </Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>{title}</Breadcrumb.Item>
+          <Breadcrumb.Item active>
+            {convertToTitle(threadTopic)}
+          </Breadcrumb.Item>
         </Breadcrumb>
         <div className="d-flex flex-column">
-          <h3 className="text-left">{title}</h3>
+          <h3 className="text-left">{convertToTitle(threadTopic)}</h3>
           <h6 className="text-left">
             {"Posted by: " + submitter + " on " + timeToDate(createdAt)}
           </h6>
@@ -117,19 +128,26 @@ const Thread = withRouter(({ get_posts, make_post, posts, ...props }) => {
       </Container>
     </div>
   );
-});
+};
 
 function mapStateToProps(state) {
-  return { posts: state.forum.posts };
+  return {
+    posts: state.forum.posts,
+    thread: state.forum.thread,
+    uid: state.user.uid
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    get_thread: (subforum, threadTopic) => {
+      dispatch(get_thread(subforum, threadTopic));
+    },
     get_posts: tid => {
       dispatch(get_posts(tid));
     },
-    make_post: (tid, sid, submitter, content) => {
-      dispatch(make_post(tid, sid, submitter, content));
+    make_post: (tid, sid, submitter, submitterUid, content) => {
+      dispatch(make_post(tid, sid, submitter, submitterUid, content));
     }
   };
 }
