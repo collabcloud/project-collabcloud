@@ -25,9 +25,11 @@ COL-20 As a User, I want to be able to send and receive messages to other users 
 
 COL-54 As a Developer, I want to be able to use dynamic paths to route to different profiles and projects on the front-end so that navigation is more organized
 
-COL-93 As a User, I want to be able to upload a picture to display my avatar and pictures for my project.
+COL-93 As a User, I want to be able to upload a picture to display my avatar and pictures for my project so that other users can identify me
 
 COL-94 As a Developer, I want to make improvements to the Projects feature so that the feature is more robust
+
+COL-118 As a User, I want my passwords hashed so that people with access to the database cannot view their password
 
 ### Spikes
 For this Sprint, the team will not be encountering many new technologies. Many team members are continuing work on the front-end this sprint, so they will be continuing to learn more about advanced React techniques such as React Hooks, and React Redux.
@@ -70,3 +72,6 @@ COL-93 As a User, I want to be able to upload a picture to display my avatar and
 
 COL-94 As a Developer, I want to make improvements to the Projects feature so that the feature is more robust
 - This task will be owned entirely by Matthew
+
+COL-118 As a User, I want my passwords hashed so that people with access to the database cannot view their password
+- This task will be owned entirely by Hans
