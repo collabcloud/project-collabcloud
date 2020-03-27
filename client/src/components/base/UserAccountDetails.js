@@ -32,6 +32,7 @@ const UserAccountDetails = ({title,uid,username,firstname,lastname,city,province
     submitUserProfile(update_user_info, uid,username,name,last_name, cityfield, provincefield, descriptionfield);        
 }
 
+
   
   return(
   <Card style={{height: '30rem',backgroundColor: '#343a40'}}>

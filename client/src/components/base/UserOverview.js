@@ -1,10 +1,13 @@
-import React from "react";
+import React, {UseEffect} from "react";
 import { Card, Button, Container, Row, Col, ListGroup, Image } from 'react-bootstrap';
 import { GoOrganization } from 'react-icons/go';
 import { MdLocationOn, MdChatBubble } from 'react-icons/md';
 import { Item } from '../base/Item';
 import {connect} from 'react-redux';
 import pic from '../../Containers/User/img/matthuynh.png';
+
+
+const UserDetails = (props) => {
 
 const tags = [
   { id: 1, name: "MongoDB" },
@@ -13,22 +16,49 @@ const tags = [
   { id: 4, name: "Node.js" }
 ];
 
-const UserDetails = (props) => {
+
+
+  function renderName() {
+    if(props.firstname == null || props.lastname == null) {
+      return "";
+    }
+    else{
+      return props.firstname + " " + props.lastname;
+    }
+  }
+  
+
+  function renderLocation() {
+    if(props.province == null || props.city == null) {
+      return "Not stated";
+    }
+    return props.city + ", " + props.province;
+  }
+  
+
+function renderDescription() {
+  if(props.description == null || props.description == "") {
+    return "No Bio added";
+  }
+  else {
+    return props.description;
+  }
+}
 
 
 
-  return(
+  return (
   <Card style={{height: '30rem'}} hoverable="true" bg="dark" text="white">
       <Card.Body>
         <Container >
           <Row>
             <Col xs={'auto'}>
               <Image src={pic}></Image>
-                <p><MdLocationOn/>{props.city + ", " + props.province}</p>
+                <p><MdLocationOn/>{renderLocation()}</p>
             </Col>
             <Col xs={'auto'} className="d-flex align-items-start flex-column">
               <h3>{props.username}</h3>
-              <h6>{props.firstname + " " + props.lastname}</h6>
+              <h6>{renderName()}</h6>
               <ListGroup horizontal>
             {tags.map((tag, index) =>
                 <Item value={tag.name} 
@@ -47,7 +77,7 @@ const UserDetails = (props) => {
               <Button variant={props.btnColour} onClick={props.onClick}>{props.btnText}</Button> 
             </Col>
             <Col xs={5}>
-                <p align="left"><MdChatBubble /> {props.description}</p>
+                <p align="left"><MdChatBubble /> {renderDescription()}</p>
             </Col>
           </Row>
         </Container>
