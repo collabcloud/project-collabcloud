@@ -11,7 +11,9 @@ import { MdWeb } from 'react-icons/md';
 import ReactTags from "react-tag-autocomplete";
 
 import "../../css/Project.css";
+import tech_suggestions_array from "../../utils/techSuggestions";
 
+// Note: these variables NEED to be set and used, rather than use these icons directly
 const github = <FaGithub />;
 const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
@@ -20,35 +22,7 @@ const dev = <FaDev />;
 // This component shows an individual project's view
 export function ProjectForm(props) {
 	const projectData = props.projectInformation.project;
-
-	// TODO: Require this list from an external JS file
-	// List of tech suggestion tags
-	const techSuggestions = [
-		{ id: 1, name: "MongoDB" },
-		{ id: 2, name: "Express" },
-		{ id: 3, name: "React" },
-		{ id: 4, name: "Node.js" },
-		{ id: 5, name: "Python" },
-		{ id: 6, name: "JavaScript" },
-		{ id: 7, name: "Java" },
-		{ id: 8, name: "C++" },
-		{ id: 9, name: "C#" },
-		{ id: 10, name: "HTML/CSS" },
-		{ id: 11, name: "Swift" },
-		{ id: 12, name: "SQL" },
-		{ id: 13, name: "MongoDB" },
-		{ id: 14, name: "Express" },
-		{ id: 15, name: "React" },
-		{ id: 16, name: "Angular" },
-		{ id: 17, name: "VueJS" },
-		{ id: 18, name: "Flutter" },
-		{ id: 19, name: "Kubernetes" },
-		{ id: 20, name: "Jupyter" },
-		{ id: 21, name: "Pytorch" },
-		{ id: 22, name: "Numpy" },
-		{ id: 23, name: "Passport" },
-		{ id: 24, name: "Kotlin" }
-	];
+	const techSuggestions = tech_suggestions_array;
 
 	// Decodes the encoded technologiesUsed string into its corresponding list of technologies
 	const decodeTechUsed = () => {
@@ -68,10 +42,10 @@ export function ProjectForm(props) {
 	const [isProjectPublic, setVisibilityPublic] = useState(!projectData.isPrivate);
 	const [tech, setTech] = useState(decodeTechUsed());
 	const [links, setLinks] = useState([
-		{ name: "Github", icon: github, value: projectData.githubLink },
-		{ name: "Website", icon: website, value: projectData.websiteLink },
-		{ name: "DevPost", icon: dev, value: projectData.devpostLink },
-		{ name: "LinkedIn", icon: linkedin, value: projectData.linkedinLink }
+		{ name: "Github", icon: github, placeholder: "Enter your project's GitHub URL here", value: projectData.githubLink },
+		{ name: "Website", icon: website, placeholder: "Enter your project's website URL here", value: projectData.websiteLink },
+		{ name: "DevPost", icon: linkedin, placeholder: "Enter your project's DevPost URL here", value: projectData.devpostLink },
+		{ name: "LinkedIn", icon: dev, placeholder: "Enter your project's LinkedIn URL here", value: projectData.linkedinLink }
 	]);
 
 	// When the user clicks on "Submit", updates this project from the back-end
@@ -191,6 +165,7 @@ export function ProjectForm(props) {
 							items={links}
 							updateLink={updateLink}
 						/>
+						<br />
 
 						<Row>
 							<p className="project-view-submit-buttons">

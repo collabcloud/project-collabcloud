@@ -3,7 +3,17 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const uuidv5 = require('uuid/v5');
 const db = require("../../database.js");
+const moment = require('moment');
 require('dotenv').config({ path: './config/.env' });
+
+// Helper functions
+const databaseHelpers = require('../../utils/databaseHelpers');
+const notificationHelpers = require('../../utils/notifications/projectNotifications');
+
+const tech_suggestions_dict = require("../../utils/techSuggestions");
+
+// Ensures all pid are unique from userid
+const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
 
 // @route   POST api/projects/create
 // @desc    Allows a user to create a new project
@@ -12,10 +22,9 @@ router.post(
 	"/",
 	[
 		check("projectName", "Project name is required").not().isEmpty(),
-		//check("projectName", "Project name must be 20 or less characters").isLength({ max: 20 }),
-		check("description", "Project description is required").not().isEmpty(),
-		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"])
-		// check("ownerUserID", "The owner of the project is required").not().isEmpty(),
+		// check("description", "Project description is required").not().isEmpty(),
+		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"]),
+		check("ownerUserID", "The owner of the project is required").not().isEmpty(),
 		// check("gitRepoID", "Must provide the ID of the Git repository that this project is associated with").not().isEmpty()
 	],
 	async (req, res) => {
@@ -28,45 +37,14 @@ router.post(
 
 			// TODO: Check if a project using that gitRepoId already exists (Do we want to do this?)
 
-			// Ensures all pid are unique from userid
-			const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
-
-			// TODO: Require this dict from an external JS file instead
-			//technologies dict (you can add more technologies here)
-			const techDict = {
-				"MongoDB": 1,
-				"Express": 2,
-				"React": 3,
-				"Node.js": 4,
-				"Python": 5,
-				"JavaScript": 6,
-				"Java": 7,
-				"C++": 8,
-				"C#": 9,
-				"HTML/CSS": 10,
-				"Swift": 11,
-				"SQL": 12,
-				"MongoDB": 13,
-				"Express": 14,
-				"React": 15,
-				"Angular": 16,
-				"VueJS": 17,
-				"Flutter": 18,
-				"Kubernetes": 19,
-				"Jupyter": 20,
-				"Pytorch": 21,
-				"Numpy": 22,
-				"Passport": 23,
-				"Kotlin": 24
-			}
-
 			// Given the technologies used, construct an encoding string that can be inserted into PSQL
+			const techDict = tech_suggestions_dict
 			const technologiesArray = req.body.technologiesUsed
-			console.log(technologiesArray);
 			let techName = technologiesArray.map(tech => tech.name);
+			let numTechnologies = Object.keys(techDict).length;
 			let techArray = [];
 			// If you add more technologies into the techDict dictionary, then change the total value of the array
-			for (i = 0; i < 24; i++) {
+			for (i = 0; i < numTechnologies; i++) {
 				techArray[i] = 0;
 			}
 			if (techName.length > 0) {
@@ -87,11 +65,12 @@ router.post(
 			// Insert the project into the database
 			let projectObject = db.models.project.build({
 				pid: projectID,
-				// uid: req.body.ownerUserID,
+				ownerId: req.body.ownerUserID,
 				// gitRepoID: req.body.gitRepoID,
 				projectName: req.body.projectName,
-				projectDescription: req.body.description,
+				projectDescription: (req.body.description == "") ? "no description" : req.body.description,
 				isPrivate: (req.body.visibility == "false" ? true : false),
+				githubStars: req.body.githubStars,
 				technologiesUsed: encodedTech,
 				githubLink: (linkArray[0] ? linkArray[0] : ""),
 				websiteLink: (linkArray[1] ? linkArray[1] : ""),
@@ -99,16 +78,30 @@ router.post(
 				linkedinLink: (linkArray[3] ? linkArray[3] : "")
 			});
 			projectObject.toJSON();
-			// console.log(projectObject);
 			await projectObject.save();
-			console.log("The project was saved into the database");
 
-			res.status(200).json({
-				result: "Success",
-			});
+			// Get username associated with userid
+			const username = await databaseHelpers.getUsername(req.body.ownerUserID);
+			if (!username) {
+				return res.status(404).json({ errorMessage: "The provided ownerUserId does not exist" });
+			}
+
+			// Make the user join the project
+			const success = await databaseHelpers.addUserToProject(req.body.ownerUserID, username, projectID, "owner");
+
+			if (!success) {
+				// Some error with Sequelize
+				console.log(err);
+				return res.status(500).json({ errorMessage: "Internal server error" });
+			}
+
+			// Add a notification for this project
+			notificationHelpers.addNotification("project_update", projectID, req.body.ownerUserID, `${username} created ${req.body.projectName} at ${moment().format("MMMM Do YYYY, h:mm:ss a")}!`);
+
+			res.status(200).json({ result: "Success" });
 		} catch (err) {
 			console.error(err);
-			res.status(500).json({ errorMessage: "Internal server error" });
+			return res.status(500).json({ errorMessage: "Internal server error" });
 		}
 	}
 );

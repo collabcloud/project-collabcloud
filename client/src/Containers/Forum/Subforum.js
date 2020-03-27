@@ -1,61 +1,188 @@
-import React, { useState } from "react";
-import { Container, Breadcrumb, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { NavigationBar } from "../../components/base/NavigationBar";
-import  ThreadOverview  from "../../components/specialized/Forum/ThreadOverview";
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Breadcrumb,
+  Table,
+  Button,
+  Row,
+  Col
+} from "react-bootstrap";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import { GoPlus } from "react-icons/go";
+import PropTypes from "prop-types";
 
-const Subforum = (props) => {
+import { timeToDate, generateURL, convertToTitle } from "../../utils/helpers";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
+import ThreadOverview from "../../components/specialized/Forum/ThreadOverview";
+import ThreadForm from "../../components/specialized/Forum/ThreadForm";
+
+import {
+  get_subforum,
+  get_threads,
+  post_thread
+} from "../../actions/forumActions";
+
+const Subforum = props => {
+  const {
+    get_subforum,
+    get_threads,
+    post_thread,
+    subforum,
+    threads,
+    uid,
+    match
+  } = props;
+
+  const title = match.params.subforum;
+
+  //Received from GET
+  const [sid, setSid] = useState("");
+  const [description, setDescription] = useState("");
+  const [threadsList, setThreadsList] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    if (title !== "") {
+      get_subforum(title);
+    }
+  }, [get_subforum, title]);
+
+  useEffect(() => {
+    if (typeof subforum.sid !== "undefined") {
+      setSid(subforum.sid);
+      get_threads(subforum.sid);
+      setDescription(subforum.description);
+    }
+  }, [get_threads, subforum]);
+
+  useEffect(() => {
+    setThreadsList(threads);
+  }, [threads]);
+
+  async function rerenderThreads() {
+    await get_threads(subforum.sid);
+    await get_threads(subforum.sid);
+  }
 
   function renderThreads() {
-    if (props.threads === null || props.threads === undefined || props.threads === []) {
+    if (
+      threadsList === null ||
+      threadsList === undefined ||
+      threadsList === []
+    ) {
       //do nothing
     } else {
+      const thread_overviews = threadsList.map((thread, index) => (
+        <ThreadOverview
+          key={index}
+          path={generateURL(convertToTitle(title), thread.topic, false)}
+          title={thread.topic}
+          submitter={thread.username}
+          createdAt={timeToDate(thread.createdAt)}
+          updatedAt={timeToDate(thread.updatedAt)}
+        />
+      ));
+      return thread_overviews;
+    }
+  }
+
+  function renderThreadForm() {
+    if (showForm) {
       return (
-        props.threads.map((thread) =>
-          <ThreadOverview key={thread.id} title={thread.title} submitter={thread.submitter}
-          path={thread.path}
-          createdAt={thread.createdAt} replies={thread.replies} views={thread.views} modifiedAt={thread.modifiedAt}
-          recent={thread.recent} />
-          )
+        <ThreadForm
+          onCancel={setShowForm}
+          sid={sid}
+          uid={uid}
+          subforum={convertToTitle(title)}
+          rerender={rerenderThreads}
+        />
       );
     }
   }
 
   function renderErrorMessage() {
-    if (props.threads === null || props.threads === undefined || props.threads === []) {
-      return (
-        <p>No data to display</p>
-      );
+    if (
+      threadsList === null ||
+      threadsList === undefined ||
+      threadsList === []
+    ) {
+      return <p>No data to display</p>;
     }
   }
-
-
+  //TODO: props.title, props.description
   return (
     <div>
-    <NavigationBar />
-    <Container>
-      <Breadcrumb>
-        <Breadcrumb.Item><Link to="/forum/">Home</Link></Breadcrumb.Item>
-        <Breadcrumb.Item active>{props.title}</Breadcrumb.Item>
-      </Breadcrumb>
-      <div className="d-flex flex-column">
-  <h3 className="text-left">{props.title}</h3>
-  <h6 className="text-left">{props.description}</h6>
-      </div>
-      <Table bordered hover>
-        <thead>
-          <th className="text-left">Thread</th>
-          <th className="text-center">Stats</th>
-          <th className="text-right">Latest Response</th>
-        </thead>
-        <tbody>
-          {renderThreads()}  
-        </tbody>
-      </Table>
-      {renderErrorMessage()}
-    </Container>
+      <NavigationBar />
+      <Container className="mb-3">
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link to="/forum/">Home</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>{convertToTitle(title)}</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="d-flex flex-column mb-3">
+          <h3 className="text-left">{convertToTitle(title)}</h3>
+          <Row>
+            <Col className="d-flex justify-content-start">
+              <h6 className="text-left">{description}</h6>
+            </Col>
+            <Col></Col>
+            <Col className="d-flex justify-content-end">
+              <Button
+                variant="success"
+                onClick={() => {
+                  setShowForm(true);
+                }}
+              >
+                <GoPlus /> Submit A New Thread
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <Table bordered hover>
+          <thead>
+            <tr>
+              <th className="text-left">Thread</th>
+              <th className="text-center">Stats</th>
+              <th className="text-right">Latest Response</th>
+            </tr>
+          </thead>
+          <tbody>{renderThreads()}</tbody>
+        </Table>
+        {renderThreadForm()}
+        {renderErrorMessage()}
+      </Container>
     </div>
   );
 };
 
-export default Subforum;
+function mapStateToProps(state) {
+  return {
+    threads: state.forum.threads,
+    subforum: state.forum.subforum,
+    uid: state.user.uid
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    get_subforum: sid => {
+      dispatch(get_subforum(sid));
+    },
+    get_threads: sid => {
+      dispatch(get_threads(sid));
+    },
+    post_thread: (sid, submitter, title, description) => {
+      dispatch(post_thread(sid, submitter, title, description));
+    }
+  };
+}
+
+Subforum.propTypes = {
+  get_subforum: PropTypes.func.isRequired,
+  get_threads: PropTypes.func.isRequired,
+  post_thread: PropTypes.func.isRequired
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Subforum);

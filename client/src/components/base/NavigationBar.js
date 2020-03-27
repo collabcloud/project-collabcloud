@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState } from "react";
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import { Link , withRouter } from 'react-router-dom';
 import "../../css/NavigationBar.css";
@@ -46,16 +46,18 @@ export const NavigationBar = withRouter(({history}) => {
       <Nav className="ml-auto p-2">
         
         <Link to="/projects/create" className="p-2 link"> Create a Project </Link>
+        <Link to="/trending" className="p-2 link"> Trending </Link>
         <Link to="/explore" className="p-2 link"> Explore </Link>
+        <Link to="/message" className="p-2 link"> Chat </Link>
         <Link to="/forum" className="p-2 link"> Forum </Link>
-        <Link to="/" className="p-2 link"> Logout </Link>
+        <Link to="/logout" className="p-2 link"> Logout </Link>
         <a href="/user/profile">
           <img
             alt=""
             src={require('../../avatar.png')}
             width="20"
             height="20"
-            style={{marginTop: 10}}
+            style={{marginTop: 10, marginLeft: 10, marginRight: 10}}
             className="d-inline-block align-top"
           />{' '}
           </a>

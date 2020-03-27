@@ -4,6 +4,8 @@ const { check, validationResult } = require("express-validator");
 const db = require("../../database.js");
 require('dotenv').config({ path: './config/.env' });
 
+const tech_suggestions_dict = require("../../utils/techSuggestions");
+
 // @route   POST api/projects/update
 // @desc    Allows a user to update a project
 // @access  Public
@@ -17,9 +19,6 @@ router.post(
 	],
 	async (req, res) => {
 		try {
-            console.log("Hit updateProject in back-end");
-
-            console.log(req.body);
 
 			// Use express-validator to validate request
 			const errors = validationResult(req);
@@ -27,37 +26,11 @@ router.post(
 				return res.status(422).json({ errors: errors.array() });
 			}
 
-            // TODO: Require this dict from an external JS file instead
-			// Technologies dict
-			const techDict = {
-				"MongoDB": 1,
-				"Express": 2,
-				"React": 3,
-				"Node.js": 4,
-				"Python": 5,
-				"JavaScript": 6,
-				"Java": 7,
-				"C++": 8,
-				"C#": 9,
-				"HTML/CSS": 10,
-				"Swift": 11,
-				"SQL": 12,
-				"MongoDB": 13,
-				"Express": 14,
-				"React": 15,
-				"Angular": 16,
-				"VueJS": 17,
-				"Flutter": 18,
-				"Kubernetes": 19,
-				"Jupyter": 20,
-				"Pytorch": 21,
-				"Numpy": 22,
-				"Passport": 23,
-				"Kotlin": 24
-			}
+			// List of technologies
+			const techDict = tech_suggestions_dict;
+			let numTechnologies = Object.keys(techDict).length;
 			let techArray = [];
-			// If you add more technologies into the techDict dictionary, then change the total value of the array
-			for (i = 0; i < 24; i++) {
+			for (i = 0; i < numTechnologies; i++) {
 				techArray[i] = 0;
 			}
 
@@ -100,18 +73,15 @@ router.post(
             if (projectToUpdate) {
                 let success = projectToUpdate.update(updates);
                 if (success) {
-                    console.log("The project was updated in the database!");
                     return res.status(200).json({
                         result: "Success",
                     });
                 } else {
-                    console.log("Could not update project");
                     return res.status(500).json({
                         result: "Internal server errors",
                     });
                 }
             } else {
-                console.log("Could not update project");
                 return res.status(404).json({
                     result: "Could not find that Project",
                 });

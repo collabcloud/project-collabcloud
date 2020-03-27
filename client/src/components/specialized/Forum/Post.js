@@ -1,22 +1,24 @@
-import React, { useState, useEffect} from "react";
-import { Link } from "react-router-dom";
-import { Card, Container, Row, Col } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { timeToDate } from "../../../utils/helpers";
+import Avatar from "../../base/Avatar";
+import { Card, Container, Row, Col } from "react-bootstrap";
 
 import "../../../css/Forum.css";
 
-
-const Post = (props) => {
-
+const Post = props => {
   const [content, setContent] = useState("");
-  const [submitter, setSubmitter] = useState("");
+  const [username, setUsername] = useState("");
   const [createdAt, setCreatedAt] = useState("");
-  
-  useEffect(
-    () => {
-      setContent(props.content);
-      setSubmitter(props.submitter);
-      setCreatedAt(props.createdAt);
-    }, [props]);
+  const [avatar, setAvatar] = useState("");
+  const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    setContent(props.content);
+    setUsername(props.username);
+    setAvatar(props.avatar);
+    setCreatedAt(props.createdAt);
+    setStatus(props.description);
+  }, [props]);
 
   return (
     <div className="p-2">
@@ -25,21 +27,22 @@ const Post = (props) => {
           <Container>
             <Row>
               <Col xs={2} className="post">
-                <p className="submitter">{submitter}</p>
-                <p>{props.status}</p>
+                <Avatar src={avatar} width={60} height={60} />
+                <p className="submitter">{username}</p>
+                <p>{status}</p>
               </Col>
               <Col>
-              <Card.Text className="post text-left">
-                <p className="small">{createdAt}</p>
-                <hr
-                  style={{
+                <Card.Text className="post text-left">
+                  <p className="small">{timeToDate(createdAt)}</p>
+                  <hr
+                    style={{
                       color: "grey",
                       backgroundColor: "grey",
                       height: 1
-                  }}
-              />
-                <p>{content}</p>
-              </Card.Text>
+                    }}
+                  />
+                  <p>{content}</p>
+                </Card.Text>
               </Col>
             </Row>
           </Container>
@@ -47,6 +50,6 @@ const Post = (props) => {
       </Card>
     </div>
   );
-}
+};
 
 export default Post;
