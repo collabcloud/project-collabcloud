@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 
+
 // Component Imports
 import LandingPage from "../Containers/LandingPage/LandingPage";
 import Login from "../Containers/Account/LogIn/LoginPage";
@@ -12,6 +13,7 @@ import Trending from "../Containers/Trending/Trending";
 import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects";
 import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
+
 import OtherProfile from "../Containers/User/OtherProfile";
 import Profile from "../Containers/User/Profile";
 import Root from "../Containers/Forum/Root";
@@ -21,6 +23,7 @@ import Search from "../Containers/Search/Search";
 import Logout from "../Containers/Account/Logout/Logout";
 import Chat from "../Containers/Chat/Chat";
 import Page404 from "../Containers/Dashboard/404Page";
+
 const io = require("socket.io-client");
 const Router = () => {
   return (

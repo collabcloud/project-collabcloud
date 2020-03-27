@@ -24,6 +24,7 @@ const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
+
 const CreateProjects = props => {
   const {
     addProject,
@@ -37,6 +38,7 @@ const CreateProjects = props => {
 
   let githubUsername = username;
   const tech_suggestions = tech_suggestions_array;
+
 
   // Initialize state hooks
   const [name, setName] = useState("");
@@ -101,7 +103,6 @@ const CreateProjects = props => {
       tech: [{ id: 3, name: "React" }]
     }
   ]);
-
   const history = useHistory();
 
   // Load this user's GitHub repos
@@ -199,7 +200,6 @@ const CreateProjects = props => {
       links
     });
     setAlert("Successfully created your project", "success");
-
     // Redirect to the explore page
     history.push("/explore");
   }
@@ -324,6 +324,7 @@ CreateProjects.propTypes = {
 // Transforms Redux store state into the props for this CreateProjects component
 // This function is called whenever the store state changes
 const mapStateToProps = state => {
+
   return {
     githubRepos: state.github.githubReposFromState,
     isLoading: state.github.loading,

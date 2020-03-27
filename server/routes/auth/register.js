@@ -8,6 +8,7 @@ const router = express.Router();
 const { check, validationResult, body } = require("express-validator");
 const db = require("../../database.js");
 
+
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 // @route   POST api/users/register

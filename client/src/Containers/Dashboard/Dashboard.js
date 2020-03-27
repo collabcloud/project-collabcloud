@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Recommendations } from "../../components/base/Recommend";
+import {Recommendations} from "../../components/base/Recommend";
 import { HackathonCard } from "../../components/base/HackathonCard";
 import {
   Alert,
@@ -20,6 +21,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
+
 import { get_user_projects } from "../../actions/projectActions";
 import { generateURL } from "../../utils/helpers";
 import { recommendProjects } from "../../actions/recommendAction";
@@ -46,7 +48,7 @@ const Dashboard = ({
   const [firstName, setFirstName] = useState("");
   const [fullName, setFullName] = useState("");
   const [avatar, setAvatar] = useState(default_avatar);
-
+  
   useEffect(() => {
     //addHackathons();
   }, []);
@@ -60,10 +62,11 @@ const Dashboard = ({
     getProjectNotifications(loggedInUid, 10);
   }, [getProjectNotifications, loggedInUid, get_user_projects]);
 
+
   useEffect(() => {
     recommendProjects();
   }, []);
-
+  
   useEffect(() => {
     setName(user.username);
     setAvatar(user.avatar);
@@ -229,6 +232,7 @@ const Dashboard = ({
           </Container>
         </Col>
 
+
         {/* Col 4 */}
         <Col md={3} lg={3} xl={3}>
           <Container>
@@ -239,12 +243,12 @@ const Dashboard = ({
 						>
 							here are some project based on your preferences
 						</Alert> */}
+
             {/* Projects interest */}
             <div>
               <h4>&#127942; Projects that you maybe interested in</h4>
               <Recommendations projects={recommendations} />
             </div>
-
             <br></br>
             {/* Hackathon Panel */}
             <div>
@@ -269,6 +273,7 @@ function mapStateToProps(state) {
     projects: state.project.projects
   };
 }
+
 
 function mapDispatchToProps(dispatch) {
   return {

@@ -127,7 +127,7 @@ const project = db.define(
       type: DataTypes.STRING(2048)
     },
     linkedinLink: {
-      type: DataTypes.STRING(2048)
+        type: DataTypes.STRING(2048)
     }
   },
   {}
@@ -248,6 +248,37 @@ const messages = db.define("messages", {
   }
 });
 
+
+const chats = db.define("chats", {
+    firstUser: {
+        type:DataTypes.STRING(200),
+        allowNull: false
+    },
+    secondUser:{
+        type: DataTypes.STRING(200),
+        allowNull: false
+    },
+    seen: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
+});
+const messages = db.define("messages", {
+    sender: {
+        type:DataTypes.STRING(200),
+        allowNull: false
+    },
+    receiver:{
+        type: DataTypes.STRING(200),
+        allowNull: false
+    },
+    message:{
+        type: DataTypes.STRING(20000),
+        allowNull: false
+    }
+});
+
+
 const Thread = db.define(
   "thread",
   {
@@ -337,9 +368,11 @@ const Notification = db.define("notification", {
   }
 });
 // Relation that stores a relationship between a Notification and a User
+
 const users_notifications = db.define("users_notifications");
 users_notifications.belongsTo(User, { as: "notifee" });
 users_notifications.belongsTo(Notification, { as: "notification" });
+
 db.sync({ force: false })
   .then(message => {
     console.log("Database synced");

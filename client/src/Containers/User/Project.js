@@ -276,6 +276,7 @@ function mapDispatchToProps(dispatch) {
 
 // List of dispatch functions that will be available to the component
 Project.propTypes = {
+
   getProjectInformation: PropTypes.func.isRequired,
   updateProject: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,

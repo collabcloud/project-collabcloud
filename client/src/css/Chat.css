@@ -54,7 +54,7 @@ html {
   z-index: 1;
 }
 
-.trackY {
+.trackY{
   position: absolute;
   overflow: hidden;
   border-radius: 0px;
@@ -73,6 +73,7 @@ html {
   width: 100%;
   transform: translateY(0px);
 }
+  
 .thumbY:hover {
   background: rgba(52, 58, 64, 0.7);
 }
@@ -135,6 +136,7 @@ button > * {
   max-width: 100%;
   text-align: left;
 }
+
 .date {
   padding: 0.5rem;
 }
