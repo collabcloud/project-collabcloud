@@ -53,7 +53,8 @@ export const update_user_info = ({
             lastname: last_name,
             city: city_field,
             province: province,
-            description: description
+            description: description,
+            avatar: response.data.avatar
           }
         });
         dispatch(setAlert("Updated Profile", "success"));

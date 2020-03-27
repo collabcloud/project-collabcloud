@@ -23,12 +23,20 @@ const tags = [
   { id: 4, name: "Node.js" }
 ];
 
+const popover = (
+  <Popover id="popover-basic" style={{ marginTop: "10px" }}>
+    <Popover.Content>Change your avatar</Popover.Content>
+  </Popover>
+);
+
 const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
   const [avatarLink, setAvatarLink] = useState("");
   const fileUpload = useRef(null);
 
   useEffect(() => {
-    setAvatarLink(avatar);
+    if (avatar) {
+      setAvatarLink(avatar);
+    }
   }, [uid, avatar]);
 
   useEffect(() => {
@@ -38,12 +46,6 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
   const onAvatarClick = () => {
     fileUpload.current.click();
   };
-
-  const popover = (
-    <Popover id="popover-basic" style={{ marginTop: "10px" }}>
-      <Popover.Content>Change your avatar</Popover.Content>
-    </Popover>
-  );
 
   async function fileSelectedHandler(e) {
     const file = e.target.files[0];
