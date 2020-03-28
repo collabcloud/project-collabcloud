@@ -5,6 +5,7 @@ import { NavigationBar } from "../../components/base/NavigationBar";
 import { ProjectOverview } from "../../components/base/ProjectOverview";
 import { ProjectForm } from "../../components/base/ProjectForm";
 import { Contributors } from "../../components/base/Contributors";
+import Users from "../../Containers/Explore/Users";
 import "../../css/Project.css";
 
 // Redux imports
@@ -13,14 +14,15 @@ import { updateProject, deleteProject, getProjectInformation, leaveProject, join
 import PropTypes from "prop-types";
 
 const Project = (props) => {
-  
-    const { getProjectInformation, updateProject, deleteProject, projectInformation, updateSuccess, joinSuccess, leaveSuccess, loggedInUid, deleteSuccess, match } = props;
+
+    const { getProjectInformation, updateProject, deleteProject, projectInformation, joinProject, leaveProject, resetProjectActionStatus, updateSuccess, joinSuccess, leaveSuccess, loggedInUid, deleteSuccess, match } = props;
 
     // This is the PID of the project whose information we want to get
     const projectId = match.params.pid;
-  
+
     const history = useHistory();
     const [isShowingSettings, modifySettings] = useState(false);
+    const [isShowingRequests, request] = useState(false);
     const [hasUserJoined, setUserJoinedProject] = useState(false);
     const [successfullyDeleted, setDeleted] = useState(false);
     const [successfullyUpdated, setUpdated] = useState(false);
@@ -29,12 +31,12 @@ const Project = (props) => {
     let requestedToLeave = false;
     let requestedToDelete = false;
 
-	// Loads project information
-	useEffect(() => {
+    // Loads project information
+    useEffect(() => {
         // console.log("Repopulating project information");
         getProjectInformation({ projectId });
-	}, [getProjectInformation, updateSuccess, joinSuccess, leaveSuccess]);
-    
+    }, [getProjectInformation, updateSuccess, joinSuccess, leaveSuccess]);
+
     // Check if the logged in user is part of this project
     useEffect(() => {
         const collaborators = projectInformation.collaborators;
@@ -67,7 +69,7 @@ const Project = (props) => {
             setUpdated(true);
             resetProjectActionStatus();
             requestedToUpdate = false;
-        } else if (requestedToUpdate){
+        } else if (requestedToUpdate) {
             // TODO: Get Furqan's alerts up here
             console.log("Unsuccessful update");
             requestedToUpdate = false;
@@ -95,7 +97,7 @@ const Project = (props) => {
             requestedToJoin = false;
             setUserJoinedProject(true);
             resetProjectActionStatus();
-        } else if (requestedToJoin){
+        } else if (requestedToJoin) {
             // TODO: Get Furqan's alerts up here
             console.log("Could not join project");
             requestedToJoin = false;
@@ -106,6 +108,11 @@ const Project = (props) => {
     const toggleSettings = () => {
         modifySettings(!isShowingSettings);
     };
+
+    // Toggles the Request page view
+    const toggleRequests = () => {
+        request(!isShowingRequests);
+    }
 
     // User requests to join a Project
     const requestToJoinProject = () => {
@@ -135,52 +142,72 @@ const Project = (props) => {
         deleteProject(pid);
     }
 
-	return (
-		<div>
-			<NavigationBar />
-			<Container
-				fluid
-				className="col-md-8 align-items-start"
-				style={{ paddingTop: "50px" }}
-			>
+    const renderSwitch = (isShowingSettings, isShowingRequests) => {
+        var view = ""
+        if (!isShowingSettings && !isShowingRequests) {
+            view = "projectOverview"
+        } else if (isShowingSettings) {
+            view = "projectSettings"
+        } else if (isShowingRequests) {
+            view = "projectRequests"
+        }
+
+        switch (view) {
+            case "projectOverview":
+
+            case "projectSettings":
+
+            case "projectRequests":
+
+        }
+    }
+
+    return (
+        <div>
+            <NavigationBar />
+            <Container
+                fluid
+                className="col-md-8 align-items-start"
+                style={{ paddingTop: "50px" }}
+            >
                 {/* Conditionally render any feedback for when a user updates a project */}
-                {successfullyUpdated && 
+                {successfullyUpdated &&
                     <Alert variant="success">
                         <Alert.Heading> NOTICE! </Alert.Heading>
                         <p>
                             You successfully updated your project
                         </p>
-                    </Alert> 
+                    </Alert>
                 }
 
                 {/* Conditionally render either the informational view or the settings view */}
-                {(isShowingSettings) ? 
-                    <ProjectForm 
-                        projectInformation={projectInformation} 
+                {(isShowingSettings) ?
+                    <ProjectForm
+                        projectInformation={projectInformation}
                         toggleSettings={toggleSettings}
                         updateThisProject={updateThisProject}
                         deleteThisProject={deleteThisProject}
                     />
                     :
-                    <ProjectOverview 
-                        projectInformation={projectInformation} 
+                    <ProjectOverview
+                        projectInformation={projectInformation}
                         toggleSettings={toggleSettings}
                         requestToJoinProject={requestToJoinProject}
                         requestToLeaveProject={requestToLeaveProject}
                         hasUserJoined={hasUserJoined}
                         loggedInUid={loggedInUid}
-				    />
+                    />
                 }
 
                 {/* Conditionally render the contributors list*/}
                 {!isShowingSettings &&
-				    <Contributors 
+                    <Contributors
                         projectInformation={projectInformation}
                     />
                 }
-			</Container>
-		</div>
-	);
+            </Container>
+        </div>
+    );
 };
 
 // Transforms Redux store state into the props for this Project component
@@ -188,19 +215,19 @@ const Project = (props) => {
 function mapStateToProps(state) {
     return {
         projectInformation: state.project.individualProject,
-		updateSuccess: state.project.updateSuccess,
+        updateSuccess: state.project.updateSuccess,
         deleteSuccess: state.project.deleteSuccess,
         leaveSuccess: state.project.leaveSuccess,
         joinSuccess: state.project.joinSuccess,
         loggedInUid: state.user.uid
-	}
+    }
 }
 
 // Gives our Project component access to the redux dispatch functions
 function mapDispatchToProps(dispatch) {
-	return {
-		getProjectInformation: (pid) => {
-			dispatch(getProjectInformation(pid));
+    return {
+        getProjectInformation: (pid) => {
+            dispatch(getProjectInformation(pid));
         },
         updateProject: (pid, projectName, projectDescription, isProjectPublic, tech, links) => {
             dispatch(updateProject(pid, projectName, projectDescription, isProjectPublic, tech, links));
@@ -217,7 +244,7 @@ function mapDispatchToProps(dispatch) {
         resetProjectActionStatus: () => {
             dispatch(resetProjectActionStatus());
         }
-	};
+    };
 }
 
 // List of dispatch functions that will be available to the component

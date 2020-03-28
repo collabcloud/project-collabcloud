@@ -19,11 +19,12 @@ router.get(
             }
 
             // const users = await db.models.user.findAll({
+            //     attributes: ['username', 'uid'],
             //     where: {
-            //         [Op.not]: [{username: }]
+            //         [Op.not]: [{ username: state.user.uid }]
 
             //     }
-            // })
+            // });
 
             const users = await db.models.user.findAll({
                 attributes: ['username', 'uid']

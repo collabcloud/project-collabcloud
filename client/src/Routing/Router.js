@@ -97,14 +97,14 @@ const Router = withRouter(
 
         {/* Auth Routes */}
         <PrivateRoute path="/project/:pid" component={Project} />
-        <PrivateRoute path="/explore" component={Explore} />
+        <PrivateRoute path="/explore" component={Explore} exact />
         <PrivateRoute path="/projects/create" component={CreateProjects} />
         <PrivateRoute path="/user/profile" component={Profile} />
         <PrivateRoute path="/user/matthuynh" component={OtherProfile} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/search" component={Search} />
         <PrivateRoute exact path="/forum/" component={Root} />
-        <PrivateRoute path="/explore/users" component={Users} />
+        <PrivateRoute path="/explore/users" component={Users} exact />
 
         {/* Catch All -- 404 */}
         <Route component={Page404} />

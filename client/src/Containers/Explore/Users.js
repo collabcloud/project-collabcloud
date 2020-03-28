@@ -28,7 +28,6 @@ const Users = ({ getUsers, users, request_user }) => {
 
     return (
         <div>
-            <NavigationBar />
             <Container>
                 <h1>Explore Users in CollabCloud</h1>
                 <h5>View fellow Collaborators on CollabCloud</h5>

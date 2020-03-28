@@ -25,7 +25,7 @@ const moment = require('moment');
 export function ProjectOverview(props) {
 	const project = props.projectInformation.project;
 	const userIsProjectOwner = props.loggedInUid === project.ownerId;
-	
+
 	const technologiesList = [
 		{ id: 1, name: "MongoDB" },
 		{ id: 2, name: "Express" },
@@ -103,10 +103,10 @@ export function ProjectOverview(props) {
 							{technologiesList.map(
 								(technology, index) =>
 									// Only render this technology if it is included in technologiesUsed
-									project.technologiesUsed[technology.id - 1] === "1" && 
-									<Item 
-										value={technology.name} 
-										key={technology.name+index}
+									project.technologiesUsed[technology.id - 1] === "1" &&
+									<Item
+										value={technology.name}
+										key={technology.name + index}
 									/>
 							)}
 						</ListGroup>
@@ -118,7 +118,7 @@ export function ProjectOverview(props) {
 							{links.map((button, index) => (
 								// Note: Provided an arbitrary key prop here to both <p> and it's child <Button>
 								// This is for React's internals: https://stackoverflow.com/questions/28329382/understanding-unique-keys-for-array-children-in-react-js
-								<p className="project-view-links-buttons" key={button+index}>
+								<p className="project-view-links-buttons" key={button + index}>
 									<Button
 										variant={button.isProvided ? "info" : "outline-info"}
 										key={button}
@@ -126,7 +126,7 @@ export function ProjectOverview(props) {
 										disabled={!button.isProvided}
 										href={button.value}
 										target="_blank"
-										style = {{ pointerEvents: (button.isProvided ? "" : "none")}}
+										style={{ pointerEvents: (button.isProvided ? "" : "none") }}
 									>
 										{button.icon}
 										{button.name}
@@ -145,7 +145,7 @@ export function ProjectOverview(props) {
 										type="button"
 										onClick={props.toggleSettings}
 										disabled={!userIsProjectOwner}
-										style = {{ pointerEvents: (userIsProjectOwner ? "" : "none")}}
+										style={{ pointerEvents: (userIsProjectOwner ? "" : "none") }}
 									>
 										<MdSettings />
 										Settings
@@ -154,22 +154,36 @@ export function ProjectOverview(props) {
 							</p>
 							<p className="project-view-submit-buttons">
 								{
-									props.hasUserJoined ? 
-									<Button 
-										variant="danger"
-										onClick={props.requestToLeaveProject}
-										disabled={userIsProjectOwner}
-										style = {{ pointerEvents: (!userIsProjectOwner ? "" : "none")}}
-									>
-										Leave Project
+									props.hasUserJoined ?
+										<Button
+											variant="danger"
+											onClick={props.requestToLeaveProject}
+											disabled={userIsProjectOwner}
+											style={{ pointerEvents: (!userIsProjectOwner ? "" : "none") }}
+										>
+											Leave Project
 									</Button>
-									:
-									<Button 
-										variant="success"
-										onClick={props.requestToJoinProject}
-									>
-										Join Project
+										:
+										<Button
+											variant="success"
+											onClick={props.requestToJoinProject}
+										>
+											Join Project
 										{/* Request to Join TODO: make this requestable*/}
+										</Button>
+								}
+							</p>
+							<p className="project-view-submit-buttons">
+								{
+									props.hasUserJoined &&
+									<Button
+										variant="primary"
+										type="button"
+										onClick={props.toggleRequests}
+										disabled={!userIsProjectOwner}
+										style={{ pointerEvents: (userIsProjectOwner ? "" : "none") }}
+									>
+										Request Collaborators
 									</Button>
 								}
 							</p>
