@@ -11,6 +11,7 @@ import { MdWeb } from 'react-icons/md';
 import ReactTags from "react-tag-autocomplete";
 
 import "../../css/Project.css";
+import tech_suggestions_array from "../../utils/techSuggestions";
 
 // Note: these variables NEED to be set and used, rather than use these icons directly
 const github = <FaGithub />;
@@ -21,35 +22,7 @@ const dev = <FaDev />;
 // This component shows an individual project's view
 export function ProjectForm(props) {
 	const projectData = props.projectInformation.project;
-
-	// TODO: Require this list from an external JS file
-	// List of tech suggestion tags
-	const techSuggestions = [
-		{ id: 1, name: "MongoDB" },
-		{ id: 2, name: "Express" },
-		{ id: 3, name: "React" },
-		{ id: 4, name: "Node.js" },
-		{ id: 5, name: "Python" },
-		{ id: 6, name: "JavaScript" },
-		{ id: 7, name: "Java" },
-		{ id: 8, name: "C++" },
-		{ id: 9, name: "C#" },
-		{ id: 10, name: "HTML/CSS" },
-		{ id: 11, name: "Swift" },
-		{ id: 12, name: "SQL" },
-		{ id: 13, name: "MongoDB" },
-		{ id: 14, name: "Express" },
-		{ id: 15, name: "React" },
-		{ id: 16, name: "Angular" },
-		{ id: 17, name: "VueJS" },
-		{ id: 18, name: "Flutter" },
-		{ id: 19, name: "Kubernetes" },
-		{ id: 20, name: "Jupyter" },
-		{ id: 21, name: "Pytorch" },
-		{ id: 22, name: "Numpy" },
-		{ id: 23, name: "Passport" },
-		{ id: 24, name: "Kotlin" }
-	];
+	const techSuggestions = tech_suggestions_array;
 
 	// Decodes the encoded technologiesUsed string into its corresponding list of technologies
 	const decodeTechUsed = () => {

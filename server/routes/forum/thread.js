@@ -5,10 +5,13 @@ require("dotenv").config({ path: "../config/.env" });
 const express = require("express");
 const axios = require("axios");
 const uuidv5 = require("uuid/v5");
+const { Op } = require("sequelize");
 
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const db = require("../../database.js");
+
+const databaseHelpers = require("../../utils/databaseHelpers");
 
 const FORUM_IDS_NAMESPACE = process.env.FORUM_IDS_NAMESPACE;
 
@@ -28,7 +31,6 @@ router.get(
   async (req, res) => {
     try {
       // Use express validator to validate request
-
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         console.log(errors);
@@ -50,6 +52,42 @@ router.get(
   }
 );
 
+// @route   GET api/forum/thread/:threadName
+// @desc    Retrieve the thread object
+// @access  Public
+router.get(
+  "/:subforum/:threadName",
+  /*
+		The following async function below handles the full request.
+	*/
+  async (req, res) => {
+    try {
+      // Use express validator to validate request
+
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log(errors);
+        return res.status(422).json({ errors: errors.array() });
+      }
+
+      const subforum = databaseHelpers.convertToTitleCap(req.params.subforum);
+      const topic = databaseHelpers.convertToTitle(req.params.threadName);
+      const thread = await db.models.thread.findAll({
+        where: {
+          forum_title: subforum,
+          topic: { [Op.iLike]: topic }
+        }
+      });
+      res.status(200).json(thread[0]);
+
+      return;
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ errorMessage: "Internal server error" });
+    }
+  }
+);
+
 // @route   POST api/forum/thread
 // @desc   	Create a thread
 // @access  Public
@@ -60,8 +98,8 @@ router.post(
       .not()
       .isEmpty(),
     check("subforum", "Subforum name is required")
-    .not()
-    .isEmpty(),
+      .not()
+      .isEmpty(),
     check("sid", "sid is required")
       .not()
       .isEmpty(),
@@ -94,7 +132,7 @@ router.post(
       });
 
       if (user === null) {
-        return res.status(404).json({status: 404});
+        return res.status(404).json({ status: 404 });
       }
 
       const submitterName = user.username;

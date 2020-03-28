@@ -10,6 +10,8 @@ require('dotenv').config({ path: './config/.env' });
 const databaseHelpers = require('../../utils/databaseHelpers');
 const notificationHelpers = require('../../utils/notifications/projectNotifications');
 
+const tech_suggestions_dict = require("../../utils/techSuggestions");
+
 // Ensures all pid are unique from userid
 const PROJECT_IDS_NAMESPACE = process.env.PROJECT_IDS_NAMESPACE;
 
@@ -20,7 +22,7 @@ router.post(
 	"/",
 	[
 		check("projectName", "Project name is required").not().isEmpty(),
-		check("description", "Project description is required").not().isEmpty(),
+		// check("description", "Project description is required").not().isEmpty(),
 		check("isProjectPublic", "Project visibility must be required").isIn(["false", "true"]),
 		check("ownerUserID", "The owner of the project is required").not().isEmpty(),
 		// check("gitRepoID", "Must provide the ID of the Git repository that this project is associated with").not().isEmpty()
@@ -35,42 +37,14 @@ router.post(
 
 			// TODO: Check if a project using that gitRepoId already exists (Do we want to do this?)
 
-
-			// TODO: Require this dict from an external JS file instead
-			//technologies dict (you can add more technologies here)
-			const techDict = {
-				"MongoDB": 1,
-				"Express": 2,
-				"React": 3,
-				"Node.js": 4,
-				"Python": 5,
-				"JavaScript": 6,
-				"Java": 7,
-				"C++": 8,
-				"C#": 9,
-				"HTML/CSS": 10,
-				"Swift": 11,
-				"SQL": 12,
-				"MongoDB": 13,
-				"Express": 14,
-				"React": 15,
-				"Angular": 16,
-				"VueJS": 17,
-				"Flutter": 18,
-				"Kubernetes": 19,
-				"Jupyter": 20,
-				"Pytorch": 21,
-				"Numpy": 22,
-				"Passport": 23,
-				"Kotlin": 24
-			}
-
 			// Given the technologies used, construct an encoding string that can be inserted into PSQL
+			const techDict = tech_suggestions_dict
 			const technologiesArray = req.body.technologiesUsed
 			let techName = technologiesArray.map(tech => tech.name);
+			let numTechnologies = Object.keys(techDict).length;
 			let techArray = [];
 			// If you add more technologies into the techDict dictionary, then change the total value of the array
-			for (i = 0; i < 24; i++) {
+			for (i = 0; i < numTechnologies; i++) {
 				techArray[i] = 0;
 			}
 			if (techName.length > 0) {
@@ -94,7 +68,7 @@ router.post(
 				ownerId: req.body.ownerUserID,
 				// gitRepoID: req.body.gitRepoID,
 				projectName: req.body.projectName,
-				projectDescription: req.body.description,
+				projectDescription: (req.body.description == "") ? "no description" : req.body.description,
 				isPrivate: (req.body.visibility == "false" ? true : false),
 				githubStars: req.body.githubStars,
 				technologiesUsed: encodedTech,

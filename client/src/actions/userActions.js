@@ -1,8 +1,16 @@
 import axios from "axios";
-import { GET_INFO } from "./types";
+import { USER_LOADED, PUT_SUCCESSFUL } from "./types";
 import { setAlert } from "./alert";
 
-export const get_user_info = uid => async dispatch => {
+export const update_user_info = ({
+  uid,
+  username,
+  name,
+  last_name,
+  city_field,
+  province,
+  description
+}) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -10,30 +18,46 @@ export const get_user_info = uid => async dispatch => {
   };
   try {
     const url = "/api/users/profile";
-    const body = JSON.stringify({ uid });
-    console.log("body is " + body);
-    let response = await axios.get(
-      url,
-      {
-        params: {
-          uid: uid
-        }
-      },
-      config
-    );
+    if (province == "Choose...") {
+      province = undefined;
+      city_field = undefined;
+    }
+    if (name == "" || last_name == "") {
+      name = undefined;
+      last_name = undefined;
+    }
+    if (description == "") {
+      description = undefined;
+    }
+    const body = {
+      uid: uid,
+      name: name,
+      last_name: last_name,
+      city_field: city_field,
+      province: province,
+      description: description
+    };
+    let response = await axios.put(url, body, config);
     // TODO: Add in a type for if the response fails, and then catch that type
     if (response) {
-      // Login information is wrong (eg. wrong password or username)
+      //uid doesnt exist
       if (response.status === 400) {
-        console.log("UID doesn't exist");
-      }
-      // User logs in successfully
-      else if (response.status === 200) {
-        console.log("retrieved the record: " + response.data.user);
+        dispatch(setAlert("UID doesn't exist", "danger"));
+      } else if (response.status === 200) {
         dispatch({
-          type: GET_INFO,
-          payload: response.data.user
+          type: USER_LOADED,
+          payload: {
+            uid: uid,
+            username: username,
+            firstname: name,
+            lastname: last_name,
+            city: city_field,
+            province: province,
+            description: description,
+            avatar: response.data.avatar
+          }
         });
+        dispatch(setAlert("Updated Profile", "success"));
       }
       // Internal server error
       else {
@@ -48,32 +72,19 @@ export const get_user_info = uid => async dispatch => {
   }
 };
 
-export const update_user_info = ({
-  uid,
-  name,
-  last_name,
-  city_field,
-  province,
-  description
-}) => async dispatch => {
+export const update_avatar = ({ uid, image }) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
   try {
-    const url = "/api/users/profile";
+    const url = "/api/users/avatar";
     const body = {
       uid: uid,
-      name: name,
-      last_name: last_name,
-      city_field: city_field,
-      province: province,
-      description: description
+      image: image
     };
-    console.log(body);
     let response = await axios.put(url, body, config);
-    // TODO: Add in a type for if the response fails, and then catch that type
     if (response) {
       // Login information is wrong (eg. wrong password or username)
       if (response.status === 400) {
@@ -83,18 +94,8 @@ export const update_user_info = ({
       // User logs in successfully
       else if (response.status === 200) {
         console.log("update success");
-        dispatch({
-          type: GET_INFO,
-          payload: {
-            uid: uid,
-            firstname: name,
-            lastname: last_name,
-            city: city_field,
-            province: province,
-            description: description
-          }
-        });
-        dispatch(setAlert("Updated Profile", "success"));
+        dispatch({ type: PUT_SUCCESSFUL });
+        dispatch(setAlert("Uploaded avatar", "success"));
       }
       // Internal server error
       else {

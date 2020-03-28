@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { NavigationBar } from "../../components/base/NavigationBar";
 import { TrendingProjectsList } from "../../components/base/TrendingProjectsList";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Redux Imports
 import { connect } from "react-redux";
@@ -10,13 +10,12 @@ import PropTypes from "prop-types";
 
 import "../../css/Explore.css";
 
-const Trending = ({getPublicProjects, projects}) => {
-
+const Trending = ({ getPublicProjects, projects }) => {
   //const [projects, setProjects] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     getPublicProjects();
-  }); 
+  });
 
   return (
     <div>
@@ -24,24 +23,23 @@ const Trending = ({getPublicProjects, projects}) => {
       <Container>
         <h1>Trending Projects</h1>
         <h5>View the popular projects on CollabCloud</h5>
-        <TrendingProjectsList projects={projects}/>
+        <TrendingProjectsList projects={projects} />
       </Container>
     </div>
   );
-}
+};
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return { projects: state.project.projects };
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
   return {
-      getPublicProjects: () => {
-          dispatch(getPublicProjects());
-      }
+    getPublicProjects: () => {
+      dispatch(getPublicProjects());
+    }
   };
 }
-
 
 Trending.propTypes = {
   getPublicProjects: PropTypes.func.isRequired
