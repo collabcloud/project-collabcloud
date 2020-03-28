@@ -171,6 +171,20 @@ export function ProjectOverview(props) {
 									>
 										Join Project
 										{/* Request to Join TODO: make this requestable*/}
+										</Button>
+								}
+							</p>
+							<p className="project-view-submit-buttons">
+								{
+									props.hasUserJoined &&
+									<Button
+										variant="primary"
+										type="button"
+										onClick={props.toggleRequests}
+										disabled={!userIsProjectOwner}
+										style={{ pointerEvents: (userIsProjectOwner ? "" : "none") }}
+									>
+										Request Collaborators
 									</Button>
 								)}
 							</p>

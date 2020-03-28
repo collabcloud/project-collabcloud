@@ -1,22 +1,22 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
-import { Link , withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import "../../css/NavigationBar.css";
 
-export const NavigationBar = withRouter(({history}) => {
+export const NavigationBar = withRouter(({ history }) => {
   const [search, setSearch] = useState("");
 
-  function onSubmit(e){
+  function onSubmit(e) {
     e.preventDefault();
-    if(search == "") return;
+    if (search == "") return;
     history.push(
       {
-        pathname:'/search',
-        state: {query: search}
-    });
+        pathname: '/search',
+        state: { query: search }
+      });
   }
 
-  function onChange(e){
+  function onChange(e) {
     setSearch(e.target.value);
   }
 
@@ -62,7 +62,7 @@ export const NavigationBar = withRouter(({history}) => {
           />{' '}
           </a>
         </Nav>
-    </Navbar>
+      </Navbar>
     </div>
   );
 });

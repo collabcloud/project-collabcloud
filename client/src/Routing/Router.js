@@ -16,6 +16,7 @@ import Project from "../Containers/User/Project";
 
 import OtherProfile from "../Containers/User/OtherProfile";
 import Profile from "../Containers/User/Profile";
+import Users from "../Containers/Explore/Users";
 import Root from "../Containers/Forum/Root";
 import Subforum from "../Containers/Forum/Subforum";
 import Thread from "../Containers/Forum/Thread";
@@ -45,6 +46,7 @@ const Router = () => {
       <PrivateRoute path="/search" component={Search} />
       <PrivateRoute exact path="/forum/" component={Root} />
       <PrivateRoute exact path="/forum/:subforum" component={Subforum} />
+      <PrivateRoute path="/explore/users" component={Users} exact />
       <PrivateRoute exact path="/forum/:subforum/:thread" component={Thread} />
       <PrivateRoute
         path="/message"
