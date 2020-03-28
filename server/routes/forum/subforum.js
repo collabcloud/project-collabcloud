@@ -41,6 +41,46 @@ router.get(
   }
 );
 
+// @route   GET api/forum/subforum/:subforumName
+// @desc    Retrieve all subforums
+// @access  Public
+router.get(
+  "/:subforumName",
+  /*
+		The following async function below handles the full request.
+	*/
+  async (req, res) => {
+    try {
+      // Use express validator to validate request
+
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log(errors);
+        return res.status(422).json({ errors: errors.array() });
+      }
+
+      var words = req.params.subforumName.split("-");
+      const first_word = words[0][0].toUpperCase() + words[0].slice(1);
+      var new_title = first_word;
+
+      for (var i = 1; i < words.length; i++) {
+        new_title += " " + words[i][0].toUpperCase() + words[i].slice(1);
+      }
+
+      const subforums = await db.models.subforum.findAll({
+        where: { title: new_title }
+      });
+
+      res.status(200).json(subforums[0]);
+
+      return;
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ errorMessage: "Internal server error" });
+    }
+  }
+);
+
 // @route   POST api/forum/subforum
 // @desc   	Create a subforum
 // @access  Public
@@ -84,7 +124,8 @@ router.post(
           sid: subforumId,
           title: title,
           description: description
-        }});
+        }
+      });
 
       //await subForumObject.save();
 

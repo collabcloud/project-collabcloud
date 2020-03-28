@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { IoIosChatboxes, IoMdPersonAdd } from "react-icons/io";
 import { FaRegNewspaper, FaBug } from "react-icons/fa";
-import { NavigationBar } from "../../components/base/NavigationBar";
 import SubforumOverview from "../../components/specialized/Forum/SubforumOverview";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 import { get_subforums, post_subforum } from "../../actions/forumActions";
 

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import ReactTags from "react-tag-autocomplete";
 
 import "../../css/RegisterForm.css"
 
@@ -10,26 +11,64 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 
 
-const RegisterForm = withRouter(({register, registered, githubExists, attempted, history}) => {
+const RegisterForm = withRouter(({register, registered, githubExists, attempted, wrongUser, history}) => {
+  
+    const tech_suggestions = [
+		{ id: 1, name: "MongoDB" },
+		{ id: 2, name: "Express" },
+		{ id: 3, name: "React" },
+		{ id: 4, name: "Node.js" },
+		{ id: 5, name: "Python" },
+		{ id: 6, name: "JavaScript" },
+		{ id: 7, name: "Java" },
+		{ id: 8, name: "C++" },
+		{ id: 9, name: "C#" },
+		{ id: 10, name: "HTML/CSS" },
+		{ id: 11, name: "Swift" },
+		{ id: 12, name: "SQL" },
+		{ id: 13, name: "MongoDB" },
+		{ id: 14, name: "Express" },
+		{ id: 15, name: "React" },
+		{ id: 16, name: "Angular" },
+		{ id: 17, name: "VueJS" },
+		{ id: 18, name: "Flutter" },
+		{ id: 19, name: "Kubernetes" },
+		{ id: 20, name: "Jupyter" },
+		{ id: 21, name: "Pytorch" },
+		{ id: 22, name: "Numpy" },
+		{ id: 23, name: "Passport" },
+		{ id: 24, name: "Kotlin" },
+    ];
+    
+    const [tech, setTech] = useState([]);
 
    
+
+    const [errors, setErrors] = useState([]);
     useEffect(() => {
+    console.log(wrongUser);
     if (githubExists){
         history.push({
             pathname:'/login',
-            state: {message: "You already signed up with github"}
+            state: {type: "warning", message: "Account Exists. Please Login"}
         })
     }
     else if(registered){
         history.push({
             pathname:'/login',
-            state: {message: "Welcome to Collab Cloud"}
+            state: {type: "success", message: "Welcome to Collab Cloud"}
         })
+    }
+    else if (wrongUser){
+        setErrors([...errors, "Username must match Github username", "", "Authorizing with Github in 2 seconds"]);
+        setTimeout(function(){
+            window.location.assign("https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo");
+        }, 2000);
     }
     else if(attempted){
         window.location.assign("https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo");
     }
-    }, [register, registered, githubExists, attempted, history]);
+    }, [register, registered, githubExists, attempted,wrongUser, history]);
      /*
             The form data that will be submitted.
             Simply add more entries on the object to add more
@@ -42,11 +81,23 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
         email: ""
     });
 
-    const [errors, setErrors] = useState([]);
+    
      /**
       * Modify the formData when something has been changed
       * 
       */
+
+     function handleAddition(tag) {
+		const technologies = [].concat(tech, tag);
+		setTech(technologies);
+	}
+
+	function handleDelete(i) {
+		const technologies = tech.slice(0);
+		technologies.splice(i, 1);
+		setTech(technologies);
+    }
+    
     const onChange = e =>{
         setFormData({...formData, [e.target.name]: e.target.value});
     }
@@ -64,6 +115,8 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
         else{
             setErrors([]);
         }
+        formData['technologies'] = tech;
+        console.log(JSON.stringify(formData));
         githubAuth(register, formData);
         
     }
@@ -122,11 +175,19 @@ const RegisterForm = withRouter(({register, registered, githubExists, attempted,
                         onChange={onChange}/>
                         <Form.Control.Feedback type="invalid">Please enter Email  </Form.Control.Feedback>
                 </Form.Group>
+                <label>Interested Languages/Tech</label>
+                <ReactTags
+							className="item"
+							tags={tech}
+							suggestions={tech_suggestions}
+							handleDelete={handleDelete}
+							handleAddition={handleAddition}
+						/>
                 <Form.Group controlId="formBasicCheckbox">
                     <Form.Check type="checkbox" name="terms" className="float-left"/>
                     <label htmlFor= "terms">I agree to the <a href='register2'>Terms of service </a></label>
                 </Form.Group>
-                <ul className = "errors">{errors.map((value, index) => {
+                <ul style = {{listStyleType:"none","margin": "auto" ,"padding": 0}}className = "errors">{errors.map((value, index) => {
                     return <li key = {index}>{value}</li>
                 })}</ul>
                 <Button variant="outline-primary" type="submit" block>
@@ -174,7 +235,12 @@ async function githubAuth(register, formData){
  * Standard function that maps Redux state to the Props of Register2
  */
 function mapStateToProps(state){
-    return {registered: state.register.registered, githubExists: state.register.githubExists, attempted: state.register.attempted};
+    return {
+        registered: state.register.registered, 
+        githubExists: state.register.githubExists, 
+        attempted: state.register.attempted,
+        wrongUser: state.register.wrongUser
+    };
 }
 /**
  * 

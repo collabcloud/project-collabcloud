@@ -2,15 +2,15 @@ require("dotenv").config({ path: "./config/.env" });
 const { Sequelize, DataTypes, Model } = require("sequelize");
 
 const db = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASS,
-    {
-        host: process.env.DB_HOST,
-        dialect: "postgres",
-        port: process.env.DB_PORT,
-        logging: process.env.DB_LOGGING == "TRUE" ? true : false
-    }
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    host: process.env.DB_HOST,
+    dialect: "postgres",
+    port: process.env.DB_PORT,
+    logging: process.env.DB_LOGGING == "TRUE" ? console.log : false
+  }
 );
 
 try {
@@ -20,114 +20,117 @@ try {
     console.error("Unable to connect to the database:", error);
 }
 
-
 // Keep all fields lower case since psql does some weird stuff with camel case
 const User = db.define(
-    "user",
-    {
-        uid: {
-            type: Sequelize.UUID,
-            defaultValue: Sequelize.UUIDV4,
-            primaryKey: true
-        },
-        username: {
-            allowNull: false,
-            type: DataTypes.STRING(39)
-        },
-        password: {
-            allowNull: false,
-            type: DataTypes.STRING(25)
-        },
-        authtoken: {
-            allowNull: false,
-            type: DataTypes.STRING(50)
-        },
-        githubid: {
-            allowNull: false,
-            unique: true,
-            type: DataTypes.STRING(50)
-        },
-        firstname: {
-            allowNull: true,
-            type: DataTypes.STRING(25)
-        },
-        lastname: {
-            allowNull: true,
-            type: DataTypes.STRING(25)
-        },
-        city: {
-            allowNull: true,
-            type: DataTypes.STRING(50)
-        },
-        province: {
-            allowNull: true,
-            type: DataTypes.STRING(50)
-        },
-        description: {
-            allowNull: true,
-            type: DataTypes.STRING(1000)
-        }
+  "user",
+  {
+    uid: {
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
+      primaryKey: true
     },
-    {}
+    username: {
+      allowNull: false,
+      type: DataTypes.STRING(39)
+    },
+    password: {
+      allowNull: false,
+      type: DataTypes.STRING(255)
+    },
+    authtoken: {
+      allowNull: false,
+      type: DataTypes.STRING(50)
+    },
+    interestedTech: {
+      type: DataTypes.STRING(25),
+      allowNull: true
+    },
+    githubid: {
+      allowNull: false,
+      unique: true,
+      type: DataTypes.STRING(50)
+    },
+    firstname: {
+      allowNull: true,
+      type: DataTypes.STRING(25)
+    },
+    lastname: {
+      allowNull: true,
+      type: DataTypes.STRING(25)
+    },
+    city: {
+      allowNull: true,
+      type: DataTypes.STRING(50)
+    },
+    province: {
+      allowNull: true,
+      type: DataTypes.STRING(50)
+    },
+    description: {
+      allowNull: true,
+      type: DataTypes.STRING(1000)
+    },
+    avatar: {
+      allowNull: false,
+      type: DataTypes.STRING(100)
+    }
+  },
+  {}
 );
 
 const project = db.define(
-    "project",
-    {
-        pid: {
-            type: Sequelize.UUID,
-            allowNull: false,
-            primaryKey: true
-        },
-        projectName: {
-            type: DataTypes.STRING(25),
-            allowNull: false
-        },
-        ownerId: {
-            type: DataTypes.UUID,
-            references: {
-                model: 'users',
-                key: 'uid'
-            },
-            primaryKey: true
-        },
-        // gitRepoID: {
-        //     type: DataTypes.STRING(50),
-        //     allowNull: false
-        // },
-        projectName: {
-            type: DataTypes.STRING(50),
-            allowNull: false
-        },
-        projectDescription: {
-            type: DataTypes.STRING(2000),
-            allowNull: false
-        },
-        isPrivate: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
-        },
-        githubStars: {
-            type: DataTypes.STRING(10)
-        },
-        technologiesUsed: {
-            type: DataTypes.STRING(25),
-            allowNull: false
-        },
-        githubLink: {
-            type: DataTypes.STRING(50)
-        },
-        websiteLink: {
-            type: DataTypes.STRING(50)
-        },
-        devpostLink: {
-            type: DataTypes.STRING(50)
-        },
-        linkedinLink: {
-            type: DataTypes.STRING(50)
-        }
+  "project",
+  {
+    pid: {
+      type: Sequelize.UUID,
+      allowNull: false,
+      primaryKey: true
     },
-    {}
+    projectName: {
+      type: DataTypes.STRING(500),
+      allowNull: false
+    },
+    ownerId: {
+      type: DataTypes.UUID,
+      references: {
+        model: "users",
+        key: "uid"
+      },
+      primaryKey: true
+    },
+    // gitRepoID: {
+    //     type: DataTypes.STRING(50),
+    //     allowNull: false
+    // },
+    projectDescription: {
+      type: DataTypes.STRING(10000),
+      allowNull: false
+    },
+    isPrivate: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    githubStars: {
+      type: DataTypes.STRING(10)
+    },
+    technologiesUsed: {
+      type: DataTypes.STRING(100),
+      allowNull: false
+    },
+    githubLink: {
+      type: DataTypes.STRING(2048)
+    },
+    websiteLink: {
+      type: DataTypes.STRING(2048)
+    },
+    devpostLink: {
+      type: DataTypes.STRING(2048)
+    },
+    linkedinLink: {
+      type: DataTypes.STRING(2048)
+    }
+  },
+  {}
 );
 
 const user_followers = db.define("user_followers");
@@ -136,19 +139,19 @@ user_followers.belongsTo(User, { as: "followee" });
 
 // Table to store hackathons for 2020 season. For now hardcoded all hackathons but could be web scraped in the future.
 const Hackathons = db.define("hackathons", {
-    name: {
-        type: DataTypes.STRING(25),
-        primaryKey: true
-    },
-    date: {
-        type: DataTypes.STRING(25)
-    },
-    location: {
-        type: DataTypes.STRING(25)
-    },
-    link: {
-        type: DataTypes.STRING(50)
-    }
+  name: {
+    type: DataTypes.STRING(25),
+    primaryKey: true
+  },
+  date: {
+    type: DataTypes.STRING(25)
+  },
+  location: {
+    type: DataTypes.STRING(25)
+  },
+  link: {
+    type: DataTypes.STRING(50)
+  }
 });
 
 const Subforum = db.define(
@@ -173,48 +176,77 @@ const Subforum = db.define(
 
 // Relation used to store Notifications
 db.define("project_notifications", {
-    nid: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        primaryKey: true
-    },
-    pid: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        primaryKey: true
-    },
-    notificationType: {
-        type: DataTypes.ENUM("project_update", "project_join_request"),
-        allowNull: false,
-        primaryKey: true
-    },
-    notificationCreator: {
-        type: Sequelize.UUID,
-        allowNull: false,
-    },
-    notificationMessage: {
-        type: DataTypes.STRING(2000),
-        allowNull: false
-    }
-    // dateCreated: {
-    //     type: DataTypes.DATE,
-    //     defaultValue: Sequelize.NOW
-    // }
+  nid: {
+    type: Sequelize.UUID,
+    allowNull: false,
+    primaryKey: true
+  },
+  pid: {
+    type: Sequelize.UUID,
+    allowNull: false,
+    primaryKey: true
+  },
+  notificationType: {
+    type: DataTypes.ENUM("project_update", "project_join_request"),
+    allowNull: false,
+    primaryKey: true
+  },
+  notificationCreator: {
+    type: Sequelize.UUID,
+    allowNull: false
+  },
+  notificationMessage: {
+    type: DataTypes.STRING(2000),
+    allowNull: false
+  }
+  // dateCreated: {
+  //     type: DataTypes.DATE,
+  //     defaultValue: Sequelize.NOW
+  // }
 });
 
 // Relation that stores a Follows relationship between a Project and a User
-const user_follows_project = db.define('user_follows_project', {
-    isOwner: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    },
-    username: {
-        type: DataTypes.STRING(25),
-        allowNull: false
-    }
+const user_follows_project = db.define("user_follows_project", {
+  isOwner: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  },
+  username: {
+    type: DataTypes.STRING(25),
+    allowNull: false
+  }
 });
 user_follows_project.belongsTo(User, { as: "user" });
 user_follows_project.belongsTo(project, { as: "project" });
+
+const chats = db.define("chats", {
+  firstUser: {
+    type: DataTypes.STRING(200),
+    allowNull: false
+  },
+  secondUser: {
+    type: DataTypes.STRING(200),
+    allowNull: false
+  },
+  seen: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  }
+});
+const messages = db.define("messages", {
+  sender: {
+    type: DataTypes.STRING(200),
+    allowNull: false
+  },
+  receiver: {
+    type: DataTypes.STRING(200),
+    allowNull: false
+  },
+  message: {
+    type: DataTypes.STRING(20000),
+    allowNull: false
+  }
+});
 
 const Thread = db.define(
     "thread",
@@ -317,8 +349,8 @@ const user_requests = db.define('user_requests', {
 }, {
 
 });
-
 // Relation that stores a relationship between a Notification and a User
+
 const users_notifications = db.define("users_notifications");
 users_notifications.belongsTo(User, { as: "notifee" });
 users_notifications.belongsTo(Notification, { as: "notification" });

@@ -1,0 +1,157 @@
+.msg {
+  border-right: 1px rgba(0, 0, 0, 0.3) solid;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+}
+
+.msgs {
+  height: 75px;
+  width: 100%;
+}
+
+.msggroup {
+  width: 100%;
+  padding: 0%;
+  bottom: 0;
+  top: 0;
+}
+#root,
+.App,
+.msgApp {
+  height: 100%;
+}
+.msgApp {
+  position: relative;
+}
+body,
+html {
+  height: 100%;
+}
+.msgcontainer {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.fill-height {
+  height: 100%;
+  position: relative;
+}
+@media only screen and (min-width: 998px) {
+  .chatrow {
+    padding-top: 73px;
+  }
+}
+@media only screen and (max-width: 997px) {
+  .chatrow {
+    padding-top: 113px;
+  }
+}
+.navbardiv {
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+.trackY{
+  position: absolute;
+  overflow: hidden;
+  border-radius: 0px;
+  background: rgba(52, 58, 64, 0.3) none repeat scroll 0% 0%;
+  user-select: none;
+  width: 20px;
+  height: 100%;
+  top: 0px;
+  right: 0px;
+}
+.thumbY {
+  touch-action: none;
+  cursor: pointer;
+  border-radius: 10px;
+  background: rgba(52, 58, 64, 0.5) none repeat scroll 0% 0%;
+  width: 100%;
+  transform: translateY(0px);
+}
+  
+.thumbY:hover {
+  background: rgba(52, 58, 64, 0.7);
+}
+.trackY:hover {
+  background: rgba(52, 58, 64, 0.5);
+}
+
+div.msgImage {
+  margin: auto;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+img.msgImage {
+  height: 100%;
+}
+div.inmsgImage {
+  top: 20%;
+}
+
+button > * {
+  pointer-events: none;
+}
+
+.user,
+.other {
+  width: 100%;
+  min-height: 15%;
+}
+
+.msgCard {
+  width: 25%;
+  min-height: 100%;
+  max-width: 25%;
+  word-break: break-all;
+  margin-top: 1.25rem;
+  border-radius: 20px;
+}
+.title,
+.msgCardBody,
+.date {
+  padding: 0.75rem;
+}
+.user .msgCard,
+.user .card-body {
+  margin-left: auto;
+  margin-right: 1rem;
+  max-width: 100%;
+  text-align: left;
+}
+.user .msgCard {
+  background-color: #007bffc8;
+}
+
+.other .msgCard,
+.other .card-body {
+  margin-right: auto;
+  margin-left: 1rem;
+  max-width: 100%;
+  text-align: left;
+}
+
+.date {
+  padding: 0.5rem;
+}
+.Content {
+  box-sizing: border-box;
+  padding: 0.05px;
+  height: 100%;
+  width: 100%;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.btn .notify {
+  color: white;
+  background-color: black;
+}

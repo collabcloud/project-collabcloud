@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_TOKEN, GITHUB_EXISTS, ATTEMPT } from "./types";
+import { GET_TOKEN, GITHUB_EXISTS, ATTEMPT, GITHUB_USERNAME_NOMATCH } from "./types";
 
 // Registeration action
 export const register = (auth_code, formData) => async dispatch => {
@@ -27,11 +27,17 @@ export const register = (auth_code, formData) => async dispatch => {
     .catch(err => {
       console.log(err.response.status);
       if (err.response.status === 301) {
-        console.log("GITHUB_EXISTS");
         dispatch({
           type: GITHUB_EXISTS
         });
-      } else {
+      }
+      else if(err.response.status === 400){
+       
+        dispatch({
+          type: GITHUB_USERNAME_NOMATCH
+        })
+      } 
+      else {
         dispatch({
           type: ATTEMPT
         });

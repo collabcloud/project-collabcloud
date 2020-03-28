@@ -1,21 +1,39 @@
+/* Used to position the alert */
 .alerts-body {
-    position: fixed;
-    top: 60px;
-    right: 12px;
+    position: absolute;
+    top: 15%;
+    right: 25%;
+    left: 25%;
     z-index: 1000;
-    width: 40%;
+    width: 50%;
 }
 
 .collab-alerts {
-    padding: 5px 0;
-    margin: 5px 0;
-    text-align: center;
+    opacity: 0.90;
+    border-radius: 25px;
+    padding: 15px 0;
+    margin: 10px 0;
     color: white;
     display: block;
+    margin-right: 2%;
+    margin-left: 2%
+}
+
+/* Alert text */
+.alerts-text {
+    font-size: 22px;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+    font-family: "Verdana";
+    font-weight: bold;
 }
   
 .collab-alerts.danger {
     background-color: red;
+}
+.collab-alerts.warning {
+    background-color: #856404;
 }
 
 .collab-alerts.success {

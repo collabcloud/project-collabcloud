@@ -3,7 +3,9 @@ import {
   RESOURCE_NOT_FOUND,
   ATTEMPT,
   POST_SUCCESSFUL,
+  GET_SUBFORUM,
   GET_SUBFORUMS,
+  GET_THREAD,
   GET_THREADS,
   GET_POSTS
 } from "./types";
@@ -42,6 +44,38 @@ export const get_subforums = () => async dispatch => {
 
 //Returns a list of subforum objects
 //{sid: XXXXX, name: XXXXX, desc: XXXXX}
+export const get_subforum = subforumName => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const url = "/api/forum/subforum/" + subforumName;
+
+  axios
+    .get(url, config)
+    .then(response => {
+      dispatch({
+        type: GET_SUBFORUM,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      if (err.response.status === 404) {
+        dispatch({
+          type: RESOURCE_NOT_FOUND
+        });
+      } else {
+        dispatch({
+          type: ATTEMPT
+        });
+      }
+    });
+};
+
+//Returns a list of subforum objects
+//{sid: XXXXX, name: XXXXX, desc: XXXXX}
 export const get_all_threads = () => async dispatch => {
   const config = {
     headers: {
@@ -59,9 +93,40 @@ export const get_all_threads = () => async dispatch => {
       });
     })
     .catch(err => {
+      dispatch({
+        type: ATTEMPT
+      });
+    });
+};
+
+//Returns a list of subforum objects
+//{sid: XXXXX, name: XXXXX, desc: XXXXX}
+export const get_thread = (subforum, threadName) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  const url = "/api/forum/thread/" + subforum + "/" + threadName;
+  axios
+    .get(url, config)
+    .then(response => {
+      dispatch({
+        type: GET_THREAD,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      if (err.response.status === 404) {
+        dispatch({
+          type: RESOURCE_NOT_FOUND
+        });
+      } else {
         dispatch({
           type: ATTEMPT
         });
+      }
     });
 };
 
@@ -75,7 +140,6 @@ export const get_threads = sid => async dispatch => {
   };
 
   const url = "/api/forum/thread";
-
   axios
     .get(url, { params: { sid: sid } }, config)
     .then(response => {
@@ -109,7 +173,7 @@ export const get_posts = tid => async dispatch => {
   const url = "/api/forum/post";
 
   axios
-    .get(url, {params: {tid: tid} }, config)
+    .get(url, { params: { tid: tid } }, config)
     .then(response => {
       dispatch({
         type: GET_POSTS,
@@ -175,7 +239,6 @@ export const post_thread = (
     topic: topic,
     content: content
   });
-  console.log(body);
 
   axios
     .post(url, body, config)
@@ -198,7 +261,13 @@ export const post_thread = (
     });
 };
 
-export const make_post = (tid, sid, submitter, content) => async dispatch => {
+export const make_post = (
+  tid,
+  sid,
+  submitter,
+  submitterUid,
+  content
+) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -210,6 +279,7 @@ export const make_post = (tid, sid, submitter, content) => async dispatch => {
     tid: tid,
     sid: sid,
     submitter: submitter,
+    submitterUid: submitterUid,
     content: content
   });
 
