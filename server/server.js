@@ -32,7 +32,6 @@ app.use("/api/projects/leave", require("./routes/projects/leaveProject"));
 
 // GitHub API routes
 app.use("/api/github/repos", require("./routes/github/getRepos"));
-app.use("/api/github/repos", require("./routes/github/getRepos"));
 app.use("/api/users/public", require("./routes/users/getUsers"));
 app.use("/api/users/request", require("./routes/users/postUserRequests"));
 
