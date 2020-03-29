@@ -14,10 +14,10 @@ const db = new Sequelize(
 );
 
 try {
-  db.authenticate();
-  console.log("Connection has been established successfully.");
+    db.authenticate();
+    console.log("Connection has been established successfully.");
 } catch (error) {
-  console.error("Unable to connect to the database:", error);
+    console.error("Unable to connect to the database:", error);
 }
 
 // Keep all fields lower case since psql does some weird stuff with camel case
@@ -155,23 +155,23 @@ const Hackathons = db.define("hackathons", {
 });
 
 const Subforum = db.define(
-  "subforum",
-  {
-    sid: {
-      type: Sequelize.UUID,
-      allowNull: false,
-      primaryKey: true
+    "subforum",
+    {
+        sid: {
+            type: Sequelize.UUID,
+            allowNull: false,
+            primaryKey: true
+        },
+        title: {
+            type: DataTypes.STRING(50),
+            allowNull: false
+        },
+        description: {
+            type: DataTypes.STRING(500),
+            allowNull: false
+        }
     },
-    title: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
-    description: {
-      type: DataTypes.STRING(500),
-      allowNull: false
-    }
-  },
-  {}
+    {}
 );
 
 // Relation used to store Notifications
@@ -249,62 +249,62 @@ const messages = db.define("messages", {
 });
 
 const Thread = db.define(
-  "thread",
-  {
-    tid: {
-      type: Sequelize.UUID,
-      allowNull: false,
-      primaryKey: true
+    "thread",
+    {
+        tid: {
+            type: Sequelize.UUID,
+            allowNull: false,
+            primaryKey: true
+        },
+        topic: {
+            type: DataTypes.STRING(100),
+            allowNull: false
+        },
+        content: {
+            type: DataTypes.STRING(500),
+            allowNull: false
+        },
+        dateCreated: {
+            type: DataTypes.DATE,
+            defaultValue: Sequelize.NOW
+        },
+        forum_title: {
+            type: DataTypes.STRING(50),
+            allowNull: false
+        },
+        username: {
+            allowNull: false,
+            type: DataTypes.STRING(25)
+        }
     },
-    topic: {
-      type: DataTypes.STRING(100),
-      allowNull: false
-    },
-    content: {
-      type: DataTypes.STRING(500),
-      allowNull: false
-    },
-    dateCreated: {
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.NOW
-    },
-    forum_title: {
-      type: DataTypes.STRING(50),
-      allowNull: false
-    },
-    username: {
-      allowNull: false,
-      type: DataTypes.STRING(25)
-    }
-  },
-  {}
+    {}
 );
 
 Thread.belongsTo(User, { as: "submitter" });
 Thread.belongsTo(Subforum, { as: "subforum" });
 
 const Post = db.define(
-  "post",
-  {
-    pid: {
-      type: Sequelize.UUID,
-      allowNull: false,
-      primaryKey: true
+    "post",
+    {
+        pid: {
+            type: Sequelize.UUID,
+            allowNull: false,
+            primaryKey: true
+        },
+        content: {
+            type: DataTypes.STRING(500),
+            allowNull: false
+        },
+        dateCreated: {
+            type: DataTypes.DATE,
+            defaultValue: Sequelize.NOW
+        },
+        username: {
+            allowNull: false,
+            type: DataTypes.STRING(25)
+        }
     },
-    content: {
-      type: DataTypes.STRING(500),
-      allowNull: false
-    },
-    dateCreated: {
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.NOW
-    },
-    username: {
-      allowNull: false,
-      type: DataTypes.STRING(25)
-    }
-  },
-  {}
+    {}
 );
 
 Post.belongsTo(Thread);
@@ -317,24 +317,37 @@ Post.belongsTo(User, { as: "submitter" });
 // -- project_update: made whenever any change is made to a project (COL-9 and COL-12)
 // -- collaboration_request: made when a user gets a request to collaborate on a specific project)
 const Notification = db.define("notification", {
-  nid: {
-    type: Sequelize.UUID,
-    allowNull: false,
-    primaryKey: true
-  },
-  notificationType: {
-    type: DataTypes.ENUM("project_update", "collaboration_request"),
-    allowNull: false,
-    primaryKey: true
-  },
-  notificationMessage: {
-    type: DataTypes.STRING(2000),
-    allowNull: false
-  },
-  dateCreated: {
-    type: DataTypes.DATE,
-    defaultValue: Sequelize.NOW
-  }
+    nid: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true
+    },
+    notificationType: {
+        type: DataTypes.ENUM("project_update", "collaboration_request"),
+        allowNull: false,
+        primaryKey: true
+    },
+    notificationMessage: {
+        type: DataTypes.STRING(2000),
+        allowNull: false
+    },
+    dateCreated: {
+        type: DataTypes.DATE,
+        defaultValue: Sequelize.NOW
+    }
+});
+
+const user_requests = db.define('user_requests', {
+    requestee_uid: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4
+    },
+    requester_uid: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+    }
+}, {
+
 });
 // Relation that stores a relationship between a Notification and a User
 
@@ -343,11 +356,11 @@ users_notifications.belongsTo(User, { as: "notifee" });
 users_notifications.belongsTo(Notification, { as: "notification" });
 
 db.sync({ force: false })
-  .then(message => {
-    console.log("Database synced");
-  })
-  .catch(function(err) {
-    throw err;
-  });
+    .then(message => {
+        console.log("Database synced");
+    })
+    .catch(function (err) {
+        throw err;
+    });
 
 module.exports = db;

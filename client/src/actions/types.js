@@ -27,6 +27,13 @@ export const GET_GIT_REPOS = "GET_REPOS";
 // Login Actions
 export const LOGIN = "LOGIN";
 
+// User Action
+export const GET_USERS = "GET_USERS";
+
+//Request Action
+export const USER_REQUESTED = 'USER_REQUESTED';
+export const USER_ALREADY_REQUESTED = 'USER_ALREADY_REQUESTED';
+
 //Search actions
 export const SEARCH = "SEARCH";
 

@@ -5,6 +5,7 @@ import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import { ProjectOverview } from "../../components/base/ProjectOverview";
 import { ProjectForm } from "../../components/base/ProjectForm";
 import { Contributors } from "../../components/base/Contributors";
+import Users from "../../Containers/Explore/Users";
 import "../../css/Project.css";
 
 // Redux imports
@@ -43,6 +44,7 @@ const Project = props => {
 
   const history = useHistory();
   const [isShowingSettings, modifySettings] = useState(false);
+  const [isShowingRequests, request] = useState(false);
   const [hasUserJoined, setUserJoinedProject] = useState(false);
   const [successfullyUpdated, setUpdated] = useState(false);
   let requestedToUpdate = false;
@@ -131,6 +133,11 @@ const Project = props => {
   const toggleSettings = () => {
     modifySettings(!isShowingSettings);
   };
+  
+      // Toggles the Request page view
+    const toggleRequests = () => {
+        request(!isShowingRequests);
+    }
 
   // User requests to join a Project
   const requestToJoinProject = () => {
@@ -140,6 +147,26 @@ const Project = props => {
     joinProject(loggedInUid, projectInformation.project.pid, "collaborator");
   };
 
+  const renderSwitch = (isShowingSettings, isShowingRequests) => {
+        var view = ""
+        if (!isShowingSettings && !isShowingRequests) {
+            view = "projectOverview"
+        } else if (isShowingSettings) {
+            view = "projectSettings"
+        } else if (isShowingRequests) {
+            view = "projectRequests"
+        }
+
+        switch (view) {
+            case "projectOverview":
+
+            case "projectSettings":
+
+            case "projectRequests":
+
+        }
+    }
+  
   // User requests to leave a project
   const requestToLeaveProject = () => {
     requestedToLeave = true;
@@ -221,6 +248,7 @@ const Project = props => {
 // Transforms Redux store state into the props for this Project component
 // This function is called whenever the store state changes
 function mapStateToProps(state) {
+
   return {
     projectInformation: state.project.individualProject,
     updateSuccess: state.project.updateSuccess,
