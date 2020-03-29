@@ -31,8 +31,10 @@ app.use("/api/message", require("./routes/chat/chat")(io));
 app.use("/api/users/register", require("./routes/auth/register"));
 app.use("/api/users/github", require("./routes/auth/github"));
 app.use("/api/users/login", require("./routes/auth/login"));
+app.use("/api/users/auth", require("./routes/auth/auth"));
 
-app.use("/api/users/avatar", require("./routes/user/avatar.js"));
+app.use("/api/user/", require("./routes/user/getUser"));
+app.use("/api/users/avatar", require("./routes/user/avatar"));
 
 // Project routes
 app.use("/api/projects/create", require("./routes/projects/createProject"));
@@ -58,8 +60,6 @@ app.use("/api/unfollow/user", require("./routes/unfollow/user"));
 
 app.use("/api/hackathons", require("./routes/hackathons/getHackathons"));
 app.use("/api/hackathons/add", require("./routes/hackathons/addHackathons"));
-
-app.use("/api/users/auth", require("./routes/auth/auth"));
 
 // Notification routes
 app.use(

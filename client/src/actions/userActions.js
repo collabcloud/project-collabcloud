@@ -1,6 +1,33 @@
 import axios from "axios";
-import { USER_LOADED, PUT_SUCCESSFUL } from "./types";
+import { USER_LOADED, PUT_SUCCESSFUL, GET_SUCCESSFUL } from "./types";
 import { setAlert } from "./alert";
+
+export const get_user_info = uid => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  try {
+    const url = "/api/user/" + uid;
+    let response = await axios.get(url, config);
+
+    if (response) {
+      if (response.status === 404) {
+        dispatch(setAlert("Requested UID doesn't exist", "danger"));
+      } else if (response.status === 200) {
+        dispatch({
+          type: GET_SUCCESSFUL,
+          payload: response.data
+        });
+      }
+    }
+  } catch (err) {
+    console.log("Error occurred while retrieving user data");
+    console.log(err);
+  }
+};
 
 export const update_user_info = ({
   uid,

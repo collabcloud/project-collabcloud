@@ -9,6 +9,8 @@ import {
   Popover,
   OverlayTrigger
 } from "react-bootstrap";
+
+import PropTypes from "prop-types";
 import { GoOrganization } from "react-icons/go";
 import { MdLocationOn, MdChatBubble } from "react-icons/md";
 import { postAvatar } from "../../actions/imgActions";
@@ -28,15 +30,17 @@ const popover = (
   </Popover>
 );
 
-const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
+const UserDetails = ({ uid, postAvatar, link, ...props }) => {
   const [avatarLink, setAvatarLink] = useState("");
+  const [profile, setProfile] = useState({});
   const fileUpload = useRef(null);
 
   useEffect(() => {
-    if (avatar) {
-      setAvatarLink(avatar);
+    if (props.profile) {
+      setProfile(profile);
+      setAvatarLink(props.profile.avatar);
     }
-  }, [uid, avatar]);
+  }, [props]);
 
   useEffect(() => {
     setAvatarLink(link);
@@ -52,25 +56,28 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
   }
 
   function renderName() {
-    if (props.firstname === null || props.lastname === null) {
+    if (props.profile.firstname === null || props.profile.lastname === null) {
       return "";
     } else {
-      return props.firstname + " " + props.lastname;
+      return props.profile.firstname + " " + props.profile.lastname;
     }
   }
 
   function renderLocation() {
-    if (props.province === null || props.city === null) {
+    if (props.profile.province === null || props.profile.city === null) {
       return "Not stated";
     }
-    return props.city + ", " + props.province;
+    return props.profile.city + ", " + props.profile.province;
   }
 
   function renderDescription() {
-    if (props.description === null || props.description === "") {
+    if (
+      props.profile.description === null ||
+      props.profile.description === ""
+    ) {
       return "No Bio added";
     } else {
-      return props.description;
+      return props.profile.description;
     }
   }
 
@@ -108,7 +115,7 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
               </p>
             </Col>
             <Col xs={"auto"} className="d-flex align-items-start flex-column">
-              <h3>{props.username}</h3>
+              <h3>{props.profile.username}</h3>
               <h6>{renderName()}</h6>
               <ListGroup horizontal>
                 {tags.map((tag, index) => (
@@ -145,16 +152,20 @@ const UserDetails = ({ uid, avatar, postAvatar, link, ...props }) => {
   );
 };
 
+UserDetails.defaultProps = {
+  profile: {
+    avatar: "https://avatars2.githubusercontent.com/u/45340119?s=400&v=4",
+    city: "",
+    description: "",
+    firstname: "",
+    lastname: "",
+    province: "",
+    username: ""
+  }
+};
+
 function mapStateToProps(state) {
   return {
-    uid: state.user.uid,
-    username: state.login.profile.username,
-    avatar: state.login.profile.avatar,
-    firstname: state.login.profile.firstname,
-    lastname: state.login.profile.lastname,
-    description: state.login.profile.description,
-    city: state.login.profile.city,
-    province: state.login.profile.province,
     link: state.img.link
   };
 }

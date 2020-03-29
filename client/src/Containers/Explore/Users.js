@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { NavigationBar } from "../../components/base/NavigationBar";
+import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 //import UsersList component
 import { UsersList } from "../../components/base/UsersList";
 
@@ -16,47 +16,46 @@ import "../../css/Users.css";
 const loggedInUser = "575e989c-49f0-4b60-8cf8-f033e4210c3c";
 
 const Users = ({ getUsers, users, request_user }) => {
-    //have a use effect function
-    useEffect(() => {
-        getUsers();
-    });
+  //have a use effect function
+  useEffect(() => {
+    getUsers();
+  });
 
-    //make button press handler
-    function requestButtonHandler(requester) {
-        request_user(loggedInUser, requester);
-    }
+  //make button press handler
+  function requestButtonHandler(requester) {
+    request_user(loggedInUser, requester);
+  }
 
-    return (
-        <div>
-            <Container>
-                <h1>Explore Users in CollabCloud</h1>
-                <h5>View fellow Collaborators on CollabCloud</h5>
-                <UsersList users={users} buttonHandler={requestButtonHandler} />
-            </Container>
-        </div>
-    );
-}
+  return (
+    <div>
+      <Container>
+        <h1>Explore Users in CollabCloud</h1>
+        <h5>View fellow Collaborators on CollabCloud</h5>
+        <UsersList users={users} buttonHandler={requestButtonHandler} />
+      </Container>
+    </div>
+  );
+};
 
 function mapStateToProps(state) {
-    return {
-        users: state.users.users
-    };
+  return {
+    users: state.users.users
+  };
 }
 
-
 function mapDispatchToProps(dispatch) {
-    return {
-        getUsers: () => {
-            dispatch(getUsers());
-        },
-        request_user: (requestee, requester) => {
-            dispatch(request_user(requestee, requester));
-        }
-    };
+  return {
+    getUsers: () => {
+      dispatch(getUsers());
+    },
+    request_user: (requestee, requester) => {
+      dispatch(request_user(requestee, requester));
+    }
+  };
 }
 
 Users.propTypes = {
-    getUsers: PropTypes.func.isRequired
+  getUsers: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

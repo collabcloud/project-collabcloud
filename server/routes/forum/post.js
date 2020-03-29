@@ -36,6 +36,9 @@ router.get(
       }
 
       const posts = await db.models.post.findAll({
+        where: {
+          threadTid: req.query.tid
+        },
         include: {
           model: db.models.user,
           as: "submitter",

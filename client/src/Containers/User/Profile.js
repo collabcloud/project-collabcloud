@@ -1,27 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Toast } from "react-bootstrap";
 import UserOverview from "../../components/base/UserOverview";
 import UserAccountDetails from "../../components/base/UserAccountDetails";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import ProjectDisplay from "../../components/base/ProjectDisplay";
+import { get_user_info } from "../../actions/userActions";
 import { follow_user } from "../../actions/followActions";
 import { unfollow_user } from "../../actions/unfollowActions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 const Profile = withRouter(
-  ({ follow_user, unfollow_user, followed, match }) => {
+  ({
+    get_user_info,
+    follow_user,
+    unfollow_user,
+    profile,
+    followed,
+    loggedInUid,
+    match
+  }) => {
     const [show, setShow] = useState(false);
     const [btnText, setBtnText] = useState("Follow");
     const [btnColour, setBtnColour] = useState("primary");
     const [message, setMessage] = useState("");
-    const [followers, setFollowers] = useState(769);
+    const [followers, setFollowers] = useState(0);
 
     const [showform, setForm] = useState(false);
     const jarrod_uid = "00744dfb-f53c-4298-ada4-b3867e2f1fe6";
     const matt_uid = "8a71a5b4-3889-4711-9525-8fa74fe8933d";
 
     const uid = match.params.uid;
+
+    useEffect(() => {
+      if (uid && uid !== undefined) {
+        get_user_info(uid);
+      }
+    }, [uid]);
+
+    useEffect(() => {
+      setFollowers(profile.followers);
+    }, [profile]);
 
     const onClickprofile = () => setForm(showform => !showform);
 
@@ -66,8 +85,8 @@ const Profile = withRouter(
         >
           <Row>
             <Col xs={true}>
-              <p>{uid}</p>
               <UserOverview
+                profile={profile}
                 onClick={followUser}
                 onClickprofile={onClickprofile}
                 followers={followers}
@@ -96,12 +115,16 @@ const Profile = withRouter(
 function mapStateToProps(state) {
   return {
     followed: state.follow.followed,
-    uid: state.user.uid
+    loggedInUid: state.user.uid,
+    profile: state.user.other_profile
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    get_user_info: uid => {
+      dispatch(get_user_info(uid));
+    },
     follow_user: (followee, follower) => {
       dispatch(follow_user(followee, follower));
     },
