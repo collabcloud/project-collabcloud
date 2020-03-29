@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import { ProjectResultList } from "../../components/base/ProjectResultList";
@@ -14,7 +14,7 @@ const Search = props => {
   //const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    if (props.location.query != "") {
+    if (props.location.query !== "") {
       props.search(props.location.state.query);
     }
   }, [props.location]);

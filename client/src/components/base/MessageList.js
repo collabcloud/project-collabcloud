@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { Scrollbar } from "react-scrollbars-custom";
 import { Card, Form, Button, Container, Row } from "react-bootstrap";
 
@@ -11,12 +10,12 @@ export const MessageList = props => {
 
   useEffect(() => {
     scrollbar.current.scrollToBottom();
-  }, []);
+  }, [scrollbar]);
 
   useEffect(() => {
     setMessage("");
     scrollbar.current.scrollToBottom();
-  }, [props.messages]);
+  }, [scrollbar, props.messages]);
   function onSubmit(event) {
     event.preventDefault();
     var message = event.target[0].value;

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Image, Button, ButtonGroup, Form } from "react-bootstrap";
-import { connect } from "react-redux";
-import { search } from "../../actions/searchActions";
-import PropTypes from "prop-types";
 import { Scrollbar } from "react-scrollbars-custom";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
@@ -54,7 +51,7 @@ export const ChatList = props => {
             roundedCircle
           />
         );
-        if (value.name == "Message a new user") {
+        if (value.name === "Message a new user") {
           icon = <IoMdAddCircleOutline size={32} />;
         }
         return (

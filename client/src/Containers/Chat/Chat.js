@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  ToggleButton,
-  ToggleButtonGroup
-} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Redux Imports
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { ChatList } from "../../components/base/ChatList";
 import { MessageList } from "../../components/base/MessageList";
 import "../../css/Chat.css";
-
 
 import {
   addUser,
@@ -44,7 +36,7 @@ const Chat = props => {
   const [errMsg, setErrMsg] = useState("");
 
   function performWindowAction(windowNum) {
-    if (windowNum == props.chatList.length - 1) {
+    if (windowNum === props.chatList.length - 1) {
       setAddUser(true);
     } else {
       props.changeRecipient(
@@ -65,7 +57,7 @@ const Chat = props => {
       time: message.time
     };
     io.emit("messagesend", JSON.stringify(msg));
-    if (message.msg == "") return;
+    if (message.msg === "") return;
     setMessageList({
       messages: [...messageList.messages, message],
       recipient: to
@@ -81,29 +73,32 @@ const Chat = props => {
     props.addUser(props.profile.username, user, setErrMsg, setAddUser);
   }
 
-  useEffect(function() {
-    props.initializeList(props.profile.username);
-    if (io) {
-      io.disconnect();
-    }
-    io = props.io.connect("http://localhost:5000");
-    io.on("message", function(data) {
-      io.emit("reply", props.profile.username);
-    });
-  }, []);
+  useEffect(
+    function() {
+      props.initializeList(props.profile.username);
+      if (io) {
+        io.disconnect();
+      }
+      io = props.io.connect("http://localhost:5000");
+      io.on("message", function(data) {
+        io.emit("reply", props.profile.username);
+      });
+    },
+    [props]
+  );
 
   useEffect(
     function() {
       setErrMsg("");
       if (props.profile.username === undefined) return;
     },
-    [props.chatList, props.messageList]
+    [props.chatList, props.messageList, props.profile.username]
   );
 
   if (io) {
     io.on("messagesend", function(data) {
       var data = JSON.parse(data);
-      if (messageList.recipient != data.name) {
+      if (messageList.recipient !== data.name) {
         props.updateChat({ name: data.name, seen: false });
         return;
       }

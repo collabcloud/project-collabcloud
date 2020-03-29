@@ -8,7 +8,7 @@ import {
   Col
 } from "react-bootstrap";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
 import PropTypes from "prop-types";
 

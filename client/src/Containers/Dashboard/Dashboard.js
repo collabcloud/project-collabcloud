@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Recommendations } from "../../components/base/Recommend";
 import { HackathonCard } from "../../components/base/HackathonCard";
-import {
-  Alert,
-  Card,
-  Button,
-  Container,
-  Row,
-  Col,
-  Jumbotron
-} from "react-bootstrap";
+import { Alert, Card, Button, Container, Row, Col } from "react-bootstrap";
 import { NotificationList } from "./NotificationList";
 import NotificationAlert from "../../components/base/Alert";
 import Avatar from "../../components/base/Avatar";
@@ -22,7 +14,6 @@ import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
 
 import { get_user_projects } from "../../actions/projectActions";
-import { generateURL } from "../../utils/helpers";
 import { recommendProjects } from "../../actions/recommendAction";
 import PropTypes from "prop-types";
 
@@ -54,7 +45,7 @@ const Dashboard = ({
   }, []);
   useEffect(() => {
     getHackathons();
-  }, [isLoading]);
+  }, [isLoading, getHackathons]);
 
   // Loads project notifications
   useEffect(() => {
@@ -199,12 +190,18 @@ const Dashboard = ({
                 <Card.Body>
                   {/* Card Index 0 */}
                   <Card.Title>
-                    &#9989; <a href="/">TheRBajaj</a> joined your{" "}
+                    <span role="img" aria-label="checkmark">
+                      &#9989;
+                    </span>{" "}
+                    <a href="/">TheRBajaj</a> joined your{" "}
                     <a href="/">Optimize.me</a> project!
                   </Card.Title>
                   <Card.Text>
-                    &#128172; <a href="/">TheRBajaj</a> wrote: I think this
-                    project will go well!
+                    <span role="img" aria-label="speech">
+                      &#128172;
+                    </span>{" "}
+                    <a href="/">TheRBajaj</a> wrote: I think this project will
+                    go well!
                   </Card.Text>
                   <Button variant="success">View Project</Button>
                 </Card.Body>
@@ -212,12 +209,18 @@ const Dashboard = ({
                 <Card.Body>
                   {/* Card Index 1 */}
                   <Card.Title>
-                    &#10067; <a href="/">matthuynh</a> is requesting to join
-                    your <a href="/">Stock Trading</a> project!
+                    <span role="img" aria-label="question_mark">
+                      &#10067;
+                    </span>{" "}
+                    <a href="/">matthuynh</a> is requesting to join your{" "}
+                    <a href="/">Stock Trading</a> project!
                   </Card.Title>
                   <Card.Text>
-                    &#128172; <a href="/">matthuynh</a> wrote: I love finance
-                    and would like to join this project with you!
+                    <span role="img" aria-label="speech">
+                      &#128172;
+                    </span>{" "}
+                    <a href="/">matthuynh</a> wrote: I love finance and would
+                    like to join this project with you!
                   </Card.Text>
                   <Button variant="success">View Project</Button>
                 </Card.Body>
@@ -225,7 +228,10 @@ const Dashboard = ({
                 <Card.Body>
                   {/* Card Index 2 */}
                   <Card.Title>
-                    &#11088; <a href="/">Furqan17</a> starred your{" "}
+                    <span role="img" aria-label="star">
+                      &#11088;
+                    </span>{" "}
+                    <a href="/">Furqan17</a> starred your{" "}
                     <a href="/">207 Paint</a> project!
                   </Card.Title>
                   <Button variant="success">View Project</Button>
