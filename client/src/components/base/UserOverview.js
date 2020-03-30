@@ -10,12 +10,14 @@ import {
   OverlayTrigger
 } from "react-bootstrap";
 
-import PropTypes from "prop-types";
+import tech_suggestions_array from "../../utils/techSuggestions";
 import { GoOrganization } from "react-icons/go";
 import { MdLocationOn, MdChatBubble } from "react-icons/md";
 import { postAvatar } from "../../actions/imgActions";
 import { connect } from "react-redux";
 import { Item } from "./Item";
+
+const technologiesList = tech_suggestions_array;
 
 const tags = [
   { id: 1, name: "MongoDB" },
@@ -81,6 +83,61 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
     }
   }
 
+  function renderAvatar() {
+    if (props.profile.uid === uid) {
+      return (
+        <OverlayTrigger trigger="hover" placement="bottom" overlay={popover}>
+          <img
+            alt=""
+            src={avatarLink}
+            width="125"
+            height="125"
+            style={{ marginTop: 10 }}
+            className="d-inline-block align-top"
+            onClick={onAvatarClick}
+          />
+        </OverlayTrigger>
+      );
+    } else {
+      return (
+        <img
+          alt=""
+          src={avatarLink}
+          width="125"
+          height="125"
+          style={{ marginTop: 10 }}
+          className="d-inline-block align-top"
+        />
+      );
+    }
+  }
+
+  function renderTech() {
+    if (
+      props.profile !== undefined &&
+      props.profile.interestedTech !== undefined
+    ) {
+      const tech = technologiesList.map(
+        (technology, index) =>
+          // Only render this technology if it is included in technologiesUsed
+          props.profile.interestedTech[technology.id - 1] === "1" && (
+            <Item value={technology.name} key={technology.name + index} />
+          )
+      );
+      return tech;
+    }
+  }
+
+  function renderFollowButton() {
+    if (props.profile !== undefined && uid !== props.profile.uid) {
+      return (
+        <Button variant={props.btnColour} onClick={props.onClick}>
+          {props.btnText}
+        </Button>
+      );
+    }
+  }
+
   return (
     <Card style={{ height: "30rem" }} hoverable="true" bg="dark" text="white">
       <Card.Body>
@@ -94,21 +151,7 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
                 ref={fileUpload}
                 onChange={fileSelectedHandler}
               />
-              <OverlayTrigger
-                trigger="hover"
-                placement="bottom"
-                overlay={popover}
-              >
-                <img
-                  alt=""
-                  src={avatarLink}
-                  width="125"
-                  height="125"
-                  style={{ marginTop: 10 }}
-                  className="d-inline-block align-top"
-                  onClick={onAvatarClick}
-                />
-              </OverlayTrigger>
+              {renderAvatar()}
               <p>
                 <MdLocationOn />
                 {renderLocation()}
@@ -117,11 +160,7 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
             <Col xs={"auto"} className="d-flex align-items-start flex-column">
               <h3>{props.profile.username}</h3>
               <h6>{renderName()}</h6>
-              <ListGroup horizontal>
-                {tags.map((tag, index) => (
-                  <Item value={tag.name} key={tag.index} />
-                ))}
-              </ListGroup>
+              <ListGroup horizontal>{renderTech()}</ListGroup>
             </Col>
             <Col xs={"auto"}>
               <p>
@@ -129,17 +168,18 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
               </p>
             </Col>
             <Col xs={"auto"}>
-              <Button variant={props.btnColour} onClick={props.onClickprofile}>
-                Update Profile
-              </Button>
+              {uid === props.profile.uid && (
+                <Button
+                  variant={props.showform ? "danger" : "primary"}
+                  onClick={props.onClickprofile}
+                >
+                  {props.showform ? "Close" : "Update Profile"}
+                </Button>
+              )}
             </Col>
           </Row>
           <Row>
-            <Col xs={"auto"}>
-              <Button variant={props.btnColour} onClick={props.onClick}>
-                {props.btnText}
-              </Button>
-            </Col>
+            <Col xs={"auto"}>{renderFollowButton()}</Col>
             <Col xs={5}>
               <p align="left">
                 <MdChatBubble /> {renderDescription()}
@@ -166,7 +206,8 @@ UserDetails.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    link: state.img.link
+    link: state.img.link,
+    uid: state.user.uid
   };
 }
 

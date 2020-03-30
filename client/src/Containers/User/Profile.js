@@ -25,10 +25,7 @@ const Profile = withRouter(
     const [btnColour, setBtnColour] = useState("primary");
     const [message, setMessage] = useState("");
     const [followers, setFollowers] = useState(0);
-
     const [showform, setForm] = useState(false);
-    const jarrod_uid = "00744dfb-f53c-4298-ada4-b3867e2f1fe6";
-    const matt_uid = "8a71a5b4-3889-4711-9525-8fa74fe8933d";
 
     const uid = match.params.uid;
 
@@ -45,28 +42,28 @@ const Profile = withRouter(
     const onClickprofile = () => setForm(showform => !showform);
 
     function followUser() {
-      if (!followed) {
+      if (!followed && loggedInUid !== uid) {
         setFollowers(followers + 1);
-        setMessage("Followed matthuynh");
+        setMessage("Followed " + profile.username);
         setBtnText("Following");
         setBtnColour("danger");
 
-        follow_user(matt_uid, jarrod_uid);
+        follow_user(uid, loggedInUid);
         setShow(true);
-      } else {
+      } else if (loggedInUid !== uid) {
         setFollowers(followers - 1);
-        setMessage("Unfollowed matthuynh");
+        setMessage("Unfollowed " + profile.username);
         setBtnText("Follow");
         setBtnColour("primary");
 
-        unfollow_user(matt_uid, jarrod_uid);
+        unfollow_user(uid, loggedInUid);
         setShow(true);
         followed = !followed;
       }
     }
 
     function renderform() {
-      if (showform === true) {
+      if (showform === true && uid === loggedInUid) {
         return (
           <Col sm={4}>
             <UserAccountDetails />
@@ -89,6 +86,7 @@ const Profile = withRouter(
                 profile={profile}
                 onClick={followUser}
                 onClickprofile={onClickprofile}
+                showform={showform}
                 followers={followers}
                 btnText={btnText}
                 btnColour={btnColour}
@@ -105,7 +103,7 @@ const Profile = withRouter(
             <Toast.Body>{message}</Toast.Body>
           </Toast>
           <h1>Projects</h1>
-          <ProjectDisplay />
+          <ProjectDisplay uid={uid} />
         </Container>
       </div>
     );

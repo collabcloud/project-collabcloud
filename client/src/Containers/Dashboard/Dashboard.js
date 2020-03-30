@@ -118,7 +118,7 @@ const Dashboard = ({
                 <Avatar src={avatar} width={60} height={60} />
                 <h3
                   onClick={() => {
-                    history.push("/user/profile");
+                    history.push("/user/" + loggedInUid);
                   }}
                 >
                   <a href="">{fullName !== "" ? fullName : name}</a>
