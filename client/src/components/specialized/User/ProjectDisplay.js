@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import ProjectBox from "./ProjectBox";
-import { get_user_projects } from "../../actions/projectActions";
+import { get_user_projects } from "../../../actions/projectActions";
 import { connect } from "react-redux";
 
 const ProjectDisplay = ({ get_user_projects, projects, ...props }) => {

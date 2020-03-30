@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { TrendingProjectsList } from "../../components/base/TrendingProjectsList";
+import { TrendingProjectsList } from "../../components/specialized/Trending/TrendingProjectsList";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Redux Imports

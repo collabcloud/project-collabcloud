@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Recommendations } from "../../components/base/Recommend";
-import { HackathonCard } from "../../components/base/HackathonCard";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
-import { NotificationList } from "./NotificationList";
+
 import NotificationAlert from "../../components/base/Alert";
 import Message from "../../components/base/Message";
-
 import Avatar from "../../components/base/Avatar";
+
+import { Recommendations } from "../../components/specialized/Dashboard/Recommend";
+import { HackathonCard } from "../../components/specialized/Dashboard/HackathonCard";
+import { NotificationList } from "../../components/specialized/Dashboard/NotificationList";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
-import "../../css/Dashboard.css";
-// redux imports
-import { Link, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+
 import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
 import { get_user_projects } from "../../actions/projectActions";
 import { recommendProjects } from "../../actions/recommendAction";
+
+// redux imports
+import { Link, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+
+import "../../css/Dashboard.css";
 
 const default_avatar =
   "https://avatars2.githubusercontent.com/u/45340119?s=400&v=4";

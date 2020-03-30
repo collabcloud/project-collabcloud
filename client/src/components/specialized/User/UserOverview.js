@@ -10,12 +10,12 @@ import {
   OverlayTrigger
 } from "react-bootstrap";
 
-import tech_suggestions_array from "../../utils/techSuggestions";
+import tech_suggestions_array from "../../../utils/techSuggestions";
 import { GoOrganization } from "react-icons/go";
 import { MdLocationOn, MdChatBubble } from "react-icons/md";
-import { postAvatar } from "../../actions/imgActions";
+import { postAvatar } from "../../../actions/imgActions";
 import { connect } from "react-redux";
-import { Item } from "./Item";
+import { Item } from "../../base/Item";
 
 const technologiesList = tech_suggestions_array;
 

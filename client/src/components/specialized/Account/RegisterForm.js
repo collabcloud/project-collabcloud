@@ -3,9 +3,9 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ReactTags from "react-tag-autocomplete";
 
-import "../../css/RegisterForm.css";
+import "../../../css/RegisterForm.css";
 
-import { register } from "../../actions/registerActions";
+import { register } from "../../../actions/registerActions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -219,7 +219,7 @@ const RegisterForm = withRouter(
         <div>
           <img
             alt=""
-            src={require("../../logo.png")}
+            src={require("../../../logo.png")}
             width="70"
             height="35"
             style={{ marginTop: 40, marginBottom: 20 }}

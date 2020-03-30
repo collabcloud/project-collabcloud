@@ -12,8 +12,8 @@ import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import { connect } from "react-redux";
 import { get_user_by_name } from "../../actions/userActions";
 import PropTypes from "prop-types";
-import { ChatList } from "../../components/base/ChatList";
-import { MessageList } from "../../components/base/MessageList";
+import { ChatList } from "../../components/specialized/Chat/ChatList";
+import { MessageList } from "../../components/specialized/Chat/MessageList";
 import "../../css/Chat.css";
 
 import {

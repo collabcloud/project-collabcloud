@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 //import UsersList component
-import { UsersList } from "../../components/base/UsersList";
+import { UsersList } from "../../components/specialized/Explore/Users/UsersList";
 
 //import redux stuff
 import { connect } from "react-redux";

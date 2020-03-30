@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Toast } from "react-bootstrap";
-import UserOverview from "../../components/base/UserOverview";
-import UserAccountDetails from "../../components/base/UserAccountDetails";
+import UserOverview from "../../components/specialized/User/UserOverview";
+import UserAccountDetails from "../../components/specialized/User/UserAccountDetails";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
-import ProjectDisplay from "../../components/base/ProjectDisplay";
+import ProjectDisplay from "../../components/specialized/User/ProjectDisplay";
 import { get_user_info } from "../../actions/userActions";
 import { follow_user } from "../../actions/followActions";
 import { unfollow_user } from "../../actions/unfollowActions";

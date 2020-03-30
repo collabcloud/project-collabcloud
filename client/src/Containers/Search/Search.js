@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
-import { ProjectResultList } from "../../components/base/ProjectResultList";
-import { UserResultList } from "../../components/base/UserResultList";
+import { ProjectResultList } from "../../components/specialized/Search/ProjectResultList";
+import { UserResultList } from "../../components/specialized/Search/UserResultList";
 
 // Redux Imports
 import { connect } from "react-redux";

@@ -8,10 +8,10 @@ import {
   Image,
   ListGroup
 } from "react-bootstrap";
-import { Item } from "./Item";
-import logo from "../../harmoney.png";
-import "../../css/Project.css";
-import tech_suggestions_array from "../../utils/techSuggestions";
+import { Item } from "../../base/Item";
+import logo from "../../../harmoney.png";
+import "../../../css/Project.css";
+import tech_suggestions_array from "../../../utils/techSuggestions";
 
 // Icons for website buttons
 import { FaGithub, FaLinkedin, FaDev } from "react-icons/fa";

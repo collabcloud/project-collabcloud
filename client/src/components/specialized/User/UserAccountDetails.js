@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { update_user_info } from "../../actions/userActions";
+import { update_user_info } from "../../../actions/userActions";
 import {
   Card,
   CardHeader,

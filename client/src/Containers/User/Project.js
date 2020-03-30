@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Alert } from "react-bootstrap";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
-import { ProjectOverview } from "../../components/base/ProjectOverview";
-import { ProjectForm } from "../../components/base/ProjectForm";
-import { Contributors } from "../../components/base/Contributors";
-import Users from "../../Containers/Explore/Users";
+import { ProjectOverview } from "../../components/specialized/Project/ProjectOverview";
+import { ProjectForm } from "../../components/specialized/Project/ProjectForm";
+import { Contributors } from "../../components/specialized/Project/Contributors";
+//import Users from "../../Containers/Explore/Users";
 import "../../css/Project.css";
 
 // Redux imports
@@ -43,8 +43,8 @@ const Project = props => {
   const projectId = match.params.pid;
 
   const history = useHistory();
-  const [isShowingSettings, modifySettings] = useState(false);
-  const [isShowingRequests, request] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showRequests, setShowRequests] = useState(false);
   const [hasUserJoined, setUserJoinedProject] = useState(false);
   const [successfullyUpdated, setUpdated] = useState(false);
   let requestedToUpdate = false;
@@ -54,7 +54,6 @@ const Project = props => {
 
   // Loads project information
   useEffect(() => {
-    // console.log("Repopulating project information");
     getProjectInformation({ projectId });
   }, [
     getProjectInformation,
@@ -131,13 +130,13 @@ const Project = props => {
 
   // Toggles the Settings view, triggered by user
   const toggleSettings = () => {
-    modifySettings(!isShowingSettings);
+    setShowSettings(!showSettings);
   };
-  
-      // Toggles the Request page view
-    const toggleRequests = () => {
-        request(!isShowingRequests);
-    }
+
+  // Toggles the Request page view
+  const toggleRequests = () => {
+    setShowRequests(!showRequests);
+  };
 
   // User requests to join a Project
   const requestToJoinProject = () => {
@@ -147,26 +146,25 @@ const Project = props => {
     joinProject(loggedInUid, projectInformation.project.pid, "collaborator");
   };
 
-  const renderSwitch = (isShowingSettings, isShowingRequests) => {
-        var view = ""
-        if (!isShowingSettings && !isShowingRequests) {
-            view = "projectOverview"
-        } else if (isShowingSettings) {
-            view = "projectSettings"
-        } else if (isShowingRequests) {
-            view = "projectRequests"
-        }
-
-        switch (view) {
-            case "projectOverview":
-
-            case "projectSettings":
-
-            case "projectRequests":
-
-        }
+  const renderSwitch = (showSettings, showRequests) => {
+    var view = "";
+    if (!showSettings && !showRequests) {
+      view = "projectOverview";
+    } else if (showSettings) {
+      view = "projectSettings";
+    } else if (showRequests) {
+      view = "projectRequests";
     }
-  
+
+    switch (view) {
+      case "projectOverview":
+
+      case "projectSettings":
+
+      case "projectRequests":
+    }
+  };
+
   // User requests to leave a project
   const requestToLeaveProject = () => {
     requestedToLeave = true;
@@ -218,7 +216,7 @@ const Project = props => {
         )}
 
         {/* Conditionally render either the informational view or the settings view */}
-        {isShowingSettings ? (
+        {showSettings ? (
           <ProjectForm
             projectInformation={projectInformation}
             toggleSettings={toggleSettings}
@@ -229,6 +227,7 @@ const Project = props => {
           <ProjectOverview
             projectInformation={projectInformation}
             toggleSettings={toggleSettings}
+            toggleRequests={toggleRequests}
             requestToJoinProject={requestToJoinProject}
             requestToLeaveProject={requestToLeaveProject}
             hasUserJoined={hasUserJoined}
@@ -237,7 +236,7 @@ const Project = props => {
         )}
 
         {/* Conditionally render the contributors list*/}
-        {!isShowingSettings && (
+        {!showSettings && (
           <Contributors projectInformation={projectInformation} />
         )}
       </Container>
@@ -248,7 +247,6 @@ const Project = props => {
 // Transforms Redux store state into the props for this Project component
 // This function is called whenever the store state changes
 function mapStateToProps(state) {
-
   return {
     projectInformation: state.project.individualProject,
     updateSuccess: state.project.updateSuccess,
@@ -304,7 +302,6 @@ function mapDispatchToProps(dispatch) {
 
 // List of dispatch functions that will be available to the component
 Project.propTypes = {
-
   getProjectInformation: PropTypes.func.isRequired,
   updateProject: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,

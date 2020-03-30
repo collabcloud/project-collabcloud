@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import ReactTags from "react-tag-autocomplete";
 import NavigationBar from "../../../components/specialized/Nav/NavigationBar";
-import { ProjectView } from "../../../components/specialized/ProjectView";
+import { ProjectView } from "../../../components/specialized/Project/Create/ProjectView";
 import { ItemsList } from "../../../components/base/ItemsList";
 
 import { FaGithub, FaLinkedin, FaDev } from "react-icons/fa";

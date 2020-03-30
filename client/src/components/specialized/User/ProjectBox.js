@@ -2,10 +2,10 @@ import React from "react";
 import { Card, Button, Container, Row, Col, ListGroup } from "react-bootstrap";
 import { GoBook, GoPerson } from "react-icons/go";
 import { FaHeart } from "react-icons/fa";
-import { Item } from "./Item";
-import tech_suggestions_array from "../../utils/techSuggestions";
+import { Item } from "../../base/Item";
+import tech_suggestions_array from "../../../utils/techSuggestions";
 
-import "../../css/ProjectBox.css";
+import "../../../css/ProjectBox.css";
 
 const technologiesList = tech_suggestions_array;
 

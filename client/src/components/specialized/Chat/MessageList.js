@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Scrollbar } from "react-scrollbars-custom";
 import { Card, Form, Button, Container, Row } from "react-bootstrap";
 
-import "../../css/Chat.css";
+import "../../../css/Chat.css";
 
 export const MessageList = props => {
   var scrollbar = React.createRef();

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import LoginForm from "../../../components/base/LoginForm";
+import LoginForm from "../../../components/specialized/Account/LoginForm";
 import Card from "react-bootstrap/Card";
 import "../../../css/LoginForm.css";
 import Alert from "../../../components/base/Alert";

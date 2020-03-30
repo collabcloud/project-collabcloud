@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { GoPerson } from "react-icons/go";
 
-import "../../css/Users.css";
+import "../../../../css/Users.css";
 
 export const UsersList = props => {
   var users = [];
