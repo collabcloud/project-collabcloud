@@ -76,7 +76,7 @@ const NavigationBar = withRouter(({ history, loggedInUid, user, avatar }) => {
             {" "}
             Logout{" "}
           </Link>
-          <a href="/user/profile">
+          <a href={"/user/" + loggedInUid}>
             <Avatar src={avatar} width={20} height={20} />{" "}
           </a>
         </Nav>

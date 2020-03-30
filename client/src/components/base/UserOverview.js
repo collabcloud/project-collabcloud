@@ -19,13 +19,6 @@ import { Item } from "./Item";
 
 const technologiesList = tech_suggestions_array;
 
-const tags = [
-  { id: 1, name: "MongoDB" },
-  { id: 2, name: "Express" },
-  { id: 3, name: "React" },
-  { id: 4, name: "Node.js" }
-];
-
 const popover = (
   <Popover id="popover-basic" style={{ marginTop: "10px" }}>
     <Popover.Content>Change your avatar</Popover.Content>
@@ -42,7 +35,7 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
       setProfile(profile);
       setAvatarLink(props.profile.avatar);
     }
-  }, [props]);
+  }, [profile, props]);
 
   useEffect(() => {
     setAvatarLink(link);

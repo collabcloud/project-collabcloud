@@ -54,12 +54,13 @@ export const addUser = (
 
   axios
     .post(url, body, config)
-    .then(() => {
+    .then(function(response) {
       dispatch({
         type: ADD_TO_CHAT,
         payload: {
           name: username,
-          seen: true
+          seen: true,
+          avatar: response.data.avatar
         }
       });
       setAddUser(false);

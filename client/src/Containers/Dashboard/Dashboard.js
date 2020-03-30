@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Recommendations } from "../../components/base/Recommend";
 import { HackathonCard } from "../../components/base/HackathonCard";
-import { Alert, Card, Button, Container, Row, Col } from "react-bootstrap";
+import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import { NotificationList } from "./NotificationList";
 import NotificationAlert from "../../components/base/Alert";
+import Message from "../../components/base/Message";
+
 import Avatar from "../../components/base/Avatar";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import "../../css/Dashboard.css";
@@ -12,7 +14,6 @@ import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
-
 import { get_user_projects } from "../../actions/projectActions";
 import { recommendProjects } from "../../actions/recommendAction";
 import PropTypes from "prop-types";
@@ -33,7 +34,6 @@ const Dashboard = ({
   recommendations,
   projects
 }) => {
-  const [show, setShow] = useState(true);
   const [name, setName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [fullName, setFullName] = useState("");
@@ -41,8 +41,9 @@ const Dashboard = ({
   const history = useHistory();
 
   useEffect(() => {
-    //addHackathons();
-  }, []);
+    addHackathons();
+  }, [addHackathons]);
+
   useEffect(() => {
     getHackathons();
   }, [isLoading, getHackathons]);
@@ -72,7 +73,12 @@ const Dashboard = ({
   }, [user]);
 
   function renderProjects() {
-    if (projects === null || projects === undefined || projects === []) {
+    if (
+      projects === null ||
+      projects === undefined ||
+      projects === [] ||
+      projects.length === 0
+    ) {
       return <Card.Title>No projects to display</Card.Title>;
     } else {
       const project_links = projects.map((project, index) => (
@@ -106,13 +112,10 @@ const Dashboard = ({
         <Col md={3} lg={3} xl={3}>
           <Container>
             <div>
-              <Alert
-                variant={"warning"}
-                onClose={() => setShow(false)}
-                dismissible
-              >
-                here are your personal projects
-              </Alert>
+              <Message
+                variant="warning"
+                message="here are your personal projects"
+              />
               {/* User Display */}
               <div>
                 <Avatar src={avatar} width={60} height={60} />
@@ -157,14 +160,10 @@ const Dashboard = ({
         <Col>
           <Container>
             <div>
-              <Alert
-                variant={"success"}
-                onClose={() => setShow(false)}
-                dismissible
-              >
-                here are your notifications based on your follow preferences
-              </Alert>
-
+              <Message
+                variant="success"
+                message="here are your notifications based on your follow preferences"
+              />
               {/* Project Notifications */}
               <h4>
                 <span role="img" aria-label="stopwatch">
@@ -244,23 +243,25 @@ const Dashboard = ({
         {/* Col 4 */}
         <Col md={3} lg={3} xl={3}>
           <Container>
-            {/* <Alert
-							variant={"primary"}
-							onClose={() => setShow(false)}
-							dismissible
-						>
-							here are some project based on your preferences
-						</Alert> */}
-
             {/* Projects interest */}
             <div>
-              <h4>&#127942; Projects that you maybe interested in</h4>
+              <h4>
+                <span role="img" aria-label="trophy">
+                  &#127942;
+                </span>{" "}
+                Projects that you may be interested in
+              </h4>
               <Recommendations projects={recommendations} />
             </div>
             <br></br>
             {/* Hackathon Panel */}
             <div>
-              <h4>&#127751; Upcoming Hackathons</h4>
+              <h4>
+                <span role="img" aria-label="city">
+                  &#127751;
+                </span>{" "}
+                Upcoming Hackathons
+              </h4>
               <HackathonCard hackathons={hackathons} />
             </div>
           </Container>

@@ -3,6 +3,22 @@ import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../../css/NotificationList.css";
 
+function add_emoji(notification) {
+  if (notification.includes("created")) {
+    return (
+      <span role="img" aria-label="tada">
+        &#127881;
+      </span>
+    );
+  } else if (notification.includes("joined")) {
+    return (
+      <span role="img" aria-label="checkmark">
+        &#9989;
+      </span>
+    );
+  }
+}
+
 export function NotificationList(props) {
   // User has notifications
   if (props.projectNotifications && props.projectNotifications.length > 0) {
@@ -19,9 +35,11 @@ export function NotificationList(props) {
                 style={{ marginTop: 10 }}
                 className="d-inline-block align-top"
               />
-              <span className="notificationText">{projectNotification}</span>
+              <span className="notificationText">
+                {add_emoji(projectNotification)}
+                {projectNotification}
+              </span>
             </Card.Text>
-
             <Link to={"/project/" + projectNotification.pid}>
               <Button variant="success">View Project</Button>
             </Link>

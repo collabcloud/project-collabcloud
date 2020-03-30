@@ -17,22 +17,10 @@ import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import ThreadOverview from "../../components/specialized/Forum/ThreadOverview";
 import ThreadForm from "../../components/specialized/Forum/ThreadForm";
 
-import {
-  get_subforum,
-  get_threads,
-  post_thread
-} from "../../actions/forumActions";
+import { get_subforum, get_threads } from "../../actions/forumActions";
 
 const Subforum = props => {
-  const {
-    get_subforum,
-    get_threads,
-    post_thread,
-    subforum,
-    threads,
-    uid,
-    match
-  } = props;
+  const { get_subforum, get_threads, subforum, threads, uid, match } = props;
 
   const title = match.params.subforum;
 
@@ -172,17 +160,13 @@ function mapDispatchToProps(dispatch) {
     },
     get_threads: sid => {
       dispatch(get_threads(sid));
-    },
-    post_thread: (sid, submitter, title, description) => {
-      dispatch(post_thread(sid, submitter, title, description));
     }
   };
 }
 
 Subforum.propTypes = {
   get_subforum: PropTypes.func.isRequired,
-  get_threads: PropTypes.func.isRequired,
-  post_thread: PropTypes.func.isRequired
+  get_threads: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subforum);

@@ -13,7 +13,6 @@ export const MessageList = props => {
   }, [scrollbar]);
 
   useEffect(() => {
-    setMessage("");
     scrollbar.current.scrollToBottom();
   }, [scrollbar, props.messages]);
   function onSubmit(event) {

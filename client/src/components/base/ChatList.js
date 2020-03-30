@@ -46,7 +46,8 @@ export const ChatList = props => {
         var icon = (
           <Image
             className="msgImage float-left img-responsive"
-            src={require("../../avatar.png")}
+            src={value.avatar}
+            style={{ width: 60, height: 60 }}
             fluid
             roundedCircle
           />

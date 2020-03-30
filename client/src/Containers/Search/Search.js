@@ -17,7 +17,7 @@ const Search = props => {
     if (props.location.query !== "") {
       props.search(props.location.state.query);
     }
-  }, [props.location]);
+  }, [props.location, props]);
   return (
     <div>
       <NavigationBar />

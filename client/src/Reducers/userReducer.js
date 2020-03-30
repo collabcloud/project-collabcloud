@@ -1,8 +1,9 @@
-import { LOGIN, GET_SUCCESSFUL } from "../actions/types";
+import { LOGIN, GET_SUCCESSFUL, RESOURCE_NOT_FOUND } from "../actions/types";
 
 const initialState = {
   uid: localStorage.getItem("uid"),
-  other_profile: {}
+  other_profile: {},
+  status: 0
 };
 
 export default (state = initialState, action) => {
@@ -16,7 +17,13 @@ export default (state = initialState, action) => {
     case GET_SUCCESSFUL:
       return {
         ...state,
-        other_profile: action.payload[0]
+        other_profile: action.payload,
+        status: 200
+      };
+    case RESOURCE_NOT_FOUND:
+      return {
+        ...state,
+        status: 404
       };
     default:
       return state;

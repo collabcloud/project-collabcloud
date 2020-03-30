@@ -33,7 +33,9 @@ app.use("/api/users/github", require("./routes/auth/github"));
 app.use("/api/users/login", require("./routes/auth/login"));
 app.use("/api/users/auth", require("./routes/auth/auth"));
 
+// User routes
 app.use("/api/user/", require("./routes/user/getUser"));
+app.use("/api/username/", require("./routes/user/getUserByName"));
 app.use("/api/users/avatar", require("./routes/user/avatar"));
 
 // Project routes

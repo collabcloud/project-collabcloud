@@ -33,7 +33,7 @@ const Profile = withRouter(
       if (uid && uid !== undefined) {
         get_user_info(uid);
       }
-    }, [uid]);
+    }, [get_user_info, uid]);
 
     useEffect(() => {
       setFollowers(profile.followers);

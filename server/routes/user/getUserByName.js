@@ -4,13 +4,13 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const db = require("../../database.js");
 
-// @route   GET api/user/
+// @route   GET api/username/:username
 // @desc    Retrieve the information of the specified user
 // @access  Public
 router.get(
-  "/:uid",
+  "/:username",
   [
-    check("uid", "User ID is required")
+    check("username", "Username is required")
       .not()
       .isEmpty()
   ],
@@ -28,20 +28,15 @@ router.get(
 
       const user = await db.models.user.findOne({
         where: {
-          uid: req.params.uid
+          username: req.params.username
         }
       });
 
-      const followers = await db.models.user_followers.count({
-        where: {
-          followeeUid: req.params.uid
-        }
-      });
-
-      user.setDataValue("followers", followers);
-
-      res.status(200).json(user);
-
+      if (user === null) {
+        res.status(404).json({ status: "NOT_FOUND" });
+      } else {
+        res.status(200).json(user);
+      }
       return;
     } catch (err) {
       console.log(err);

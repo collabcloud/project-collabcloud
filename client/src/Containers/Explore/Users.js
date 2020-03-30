@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 //import UsersList component
@@ -29,6 +29,7 @@ const Users = ({ getUsers, users, request_user }) => {
   return (
     <div>
       <Container>
+        <NavigationBar />
         <h1>Explore Users in CollabCloud</h1>
         <h5>View fellow Collaborators on CollabCloud</h5>
         <UsersList users={users} buttonHandler={requestButtonHandler} />
