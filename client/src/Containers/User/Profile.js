@@ -7,7 +7,7 @@ import ProjectDisplay from "../../components/specialized/User/ProjectDisplay";
 import { get_user_info } from "../../actions/userActions";
 import { follow_user } from "../../actions/followActions";
 import { unfollow_user } from "../../actions/unfollowActions";
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 const Profile = withRouter(
@@ -20,6 +20,8 @@ const Profile = withRouter(
     loggedInUid,
     match
   }) => {
+    const history = useHistory();
+
     const [show, setShow] = useState(false);
     const [btnText, setBtnText] = useState("Follow");
     const [btnColour, setBtnColour] = useState("primary");
@@ -36,6 +38,9 @@ const Profile = withRouter(
     }, [get_user_info, uid]);
 
     useEffect(() => {
+      if (profile.followers === undefined) {
+        history.push("/404");
+      }
       setFollowers(profile.followers);
     }, [profile]);
 

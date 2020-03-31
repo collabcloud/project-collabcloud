@@ -4,40 +4,15 @@ import Button from "react-bootstrap/Button";
 import ReactTags from "react-tag-autocomplete";
 
 import "../../../css/RegisterForm.css";
+import tech_suggestions_array from "../../../utils/techSuggestions";
 
 import { register } from "../../../actions/registerActions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+const tech_suggestions = tech_suggestions_array;
 
 const RegisterForm = withRouter(
   ({ register, registered, githubExists, attempted, wrongUser, history }) => {
-    const tech_suggestions = [
-      { id: 1, name: "MongoDB" },
-      { id: 2, name: "Express" },
-      { id: 3, name: "React" },
-      { id: 4, name: "Node.js" },
-      { id: 5, name: "Python" },
-      { id: 6, name: "JavaScript" },
-      { id: 7, name: "Java" },
-      { id: 8, name: "C++" },
-      { id: 9, name: "C#" },
-      { id: 10, name: "HTML/CSS" },
-      { id: 11, name: "Swift" },
-      { id: 12, name: "SQL" },
-      { id: 13, name: "MongoDB" },
-      { id: 14, name: "Express" },
-      { id: 15, name: "React" },
-      { id: 16, name: "Angular" },
-      { id: 17, name: "VueJS" },
-      { id: 18, name: "Flutter" },
-      { id: 19, name: "Kubernetes" },
-      { id: 20, name: "Jupyter" },
-      { id: 21, name: "Pytorch" },
-      { id: 22, name: "Numpy" },
-      { id: 23, name: "Passport" },
-      { id: 24, name: "Kotlin" }
-    ];
-
     const [tech, setTech] = useState([]);
 
     const [errors, setErrors] = useState([]);
@@ -97,8 +72,10 @@ const RegisterForm = withRouter(
      */
 
     function handleAddition(tag) {
-      const technologies = [].concat(tech, tag);
-      setTech(technologies);
+      if (tech.some(tech_tag => tech_tag.id !== tag.id) || tech.length === 0) {
+        const technologies = [].concat(tech, tag);
+        setTech(technologies);
+      }
     }
 
     function handleDelete(i) {

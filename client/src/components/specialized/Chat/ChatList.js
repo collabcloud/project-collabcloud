@@ -5,6 +5,9 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 
 import "../../../css/Chat.css";
 
+const default_avatar =
+  "https://avatars2.githubusercontent.com/u/45340119?s=400&v=4";
+
 export const ChatList = props => {
   const [username, setFormData] = useState("");
   useEffect(() => {
@@ -46,7 +49,7 @@ export const ChatList = props => {
         var icon = (
           <Image
             className="msgImage float-left img-responsive"
-            src={value.avatar}
+            src={value.avatar === undefined ? default_avatar : value.avatar}
             style={{ width: 60, height: 60 }}
             fluid
             roundedCircle

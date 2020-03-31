@@ -157,8 +157,10 @@ const CreateProjects = props => {
   // WARNING: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
 
   function handleAddition(tag) {
-    const technologies = [].concat(tech, tag);
-    setTech(technologies);
+    if (tech.some(tech_tag => tech_tag.id !== tag.id) || tech.length === 0) {
+      const technologies = [].concat(tech, tag);
+      setTech(technologies);
+    }
   }
 
   function handleDelete(i) {
@@ -188,6 +190,10 @@ const CreateProjects = props => {
   // When the user clicks on "Submit", sends this project over to the back-end
   function onSubmit(e) {
     e.preventDefault();
+    // TODO: look into why setAlert is not working
+    if (name.length === 0 || desc.length === 0 || desc.length > 1000) {
+      return;
+    }
     addProject({
       name,
       desc,
@@ -197,7 +203,6 @@ const CreateProjects = props => {
       githubStars,
       links
     });
-    setAlert("Successfully created your project", "success");
     // Redirect to the explore page
     history.push("/explore");
   }

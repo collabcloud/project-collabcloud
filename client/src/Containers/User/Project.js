@@ -36,7 +36,8 @@ const Project = props => {
     loggedInUid,
     deleteSuccess,
     match,
-    setAlert
+    setAlert,
+    status
   } = props;
 
   // This is the PID of the project whose information we want to get
@@ -62,6 +63,12 @@ const Project = props => {
     leaveSuccess,
     projectId
   ]);
+
+  useEffect(() => {
+    if (status === 500) {
+      history.push("/404");
+    }
+  }, [projectInformation, status]);
 
   // Check if the logged in user is part of this project
   useEffect(() => {
@@ -253,7 +260,8 @@ function mapStateToProps(state) {
     deleteSuccess: state.project.deleteSuccess,
     leaveSuccess: state.project.leaveSuccess,
     joinSuccess: state.project.joinSuccess,
-    loggedInUid: state.user.uid
+    loggedInUid: state.user.uid,
+    status: state.project.status
   };
 }
 

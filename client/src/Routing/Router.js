@@ -53,6 +53,7 @@ const Router = () => {
 
       {/* Catch All -- 404 */}
       <Route component={Page404} />
+      <Route path="/404" component={Page404} />
     </Switch>
   );
 };
