@@ -16,7 +16,7 @@ import "../../../css/Project.css";
 import tech_suggestions_array from "../../../utils/techSuggestions";
 
 // Icons for website buttons
-import { FaGithub, FaLinkedin, FaDev, FaIoxhost } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaDev } from "react-icons/fa";
 import { MdWeb, MdSettings } from "react-icons/md";
 const github = <FaGithub />;
 const website = <MdWeb />;

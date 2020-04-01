@@ -50,7 +50,6 @@ router.post(
       let techName = technologiesArray.map(tech => tech.name);
       let numTechnologies = Object.keys(techDict).length;
       let techArray = [];
-      // If you add more technologies into the techDict dictionary, then change the total value of the array
       for (i = 0; i < numTechnologies; i++) {
         techArray[i] = 0;
       }
@@ -72,9 +71,9 @@ router.post(
         PROJECT_IDS_NAMESPACE
       );
 
-      let projectObect = db.models.project.findOrCreate({
+      let projectObject = db.models.project.findOrCreate({
         where: {
-          ownerId: req.body.ownerUserId,
+          ownerId: req.body.ownerUserID,
           projectName: req.body.projectName
         },
         defaults: {

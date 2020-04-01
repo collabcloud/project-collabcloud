@@ -1,5 +1,6 @@
 import axios from "axios";
 import { RECOMMEND } from "./types";
+import techSuggestionsArray from "../utils/techSuggestions";
 
 export const recommendProjects = () => async dispatch => {
   const config = {
@@ -9,33 +10,7 @@ export const recommendProjects = () => async dispatch => {
   };
 
   try {
-    const techDict = {
-      1: "MongoDB",
-      2: "Express",
-      3: "React",
-      4: "Node.js",
-      5: "Python",
-      6: "JavaScript",
-      7: "Java",
-      8: "C++",
-      9: "C#",
-      10: "HTML/CSS",
-      11: "Swift",
-      12: "SQL",
-      13: "MongoDB",
-      14: "Express",
-      15: "React",
-      16: "Angular",
-      16: "VueJS",
-      18: "Flutter",
-      19: "Kubernetes",
-      20: "Jupyter",
-      21: "Pytorch",
-      22: "Numpy",
-      23: "Passport",
-      24: "Kotlin"
-    };
-
+    const techDict = techSuggestionsArray;
     const res = await axios.get("/api/projects/", config);
     const res2 = await axios.get("/api/users/auth");
 

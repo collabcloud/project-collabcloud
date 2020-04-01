@@ -17,7 +17,7 @@ import { getGithubRepos } from "../../../actions/githubActions";
 import PropTypes from "prop-types";
 
 import "../../../css/CreateProjects.css";
-import tech_suggestions_array from "../../../utils/techSuggestions";
+import techSuggestionsArray from "../../../utils/techSuggestions";
 
 const github = <FaGithub />;
 const website = <MdWeb />;
@@ -36,7 +36,7 @@ const CreateProjects = props => {
   } = props;
 
   let githubUsername = username;
-  const tech_suggestions = tech_suggestions_array;
+  const techSuggestions = techSuggestionsArray;
 
   // Initialize state hooks
   const [name, setName] = useState("");
@@ -192,7 +192,7 @@ const CreateProjects = props => {
     e.preventDefault();
     // TODO: look into why setAlert is not working
     if (name.length === 0 || desc.length === 0 || desc.length > 1000) {
-      // setAlert("Please ensure that the inputs are filled out correctly", "danger");
+      setAlert("Please ensure that the inputs are filled out correctly", "danger");
       return;
     }
     addProject({
@@ -239,7 +239,7 @@ const CreateProjects = props => {
             <ReactTags
               className="item"
               tags={tech}
-              suggestions={tech_suggestions}
+              suggestions={techSuggestions}
               handleDelete={handleDelete}
               handleAddition={handleAddition}
             />

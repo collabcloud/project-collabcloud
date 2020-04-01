@@ -36,6 +36,7 @@ const RegisterForm = withRouter(
           "",
           "Authorizing with Github in 2 seconds"
         ]);
+        // TODO: Get these values from an env file
         setTimeout(function() {
           window.location.assign(
             "https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo"

@@ -1,3 +1,9 @@
+/* Any changes made to this file should also be made to:
+ * - /client/src/utils/techSuggestions.js
+ * - /client/src/utils/techDictionary.js
+ * - /server/utils/techSuggestions.js
+ */
+
 let techSuggestions = {
     "MongoDB": 1,
     "Express": 2,
