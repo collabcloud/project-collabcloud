@@ -26,9 +26,10 @@ const RegisterForm = withRouter(
       } else if (registered) {
         history.push({
           pathname: "/login",
-          state: { type: "success", message: "Welcome to Collab Cloud" }
+          state: { type: "success", message: "Welcome to CollabCloud" }
         });
       } else if (wrongUser) {
+        // TODO: Fix bug here, error message appears multiple times (it should only appear once)
         setErrors([
           ...errors,
           "Username must match Github username",

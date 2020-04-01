@@ -107,7 +107,7 @@ const CreateProjects = props => {
   useEffect(() => {
     // Populate the Redux store with this user's GitHub repos
     getGithubRepos({ githubUsername, repoVisibility: "all" });
-  }, []); // WARNING: adding in any dependencies to this array causes the page to loop forever
+  }, [githubUsername]);
 
   // Runs whenever any of the specified props (isLoading, githubRepos) are updated
   useEffect(() => {
@@ -192,6 +192,7 @@ const CreateProjects = props => {
     e.preventDefault();
     // TODO: look into why setAlert is not working
     if (name.length === 0 || desc.length === 0 || desc.length > 1000) {
+      // setAlert("Please ensure that the inputs are filled out correctly", "danger");
       return;
     }
     addProject({
