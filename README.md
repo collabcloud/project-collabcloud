@@ -89,7 +89,7 @@ More to come soon...
 - [@parashan](https://github.com/parashan)
 - [@TheRBajaj](https://github.com/TheRBajaj)
 
-##🌲Environment Variables<a name = "environment_variables"></a>
+## 🌲Environment Variables<a name = "environment_variables"></a>
 Your environment file in server/config/.env should be set up like the following below:
 ```
 # DO NOT COMMIT THIS FILE
