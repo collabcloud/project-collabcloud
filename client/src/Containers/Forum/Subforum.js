@@ -8,7 +8,7 @@ import {
   Col
 } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
 import PropTypes from "prop-types";
 
@@ -20,8 +20,16 @@ import ThreadForm from "../../components/specialized/Forum/ThreadForm";
 import { get_subforum, get_threads } from "../../actions/forumActions";
 
 const Subforum = props => {
-  const { get_subforum, get_threads, subforum, threads, uid, match } = props;
-
+  const {
+    get_subforum,
+    get_threads,
+    subforum,
+    threads,
+    uid,
+    status,
+    match
+  } = props;
+  const history = useHistory();
   const title = match.params.subforum;
 
   //Received from GET
@@ -35,6 +43,12 @@ const Subforum = props => {
       get_subforum(title);
     }
   }, [get_subforum, title]);
+
+  useEffect(() => {
+    if (status === 404) {
+      history.push("/404");
+    }
+  }, [status, history]);
 
   useEffect(() => {
     if (typeof subforum.sid !== "undefined") {
@@ -149,7 +163,8 @@ function mapStateToProps(state) {
   return {
     threads: state.forum.threads,
     subforum: state.forum.subforum,
-    uid: state.user.uid
+    uid: state.user.uid,
+    status: state.forum.status
   };
 }
 

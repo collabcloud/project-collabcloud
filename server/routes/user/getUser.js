@@ -32,6 +32,11 @@ router.get(
         }
       });
 
+      if (user == null) {
+        res.status(404).json({ errorMessage: "Resource not found" });
+        return;
+      }
+
       const followers = await db.models.user_followers.count({
         where: {
           followeeUid: req.params.uid

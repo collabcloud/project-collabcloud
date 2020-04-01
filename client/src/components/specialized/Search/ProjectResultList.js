@@ -3,6 +3,8 @@ import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { GoProject, GoNote, GoPerson } from "react-icons/go";
 import { useHistory } from "react-router-dom";
 
+import LinkButton from "../../base/LinkButton";
+
 export const ProjectResultList = props => {
   const history = useHistory();
 
@@ -17,7 +19,7 @@ export const ProjectResultList = props => {
   const CellFormatter = (cell, row) => {
     return (
       <div>
-        <a href="#">{cell}</a>
+        <LinkButton text={cell} />
       </div>
     );
   };

@@ -78,6 +78,12 @@ router.get(
           topic: { [Op.iLike]: topic }
         }
       });
+
+      if (thread.length === 0) {
+        res.status(404).json({ errorMessage: "Resource not found" });
+        return;
+      }
+
       res.status(200).json(thread[0]);
 
       return;

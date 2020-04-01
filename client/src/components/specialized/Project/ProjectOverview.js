@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Jumbotron,
   Button,
@@ -9,12 +9,14 @@ import {
   ListGroup
 } from "react-bootstrap";
 import { Item } from "../../base/Item";
+import { ItemList } from "../../base/ItemList";
+import { RequestCollaborators } from "../../specialized/Project/RequestCollaborators";
 import logo from "../../../harmoney.png";
 import "../../../css/Project.css";
 import tech_suggestions_array from "../../../utils/techSuggestions";
 
 // Icons for website buttons
-import { FaGithub, FaLinkedin, FaDev } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaDev, FaIoxhost } from "react-icons/fa";
 import { MdWeb, MdSettings } from "react-icons/md";
 const github = <FaGithub />;
 const website = <MdWeb />;
@@ -24,8 +26,10 @@ const moment = require("moment");
 
 // This component shows an individual project's view
 export function ProjectOverview(props) {
+  const [showRequests, setShowRequests] = useState(false);
   const project = props.projectInformation.project;
   const userIsProjectOwner = props.loggedInUid === project.ownerId;
+
   const technologiesList = tech_suggestions_array;
 
   let links = [
@@ -55,12 +59,65 @@ export function ProjectOverview(props) {
     }
   ];
 
+  function renderProjectButtons() {
+    if (!props.hasUserJoined) {
+      if (props.requestedToJoin) {
+        return (
+          <Button variant="success" onClick={props.acceptRequest}>
+            Join Project
+          </Button>
+        );
+      } else if (!props.requestedToJoinProject) {
+        return (
+          <Button variant="success" onClick={props.requestToJoinProject}>
+            Request To Join Project
+          </Button>
+        );
+      } else {
+        return (
+          <Button variant="secondary" disabled>
+            Requested
+          </Button>
+        );
+      }
+    }
+    console.log(userIsProjectOwner);
+    if (!userIsProjectOwner) {
+      return (
+        <Button
+          variant="danger"
+          onClick={props.requestToLeaveProject}
+          disabled={userIsProjectOwner}
+          style={{
+            marginLeft: "10px",
+            pointerEvents: !userIsProjectOwner ? "" : "none"
+          }}
+        >
+          Leave Project
+        </Button>
+      );
+    }
+  }
+
+  function toggleShowRequests() {
+    setShowRequests(!showRequests);
+  }
+
   return (
     <Jumbotron>
       <Container>
         <Row>
           <Col xs={4}>
             <Image src={logo} />
+            {userIsProjectOwner && (
+              <h4 style={{ marginTop: "155px" }}>Requests</h4>
+            )}
+            {userIsProjectOwner && (
+              <ItemList
+                items={props.requests}
+                onClick={props.acceptUserRequest}
+              />
+            )}
           </Col>
 
           <Col className="d-flex align-items-start flex-column">
@@ -135,34 +192,13 @@ export function ProjectOverview(props) {
                   </Button>
                 )}
               </p>
-              <p className="project-view-submit-buttons">
-                {props.hasUserJoined ? (
-                  <Button
-                    variant="danger"
-                    onClick={props.requestToLeaveProject}
-                    disabled={userIsProjectOwner}
-                    style={{
-                      pointerEvents: !userIsProjectOwner ? "" : "none"
-                    }}
-                  >
-                    Leave Project
-                  </Button>
-                ) : (
-                  <Button
-                    variant="success"
-                    onClick={props.requestToJoinProject}
-                  >
-                    Join Project
-                    {/* Request to Join TODO: make this requestable*/}
-                  </Button>
-                )}
-              </p>
+              <p>{renderProjectButtons()}</p>
               <p className="project-view-submit-buttons">
                 {props.hasUserJoined && (
                   <Button
                     variant="primary"
                     type="button"
-                    onClick={props.toggleRequests}
+                    onClick={toggleShowRequests}
                     disabled={!userIsProjectOwner}
                     style={{ pointerEvents: userIsProjectOwner ? "" : "none" }}
                   >
@@ -171,6 +207,12 @@ export function ProjectOverview(props) {
                 )}
               </p>
             </Row>
+            {showRequests && (
+              <RequestCollaborators
+                requestUser={props.requestUser}
+                requestStatus={props.requestStatus}
+              />
+            )}
           </Col>
         </Row>
       </Container>

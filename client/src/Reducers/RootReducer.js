@@ -3,7 +3,7 @@ import registerReducer from "./registerReducer";
 import projectReducer from "./projectReducer";
 import githubReducer from "./githubReducer";
 import loginReducer from "./loginReducer";
-import userRequestReducer from './userRequestReducer';
+import userRequestReducer from "./userRequestReducer";
 import userReducer from "./userReducer";
 import searchReducer from "./searchReducer";
 import followReducer from "./followReducer";
@@ -14,7 +14,6 @@ import hackathonsReducer from "./hackathonsReducer";
 import notificationReducer from "./notificationReducer";
 import forumReducer from "./forumReducer";
 import imgReducer from "./imgReducer";
-
 
 export default combineReducers({
   project: projectReducer,

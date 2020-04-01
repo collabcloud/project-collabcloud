@@ -14,6 +14,7 @@ import { getHackathons, addHackathons } from "../../actions/hackathonActions";
 import { getProjectNotifications } from "../../actions/notificationActions";
 import { get_user_projects } from "../../actions/projectActions";
 import { recommendProjects } from "../../actions/recommendAction";
+import { get_user_requests } from "../../actions/userRequestAction";
 
 // redux imports
 import { Link, useHistory } from "react-router-dom";
@@ -34,6 +35,8 @@ const Dashboard = ({
   loggedInUid,
   projectNotifications,
   user,
+  get_user_requests,
+  requests,
   get_user_projects,
   recommendations,
   projects
@@ -54,6 +57,7 @@ const Dashboard = ({
 
   // Loads project notifications
   useEffect(() => {
+    get_user_requests(loggedInUid);
     get_user_projects(loggedInUid);
     getProjectNotifications(loggedInUid, 10);
   }, [getProjectNotifications, loggedInUid, get_user_projects]);
@@ -93,6 +97,26 @@ const Dashboard = ({
         </Card.Title>
       ));
       return project_links;
+    }
+  }
+
+  function renderRequests() {
+    if (
+      requests === null ||
+      requests === undefined ||
+      requests === [] ||
+      requests.length === 0
+    ) {
+      return <Card.Title>No requests to display</Card.Title>;
+    } else {
+      const request_links = requests.map((request, index) => (
+        <Card.Title key={index}>
+          <Link to={"/project/" + request.projectPid}>
+            {request.requesterName}/{request.projectName}
+          </Link>
+        </Card.Title>
+      ));
+      return request_links;
     }
   }
 
@@ -151,9 +175,7 @@ const Dashboard = ({
                     </span>
                     Project Requests
                   </Card.Title>
-                  <Card.Title>
-                    <a href="/">jcserv/Optimize.me (1)</a>
-                  </Card.Title>
+                  {renderRequests()}
                 </Card.Body>
               </Card>
             </div>
@@ -283,7 +305,8 @@ function mapStateToProps(state) {
     loggedInUid: state.user.uid,
     user: state.login.profile,
     recommendations: state.project.recommendedprojects,
-    projects: state.project.projects
+    projects: state.project.projects,
+    requests: state.users.requests
   };
 }
 
@@ -300,6 +323,9 @@ function mapDispatchToProps(dispatch) {
     },
     get_user_projects: uid => {
       dispatch(get_user_projects(uid));
+    },
+    get_user_requests: uid => {
+      dispatch(get_user_requests(uid));
     },
     recommendProjects: () => {
       dispatch(recommendProjects());

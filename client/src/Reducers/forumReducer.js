@@ -12,7 +12,7 @@ import {
 // This initial state is a representation of what we need to store in the store
 const initialState = {
   followed: false,
-  status: "",
+  status: 0,
   subforum: "",
   thread: "",
   subforums: [],
@@ -27,47 +27,47 @@ export default (state = initialState, action) => {
     case POST_SUCCESSFUL:
       return {
         ...state,
-        status: "Success"
+        status: 200
       };
     case GET_SUBFORUM:
       return {
         ...state,
         subforum: action.payload,
-        status: "Success"
+        status: 200
       };
     case GET_SUBFORUMS:
       return {
         ...state,
         subforums: action.payload,
-        status: "Success"
+        status: 200
       };
     case GET_THREAD:
       return {
         ...state,
         thread: action.payload,
-        status: "Success"
+        status: 200
       };
     case GET_THREADS:
       return {
         ...state,
         threads: action.payload,
-        status: "Success"
+        status: 200
       };
     case GET_POSTS:
       return {
         ...state,
         posts: action.payload,
-        status: "Success"
+        status: 200
       };
     case RESOURCE_NOT_FOUND:
       return {
         ...state,
-        status: "404 Resource Not Found"
+        status: 404
       };
     case ATTEMPT:
       return {
         ...state,
-        status: "500 Internal Server Error"
+        status: 500
       };
     default:
       return state;

@@ -5,9 +5,6 @@ import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import { ProjectOverview } from "../../components/specialized/Project/ProjectOverview";
 import { ProjectForm } from "../../components/specialized/Project/ProjectForm";
 import { Contributors } from "../../components/specialized/Project/Contributors";
-//import Users from "../../Containers/Explore/Users";
-import "../../css/Project.css";
-
 // Redux imports
 import { connect } from "react-redux"; // connects the ProjectForm component to the Redux store
 import { setAlert } from "../../actions/alert";
@@ -19,7 +16,13 @@ import {
   joinProject,
   resetProjectActionStatus
 } from "../../actions/projectActions";
+import {
+  get_project_requests,
+  request_user,
+  accept_request
+} from "../../actions/userRequestAction";
 import PropTypes from "prop-types";
+import "../../css/Project.css";
 
 const Project = props => {
   const {
@@ -27,9 +30,13 @@ const Project = props => {
     updateProject,
     deleteProject,
     joinProject,
+    accept_request,
     leaveProject,
     resetProjectActionStatus,
+    get_project_requests,
+    request_user,
     projectInformation,
+    requests,
     updateSuccess,
     joinSuccess,
     leaveSuccess,
@@ -37,7 +44,8 @@ const Project = props => {
     deleteSuccess,
     match,
     setAlert,
-    status
+    status,
+    requestStatus
   } = props;
 
   // This is the PID of the project whose information we want to get
@@ -48,14 +56,17 @@ const Project = props => {
   const [showRequests, setShowRequests] = useState(false);
   const [hasUserJoined, setUserJoinedProject] = useState(false);
   const [successfullyUpdated, setUpdated] = useState(false);
+  const [requestedToJoin, setRequestedToJoin] = useState(false);
+  const [requestedToJoinProject, setRequestedToJoinProject] = useState(false);
   let requestedToUpdate = false;
-  let requestedToJoin = false;
+  //let requestedToJoin = false;
   let requestedToLeave = false;
   let requestedToDelete = false;
 
   // Loads project information
   useEffect(() => {
     getProjectInformation({ projectId });
+    get_project_requests(projectId);
   }, [
     getProjectInformation,
     updateSuccess,
@@ -63,12 +74,12 @@ const Project = props => {
     leaveSuccess,
     projectId
   ]);
-
+  // 404 redirect
   useEffect(() => {
     if (status === 500) {
       history.push("/404");
     }
-  }, [projectInformation, status]);
+  }, [projectInformation, status, history]);
 
   // Check if the logged in user is part of this project
   useEffect(() => {
@@ -79,6 +90,18 @@ const Project = props => {
       }
     });
   }, [projectInformation, loggedInUid]);
+
+  useEffect(() => {
+    requests.forEach(request => {
+      if (request.requestee_uid === loggedInUid) {
+        setRequestedToJoin(true);
+      }
+      if (request.requester_uid === loggedInUid) {
+        console.log("hi");
+        setRequestedToJoinProject(true);
+      }
+    });
+  }, [requests, loggedInUid]);
 
   // When a user tries to delete their project, check if deletion was successful
   useEffect(() => {
@@ -125,7 +148,7 @@ const Project = props => {
   useEffect(() => {
     if (joinSuccess) {
       // console.log("Successfully joined project");
-      requestedToJoin = false;
+      setRequestedToJoin(false);
       setUserJoinedProject(true);
       resetProjectActionStatus();
       setAlert("Successfully joined project", "success");
@@ -147,29 +170,20 @@ const Project = props => {
 
   // User requests to join a Project
   const requestToJoinProject = () => {
-    requestedToJoin = true;
+    request_user(
+      projectInformation.collaborators[0].username,
+      loggedInUid,
+      projectInformation.project.pid
+    );
+  };
 
-    // Only collaborators may join an existing project, so we hardcode that field
+  // User accepts a join request
+  const acceptRequest = () => {
     joinProject(loggedInUid, projectInformation.project.pid, "collaborator");
   };
 
-  const renderSwitch = (showSettings, showRequests) => {
-    var view = "";
-    if (!showSettings && !showRequests) {
-      view = "projectOverview";
-    } else if (showSettings) {
-      view = "projectSettings";
-    } else if (showRequests) {
-      view = "projectRequests";
-    }
-
-    switch (view) {
-      case "projectOverview":
-
-      case "projectSettings":
-
-      case "projectRequests":
-    }
+  const acceptUserRequest = uid => {
+    accept_request(uid, projectInformation.project.pid, "collaborator");
   };
 
   // User requests to leave a project
@@ -178,6 +192,15 @@ const Project = props => {
 
     // Only collaborators may leave a project, so we hardcode that field
     leaveProject(loggedInUid, projectInformation.project.pid, "collaborator");
+  };
+
+  //Request a user to join a project
+  const requestUser = requestee => {
+    request_user(
+      requestee,
+      projectInformation.project.ownerId,
+      projectInformation.project.pid
+    );
   };
 
   // Calls updateProject() from redux
@@ -233,10 +256,17 @@ const Project = props => {
         ) : (
           <ProjectOverview
             projectInformation={projectInformation}
+            requests={requests}
             toggleSettings={toggleSettings}
             toggleRequests={toggleRequests}
             requestToJoinProject={requestToJoinProject}
+            acceptRequest={acceptRequest}
+            acceptUserRequest={acceptUserRequest}
             requestToLeaveProject={requestToLeaveProject}
+            requestUser={requestUser}
+            requestStatus={requestStatus}
+            requestedToJoin={requestedToJoin}
+            requestedToJoinProject={requestedToJoinProject}
             hasUserJoined={hasUserJoined}
             loggedInUid={loggedInUid}
           />
@@ -261,7 +291,9 @@ function mapStateToProps(state) {
     leaveSuccess: state.project.leaveSuccess,
     joinSuccess: state.project.joinSuccess,
     loggedInUid: state.user.uid,
-    status: state.project.status
+    status: state.project.status,
+    requestStatus: state.users.status,
+    requests: state.users.requests
   };
 }
 
@@ -304,6 +336,15 @@ function mapDispatchToProps(dispatch) {
     },
     setAlert: (message, alertType) => {
       dispatch(setAlert(message, alertType));
+    },
+    get_project_requests: pid => {
+      dispatch(get_project_requests(pid));
+    },
+    request_user: (requestee, requester, pid) => {
+      dispatch(request_user(requestee, requester, pid));
+    },
+    accept_request: (uid, pid, memberStatus) => {
+      dispatch(accept_request(uid, pid, memberStatus));
     }
   };
 }
@@ -316,7 +357,8 @@ Project.propTypes = {
   leaveProject: PropTypes.func.isRequired,
   joinProject: PropTypes.func.isRequired,
   resetProjectActionStatus: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  request_user: PropTypes.func.isRequired
 };
 
 // Inserting a null value where mapStateToProps() should be

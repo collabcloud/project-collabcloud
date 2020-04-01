@@ -10,8 +10,8 @@ const moment = require("moment");
 const databaseHelpers = require("../../utils/databaseHelpers");
 const notificationHelpers = require("../../utils/notifications/projectNotifications");
 
-// @route   POST api/projects/join
-// @desc    A user joins a project
+// @route   POST api/projects/accept
+// @desc    Accept a user's request to join your project
 // @access  Public
 router.post(
   "/",
@@ -74,7 +74,7 @@ router.post(
       await db.models.user_requests.destroy({
         where: {
           projectPid: req.body.pid,
-          requestee_uid: req.body.uid
+          requester_uid: req.body.uid
         }
       });
 

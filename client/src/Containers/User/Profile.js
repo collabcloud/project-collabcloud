@@ -18,6 +18,7 @@ const Profile = withRouter(
     profile,
     followed,
     loggedInUid,
+    status,
     match
   }) => {
     const history = useHistory();
@@ -38,11 +39,14 @@ const Profile = withRouter(
     }, [get_user_info, uid]);
 
     useEffect(() => {
-      if (profile.followers === undefined) {
+      setFollowers(profile.followers);
+    }, [profile, history]);
+
+    useEffect(() => {
+      if (status === 404) {
         history.push("/404");
       }
-      setFollowers(profile.followers);
-    }, [profile]);
+    }, [status, history]);
 
     const onClickprofile = () => setForm(showform => !showform);
 
@@ -119,7 +123,8 @@ function mapStateToProps(state) {
   return {
     followed: state.follow.followed,
     loggedInUid: state.user.uid,
-    profile: state.user.other_profile
+    profile: state.user.other_profile,
+    status: state.user.status
   };
 }
 

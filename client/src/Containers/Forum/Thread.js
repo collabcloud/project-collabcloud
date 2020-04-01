@@ -3,15 +3,24 @@ import { Container, Breadcrumb, Form, Button, Card } from "react-bootstrap";
 import Post from "../../components/specialized/Forum/Post";
 
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { generateURL, timeToDate, convertToTitle } from "../../utils/helpers";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 import { get_posts, make_post, get_thread } from "../../actions/forumActions";
 
 const Thread = props => {
-  const { get_thread, thread, get_posts, make_post, posts, uid, match } = props;
-
+  const {
+    get_thread,
+    thread,
+    get_posts,
+    make_post,
+    posts,
+    uid,
+    match,
+    status
+  } = props;
+  const history = useHistory();
   const subforum = match.params.subforum;
   const threadTopic = match.params.thread;
 
@@ -30,6 +39,12 @@ const Thread = props => {
       get_thread(subforum, threadTopic);
     }
   }, [get_thread, subforum, threadTopic]);
+
+  useEffect(() => {
+    if (status === 404) {
+      history.push("/404");
+    }
+  }, [status, history]);
 
   useEffect(() => {
     if (typeof thread.tid !== "undefined") {
@@ -134,7 +149,8 @@ function mapStateToProps(state) {
   return {
     posts: state.forum.posts,
     thread: state.forum.thread,
-    uid: state.user.uid
+    uid: state.user.uid,
+    status: state.forum.status
   };
 }
 

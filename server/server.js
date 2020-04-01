@@ -46,12 +46,13 @@ app.use("/api/projects/information", require("./routes/projects/getProject"));
 app.use("/api/projects/update", require("./routes/projects/updateProject"));
 app.use("/api/projects/delete", require("./routes/projects/deleteProject"));
 app.use("/api/projects/join", require("./routes/projects/joinProject"));
+app.use("/api/projects/accept", require("./routes/projects/acceptRequest"));
 app.use("/api/projects/leave", require("./routes/projects/leaveProject"));
 
 // GitHub API routes
 app.use("/api/github/repos", require("./routes/github/getRepos"));
 app.use("/api/users/public", require("./routes/users/getUsers"));
-app.use("/api/users/request", require("./routes/users/postUserRequests"));
+app.use("/api/users/request", require("./routes/users/requests"));
 
 // Search routes
 app.use("/api/search", require("./routes/search/search"));

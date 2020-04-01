@@ -19,12 +19,7 @@ export const get_user_info = uid => async dispatch => {
     let response = await axios.get(url, config);
 
     if (response) {
-      if (response.status === 404) {
-        dispatch({
-          type: RESOURCE_NOT_FOUND
-        });
-        dispatch(setAlert("Requested UID doesn't exist", "danger"));
-      } else if (response.status === 200) {
+      if (response.status === 200) {
         dispatch({
           type: GET_SUCCESSFUL,
           payload: response.data
@@ -32,8 +27,15 @@ export const get_user_info = uid => async dispatch => {
       }
     }
   } catch (err) {
-    console.log("Error occurred while retrieving user data");
-    console.log(err);
+    if (err.response.status === 404) {
+      dispatch({
+        type: RESOURCE_NOT_FOUND
+      });
+      dispatch(setAlert("Requested UID doesn't exist", "danger"));
+    } else {
+      console.log("Error occurred while retrieving user data");
+      console.log(err);
+    }
   }
 };
 

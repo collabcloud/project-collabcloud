@@ -3,6 +3,7 @@ export const RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND"; //404
 export const GET_SUCCESSFUL = "GET_SUCCESSFUL"; //200 OK on GET
 export const POST_SUCCESSFUL = "POST_SUCCESSFUL"; //200 OK on POST
 export const PUT_SUCCESSFUL = "PUT_SUCCESSFUL"; //200 OK on PUT
+export const INVALID = "INVALID"; //409
 export const ATTEMPT = "ATTEMPT"; //500 Internal Server Error
 
 // Project Actions
@@ -31,8 +32,8 @@ export const LOGIN = "LOGIN";
 export const GET_USERS = "GET_USERS";
 
 //Request Action
-export const USER_REQUESTED = 'USER_REQUESTED';
-export const USER_ALREADY_REQUESTED = 'USER_ALREADY_REQUESTED';
+export const USER_REQUESTED = "USER_REQUESTED";
+export const USER_ALREADY_REQUESTED = "USER_ALREADY_REQUESTED";
 
 //Search actions
 export const SEARCH = "SEARCH";
@@ -54,7 +55,6 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 
 //profile actions
 export const GET_INFO = "GET_INFO";
-
 
 //chat actions
 export const ADD_TO_CHAT = "ADD_TO_CHAT";
@@ -80,3 +80,6 @@ export const GET_POSTS = "GET_POSTS";
 
 // Notification Actions
 export const GET_PROJECT_NOTIFICATIONS = "GET_PROJECT_NOTIFICATIONS";
+
+//Request actions
+export const GET_REQUESTS = "GET_REQUESTS";
