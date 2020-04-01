@@ -32,7 +32,7 @@
 - [Built Using](#built_using)
 - [Authors](#authors)
 - [Acknowledgments](#acknowledgement)
-- [Environment Variables](#environment_file)
+- [Environment Variables](#environment_variables)
 
 ## 🧐 About <a name = "about"></a>
 CollabCloud is a social networking platform built on top of Github’s API. It allows users to post Software Development related projects seeking collaborators, join projects, and find projects that would be best suited for their skillset and needs. This project will cater towards students and have extensive social networking features.
@@ -41,7 +41,7 @@ CollabCloud is a social networking platform built on top of Github’s API. It a
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 
 ### Prerequisites
-What things you need to install the software and how to install them.
+What things you need to install and run the application
 - Node.js (runtime environment, Node package manager) [node.js](https://nodejs.org/en/download/)
 - PostgreSQL (database server)
   - Linux:
@@ -58,7 +58,7 @@ A step by step series of examples that tell you how to get a development environ
 2. Ensure that your PSQL database is running
 3. Create an environment file in the server directory
     - `cd server && touch .env`
-    - See [here](#environment_file) for more details about what to put in the .env file
+    - See [here](#environment_variables) for more details about what to put in the .env file
 4. From the project directory root, install dependencies for both the client and server
     - `cd client && npm install`
     - `cd server && npm install`
@@ -66,7 +66,8 @@ A step by step series of examples that tell you how to get a development environ
     - `cd server && npm run dev`
 
 ## 🎈 Usage <a name="usage"></a>
-Navigate to localhost:3000 on your favourite browser.
+- Navigate to localhost:3000 on your favourite browser
+- A user must have a GitHub account in order to register with CollabCloud
 
 ## 🚀 Deployment <a name = "deployment"></a>
 More to come soon...
@@ -76,6 +77,8 @@ More to come soon...
 - [Express](https://expressjs.com/) - Server Framework
 - [ReactJs](https://reactjs.org/) - Front End Framework
 - [NodeJs](https://nodejs.org/en/) - Server Environment
+- [GitHub API v3](https://developer.github.com/v3/)
+- [Imgur API](https://apidocs.imgur.com/?version=latest)
 
 ## ✍️ Authors <a name = "authors"></a>
 - [@daniil-oliynyk](https://github.com/daniil-oliynyk)
@@ -86,8 +89,8 @@ More to come soon...
 - [@parashan](https://github.com/parashan)
 - [@TheRBajaj](https://github.com/TheRBajaj)
 
-## Environment Variables
-Your environment file should be set up like the following below:
+##🌲Environment Variables<a name = "environment_variables"></a>
+Your environment file in server/config/.env should be set up like the following below:
 ```
 # DO NOT COMMIT THIS FILE
 # This is the environment variables file
