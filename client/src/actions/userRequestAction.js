@@ -140,7 +140,6 @@ export const request_user = (requestee, requester, pid) => async dispatch => {
     requester: requester,
     pid: pid
   });
-  console.log(body);
   axios
     .post(url, body, config)
     .then(response => {

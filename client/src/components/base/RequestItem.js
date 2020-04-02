@@ -2,15 +2,20 @@ import React from "react";
 import { ListGroup, Button } from "react-bootstrap";
 
 export function RequestItem(props) {
+  const requestedByOwner = props.item.requester_uid === props.ownerId;
+
   return (
     <ListGroup.Item variant="dark">
-      {props.value}
+      {requestedByOwner ? props.item.requesteeName : props.item.requesterName}
       <Button
-        variant="success"
+        variant={requestedByOwner ? "secondary" : "success"}
         style={{ marginLeft: "40px" }}
-        onClick={props.onClick(props.item.requester_uid)}
+        disabled={requestedByOwner}
+        onClick={() => {
+          props.onClick(props.item.requester_uid);
+        }}
       >
-        Accept
+        {requestedByOwner ? "Pending" : "Accept"}
       </Button>
     </ListGroup.Item>
   );

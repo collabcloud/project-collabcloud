@@ -11,33 +11,6 @@ const ProjectDisplay = ({ get_user_projects, projects, ...props }) => {
       get_user_projects(props.uid);
     }
   }, [get_user_projects, props.uid]);
-  /*
-  const projects = [
-    {
-      name: "Example-Project",
-      desc: "Hi! This is literally just an example description",
-      tech: [
-        { id: 1, name: "MongoDB" },
-        { id: 2, name: "Express" },
-        { id: 3, name: "React" },
-        { id: 4, name: "Node.js" }
-      ],
-      followers: 40,
-      likes: 20
-    },
-    {
-      name: "Harmoney",
-      desc: "Streamlined group payments solution",
-      tech: [
-        { id: 1, name: "MongoDB" },
-        { id: 2, name: "Express" },
-        { id: 3, name: "React" },
-        { id: 4, name: "Node.js" }
-      ],
-      followers: 469,
-      likes: 200
-    }
-  ];*/
 
   function renderProjects() {
     if (projects && projects.length > 0) {

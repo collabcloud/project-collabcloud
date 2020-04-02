@@ -37,7 +37,8 @@ const Chat = props => {
   const [errMsg, setErrMsg] = useState("");
 
   function performWindowAction(windowNum) {
-    if (windowNum === props.chatList.length - 1) {
+    //DO NOT SET TO ===
+    if (windowNum == props.chatList.length - 1) {
       setAddUser(true);
     } else {
       props.changeRecipient(

@@ -12,8 +12,8 @@ export function ItemList(props) {
       const items_list = props.items.map((item, index) => (
         <RequestItem
           key={index}
-          value={item.requesterName}
           item={item}
+          ownerId={props.ownerId}
           onClick={props.onClick}
         />
       ));

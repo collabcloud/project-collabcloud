@@ -4,17 +4,17 @@ import { ListGroup, Badge } from "react-bootstrap";
 export const Recommendations = ({ projects }) => {
   function renderRecommendations() {
     if (projects && projects.length > 0) {
-      const rec_list = projects.map((object, index) => (
+      const rec_list = projects.map((project, index) => (
         <ListGroup.Item
           variant="secondary"
           key={index}
           action
-          href={"/project/" + object.pid}
+          href={"/project/" + project.pid}
         >
-          {object.projectName}{" "}
-          {object.relation.map((value, index) => (
+          {project.projectName}{" "}
+          {project.relation.map((rel, index) => (
             <Badge key={index} variant="primary">
-              {value}
+              {rel.name}
             </Badge>
           ))}
         </ListGroup.Item>

@@ -39,15 +39,17 @@ app.use("/api/username/", require("./routes/user/getUserByName"));
 app.use("/api/users/avatar", require("./routes/user/avatar"));
 
 // Project routes
-app.use("/api/projects/create", require("./routes/projects/createProject"));
 app.use("/api/projects/", require("./routes/projects/getPublicProjects"));
+app.use("/api/projects/create", require("./routes/projects/createProject"));
 app.use("/api/projects/user/", require("./routes/projects/getUserProjects"));
 app.use("/api/projects/information", require("./routes/projects/getProject"));
 app.use("/api/projects/update", require("./routes/projects/updateProject"));
 app.use("/api/projects/delete", require("./routes/projects/deleteProject"));
 app.use("/api/projects/join", require("./routes/projects/joinProject"));
 app.use("/api/projects/accept", require("./routes/projects/acceptRequest"));
-app.use("/api/projects/leave", require("./routes/projects/leaveProject"));
+app.use("/api/projects/img", require("./routes/projects/img"));
+
+app.use("/api/projects/", require("./routes/projects/getPublicProjects"));
 
 // GitHub API routes
 app.use("/api/github/repos", require("./routes/github/getRepos"));
@@ -65,6 +67,10 @@ app.use("/api/hackathons", require("./routes/hackathons/getHackathons"));
 app.use("/api/hackathons/add", require("./routes/hackathons/addHackathons"));
 
 // Notification routes
+app.use(
+  "/api/notifications/",
+  require("./routes/notifications/user/getUserNotifications")
+);
 app.use(
   "/api/notifications/project/get",
   require("./routes/notifications/project/getNotification")

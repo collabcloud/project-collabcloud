@@ -24,6 +24,7 @@ const Profile = withRouter(
     const history = useHistory();
 
     const [show, setShow] = useState(false);
+    const [img, setImg] = useState("");
     const [btnText, setBtnText] = useState("Follow");
     const [btnColour, setBtnColour] = useState("primary");
     const [message, setMessage] = useState("");
@@ -40,6 +41,7 @@ const Profile = withRouter(
 
     useEffect(() => {
       setFollowers(profile.followers);
+      setImg(profile.avatar);
     }, [profile, history]);
 
     useEffect(() => {
@@ -60,6 +62,9 @@ const Profile = withRouter(
         follow_user(uid, loggedInUid);
         setShow(true);
       } else if (loggedInUid !== uid) {
+        if (followers - 1 < 0) {
+          return;
+        }
         setFollowers(followers - 1);
         setMessage("Unfollowed " + profile.username);
         setBtnText("Follow");
@@ -98,6 +103,10 @@ const Profile = withRouter(
                 showform={showform}
                 followers={followers}
                 btnText={btnText}
+                img={img}
+                setImg={setImg}
+                get_user_info={get_user_info}
+                uid={uid}
                 btnColour={btnColour}
               />
             </Col>

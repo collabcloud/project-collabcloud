@@ -1,6 +1,12 @@
 import React from "react";
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
-import { GoProject, GoStar, GoEye, GoNote, GoPerson } from "react-icons/go";
+import {
+  GoProject,
+  GoStar,
+  GoGitCommit,
+  GoNote,
+  GoPerson
+} from "react-icons/go";
 import { useHistory } from "react-router-dom";
 
 const URL = "localhost:3000/project/";
@@ -10,29 +16,30 @@ export const ProjectsList = props => {
 
   var hardcode = [
     {
-      star: 620,
-      eye: 1900,
-      owner: "Jarrod Servilla"
+      star: 400,
+      commit: 142,
+      owner: "lancebongo"
     },
     {
-      star: 145,
-      eye: 955,
-      owner: "Jarrod Servilla"
+      star: 3,
+      commit: 357,
+      owner: "jarrodservilla"
     },
     {
-      star: 999,
-      eye: 9999,
-      owner: "Jarrod Servilla"
+      star: 0,
+      commit: 13,
+      owner: "skelzore"
+    },
+
+    {
+      star: 0,
+      commit: 22,
+      owner: "jcserv"
     },
     {
-      star: 421,
-      eye: 1778,
-      owner: "Jarrod Servilla"
-    },
-    {
-      star: 842,
-      eye: 400,
-      owner: "Jarrod Servilla"
+      star: 0,
+      commit: 0,
+      owner: "jcserv"
     }
   ];
 
@@ -80,8 +87,8 @@ export const ProjectsList = props => {
         <TableHeaderColumn width="100px" dataSort dataField="star">
           <GoStar /> Stars
         </TableHeaderColumn>
-        <TableHeaderColumn width="100px" dataSort dataField="eye">
-          <GoEye /> Views
+        <TableHeaderColumn width="125px" dataSort dataField="commit">
+          <GoGitCommit /> Commits
         </TableHeaderColumn>
         <TableHeaderColumn width="150px" dataSort dataField="owner">
           <GoPerson /> Owner

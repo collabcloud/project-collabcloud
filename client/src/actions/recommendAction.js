@@ -8,25 +8,24 @@ export const recommendProjects = () => async dispatch => {
       "Content-Type": "application/json"
     }
   };
-
   try {
     const techDict = techSuggestionsArray;
     const res = await axios.get("/api/projects/", config);
     const res2 = await axios.get("/api/users/auth");
-
     // If success, dispatch action
     if (res && res2) {
       var userinterests = res2.data[0].interestedTech;
-      userinterests.split("");
+
+      userinterests = userinterests.split("");
       var projects = res.data.projects_obj.projects_lst;
       var recommendlst = [];
       for (var i = 0; i < projects.length; i++) {
         if (projects[i].ownerId !== res2.data[0].uid) {
           var projectTech = projects[i].technologiesUsed;
-          projectTech.split("");
+          projectTech = projectTech.split("");
           var related = [];
           for (var j = 0; j < userinterests.length; j++) {
-            if (projectTech[j] === 1 && userinterests[j] === 1) {
+            if (projectTech[j] === "1" && userinterests[j] === "1") {
               related.push(techDict[j + 1]);
             }
           }

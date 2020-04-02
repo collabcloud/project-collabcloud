@@ -79,9 +79,9 @@ const removeAllUsersFromProject = async pid => {
 // Given a project, remove all notifications for that project
 const removeAllProjectNotifications = async pid => {
   try {
-    const records = await db.models.project_notifications.destroy({
+    const records = await db.models.notifications.destroy({
       where: {
-        pid: pid
+        rid: pid
       }
     });
     if (records) {
@@ -114,6 +114,29 @@ const convertToTitleCap = str => {
   return new_title;
 };
 
+const generateURL = (subforum, title, isParent) => {
+  const subforum_url =
+    "/forum/" +
+    subforum
+      .toLowerCase()
+      .split(" ")
+      .join("-") +
+    "/";
+  if (isParent) {
+    return subforum_url;
+  }
+  const url =
+    subforum_url +
+    title
+      .replace("?", "")
+      .toLowerCase()
+      .split(" ")
+      .join("-") +
+    "/";
+
+  return url;
+};
+
 exports.convertToTitleCap = convertToTitleCap;
 exports.convertToTitle = convertToTitle;
 exports.getUsername = getUsername;
@@ -121,3 +144,4 @@ exports.addUserToProject = addUserToProject;
 exports.removeAllUsersFromProject = removeAllUsersFromProject;
 exports.getProjectName = getProjectName;
 exports.removeAllProjectNotifications = removeAllProjectNotifications;
+exports.generateURL = generateURL;

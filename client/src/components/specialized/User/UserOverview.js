@@ -11,12 +11,14 @@ import {
 } from "react-bootstrap";
 
 import tech_suggestions_array from "../../../utils/techSuggestions";
-import { GoOrganization } from "react-icons/go";
+import { GoOrganization, GoClock } from "react-icons/go";
+import { FaBuffer } from "react-icons/fa";
 import { MdLocationOn, MdChatBubble } from "react-icons/md";
 import { postAvatar } from "../../../actions/imgActions";
 import { connect } from "react-redux";
 import { Item } from "../../base/Item";
 
+const moment = require("moment");
 const technologiesList = tech_suggestions_array;
 
 const popover = (
@@ -26,20 +28,26 @@ const popover = (
 );
 
 const UserDetails = ({ uid, postAvatar, link, ...props }) => {
-  const [avatarLink, setAvatarLink] = useState("");
+  const [update, setUpdate] = useState(false);
   const [profile, setProfile] = useState({});
   const fileUpload = useRef(null);
 
   useEffect(() => {
     if (props.profile) {
       setProfile(profile);
-      setAvatarLink(props.profile.avatar);
+      props.setImg(props.profile.avatar);
     }
   }, [profile, props]);
 
   useEffect(() => {
-    setAvatarLink(link);
+    if (link) {
+      props.setImg(link);
+    }
   }, [link]);
+
+  useEffect(() => {
+    setUpdate(!update);
+  }, [props.img]);
 
   const onAvatarClick = () => {
     fileUpload.current.click();
@@ -82,7 +90,7 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
         <OverlayTrigger trigger="hover" placement="bottom" overlay={popover}>
           <img
             alt=""
-            src={avatarLink}
+            src={props.img}
             width="125"
             height="125"
             style={{ marginTop: 10 }}
@@ -95,7 +103,7 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
       return (
         <img
           alt=""
-          src={avatarLink}
+          src={props.img}
           width="125"
           height="125"
           style={{ marginTop: 10 }}
@@ -151,8 +159,11 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
               </p>
             </Col>
             <Col xs={"auto"} className="d-flex align-items-start flex-column">
-              <h3>{props.profile.username}</h3>
+              <h3>@{props.profile.username}</h3>
               <h6>{renderName()}</h6>
+              <h6 style={{ fontSize: "1.3em" }}>
+                <FaBuffer /> Interested Tech
+              </h6>
               <ListGroup horizontal>{renderTech()}</ListGroup>
             </Col>
             <Col xs={"auto"}>
@@ -176,6 +187,10 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
             <Col xs={5}>
               <p align="left">
                 <MdChatBubble /> {renderDescription()}
+              </p>
+              <p align="left">
+                <GoClock /> CollabClouding since{" "}
+                {moment(props.profile.createdAt).format("MMMM Do YYYY")}
               </p>
             </Col>
           </Row>

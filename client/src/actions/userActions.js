@@ -157,7 +157,6 @@ export const update_avatar = ({ uid, image }) => async dispatch => {
       }
       // User logs in successfully
       else if (response.status === 200) {
-        console.log("update success");
         dispatch({ type: PUT_SUCCESSFUL });
         dispatch(setAlert("Uploaded avatar", "success"));
       }

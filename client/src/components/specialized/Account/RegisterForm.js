@@ -17,7 +17,6 @@ const RegisterForm = withRouter(
 
     const [errors, setErrors] = useState([]);
     useEffect(() => {
-      console.log(wrongUser);
       if (githubExists) {
         history.push({
           pathname: "/login",

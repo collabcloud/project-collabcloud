@@ -79,6 +79,7 @@ export const GET_THREADS = "GET_THREADS";
 export const GET_POSTS = "GET_POSTS";
 
 // Notification Actions
+export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const GET_PROJECT_NOTIFICATIONS = "GET_PROJECT_NOTIFICATIONS";
 
 //Request actions

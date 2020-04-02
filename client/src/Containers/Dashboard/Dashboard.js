@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import { Card, Button, Container, Row, Col, ListGroup } from "react-bootstrap";
 
 import NotificationAlert from "../../components/base/Alert";
 import Message from "../../components/base/Message";
@@ -8,10 +8,15 @@ import Avatar from "../../components/base/Avatar";
 import { Recommendations } from "../../components/specialized/Dashboard/Recommend";
 import { HackathonCard } from "../../components/specialized/Dashboard/HackathonCard";
 import { NotificationList } from "../../components/specialized/Dashboard/NotificationList";
+import { RecentActivity } from "../../components/specialized/Dashboard/RecentActivity";
+
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 import { getHackathons, addHackathons } from "../../actions/hackathonActions";
-import { getProjectNotifications } from "../../actions/notificationActions";
+import {
+  getNotifications,
+  getProjectNotifications
+} from "../../actions/notificationActions";
 import { get_user_projects } from "../../actions/projectActions";
 import { recommendProjects } from "../../actions/recommendAction";
 import { get_user_requests } from "../../actions/userRequestAction";
@@ -31,14 +36,17 @@ const Dashboard = ({
   getHackathons,
   hackathons,
   isLoading,
+  getNotifications,
   getProjectNotifications,
+  recommendProjects,
   loggedInUid,
+  notifications,
   projectNotifications,
   user,
   get_user_requests,
   requests,
   get_user_projects,
-  recommendations,
+  recommendationsLst,
   projects
 }) => {
   const [name, setName] = useState("");
@@ -59,14 +67,15 @@ const Dashboard = ({
   useEffect(() => {
     get_user_requests(loggedInUid);
     get_user_projects(loggedInUid);
-    getProjectNotifications(loggedInUid, 10);
+    getNotifications(loggedInUid, 5);
+    getProjectNotifications(loggedInUid, 5);
+    recommendProjects();
   }, [getProjectNotifications, loggedInUid, get_user_projects]);
 
   useEffect(() => {
-    recommendProjects();
-  }, []);
-
-  useEffect(() => {
+    if (user === undefined) {
+      return;
+    }
     setName(user.username);
     setAvatar(user.avatar);
     if (
@@ -87,7 +96,11 @@ const Dashboard = ({
       projects === [] ||
       projects.length === 0
     ) {
-      return <Card.Title>No projects to display</Card.Title>;
+      return (
+        <Card.Title style={{ fontSize: "medium" }}>
+          No projects to display
+        </Card.Title>
+      );
     } else {
       const project_links = projects.map((project, index) => (
         <Card.Title key={index}>
@@ -107,7 +120,11 @@ const Dashboard = ({
       requests === [] ||
       requests.length === 0
     ) {
-      return <Card.Title>No requests to display</Card.Title>;
+      return (
+        <Card.Title style={{ fontSize: "medium" }}>
+          No requests to display
+        </Card.Title>
+      );
     } else {
       const request_links = requests.map((request, index) => (
         <Card.Title key={index}>
@@ -198,9 +215,11 @@ const Dashboard = ({
                 Project Notifications
               </h4>
               <Card>
-                <NotificationList
-                  projectNotifications={projectNotifications.notifications}
-                />
+                <ListGroup variant="flush">
+                  <NotificationList
+                    projectNotifications={projectNotifications.notifications}
+                  />
+                </ListGroup>
               </Card>
 
               <br />
@@ -212,55 +231,7 @@ const Dashboard = ({
                 Recent Activity
               </h4>
               <Card>
-                <Card.Body>
-                  {/* Card Index 0 */}
-                  <Card.Title>
-                    <span role="img" aria-label="checkmark">
-                      &#9989;
-                    </span>{" "}
-                    <a href="/">TheRBajaj</a> joined your{" "}
-                    <a href="/">Optimize.me</a> project!
-                  </Card.Title>
-                  <Card.Text>
-                    <span role="img" aria-label="speech">
-                      &#128172;
-                    </span>{" "}
-                    <a href="/">TheRBajaj</a> wrote: I think this project will
-                    go well!
-                  </Card.Text>
-                  <Button variant="success">View Project</Button>
-                </Card.Body>
-
-                <Card.Body>
-                  {/* Card Index 1 */}
-                  <Card.Title>
-                    <span role="img" aria-label="question_mark">
-                      &#10067;
-                    </span>{" "}
-                    <a href="/">matthuynh</a> is requesting to join your{" "}
-                    <a href="/">Stock Trading</a> project!
-                  </Card.Title>
-                  <Card.Text>
-                    <span role="img" aria-label="speech">
-                      &#128172;
-                    </span>{" "}
-                    <a href="/">matthuynh</a> wrote: I love finance and would
-                    like to join this project with you!
-                  </Card.Text>
-                  <Button variant="success">View Project</Button>
-                </Card.Body>
-
-                <Card.Body>
-                  {/* Card Index 2 */}
-                  <Card.Title>
-                    <span role="img" aria-label="star">
-                      &#11088;
-                    </span>{" "}
-                    <a href="/">Furqan17</a> starred your{" "}
-                    <a href="/">207 Paint</a> project!
-                  </Card.Title>
-                  <Button variant="success">View Project</Button>
-                </Card.Body>
+                <RecentActivity notifications={notifications.notifications} />
               </Card>
             </div>
           </Container>
@@ -277,7 +248,7 @@ const Dashboard = ({
                 </span>{" "}
                 Projects that you may be interested in
               </h4>
-              <Recommendations projects={recommendations} />
+              <Recommendations projects={recommendationsLst} />
             </div>
             <br></br>
             {/* Hackathon Panel */}
@@ -301,10 +272,11 @@ function mapStateToProps(state) {
   return {
     hackathons: state.hackathons.hackathons,
     isLoading: state.hackathons.loading,
+    notifications: state.notifications.notifications,
     projectNotifications: state.notifications.projectNotifications,
     loggedInUid: state.user.uid,
     user: state.login.profile,
-    recommendations: state.project.recommendedprojects,
+    recommendationsLst: state.project.recommendedprojects,
     projects: state.project.projects,
     requests: state.users.requests
   };
@@ -317,6 +289,9 @@ function mapDispatchToProps(dispatch) {
     },
     addHackathons: () => {
       dispatch(addHackathons());
+    },
+    getNotifications: (uid, notificationsToGet) => {
+      dispatch(getNotifications(uid, notificationsToGet));
     },
     getProjectNotifications: (uid, notificationsToGet) => {
       dispatch(getProjectNotifications(uid, notificationsToGet));
@@ -335,7 +310,6 @@ function mapDispatchToProps(dispatch) {
 Dashboard.propTypes = {
   getHackathons: PropTypes.func.isRequired,
   addHackathons: PropTypes.func.isRequired,
-  recommendProjects,
   getProjectNotifications: PropTypes.func.isRequired
 };
 

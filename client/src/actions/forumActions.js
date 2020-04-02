@@ -119,7 +119,6 @@ export const get_thread = (subforum, threadName) => async dispatch => {
     })
     .catch(err => {
       if (err.response.status === 404) {
-        console.log(404);
         dispatch({
           type: RESOURCE_NOT_FOUND
         });

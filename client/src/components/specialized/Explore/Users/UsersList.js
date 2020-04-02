@@ -11,7 +11,6 @@ export const UsersList = props => {
   for (var i = 0; i < props.users.length; i++) {
     users.push({ ...props.users[i] });
   }
-  //console.log(users);
 
   function buttonFormat(cell, row) {
     return (

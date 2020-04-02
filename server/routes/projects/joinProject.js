@@ -87,14 +87,22 @@ router.post(
       );
       if (success) {
         // Get project name associated with projectid
-        const projectName = await databaseHelpers.getProjectName(req.body.pid);
+        //const projectName = await databaseHelpers.getProjectName(req.body.pid);
+
+        //temporary
+        const project = await db.models.project.findOne({
+          where: {
+            pid: req.body.pid
+          }
+        });
 
         // Add a notification for this project
         notificationHelpers.addNotification(
           "project_update",
           req.body.pid,
           req.body.uid,
-          `${username} joined ${projectName} at ${moment().format(
+          project.ownerId,
+          `${username} joined ${project.projectName} at ${moment().format(
             "MMMM Do YYYY, h:mm:ss a"
           )}! Welcome ${username}!`
         );

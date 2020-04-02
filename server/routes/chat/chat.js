@@ -1,12 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const { check, validationResult, body } = require("express-validator");
+const uuidv5 = require("uuid/v5");
+require("dotenv").config({ path: "./config/.env" });
+
 const db = require("../../database.js");
 const { Op } = require("sequelize");
+const moment = require("moment");
+const notificationHelpers = require("../../utils/notifications/projectNotifications");
 
 var user_sockets = {};
 var sockets_users = {};
-function messageSendHandler(data) {
+async function messageSendHandler(data) {
   var data = JSON.parse(data);
   if (data.to == "" || data.from == "" || data.message == "") {
     return;
@@ -49,6 +53,27 @@ function messageSendHandler(data) {
       }
     }
   );
+
+  const receiver = await db.models.user.findOne({
+    where: {
+      username: data.to
+    }
+  });
+
+  const sender = await db.models.user.findOne({
+    where: {
+      username: data.from
+    }
+  });
+  notificationHelpers.addChatNotification(
+    "chat_receive",
+    sender.uid,
+    receiver.uid,
+    `${data.from} sent a message at ${moment().format(
+      "MMMM Do YYYY, h:mm:ss a"
+    )}!`,
+    `${data.from} said: ${data.message}`
+  );
 }
 function messageHandler(socket) {
   return function(data) {
@@ -64,7 +89,7 @@ function disconnectHandler(socket) {
     delete user_sockets[user];
   };
 }
-function messageReplyHandler(data) {
+async function messageReplyHandler(data) {
   var data = JSON.parse(data);
   db.models.chats.update(
     { firstUser: data.from, secondUser: data.to, seen: true },
@@ -74,6 +99,29 @@ function messageReplyHandler(data) {
         secondUser: data.to
       }
     }
+  );
+
+  //TODO: remove this workaround
+  const receiver = await db.models.user.findOne({
+    where: {
+      username: data.to
+    }
+  });
+
+  const sender = await db.models.user.findOne({
+    where: {
+      username: data.from
+    }
+  });
+
+  notificationHelpers.addChatNotification(
+    "chat_response",
+    sender.uid,
+    receiver.uid,
+    `${data.from} responded to your message at ${moment().format(
+      "MMMM Do YYYY, h:mm:ss a"
+    )}!`,
+    `${data.from} said: ${data.message}`
   );
 }
 function connectHandler(socket) {

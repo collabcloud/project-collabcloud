@@ -86,6 +86,7 @@ router.post(
               ? "no description"
               : req.body.description,
           isPrivate: req.body.visibility == "false" ? true : false,
+          img: "https://i.imgur.com/ncWaC3P.png",
           githubStars: req.body.githubStars,
           technologiesUsed: encodedTech,
           githubLink: linkArray[0] ? linkArray[0] : "",
@@ -121,6 +122,7 @@ router.post(
       notificationHelpers.addNotification(
         "project_update",
         projectID,
+        req.body.ownerUserID,
         req.body.ownerUserID,
         `${username} created ${req.body.projectName} at ${moment().format(
           "MMMM Do YYYY, h:mm:ss a"

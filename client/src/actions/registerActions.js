@@ -1,10 +1,13 @@
 import axios from "axios";
-import { GET_TOKEN, GITHUB_EXISTS, ATTEMPT, GITHUB_USERNAME_NOMATCH } from "./types";
+import {
+  GET_TOKEN,
+  GITHUB_EXISTS,
+  ATTEMPT,
+  GITHUB_USERNAME_NOMATCH
+} from "./types";
 
 // Registeration action
 export const register = (auth_code, formData) => async dispatch => {
-  //console.log("Redux register");
-  //console.log(auth_code);
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -30,14 +33,11 @@ export const register = (auth_code, formData) => async dispatch => {
         dispatch({
           type: GITHUB_EXISTS
         });
-      }
-      else if(err.response.status === 400){
-       
+      } else if (err.response.status === 400) {
         dispatch({
           type: GITHUB_USERNAME_NOMATCH
-        })
-      } 
-      else {
+        });
+      } else {
         dispatch({
           type: ATTEMPT
         });

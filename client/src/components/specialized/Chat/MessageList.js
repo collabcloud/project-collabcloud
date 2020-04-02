@@ -35,6 +35,7 @@ export const MessageList = props => {
       time: dateTime
     };
     props.sendMessage(message);
+    setMessage("");
   }
   function onChange(event) {
     event.preventDefault();

@@ -3,9 +3,11 @@
 */
 require("dotenv").config({ path: "../config/.env" });
 const express = require("express");
-const axios = require("axios");
 const router = express.Router();
-const { check, validationResult, body } = require("express-validator");
+const { check, validationResult } = require("express-validator");
+const notificationHelpers = require("../../utils/notifications/projectNotifications");
+const moment = require("moment");
+
 const db = require("../../database.js");
 
 // @route   GET /api/users/request/user/:uid
@@ -146,6 +148,19 @@ router.post(
       //request already exists in db
       if (check.length > 0) {
         return res.status(400).json({ result: "request already exists" });
+      }
+
+      //If the requestee is the owner, then this is an incoming request
+      if (project.ownerId === user1.uid) {
+        notificationHelpers.addNotification(
+          "collaboration_request",
+          req.body.pid,
+          req.body.requester,
+          user1.uid,
+          `${user2.username} requested to join ${
+            project.projectName
+          } at ${moment().format("MMMM Do YYYY, h:mm:ss a")}!`
+        );
       }
 
       const RequestObject = db.models.user_requests.build({

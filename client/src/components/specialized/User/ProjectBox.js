@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Button, Container, Row, Col, ListGroup } from "react-bootstrap";
 import { GoBook, GoPerson } from "react-icons/go";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaBuffer } from "react-icons/fa";
 import { Item } from "../../base/Item";
 import tech_suggestions_array from "../../../utils/techSuggestions";
 
@@ -30,13 +30,7 @@ export default function ProjectBox(props) {
   }
 
   return (
-    <Card
-      fluid
-      hoverable="true"
-      bg="dark"
-      text="white"
-      className="margin-bottom"
-    >
+    <Card hoverable="true" bg="dark" text="white" className="margin-bottom">
       <Card.Body>
         <Container>
           <Row>
@@ -57,6 +51,10 @@ export default function ProjectBox(props) {
           </Row>
           <Row>
             <Col className="d-flex align-items-start flex-column">
+              <h6 style={{ fontSize: "1.1em" }}>
+                <FaBuffer />
+                Tech Stack
+              </h6>
               <ListGroup horizontal>{renderTech()}</ListGroup>
             </Col>
           </Row>

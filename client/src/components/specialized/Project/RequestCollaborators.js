@@ -5,10 +5,16 @@ import Message from "../../base/Message";
 export function RequestCollaborators(props) {
   const [collaborator, setCollaborator] = useState("");
   const [submitted, setSubmitted] = useState("");
+  const [requested, setRequested] = useState(false);
 
   function renderError() {
     var variant;
     var msgText;
+
+    if (!requested) {
+      return;
+    }
+
     if (props.requestStatus >= 400) {
       variant = "danger";
     }
@@ -36,9 +42,11 @@ export function RequestCollaborators(props) {
 
   function onSubmit(e) {
     e.preventDefault();
-    console.log("submit");
     props.requestUser(collaborator);
     setSubmitted(collaborator);
+    setCollaborator("");
+    renderError();
+    setRequested(true);
   }
 
   return (

@@ -17,6 +17,7 @@ const Thread = props => {
     make_post,
     posts,
     uid,
+    profile,
     match,
     status
   } = props;
@@ -50,7 +51,7 @@ const Thread = props => {
     if (typeof thread.tid !== "undefined") {
       setThreadId(thread.tid);
       setSid(thread.subforumSid);
-      setSubmitter(thread.username);
+      setSubmitter(profile.username);
       setCreatedAt(thread.createdAt);
       get_posts(thread.tid);
       get_posts(thread.tid);
@@ -150,7 +151,8 @@ function mapStateToProps(state) {
     posts: state.forum.posts,
     thread: state.forum.thread,
     uid: state.user.uid,
-    status: state.forum.status
+    status: state.forum.status,
+    profile: state.login.profile
   };
 }
 
