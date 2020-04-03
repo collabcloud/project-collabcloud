@@ -6,8 +6,13 @@ const express = require("express");
 const axios = require("axios");
 const uuidv5 = require("uuid/v5");
 const Sequelize = require("sequelize");
+const moment = require("moment");
 const router = express.Router();
 const { check, validationResult, body } = require("express-validator");
+const databaseHelpers = require("../../utils/databaseHelpers");
+
+const notificationHelpers = require("../../utils/notifications/projectNotifications");
+
 const db = require("../../database.js");
 
 const FORUM_IDS_NAMESPACE = process.env.FORUM_IDS_NAMESPACE;
@@ -36,6 +41,9 @@ router.get(
       }
 
       const posts = await db.models.post.findAll({
+        where: {
+          threadTid: req.query.tid
+        },
         include: {
           model: db.models.user,
           as: "submitter",
@@ -95,6 +103,12 @@ router.post(
       const content = req.body.content;
       let currentTime = new Date().getTime();
 
+      const thread = await db.models.thread.findOne({
+        where: {
+          tid: tid
+        }
+      });
+
       let pid = uuidv5(
         tid + sid + submitter + content + currentTime,
         FORUM_IDS_NAMESPACE
@@ -108,6 +122,21 @@ router.post(
         submitterUid: submitterUid,
         content: content
       });
+
+      notificationHelpers.addThreadNotification(
+        "thread_comment",
+        pid,
+        submitterUid,
+        thread.submitterUid,
+        `${submitter} commented on ${thread.topic} at ${moment().format(
+          "MMMM Do YYYY, h:mm:ss a"
+        )}!`,
+        `${submitter} said: ${content.slice(
+          0,
+          Math.min(content.length, 45)
+        )} ...`,
+        databaseHelpers.generateURL(thread.forum_title, thread.topic, false)
+      );
 
       await postObject.save();
 

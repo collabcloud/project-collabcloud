@@ -7,8 +7,8 @@ const Logout = props => {
   const history = useHistory();
   useEffect(() => {
     props.logout();
-    history.push("/login");
-  }, []);
+    history.push("/");
+  }, [props, history]);
 
   return (
     <div>

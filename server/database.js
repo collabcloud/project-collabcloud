@@ -41,8 +41,9 @@ const User = db.define(
       allowNull: false,
       type: DataTypes.STRING(50)
     },
+    // If changing this, also need to change technologiesUsed in Project
     interestedTech: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING(200),
       allowNull: true
     },
     githubid: {
@@ -98,6 +99,10 @@ const project = db.define(
       },
       primaryKey: true
     },
+    img: {
+      allowNull: false,
+      type: DataTypes.STRING(100)
+    },
     // gitRepoID: {
     //     type: DataTypes.STRING(50),
     //     allowNull: false
@@ -113,8 +118,9 @@ const project = db.define(
     githubStars: {
       type: DataTypes.STRING(10)
     },
+    // If changing this, need to also change interestedTech in User
     technologiesUsed: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(200),
       allowNull: false
     },
     githubLink: {
@@ -173,37 +179,6 @@ const Subforum = db.define(
   },
   {}
 );
-
-// Relation used to store Notifications
-db.define("project_notifications", {
-  nid: {
-    type: Sequelize.UUID,
-    allowNull: false,
-    primaryKey: true
-  },
-  pid: {
-    type: Sequelize.UUID,
-    allowNull: false,
-    primaryKey: true
-  },
-  notificationType: {
-    type: DataTypes.ENUM("project_update", "project_join_request"),
-    allowNull: false,
-    primaryKey: true
-  },
-  notificationCreator: {
-    type: Sequelize.UUID,
-    allowNull: false
-  },
-  notificationMessage: {
-    type: DataTypes.STRING(2000),
-    allowNull: false
-  }
-  // dateCreated: {
-  //     type: DataTypes.DATE,
-  //     defaultValue: Sequelize.NOW
-  // }
-});
 
 // Relation that stores a Follows relationship between a Project and a User
 const user_follows_project = db.define("user_follows_project", {
@@ -316,31 +291,78 @@ Post.belongsTo(User, { as: "submitter" });
 // TODO: We can add more notificationTypes for future notifications
 // -- project_update: made whenever any change is made to a project (COL-9 and COL-12)
 // -- collaboration_request: made when a user gets a request to collaborate on a specific project)
-const Notification = db.define("notification", {
+const Notification = db.define("notifications", {
   nid: {
     type: Sequelize.UUID,
     allowNull: false,
     primaryKey: true
   },
-  notificationType: {
-    type: DataTypes.ENUM("project_update", "collaboration_request"),
+  // The resource it is referencing
+  rid: {
+    type: Sequelize.UUID,
     allowNull: false,
     primaryKey: true
+  },
+  notificationType: {
+    type: DataTypes.ENUM(
+      "project_update",
+      "collaboration_request",
+      "thread_comment",
+      "project_comment",
+      "chat_receive",
+      "chat_response"
+    ),
+    allowNull: false,
+    primaryKey: true
+  },
+  notificationCreator: {
+    type: Sequelize.UUID,
+    allowNull: false
+  },
+  notificationObserver: {
+    type: Sequelize.UUID,
+    allowNull: false
   },
   notificationMessage: {
     type: DataTypes.STRING(2000),
     allowNull: false
   },
-  dateCreated: {
-    type: DataTypes.DATE,
-    defaultValue: Sequelize.NOW
+  submessage: {
+    type: DataTypes.STRING(100),
+    allowNull: true
+  },
+  url: {
+    type: DataTypes.STRING(2000),
+    allowNull: true
   }
 });
-// Relation that stores a relationship between a Notification and a User
 
-const users_notifications = db.define("users_notifications");
-users_notifications.belongsTo(User, { as: "notifee" });
-users_notifications.belongsTo(Notification, { as: "notification" });
+// Project requests
+const user_requests = db.define("user_requests", {
+  requestee_uid: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4
+  },
+  requester_uid: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4
+  },
+  projectName: {
+    type: DataTypes.STRING(500),
+    allowNull: false
+  },
+  requesterName: {
+    type: DataTypes.STRING(39),
+    allowNull: false
+  },
+  requesteeName: {
+    type: DataTypes.STRING(39),
+    allowNull: false
+  }
+});
+
+user_requests.belongsTo(User, { as: "owner" });
+user_requests.belongsTo(project, { as: "project" });
 
 db.sync({ force: false })
   .then(message => {

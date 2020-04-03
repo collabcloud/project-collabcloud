@@ -34,6 +34,8 @@ const store = createStore(
   applyMiddleware(thunk),
   // composeEnhancers(applyMiddleware(...middleWare))
 );
+// FOR DEBUGGING WITH CHROME REDUX EXTENSION: comment out applyMiddleware(thunk), uncomment composeEnhancers()
+// Remember to revert changes before committing.
 
 // FOR DEBUGGING: In the browser console, do `window.store.getState()` to view the contents of the store
 window.store = store;

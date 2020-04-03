@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import ReactTags from "react-tag-autocomplete";
 import NavigationBar from "../../../components/specialized/Nav/NavigationBar";
-import { ProjectView } from "../../../components/specialized/ProjectView";
+import { ProjectView } from "../../../components/specialized/Project/Create/ProjectView";
 import { ItemsList } from "../../../components/base/ItemsList";
 
 import { FaGithub, FaLinkedin, FaDev } from "react-icons/fa";
@@ -17,13 +17,12 @@ import { getGithubRepos } from "../../../actions/githubActions";
 import PropTypes from "prop-types";
 
 import "../../../css/CreateProjects.css";
-import tech_suggestions_array from "../../../utils/techSuggestions";
+import techSuggestionsArray from "../../../utils/techSuggestions";
 
 const github = <FaGithub />;
 const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
-
 
 const CreateProjects = props => {
   const {
@@ -37,8 +36,7 @@ const CreateProjects = props => {
   } = props;
 
   let githubUsername = username;
-  const tech_suggestions = tech_suggestions_array;
-
+  const techSuggestions = techSuggestionsArray;
 
   // Initialize state hooks
   const [name, setName] = useState("");
@@ -109,7 +107,7 @@ const CreateProjects = props => {
   useEffect(() => {
     // Populate the Redux store with this user's GitHub repos
     getGithubRepos({ githubUsername, repoVisibility: "all" });
-  }, []); // WARNING: adding in any dependencies to this array causes the page to loop forever
+  }, [githubUsername]);
 
   // Runs whenever any of the specified props (isLoading, githubRepos) are updated
   useEffect(() => {
@@ -159,8 +157,10 @@ const CreateProjects = props => {
   // WARNING: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
 
   function handleAddition(tag) {
-    const technologies = [].concat(tech, tag);
-    setTech(technologies);
+    if (tech.some(tech_tag => tech_tag.id !== tag.id) || tech.length === 0) {
+      const technologies = [].concat(tech, tag);
+      setTech(technologies);
+    }
   }
 
   function handleDelete(i) {
@@ -190,6 +190,11 @@ const CreateProjects = props => {
   // When the user clicks on "Submit", sends this project over to the back-end
   function onSubmit(e) {
     e.preventDefault();
+    // TODO: look into why setAlert is not working
+    if (name.length === 0 || desc.length === 0 || desc.length > 1000) {
+      setAlert("Please ensure that the inputs are filled out correctly", "danger");
+      return;
+    }
     addProject({
       name,
       desc,
@@ -199,7 +204,6 @@ const CreateProjects = props => {
       githubStars,
       links
     });
-    setAlert("Successfully created your project", "success");
     // Redirect to the explore page
     history.push("/explore");
   }
@@ -235,7 +239,7 @@ const CreateProjects = props => {
             <ReactTags
               className="item"
               tags={tech}
-              suggestions={tech_suggestions}
+              suggestions={techSuggestions}
               handleDelete={handleDelete}
               handleAddition={handleAddition}
             />
@@ -324,7 +328,6 @@ CreateProjects.propTypes = {
 // Transforms Redux store state into the props for this CreateProjects component
 // This function is called whenever the store state changes
 const mapStateToProps = state => {
-
   return {
     githubRepos: state.github.githubReposFromState,
     isLoading: state.github.loading,

@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 
-
 // Component Imports
 import LandingPage from "../Containers/LandingPage/LandingPage";
 import Login from "../Containers/Account/LogIn/LoginPage";
@@ -14,8 +13,8 @@ import CreateProjects from "../Containers/Projects/CreateProjects/CreateProjects
 import Dashboard from "../Containers/Dashboard/Dashboard";
 import Project from "../Containers/User/Project";
 
-import OtherProfile from "../Containers/User/OtherProfile";
 import Profile from "../Containers/User/Profile";
+import Users from "../Containers/Explore/Users";
 import Root from "../Containers/Forum/Root";
 import Subforum from "../Containers/Forum/Subforum";
 import Thread from "../Containers/Forum/Thread";
@@ -40,11 +39,12 @@ const Router = () => {
       <PrivateRoute path="/trending" component={Trending} />
       <PrivateRoute path="/projects/create" component={CreateProjects} />
       <PrivateRoute path="/user/profile" component={Profile} />
-      <PrivateRoute path="/user/matthuynh" component={OtherProfile} />
+      <PrivateRoute exact path="/user/:uid" component={Profile} />
       <PrivateRoute path="/dashboard" component={Dashboard} />
       <PrivateRoute path="/search" component={Search} />
       <PrivateRoute exact path="/forum/" component={Root} />
       <PrivateRoute exact path="/forum/:subforum" component={Subforum} />
+      <PrivateRoute path="/explore/users" component={Users} exact />
       <PrivateRoute exact path="/forum/:subforum/:thread" component={Thread} />
       <PrivateRoute
         path="/message"
@@ -53,6 +53,7 @@ const Router = () => {
 
       {/* Catch All -- 404 */}
       <Route component={Page404} />
+      <Route path="/404" component={Page404} />
     </Switch>
   );
 };

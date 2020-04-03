@@ -1,6 +1,70 @@
 import axios from "axios";
-import { USER_LOADED, PUT_SUCCESSFUL } from "./types";
+import {
+  USER_LOADED,
+  PUT_SUCCESSFUL,
+  GET_SUCCESSFUL,
+  RESOURCE_NOT_FOUND
+} from "./types";
 import { setAlert } from "./alert";
+
+export const get_user_info = uid => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  try {
+    const url = "/api/user/" + uid;
+    let response = await axios.get(url, config);
+
+    if (response) {
+      if (response.status === 200) {
+        dispatch({
+          type: GET_SUCCESSFUL,
+          payload: response.data
+        });
+      }
+    }
+  } catch (err) {
+    if (err.response.status === 404) {
+      dispatch({
+        type: RESOURCE_NOT_FOUND
+      });
+      dispatch(setAlert("Requested UID doesn't exist", "danger"));
+    } else {
+      console.log("Error occurred while retrieving user data");
+      console.log(err);
+    }
+  }
+};
+
+export const get_user_by_name = username => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  try {
+    const url = "/api/username/" + username;
+    let response = await axios.get(url, config);
+
+    if (response) {
+      if (response.status === 404) {
+        dispatch(setAlert("Requested username doesn't exist", "danger"));
+      } else if (response.status === 200) {
+        dispatch({
+          type: GET_SUCCESSFUL,
+          payload: response.data
+        });
+      }
+    }
+  } catch (err) {
+    console.log("Error occurred while retrieving user data");
+    console.log(err);
+  }
+};
 
 export const update_user_info = ({
   uid,
@@ -18,15 +82,15 @@ export const update_user_info = ({
   };
   try {
     const url = "/api/users/profile";
-    if (province == "Choose...") {
+    if (province === "Choose...") {
       province = undefined;
       city_field = undefined;
     }
-    if (name == "" || last_name == "") {
+    if (name === "" || last_name === "") {
       name = undefined;
       last_name = undefined;
     }
-    if (description == "") {
+    if (description === "") {
       description = undefined;
     }
     const body = {
@@ -93,7 +157,6 @@ export const update_avatar = ({ uid, image }) => async dispatch => {
       }
       // User logs in successfully
       else if (response.status === 200) {
-        console.log("update success");
         dispatch({ type: PUT_SUCCESSFUL });
         dispatch(setAlert("Uploaded avatar", "success"));
       }

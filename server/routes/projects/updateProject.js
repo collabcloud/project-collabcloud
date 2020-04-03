@@ -26,7 +26,7 @@ router.post(
 				return res.status(422).json({ errors: errors.array() });
 			}
 
-			// List of technologies
+			// Given the technologies used, construct an encoding string that can be inserted into PSQL
 			const techDict = tech_suggestions_dict;
 			let numTechnologies = Object.keys(techDict).length;
 			let techArray = [];

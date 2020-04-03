@@ -3,6 +3,7 @@ import registerReducer from "./registerReducer";
 import projectReducer from "./projectReducer";
 import githubReducer from "./githubReducer";
 import loginReducer from "./loginReducer";
+import userRequestReducer from "./userRequestReducer";
 import userReducer from "./userReducer";
 import searchReducer from "./searchReducer";
 import followReducer from "./followReducer";
@@ -20,6 +21,7 @@ export default combineReducers({
   github: githubReducer,
   login: loginReducer,
   user: userReducer,
+  users: userRequestReducer,
   search: searchReducer,
   follow: followReducer,
   unfollow: unfollowReducer,

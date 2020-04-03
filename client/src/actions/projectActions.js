@@ -7,7 +7,8 @@ import {
   GET_PUBLIC_PROJECTS,
   JOIN_PROJECT,
   LEAVE_PROJECT,
-  RESET_PROJECT_ACTION_STATUS
+  RESET_PROJECT_ACTION_STATUS,
+  ATTEMPT
 } from "./types";
 
 // Add Project Action
@@ -139,12 +140,17 @@ export const getProjectInformation = ({ projectId }) => async dispatch => {
       });
     } else {
       console.log(`An error occured. Error code: ${res.status}`);
+      dispatch({
+        type: ATTEMPT
+      });
     }
   } catch (err) {
     console.log(
       "Error occured when retrieving information for a single project"
     );
-    console.log(err);
+    dispatch({
+      type: ATTEMPT
+    });
   }
 };
 

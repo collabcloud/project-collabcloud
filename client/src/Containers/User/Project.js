@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Alert } from "react-bootstrap";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
-import { ProjectOverview } from "../../components/base/ProjectOverview";
-import { ProjectForm } from "../../components/base/ProjectForm";
-import { Contributors } from "../../components/base/Contributors";
-import "../../css/Project.css";
-
+import { ProjectOverview } from "../../components/specialized/Project/ProjectOverview";
+import { ProjectForm } from "../../components/specialized/Project/ProjectForm";
+import { Contributors } from "../../components/specialized/Project/Contributors";
 // Redux imports
 import { connect } from "react-redux"; // connects the ProjectForm component to the Redux store
 import { setAlert } from "../../actions/alert";
@@ -18,7 +16,14 @@ import {
   joinProject,
   resetProjectActionStatus
 } from "../../actions/projectActions";
+import {
+  get_project_requests,
+  request_user,
+  accept_request
+} from "../../actions/userRequestAction";
+import { postProject } from "../../actions/imgActions";
 import PropTypes from "prop-types";
+import "../../css/Project.css";
 
 const Project = props => {
   const {
@@ -26,34 +31,47 @@ const Project = props => {
     updateProject,
     deleteProject,
     joinProject,
+    accept_request,
     leaveProject,
     resetProjectActionStatus,
+    get_project_requests,
+    request_user,
+    postProject,
     projectInformation,
+    requests,
     updateSuccess,
     joinSuccess,
     leaveSuccess,
     loggedInUid,
     deleteSuccess,
-    match,
-    setAlert
+    setAlert,
+    status,
+    requestStatus,
+    link,
+    match
   } = props;
 
   // This is the PID of the project whose information we want to get
   const projectId = match.params.pid;
 
   const history = useHistory();
-  const [isShowingSettings, modifySettings] = useState(false);
+  const [imgLink, setImgLink] = useState("https://i.imgur.com/ncWaC3P.png");
+  const [showSettings, setShowSettings] = useState(false);
+  const [showRequests, setShowRequests] = useState(false);
   const [hasUserJoined, setUserJoinedProject] = useState(false);
   const [successfullyUpdated, setUpdated] = useState(false);
+  const [requestedToJoin, setRequestedToJoin] = useState(false);
+  const [requestedToJoinProject, setRequestedToJoinProject] = useState(false);
+  const [projectRequests, setProjectRequests] = useState([]);
   let requestedToUpdate = false;
-  let requestedToJoin = false;
+  //let requestedToJoin = false;
   let requestedToLeave = false;
   let requestedToDelete = false;
 
   // Loads project information
   useEffect(() => {
-    // console.log("Repopulating project information");
     getProjectInformation({ projectId });
+    get_project_requests(projectId);
   }, [
     getProjectInformation,
     updateSuccess,
@@ -61,9 +79,16 @@ const Project = props => {
     leaveSuccess,
     projectId
   ]);
+  // 404 redirect
+  useEffect(() => {
+    if (status === 500) {
+      history.push("/404");
+    }
+  }, [projectInformation, status, history]);
 
   // Check if the logged in user is part of this project
   useEffect(() => {
+    setImgLink(projectInformation.project.img);
     const collaborators = projectInformation.collaborators;
     collaborators.forEach(collaborator => {
       if (collaborator.userUid === loggedInUid) {
@@ -71,6 +96,25 @@ const Project = props => {
       }
     });
   }, [projectInformation, loggedInUid]);
+
+  useEffect(() => {
+    setProjectRequests(requests);
+  }, [requests]);
+
+  useEffect(() => {
+    projectRequests.forEach(request => {
+      if (request.requestee_uid === loggedInUid) {
+        setRequestedToJoin(true);
+      }
+      if (request.requester_uid === loggedInUid) {
+        setRequestedToJoinProject(true);
+      }
+    });
+  }, [projectRequests, loggedInUid]);
+
+  useEffect(() => {
+    setImgLink(link);
+  }, [link]);
 
   // When a user tries to delete their project, check if deletion was successful
   useEffect(() => {
@@ -116,8 +160,7 @@ const Project = props => {
   // When a user tries to join a project, check if joining was successful
   useEffect(() => {
     if (joinSuccess) {
-      // console.log("Successfully joined project");
-      requestedToJoin = false;
+      setRequestedToJoin(false);
       setUserJoinedProject(true);
       resetProjectActionStatus();
       setAlert("Successfully joined project", "success");
@@ -129,15 +172,40 @@ const Project = props => {
 
   // Toggles the Settings view, triggered by user
   const toggleSettings = () => {
-    modifySettings(!isShowingSettings);
+    setShowSettings(!showSettings);
+  };
+
+  // Toggles the Request page view
+  const toggleRequests = () => {
+    setShowRequests(!showRequests);
   };
 
   // User requests to join a Project
-  const requestToJoinProject = () => {
-    requestedToJoin = true;
+  const requestToJoinProject = async () => {
+    await request_user(
+      projectInformation.collaborators[0].username,
+      loggedInUid,
+      projectInformation.project.pid
+    );
+    setProjectRequests([]);
+    get_project_requests(projectId);
+  };
 
-    // Only collaborators may join an existing project, so we hardcode that field
-    joinProject(loggedInUid, projectInformation.project.pid, "collaborator");
+  // User accepts a join request
+  const acceptRequest = async () => {
+    await joinProject(
+      loggedInUid,
+      projectInformation.project.pid,
+      "collaborator"
+    );
+    setProjectRequests([]);
+    get_project_requests(projectId);
+  };
+
+  const acceptUserRequest = async uid => {
+    await accept_request(uid, projectInformation.project.pid, "collaborator");
+    setProjectRequests([]);
+    get_project_requests(projectId);
   };
 
   // User requests to leave a project
@@ -146,6 +214,17 @@ const Project = props => {
 
     // Only collaborators may leave a project, so we hardcode that field
     leaveProject(loggedInUid, projectInformation.project.pid, "collaborator");
+  };
+
+  //Request a user to join a project
+  const requestUser = async requestee => {
+    await request_user(
+      requestee,
+      projectInformation.project.ownerId,
+      projectInformation.project.pid
+    );
+    setProjectRequests([]);
+    get_project_requests(projectId);
   };
 
   // Calls updateProject() from redux
@@ -174,6 +253,10 @@ const Project = props => {
     deleteProject(pid);
   };
 
+  const post_project = (pid, img) => {
+    postProject(pid, img);
+  };
+
   return (
     <div>
       <NavigationBar />
@@ -191,7 +274,7 @@ const Project = props => {
         )}
 
         {/* Conditionally render either the informational view or the settings view */}
-        {isShowingSettings ? (
+        {showSettings ? (
           <ProjectForm
             projectInformation={projectInformation}
             toggleSettings={toggleSettings}
@@ -201,16 +284,26 @@ const Project = props => {
         ) : (
           <ProjectOverview
             projectInformation={projectInformation}
+            requests={projectRequests}
             toggleSettings={toggleSettings}
+            toggleRequests={toggleRequests}
             requestToJoinProject={requestToJoinProject}
+            acceptRequest={acceptRequest}
+            acceptUserRequest={acceptUserRequest}
             requestToLeaveProject={requestToLeaveProject}
+            requestUser={requestUser}
+            requestStatus={requestStatus}
+            requestedToJoin={requestedToJoin}
+            requestedToJoinProject={requestedToJoinProject}
             hasUserJoined={hasUserJoined}
             loggedInUid={loggedInUid}
+            postProject={post_project}
+            imgLink={imgLink}
           />
         )}
 
         {/* Conditionally render the contributors list*/}
-        {!isShowingSettings && (
+        {!showSettings && (
           <Contributors projectInformation={projectInformation} />
         )}
       </Container>
@@ -227,7 +320,11 @@ function mapStateToProps(state) {
     deleteSuccess: state.project.deleteSuccess,
     leaveSuccess: state.project.leaveSuccess,
     joinSuccess: state.project.joinSuccess,
-    loggedInUid: state.user.uid
+    loggedInUid: state.user.uid,
+    status: state.project.status,
+    requestStatus: state.users.status,
+    requests: state.users.requests,
+    link: state.img.link
   };
 }
 
@@ -270,20 +367,32 @@ function mapDispatchToProps(dispatch) {
     },
     setAlert: (message, alertType) => {
       dispatch(setAlert(message, alertType));
+    },
+    get_project_requests: pid => {
+      dispatch(get_project_requests(pid));
+    },
+    request_user: (requestee, requester, pid) => {
+      dispatch(request_user(requestee, requester, pid));
+    },
+    accept_request: (uid, pid, memberStatus) => {
+      dispatch(accept_request(uid, pid, memberStatus));
+    },
+    postProject: (pid, img) => {
+      dispatch(postProject(pid, img));
     }
   };
 }
 
 // List of dispatch functions that will be available to the component
 Project.propTypes = {
-
   getProjectInformation: PropTypes.func.isRequired,
   updateProject: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
   leaveProject: PropTypes.func.isRequired,
   joinProject: PropTypes.func.isRequired,
   resetProjectActionStatus: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  request_user: PropTypes.func.isRequired
 };
 
 // Inserting a null value where mapStateToProps() should be

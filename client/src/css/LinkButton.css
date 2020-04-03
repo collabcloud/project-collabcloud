@@ -1,0 +1,15 @@
+.link-button {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  /*optional*/
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link-button:hover,
+.link-button:focus {
+  text-decoration: underline;
+}

@@ -42,7 +42,7 @@ router.get(
 );
 
 // @route   GET api/forum/subforum/:subforumName
-// @desc    Retrieve all subforums
+// @desc    Retrieve the subforum specified by the name
 // @access  Public
 router.get(
   "/:subforumName",
@@ -70,6 +70,11 @@ router.get(
       const subforums = await db.models.subforum.findAll({
         where: { title: new_title }
       });
+
+      if (subforums.length === 0) {
+        res.status(404).json({ errorMessage: "Resource not found" });
+        return;
+      }
 
       res.status(200).json(subforums[0]);
 

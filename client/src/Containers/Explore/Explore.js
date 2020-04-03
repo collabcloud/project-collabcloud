@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { ProjectsList } from "../../components/base/ProjectsList";
+import { ProjectsList } from "../../components/specialized/Explore/ProjectsList";
 import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 // Redux Imports
