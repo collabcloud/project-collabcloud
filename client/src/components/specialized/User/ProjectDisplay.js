@@ -17,6 +17,7 @@ const ProjectDisplay = ({ get_user_projects, projects, ...props }) => {
       const project_list = projects.map((project, index) => (
         <ProjectBox
           key={index}
+          pid={project.pid}
           name={project.projectName}
           desc={project.projectDescription}
           tech={project.technologiesUsed}
@@ -35,20 +36,20 @@ const ProjectDisplay = ({ get_user_projects, projects, ...props }) => {
 
 function mapStateToProps(state) {
   return {
-    projects: state.project.projects
+    projects: state.project.projects,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    get_user_projects: uid => {
+    get_user_projects: (uid) => {
       dispatch(get_user_projects(uid));
-    }
+    },
   };
 }
 
 ProjectDisplay.propTypes = {
-  get_user_projects: PropTypes.func.isRequired
+  get_user_projects: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDisplay);

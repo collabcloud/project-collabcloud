@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Button, Container, Row, Col, ListGroup } from "react-bootstrap";
 import { GoBook, GoPerson } from "react-icons/go";
 import { FaHeart, FaBuffer } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { Item } from "../../base/Item";
 import tech_suggestions_array from "../../../utils/techSuggestions";
 
@@ -11,6 +12,7 @@ const technologiesList = tech_suggestions_array;
 
 export default function ProjectBox(props) {
   const name = props.name;
+  const pid = props.pid;
   const desc = props.desc;
   const tech = props.tech;
   const followers = props.followers;
@@ -36,7 +38,7 @@ export default function ProjectBox(props) {
           <Row>
             <Col className="d-flex align-items-start flex-column">
               <h3>
-                <GoBook /> {name}
+                <GoBook /> <Link to={"/project/" + pid}>{name}</Link>
               </h3>
               <h6>{desc}</h6>
             </Col>

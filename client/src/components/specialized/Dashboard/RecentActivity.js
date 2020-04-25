@@ -57,21 +57,24 @@ function renderMessage(notification, index) {
   ) {
     return (
       <div>
-        {renderEmoji(notification)} <Link to="/">{user}</Link>
+        {renderEmoji(notification)}{" "}
+        <Link to={"/user/" + notification.notificationCreator}>{user}</Link>
         {" " + msgs.splice(1).join(" ")}
       </div>
     );
   } else if (notification.notificationType === "thread_comment") {
     return (
       <div>
-        {renderEmoji(notification)} <Link to="/">{user}</Link>
+        {renderEmoji(notification)}{" "}
+        <Link to={"/user/" + notification.notificationCreator}>{user}</Link>
         {" " + msgs.splice(1).join(" ")}
       </div>
     );
   } else if (notification.notificationType === "collaboration_request") {
     return (
       <div>
-        {renderEmoji(notification)} <Link to="/">{user}</Link>
+        {renderEmoji(notification)}{" "}
+        <Link to={"/user/" + notification.notificationCreator}>{user}</Link>
         {" " + msgs.splice(1).join(" ")}
       </div>
     );

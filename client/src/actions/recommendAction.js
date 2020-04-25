@@ -2,14 +2,14 @@ import axios from "axios";
 import { RECOMMEND } from "./types";
 import techSuggestionsArray from "../utils/techSuggestions";
 
-export const recommendProjects = () => async dispatch => {
+export const recommendProjects = () => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
-    const techDict = techSuggestionsArray;
+    //const techDict = techSuggestionsArray;
     const res = await axios.get("/api/projects/", config);
     const res2 = await axios.get("/api/users/auth");
     // If success, dispatch action
@@ -24,9 +24,10 @@ export const recommendProjects = () => async dispatch => {
           var projectTech = projects[i].technologiesUsed;
           projectTech = projectTech.split("");
           var related = [];
+
           for (var j = 0; j < userinterests.length; j++) {
             if (projectTech[j] === "1" && userinterests[j] === "1") {
-              related.push(techDict[j + 1]);
+              related.push(techSuggestionsArray[j]);
             }
           }
           if (related.length > 0) {
@@ -37,7 +38,7 @@ export const recommendProjects = () => async dispatch => {
       }
       dispatch({
         type: RECOMMEND,
-        payload: recommendlst
+        payload: recommendlst,
       });
     } else {
       console.log("Couldn't get projects");
