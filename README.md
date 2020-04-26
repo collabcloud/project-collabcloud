@@ -8,11 +8,12 @@
 <div align="center">
 
   
-  <!-- [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE) -->
+  [![License](https://img.shields.io/github/license/collabcloud/project-collabcloud)](/LICENSE)
+  [![Code Size](https://img.shields.io/github/languages/code-size/collabcloud/project-collabcloud)]()
+  [![Open Issues](https://img.shields.io/github/issues-raw/collabcloud/project-collabcloud)]()
+  [![Closed Pull Requests](https://img.shields.io/github/issues-pr-closed-raw/collabcloud/project-collabcloud)]()
   [![Status](https://img.shields.io/badge/Status-In%20Development-green)]() 
-  [![NPM Version](https://img.shields.io/npm/v/npm)]()
   [![Contributors](https://img.shields.io/badge/Contributors-7-lightgrey)]()
-  [![Maintainance](https://img.shields.io/maintenance/yes/2020)]()
   [![Hotel](https://img.shields.io/badge/hotel-trivago-red)]()
   
 
@@ -80,7 +81,7 @@ More to come soon...
 - [GitHub API v3](https://developer.github.com/v3/)
 - [Imgur API](https://apidocs.imgur.com/?version=latest)
 
-## ✍️ Authors <a name = "authors"></a>
+## ✍️ Contributors <a name = "authors"></a>
 - [@daniil-oliynyk](https://github.com/daniil-oliynyk)
 - [@Furqan17](https://github.com/Furqan17)
 - [@imphungky](https://github.com/imphungky)
