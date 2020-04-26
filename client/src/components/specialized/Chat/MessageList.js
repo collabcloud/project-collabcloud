@@ -4,8 +4,8 @@ import { Card, Form, Button, Container, Row } from "react-bootstrap";
 
 import "../../../css/Chat.css";
 
-export const MessageList = props => {
-  var scrollbar = React.createRef();
+export const MessageList = (props) => {
+  let scrollbar = React.createRef();
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -17,22 +17,22 @@ export const MessageList = props => {
   }, [scrollbar, props.messages]);
   function onSubmit(event) {
     event.preventDefault();
-    var message = event.target[0].value;
-    var today = new Date();
-    var date =
+    let message = event.target[0].value;
+    let today = new Date();
+    let date =
       today.getFullYear() +
       "-" +
       (today.getMonth() + 1) +
       "-" +
       today.getDate();
-    var time =
+    let time =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date + " " + time;
+    let dateTime = date + " " + time;
     date = message = {
       type: "user",
       name: props.user,
       msg: message,
-      time: dateTime
+      time: dateTime,
     };
     props.sendMessage(message);
     setMessage("");
@@ -43,19 +43,19 @@ export const MessageList = props => {
   }
 
   function createMessage(msg, index) {
-    var time = "";
+    let time = "";
 
     if (msg.time) {
-      var today = new Date(msg.time);
-      var date =
+      let today = new Date(msg.time);
+      let date =
         today.getFullYear() +
         "-" +
         (today.getMonth() + 1) +
         "-" +
         today.getDate();
-      var curtime =
+      let curtime =
         today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      var dateTime = date + " " + curtime;
+      let dateTime = date + " " + curtime;
       time = "Sent at " + dateTime;
     }
     return (
@@ -71,11 +71,11 @@ export const MessageList = props => {
       </div>
     );
   }
-  var page = (
+  let page = (
     <Scrollbar
       ref={scrollbar}
       contentProps={{
-        renderer: props => {
+        renderer: (props) => {
           const { elementRef, style, ...restProps } = props;
           return (
             <div
@@ -86,7 +86,7 @@ export const MessageList = props => {
               id="msgContent"
             />
           );
-        }
+        },
       }}
     >
       {props.messages.map((value, index) => {
@@ -109,7 +109,7 @@ export const MessageList = props => {
           height: 100,
           paddingTop: 0,
           position: "relative",
-          borderTop: "solid 1px black"
+          borderTop: "solid 1px black",
         }}
       >
         <Form className="w-100" onSubmit={onSubmit}>
@@ -124,7 +124,7 @@ export const MessageList = props => {
               left: 0,
               right: 0,
               marginLeft: "auto",
-              marginRight: "auto"
+              marginRight: "auto",
             }}
           >
             <Form.Group className="h-40">

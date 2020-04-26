@@ -59,16 +59,16 @@ router.get(
         return res.status(422).json({ errors: errors.array() });
       }
 
-      var words = req.params.subforumName.split("-");
+      let words = req.params.subforumName.split("-");
       const first_word = words[0][0].toUpperCase() + words[0].slice(1);
-      var new_title = first_word;
+      let new_title = first_word;
 
-      for (var i = 1; i < words.length; i++) {
+      for (let i = 1; i < words.length; i++) {
         new_title += " " + words[i][0].toUpperCase() + words[i].slice(1);
       }
 
       const subforums = await db.models.subforum.findAll({
-        where: { title: new_title }
+        where: { title: new_title },
       });
 
       if (subforums.length === 0) {
@@ -92,12 +92,8 @@ router.get(
 router.post(
   "/",
   [
-    check("title", "Title is required")
-      .not()
-      .isEmpty(),
-    check("description", "Description is required")
-      .not()
-      .isEmpty()
+    check("title", "Title is required").not().isEmpty(),
+    check("description", "Description is required").not().isEmpty(),
   ],
   /*
 		The following async function below handles the full request.
@@ -123,13 +119,13 @@ router.post(
       let subForumObject = await db.models.subforum.findOrCreate({
         where: {
           title: title,
-          description: description
+          description: description,
         },
         defaults: {
           sid: subforumId,
           title: title,
-          description: description
-        }
+          description: description,
+        },
       });
 
       //await subForumObject.save();

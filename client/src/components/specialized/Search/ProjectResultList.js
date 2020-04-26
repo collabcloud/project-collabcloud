@@ -5,15 +5,15 @@ import { useHistory } from "react-router-dom";
 
 import LinkButton from "../../base/LinkButton";
 
-export const ProjectResultList = props => {
+export const ProjectResultList = (props) => {
   const history = useHistory();
 
-  var options = {
+  let options = {
     defaultSortName: "projectName", // default sort column name
     defaultSortOrder: "desc", // default sort order
-    onRowClick: row => {
+    onRowClick: (row) => {
       history.push("/project/" + row.pid);
-    }
+    },
   };
 
   const CellFormatter = (cell, row) => {

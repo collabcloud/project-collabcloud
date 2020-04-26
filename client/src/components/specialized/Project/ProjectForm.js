@@ -45,30 +45,30 @@ export function ProjectForm(props) {
       name: "Github",
       icon: github,
       placeholder: "Enter your project's GitHub URL here",
-      value: projectData.githubLink
+      value: projectData.githubLink,
     },
     {
       name: "Website",
       icon: website,
       placeholder: "Enter your project's website URL here",
-      value: projectData.websiteLink
+      value: projectData.websiteLink,
     },
     {
       name: "DevPost",
       icon: linkedin,
       placeholder: "Enter your project's DevPost URL here",
-      value: projectData.devpostLink
+      value: projectData.devpostLink,
     },
     {
       name: "LinkedIn",
       icon: dev,
       placeholder: "Enter your project's LinkedIn URL here",
-      value: projectData.linkedinLink
-    }
+      value: projectData.linkedinLink,
+    },
   ]);
 
   // When the user clicks on "Submit", updates this project from the back-end
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     let pid = projectData.pid;
 
@@ -79,7 +79,7 @@ export function ProjectForm(props) {
       projectDescription,
       isProjectPublic,
       tech,
-      links
+      links,
     });
 
     // Redirect user back to the user information page
@@ -98,19 +98,19 @@ export function ProjectForm(props) {
   // Used to update state of links list
   const updateLink = (index, value) => {
     const new_links = [...links];
-    var item = new_links[index];
+    let item = new_links[index];
     item.value = value;
     setLinks(new_links);
   };
 
   // Used to handle the addition of a technology tag
-  const handleAddition = tag => {
+  const handleAddition = (tag) => {
     const technologies = [].concat(tech, tag);
     setTech(technologies);
   };
 
   // Used to handle the deletion of a technology tag
-  const handleDelete = i => {
+  const handleDelete = (i) => {
     const technologies = tech.slice(0);
     technologies.splice(i, 1);
     setTech(technologies);
@@ -136,7 +136,7 @@ export function ProjectForm(props) {
               value={projectName}
               name="project_name"
               disabled // we currently do not allow Project names to be changed
-              onChange={e => setProjectName(e.target.value)}
+              onChange={(e) => setProjectName(e.target.value)}
             />
 
             <p className="createfont">Description</p>
@@ -146,7 +146,7 @@ export function ProjectForm(props) {
               className="item"
               value={projectDescription}
               name="description"
-              onChange={e => setProjectDescription(e.target.value)}
+              onChange={(e) => setProjectDescription(e.target.value)}
             />
 
             <p className="createfont">Project Visibility</p>
@@ -157,7 +157,7 @@ export function ProjectForm(props) {
                 checked={isProjectPublic}
                 value="public"
                 label="Public"
-                onChange={e => setVisibilityPublic(true)}
+                onChange={(e) => setVisibilityPublic(true)}
               />
               <Form.Check
                 name="privateVisibility"
@@ -165,7 +165,7 @@ export function ProjectForm(props) {
                 type="radio"
                 value="private"
                 label="Private"
-                onChange={e => setVisibilityPublic(false)}
+                onChange={(e) => setVisibilityPublic(false)}
               />
             </Form.Group>
 

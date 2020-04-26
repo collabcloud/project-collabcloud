@@ -8,13 +8,13 @@ import "../../../css/Chat.css";
 const default_avatar =
   "https://avatars2.githubusercontent.com/u/45340119?s=400&v=4";
 
-export const ChatList = props => {
+export const ChatList = (props) => {
   const [username, setFormData] = useState("");
   useEffect(() => {
     setFormData("");
   }, [props.chatList]);
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData(e.target.value);
   };
   function onClick(event) {
@@ -30,11 +30,11 @@ export const ChatList = props => {
     setFormData("");
     props.resetAddUserState();
   }
-  var chatList = props.chatList;
+  let chatList = props.chatList;
   if (!chatList) {
     chatList = [];
   }
-  var renderType = (
+  let renderType = (
     <ButtonGroup
       className="msggroup d-flex"
       justified="true"
@@ -42,11 +42,11 @@ export const ChatList = props => {
       vertical
     >
       {chatList.map((value, index) => {
-        var val = "";
+        let val = "";
         if (!value.seen) {
           val = "1";
         }
-        var icon = (
+        let icon = (
           <Image
             className="msgImage float-left img-responsive"
             src={value.avatar === undefined ? default_avatar : value.avatar}
@@ -118,12 +118,12 @@ export const ChatList = props => {
     <Scrollbar
       className="scroller"
       permanentTrackY={true}
-      renderer={props => {
+      renderer={(props) => {
         const { elementRef, ...restProps } = props;
         return <div {...restProps} ref={elementRef} className="Scrollbar" />;
       }}
       wrapperProps={{
-        renderer: props => {
+        renderer: (props) => {
           const { elementRef, style, ...restProps } = props;
           style.marginRight = 10;
           return (
@@ -134,23 +134,23 @@ export const ChatList = props => {
               className="ScrollbarWrapper"
             />
           );
-        }
+        },
       }}
       trackYProps={{
-        renderer: props => {
+        renderer: (props) => {
           const { elementRef, style, ...restProps } = props;
           return (
             <div {...restProps} ref={elementRef} className="Scrollbar trackY" />
           );
-        }
+        },
       }}
       thumbYProps={{
-        renderer: props => {
+        renderer: (props) => {
           const { elementRef, style, ...restProps } = props;
           return (
             <div {...restProps} ref={elementRef} className="Scrollbar thumbY" />
           );
-        }
+        },
       }}
     >
       {renderType}

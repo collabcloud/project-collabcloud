@@ -13,25 +13,25 @@ import {
   addUser,
   initializeList,
   changeRecipient,
-  updateChat
+  updateChat,
 } from "../../actions/chatActions";
-var messageSample = [
+let messageSample = [
   {
     type: "user",
     name: "Sample1",
-    msg: "This is a sample messagesssssssssssssssssssssssssssssssssssssssssss"
+    msg: "This is a sample messagesssssssssssssssssssssssssssssssssssssssssss",
   },
   {
     type: "other",
     name: "Sample2",
-    msg: "Any messages sent here are for sampling ONLY"
-  }
+    msg: "Any messages sent here are for sampling ONLY",
+  },
 ];
 let io;
-const Chat = props => {
+const Chat = (props) => {
   let [messageList, setMessageList] = useState({
     messages: messageSample,
-    recipient: ""
+    recipient: "",
   });
   const [addUserState, setAddUser] = useState(false);
   const [errMsg, setErrMsg] = useState("");
@@ -50,19 +50,19 @@ const Chat = props => {
   }
 
   function performSendAction(message) {
-    var from = props.profile.username;
-    var to = messageList.recipient;
-    var msg = {
+    let from = props.profile.username;
+    let to = messageList.recipient;
+    let msg = {
       from: from,
       to: to,
       message: message.msg,
-      time: message.time
+      time: message.time,
     };
     io.emit("messagesend", JSON.stringify(msg));
     if (message.msg === "") return;
     setMessageList({
       messages: [...messageList.messages, message],
-      recipient: to
+      recipient: to,
     });
   }
 
@@ -75,19 +75,19 @@ const Chat = props => {
     props.addUser(props.profile.username, user, setErrMsg, setAddUser);
   }
 
-  useEffect(function() {
+  useEffect(function () {
     props.initializeList(props.profile.username);
     if (io) {
       io.disconnect();
     }
     io = props.io.connect("http://localhost:5000");
-    io.on("message", function(data) {
+    io.on("message", function (data) {
       io.emit("reply", props.profile.username);
     });
   }, []);
 
   useEffect(
-    function() {
+    function () {
       setErrMsg("");
       if (props.profile.username === undefined) return;
     },
@@ -95,21 +95,21 @@ const Chat = props => {
   );
 
   if (io) {
-    io.on("messagesend", function(data) {
-      var data = JSON.parse(data);
-      if (messageList.recipient !== data.name) {
-        props.updateChat({ name: data.name, seen: false });
+    io.on("messagesend", function (data) {
+      let msg = JSON.parse(data);
+      if (messageList.recipient !== msg.name) {
+        props.updateChat({ name: msg.name, seen: false });
         return;
       }
-      props.updateChat({ name: data.name, seen: true });
-      var pair = {
+      props.updateChat({ name: msg.name, seen: true });
+      let pair = {
         from: props.profile.username,
-        to: messageList.recipient
+        to: messageList.recipient,
       };
       io.emit("messagereply", JSON.stringify(pair));
       setMessageList({
         ...messageList,
-        messages: [...messageList.messages, data]
+        messages: [...messageList.messages, msg],
       });
     });
   }
@@ -161,13 +161,13 @@ function mapStateToProps(state) {
     messageList: state.chat.messageList,
     uid: state.user.uid,
     profile: state.login.profile,
-    req_user: state.user.other_profile
+    req_user: state.user.other_profile,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    initializeList: myuser => {
+    initializeList: (myuser) => {
       dispatch(initializeList(myuser));
     },
     addUser: (myuser, username, setErrMsg, setAddUser) => {
@@ -176,12 +176,12 @@ function mapDispatchToProps(dispatch) {
     changeRecipient: (from, to, setMessageList) => {
       dispatch(changeRecipient(from, to, setMessageList));
     },
-    updateChat: username => {
+    updateChat: (username) => {
       dispatch(updateChat(username));
     },
-    get_user_by_name: username => {
+    get_user_by_name: (username) => {
       dispatch(get_user_by_name(username));
-    }
+    },
   };
 }
 

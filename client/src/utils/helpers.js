@@ -1,10 +1,10 @@
 export function timeToDate(timestamp) {
-  var date;
+  let date;
   if (timestamp.length < 10) return "";
 
   const year = timestamp.slice(0, 4);
-  var month = timestamp.slice(5, 7);
-  var day = timestamp.slice(8, 10);
+  let month = timestamp.slice(5, 7);
+  let day = timestamp.slice(8, 10);
 
   if (month === "01") {
     month = "January ";
@@ -34,7 +34,7 @@ export function timeToDate(timestamp) {
 
   const first_digit = parseInt(day.slice(0, 1));
   const second_digit = parseInt(day.slice(1, 2));
-  var days = "" + first_digit + ("" + second_digit);
+  let days = "" + first_digit + ("" + second_digit);
   if (first_digit !== 1 && second_digit === 1) {
     days = days + "st ";
   } else if (first_digit !== 1 && second_digit === 1) {
@@ -51,33 +51,24 @@ export function timeToDate(timestamp) {
 
 export function generateURL(subforum, title, isParent) {
   const subforum_url =
-    "/forum/" +
-    subforum
-      .toLowerCase()
-      .split(" ")
-      .join("-") +
-    "/";
+    "/forum/" + subforum.toLowerCase().split(" ").join("-") + "/";
   if (isParent) {
     return subforum_url;
   }
   const url =
     subforum_url +
-    title
-      .replace("?", "")
-      .toLowerCase()
-      .split(" ")
-      .join("-") +
+    title.replace("?", "").toLowerCase().split(" ").join("-") +
     "/";
 
   return url;
 }
 
 export function convertToTitle(str) {
-  var words = str.split("-");
+  let words = str.split("-");
   const first_word = words[0][0].toUpperCase() + words[0].slice(1);
-  var new_title = first_word;
+  let new_title = first_word;
 
-  for (var i = 1; i < words.length; i++) {
+  for (let i = 1; i < words.length; i++) {
     new_title += " " + words[i][0].toUpperCase() + words[i].slice(1);
   }
   return new_title;

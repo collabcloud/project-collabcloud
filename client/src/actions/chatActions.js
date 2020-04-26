@@ -3,69 +3,68 @@ import {
   ADD_TO_CHAT,
   INITIALIZE_CHAT,
   GET_MESSAGES,
-  UPDATE_CHAT
+  UPDATE_CHAT,
 } from "./types";
 
-export const updateChat = username => async dispatch => {
+export const updateChat = (username) => async (dispatch) => {
   dispatch({
     type: UPDATE_CHAT,
-    payload: username
+    payload: username,
   });
 };
 
-export const changeRecipient = (from, to, setMessageList) => async dispatch => {
+export const changeRecipient = (from, to, setMessageList) => async (
+  dispatch
+) => {
   const config = {
     params: {
       myuser: from,
-      username: to
-    }
+      username: to,
+    },
   };
   const url = "/api/message/messages";
-  var messageList;
+  let messageList;
   axios
     .get(url, config)
-    .then(response => {
+    .then((response) => {
       messageList = response.data;
       dispatch({
         type: GET_MESSAGES,
-        payload: { lst: messageList, name: to }
+        payload: { lst: messageList, name: to },
       });
       setMessageList({
         messages: messageList,
-        recipient: to
+        recipient: to,
       });
     })
-    .catch(err => {});
+    .catch((err) => {});
 };
 
-export const addUser = (
-  myuser,
-  username,
-  setErrMsg,
-  setAddUser
-) => async dispatch => {
+export const addUser = (myuser, username, setErrMsg, setAddUser) => async (
+  dispatch
+) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   const url = "/api/message/add";
   const body = JSON.stringify({ myuser, username });
 
   axios
     .post(url, body, config)
-    .then(function(response) {
+    .then(function (response) {
       dispatch({
         type: ADD_TO_CHAT,
         payload: {
           name: username,
           seen: true,
-          avatar: response.data.avatar
-        }
+          avatar: response.data.avatar,
+        },
       });
       setAddUser(false);
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.response.status === 401) {
         setErrMsg(err.response.data.err);
       } else {
@@ -75,9 +74,9 @@ export const addUser = (
     });
 };
 
-export const initializeList = myuser => async dispatch => {
-  var chatList = localStorage.getItem("chatList");
-  var last = { name: "Message a new user", seen: true };
+export const initializeList = (myuser) => async (dispatch) => {
+  let chatList = localStorage.getItem("chatList");
+  let last = { name: "Message a new user", seen: true };
   if (chatList == null) {
     // axios request
     chatList = [last];
@@ -86,22 +85,22 @@ export const initializeList = myuser => async dispatch => {
   }
   dispatch({
     type: INITIALIZE_CHAT,
-    payload: chatList
+    payload: chatList,
   });
   const config = {
     params: {
-      username: myuser
-    }
+      username: myuser,
+    },
   };
   const url = "/api/message/chats";
   axios
     .get(url, config)
-    .then(response => {
+    .then((response) => {
       chatList = response.data;
       dispatch({
         type: INITIALIZE_CHAT,
-        payload: [...chatList, last]
+        payload: [...chatList, last],
       });
     })
-    .catch(err => {});
+    .catch((err) => {});
 };

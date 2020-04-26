@@ -1,34 +1,34 @@
 import axios from "axios";
 import { GET_HACKATHONS, ADD_HACKATHONS } from "./types";
 
-export const addHackathons = () => async dispatch => {
+export const addHackathons = () => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
-  var temporary = [
+  let temporary = [
     {
       name: "Hack Quarantime",
       date: "MAR 23RD - APR 12TH",
       location: "Worldwide",
-      link: "https://hackquarantine.com/"
+      link: "https://hackquarantine.com/",
     },
     {
       name: "Local Hack Day: Share",
       date: "APR 2ND - 20TH",
       location: "Worldwide",
-      link: "https://localhackday.mlh.io/"
-    }
+      link: "https://localhackday.mlh.io/",
+    },
   ];
 
-  for (var i = 0; i < temporary.length; i++) {
+  for (let i = 0; i < temporary.length; i++) {
     const body = JSON.stringify({
       name: temporary[i].name,
       date: temporary[i].date,
       location: temporary[i].location,
-      link: temporary[i].link
+      link: temporary[i].link,
     });
 
     try {
@@ -38,7 +38,7 @@ export const addHackathons = () => async dispatch => {
       if (res) {
         dispatch({
           type: ADD_HACKATHONS,
-          payload: res.data
+          payload: res.data,
         });
       } else {
         console.log("Couldn't add venture");
@@ -50,11 +50,11 @@ export const addHackathons = () => async dispatch => {
   }
 };
 
-export const getHackathons = () => async dispatch => {
+export const getHackathons = () => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   try {
@@ -64,7 +64,7 @@ export const getHackathons = () => async dispatch => {
     if (res) {
       dispatch({
         type: GET_HACKATHONS,
-        payload: res.data.hackathons_obj.hackathons_lst
+        payload: res.data.hackathons_obj.hackathons_lst,
       });
     }
   } catch (err) {

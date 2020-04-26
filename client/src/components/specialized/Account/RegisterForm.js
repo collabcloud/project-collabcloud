@@ -20,12 +20,12 @@ const RegisterForm = withRouter(
       if (githubExists) {
         history.push({
           pathname: "/login",
-          state: { type: "warning", message: "Account Exists. Please Login" }
+          state: { type: "warning", message: "Account Exists. Please Login" },
         });
       } else if (registered) {
         history.push({
           pathname: "/login",
-          state: { type: "success", message: "Welcome to CollabCloud" }
+          state: { type: "success", message: "Welcome to CollabCloud" },
         });
       } else if (wrongUser) {
         // TODO: Fix bug here, error message appears multiple times (it should only appear once)
@@ -33,10 +33,10 @@ const RegisterForm = withRouter(
           ...errors,
           "Username must match Github username",
           "",
-          "Authorizing with Github in 2 seconds"
+          "Authorizing with Github in 2 seconds",
         ]);
         // TODO: Get these values from an env file
-        setTimeout(function() {
+        setTimeout(function () {
           window.location.assign(
             "https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo"
           );
@@ -53,7 +53,7 @@ const RegisterForm = withRouter(
       attempted,
       wrongUser,
       history,
-      errors
+      errors,
     ]);
     /*
             The form data that will be submitted.
@@ -64,7 +64,7 @@ const RegisterForm = withRouter(
       username: "",
       password: "",
       confirmpassword: "",
-      email: ""
+      email: "",
     });
 
     /**
@@ -73,7 +73,10 @@ const RegisterForm = withRouter(
      */
 
     function handleAddition(tag) {
-      if (tech.some(tech_tag => tech_tag.id !== tag.id) || tech.length === 0) {
+      if (
+        tech.some((tech_tag) => tech_tag.id !== tag.id) ||
+        tech.length === 0
+      ) {
         const technologies = [].concat(tech, tag);
         setTech(technologies);
       }
@@ -85,7 +88,7 @@ const RegisterForm = withRouter(
       setTech(technologies);
     }
 
-    const onChange = e => {
+    const onChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
     /**
@@ -214,11 +217,11 @@ const RegisterForm = withRouter(
  * ?code=something
  */
 async function githubAuth(register, formData) {
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  const get_code = code => {
-    for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
+  let query = window.location.search.substring(1);
+  let vars = query.split("&");
+  const get_code = (code) => {
+    for (let i = 0; i < vars.length; i++) {
+      let pair = vars[i].split("=");
       if (pair[0] === code) {
         return pair[1];
       }
@@ -238,7 +241,7 @@ function mapStateToProps(state) {
     registered: state.register.registered,
     githubExists: state.register.githubExists,
     attempted: state.register.attempted,
-    wrongUser: state.register.wrongUser
+    wrongUser: state.register.wrongUser,
   };
 }
 /**
@@ -249,7 +252,7 @@ function mapDispatchToProps(dispatch) {
   return {
     register: (auth_code, formData) => {
       dispatch(register(auth_code, formData));
-    }
+    },
   };
 }
 /**

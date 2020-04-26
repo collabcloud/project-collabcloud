@@ -5,55 +5,55 @@ import {
   GoStar,
   GoGitCommit,
   GoNote,
-  GoPerson
+  GoPerson,
 } from "react-icons/go";
 import { useHistory } from "react-router-dom";
 
 const URL = "localhost:3000/project/";
 
-export const ProjectsList = props => {
+export const ProjectsList = (props) => {
   const history = useHistory();
 
-  var hardcode = [
+  let hardcode = [
     {
       star: 400,
       commit: 142,
-      owner: "lancebongo"
+      owner: "lancebongo",
     },
     {
       star: 3,
       commit: 357,
-      owner: "jarrodservilla"
+      owner: "jarrodservilla",
     },
     {
       star: 0,
       commit: 13,
-      owner: "skelzore"
+      owner: "skelzore",
     },
 
     {
       star: 0,
       commit: 22,
-      owner: "jcserv"
+      owner: "jcserv",
     },
     {
       star: 0,
       commit: 0,
-      owner: "jcserv"
-    }
+      owner: "jcserv",
+    },
   ];
 
-  var options = {
+  let options = {
     defaultSortName: "star", // default sort column name
     defaultSortOrder: "desc", // default sort order
-    onRowClick: row => {
+    onRowClick: (row) => {
       history.push("/project/" + row.pid);
-    }
+    },
   };
 
-  var projects = [];
+  let projects = [];
 
-  for (var i = 0; i < props.projects.length; i++) {
+  for (let i = 0; i < props.projects.length; i++) {
     projects.push({ ...props.projects[i], ...hardcode[i] });
   }
 

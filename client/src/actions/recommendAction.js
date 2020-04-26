@@ -14,18 +14,18 @@ export const recommendProjects = () => async (dispatch) => {
     const res2 = await axios.get("/api/users/auth");
     // If success, dispatch action
     if (res && res2) {
-      var userinterests = res2.data[0].interestedTech;
+      let userinterests = res2.data[0].interestedTech;
 
       userinterests = userinterests.split("");
-      var projects = res.data.projects_obj.projects_lst;
-      var recommendlst = [];
-      for (var i = 0; i < projects.length; i++) {
+      let projects = res.data.projects_obj.projects_lst;
+      let recommendlst = [];
+      for (let i = 0; i < projects.length; i++) {
         if (projects[i].ownerId !== res2.data[0].uid) {
-          var projectTech = projects[i].technologiesUsed;
+          let projectTech = projects[i].technologiesUsed;
           projectTech = projectTech.split("");
-          var related = [];
+          let related = [];
 
-          for (var j = 0; j < userinterests.length; j++) {
+          for (let j = 0; j < userinterests.length; j++) {
             if (projectTech[j] === "1" && userinterests[j] === "1") {
               related.push(techSuggestionsArray[j]);
             }

@@ -24,7 +24,7 @@ const website = <MdWeb />;
 const linkedin = <FaLinkedin />;
 const dev = <FaDev />;
 
-const CreateProjects = props => {
+const CreateProjects = (props) => {
   const {
     addProject,
     setAlert,
@@ -32,7 +32,7 @@ const CreateProjects = props => {
     isLoading,
     githubRepos,
     ownerId,
-    username
+    username,
   } = props;
 
   let githubUsername = username;
@@ -49,26 +49,26 @@ const CreateProjects = props => {
       name: "Github",
       icon: github,
       placeholder: "Enter your project's GitHub URL here",
-      value: ""
+      value: "",
     },
     {
       name: "Website",
       icon: website,
       placeholder: "Enter your project's website URL here",
-      value: ""
+      value: "",
     },
     {
       name: "DevPost",
       icon: dev,
       placeholder: "Enter your project's DevPost URL here",
-      value: ""
+      value: "",
     },
     {
       name: "LinkedIn",
       icon: linkedin,
       placeholder: "Enter your project's LinkedIn URL here",
-      value: ""
-    }
+      value: "",
+    },
   ]);
 
   const [projects, setProjects] = useState([
@@ -82,24 +82,24 @@ const CreateProjects = props => {
           name: "Github",
           icon: github,
           placeholder: "Enter your project's GitHub URL here",
-          value: ""
+          value: "",
         },
         { name: "Website", icon: website, value: "https://www.example.org/" },
         {
           name: "DevPost",
           icon: dev,
           placeholder: "Enter your project's DevPost URL here",
-          value: ""
+          value: "",
         },
         {
           name: "LinkedIn",
           icon: linkedin,
           placeholder: "Enter your project's LinkedIn URL here",
-          value: ""
-        }
+          value: "",
+        },
       ],
-      tech: [{ id: 3, name: "React" }]
-    }
+      tech: [{ id: 3, name: "React" }],
+    },
   ]);
   const history = useHistory();
 
@@ -125,27 +125,27 @@ const CreateProjects = props => {
             {
               name: "Github",
               icon: github,
-              value: githubRepos[i].github_url
+              value: githubRepos[i].github_url,
             },
             {
               name: "Website",
               icon: website,
               placeholder: "Enter your project's website URL here",
-              value: ""
+              value: "",
             },
             {
               name: "DevPost",
               icon: dev,
               placeholder: "Enter your project's DevPost URL here",
-              value: ""
+              value: "",
             },
             {
               name: "LinkedIn",
               icon: linkedin,
               placeholder: "Enter your project's LinkedIn URL here",
-              value: ""
-            }
-          ]
+              value: "",
+            },
+          ],
         };
         projectsToDisplay.push(project);
       }
@@ -157,7 +157,7 @@ const CreateProjects = props => {
   // WARNING: Even though the React compiler warns about this above line, DO NOT add the 'projects' dependency
 
   function handleAddition(tag) {
-    if (tech.some(tech_tag => tech_tag.id !== tag.id) || tech.length === 0) {
+    if (tech.some((tech_tag) => tech_tag.id !== tag.id) || tech.length === 0) {
       const technologies = [].concat(tech, tag);
       setTech(technologies);
     }
@@ -171,7 +171,7 @@ const CreateProjects = props => {
 
   function updateLink(index, value) {
     const new_links = [...links];
-    var item = new_links[index];
+    let item = new_links[index];
     item.value = value;
     setLinks(new_links);
   }
@@ -192,7 +192,10 @@ const CreateProjects = props => {
     e.preventDefault();
     // TODO: look into why setAlert is not working
     if (name.length === 0 || desc.length === 0 || desc.length > 1000) {
-      setAlert("Please ensure that the inputs are filled out correctly", "danger");
+      setAlert(
+        "Please ensure that the inputs are filled out correctly",
+        "danger"
+      );
       return;
     }
     addProject({
@@ -202,7 +205,7 @@ const CreateProjects = props => {
       ownerId,
       tech,
       githubStars,
-      links
+      links,
     });
     // Redirect to the explore page
     history.push("/explore");
@@ -232,7 +235,7 @@ const CreateProjects = props => {
               className="item"
               value={name}
               name="project_name"
-              onChange={e => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
             />
 
             <p className="createfont">It's built with</p>
@@ -251,7 +254,7 @@ const CreateProjects = props => {
               className="item"
               value={desc ? desc : ""}
               name="description"
-              onChange={e => setDesc(e.target.value)}
+              onChange={(e) => setDesc(e.target.value)}
             />
             <p className="createfont">Project Visibility</p>
             <Form.Group className="item">
@@ -261,7 +264,7 @@ const CreateProjects = props => {
                 checked={isProjectPublic}
                 // value="public"
                 label="Public"
-                onChange={e => setVisibilityPublic(true)}
+                onChange={(e) => setVisibilityPublic(true)}
               />
               <Form.Check
                 name="privateVisibility"
@@ -269,7 +272,7 @@ const CreateProjects = props => {
                 type="radio"
                 // value="private"
                 label="Private"
-                onChange={e => setVisibilityPublic(false)}
+                onChange={(e) => setVisibilityPublic(false)}
               />
             </Form.Group>
             <p className="createfont">Links</p>
@@ -314,7 +317,7 @@ function mapDispatchToProps(dispatch) {
     },
     setAlert: (message, alertType) => {
       dispatch(setAlert(message, alertType));
-    }
+    },
   };
 }
 
@@ -322,17 +325,17 @@ function mapDispatchToProps(dispatch) {
 CreateProjects.propTypes = {
   addProject: PropTypes.func.isRequired,
   getGithubRepos: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
 };
 
 // Transforms Redux store state into the props for this CreateProjects component
 // This function is called whenever the store state changes
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     githubRepos: state.github.githubReposFromState,
     isLoading: state.github.loading,
     ownerId: state.login.profile.uid,
-    username: state.login.profile.username
+    username: state.login.profile.username,
   };
 };
 

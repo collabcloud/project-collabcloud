@@ -3,15 +3,15 @@ import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { /*GoProject, GoStar, GoEye, GoNote,*/ GoPerson } from "react-icons/go";
 import { useHistory } from "react-router-dom";
 
-export const UserResultList = props => {
+export const UserResultList = (props) => {
   const history = useHistory();
 
-  var options = {
+  let options = {
     defaultSortName: "username", // default sort column name
     defaultSortOrder: "desc", // default sort order
-    onRowClick: row => {
+    onRowClick: (row) => {
       history.push("/user/" + row.uid);
-    }
+    },
   };
 
   const CellFormatter = (cell, row) => {

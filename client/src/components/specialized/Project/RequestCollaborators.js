@@ -8,8 +8,8 @@ export function RequestCollaborators(props) {
   const [requested, setRequested] = useState(false);
 
   function renderError() {
-    var variant;
-    var msgText;
+    let variant;
+    let msgText;
 
     if (!requested) {
       return;

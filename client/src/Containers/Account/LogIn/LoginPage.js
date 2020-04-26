@@ -5,11 +5,11 @@ import "../../../css/LoginForm.css";
 import Alert from "../../../components/base/Alert";
 import { setRegisterMessage } from "../../../actions/loginActions";
 import { connect } from "react-redux";
-const LoginPage = props => {
+const LoginPage = (props) => {
   useEffect(
-    function() {
+    function () {
       if (props.location.state) {
-        var temp = props.location.state;
+        let temp = props.location.state;
         if (!temp.message) return;
         props.setRegisterMessage(temp.message, temp.type, 4000);
       }
@@ -46,7 +46,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setRegisterMessage: (message, type, timeout) => {
       dispatch(setRegisterMessage(message, type, timeout));
-    }
+    },
   };
 }
 

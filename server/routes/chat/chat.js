@@ -8,33 +8,33 @@ const { Op } = require("sequelize");
 const moment = require("moment");
 const notificationHelpers = require("../../utils/notifications/projectNotifications");
 
-var user_sockets = {};
-var sockets_users = {};
+let user_sockets = {};
+let sockets_users = {};
 async function messageSendHandler(data) {
-  var data = JSON.parse(data);
-  if (data.to == "" || data.from == "" || data.message == "") {
+  let msg = JSON.parse(data);
+  if (msg.to == "" || msg.from == "" || msg.message == "") {
     return;
   }
   db.models.messages.create({
-    sender: data.from,
-    receiver: data.to,
-    message: data.message
+    sender: msg.from,
+    receiver: msg.to,
+    message: msg.message,
   });
   db.models.chats.update(
-    { firstUser: data.from, secondUser: data.to },
+    { firstUser: msg.from, secondUser: msg.to },
     {
       where: {
-        firstUser: data.from,
-        secondUser: data.to
-      }
+        firstUser: msg.from,
+        secondUser: msg.to,
+      },
     }
   );
-  var to = user_sockets[data.to];
+  let to = user_sockets[msg.to];
   if (to) {
-    var ret = {};
+    let ret = {};
     ret.type = "other";
-    ret.name = data.from;
-    ret.msg = data.message;
+    ret.name = msg.from;
+    ret.msg = msg.message;
     ret.time = new Date();
     to.emit("messagesend", JSON.stringify(ret));
     // db.models.chats.update({firstUser: data.to, secondUser: data.from, seen: true},{
@@ -45,83 +45,83 @@ async function messageSendHandler(data) {
     // });
   }
   db.models.chats.update(
-    { firstUser: data.to, secondUser: data.from, seen: false },
+    { firstUser: msg.to, secondUser: msg.from, seen: false },
     {
       where: {
-        firstUser: data.to,
-        secondUser: data.from
-      }
+        firstUser: msg.to,
+        secondUser: msg.from,
+      },
     }
   );
 
   const receiver = await db.models.user.findOne({
     where: {
-      username: data.to
-    }
+      username: msg.to,
+    },
   });
 
   const sender = await db.models.user.findOne({
     where: {
-      username: data.from
-    }
+      username: msg.from,
+    },
   });
   notificationHelpers.addChatNotification(
     "chat_receive",
     sender.uid,
     receiver.uid,
-    `${data.from} sent a message at ${moment().format(
+    `${msg.from} sent a message at ${moment().format(
       "MMMM Do YYYY, h:mm:ss a"
     )}!`,
-    `${data.from} said: ${data.message}`
+    `${msg.from} said: ${msg.message}`
   );
 }
 function messageHandler(socket) {
-  return function(data) {
+  return function (data) {
     if (!data) return;
     user_sockets[data] = socket;
     sockets_users[socket] = data;
   };
 }
 function disconnectHandler(socket) {
-  return function() {
-    var user = sockets_users[socket];
+  return function () {
+    let user = sockets_users[socket];
     delete sockets_users[socket];
     delete user_sockets[user];
   };
 }
 async function messageReplyHandler(data) {
-  var data = JSON.parse(data);
+  let msg = JSON.parse(data);
   db.models.chats.update(
-    { firstUser: data.from, secondUser: data.to, seen: true },
+    { firstUser: msg.from, secondUser: msg.to, seen: true },
     {
       where: {
-        firstUser: data.from,
-        secondUser: data.to
-      }
+        firstUser: msg.from,
+        secondUser: msg.to,
+      },
     }
   );
 
   //TODO: remove this workaround
   const receiver = await db.models.user.findOne({
     where: {
-      username: data.to
-    }
+      username: msg.to,
+    },
   });
 
   const sender = await db.models.user.findOne({
     where: {
-      username: data.from
-    }
+      username: msg.from,
+    },
   });
 
   notificationHelpers.addChatNotification(
     "chat_response",
     sender.uid,
     receiver.uid,
-    `${data.from} responded to your message at ${moment().format(
+    `${msg.from} responded to your message at ${moment().format(
       "MMMM Do YYYY, h:mm:ss a"
     )}!`,
-    `${data.from} said: ${data.message}`
+    `${msg.from} said: ${msg.message}`
   );
 }
 function connectHandler(socket) {
@@ -136,28 +136,28 @@ async function getMessages(req, res) {
     return res.status("401").json("");
   }
   try {
-    var chats = await db.models.messages
+    let chats = await db.models.messages
       .findAll({
         attributes: ["sender", "receiver", "message", "createdAt"],
         where: {
           [Op.or]: [
             {
               sender: req.query.username,
-              receiver: req.query.myuser
+              receiver: req.query.myuser,
             },
             {
               sender: req.query.myuser,
-              receiver: req.query.username
-            }
-          ]
+              receiver: req.query.username,
+            },
+          ],
         },
         limit: 50,
-        order: [["createdAt", "ASC"]]
+        order: [["createdAt", "ASC"]],
       })
-      .map(value => {
-        var dict = value.dataValues;
-        var date = new Date(value.createdAt);
-        var ret = {};
+      .map((value) => {
+        let dict = value.dataValues;
+        let date = new Date(value.createdAt);
+        let ret = {};
         if (dict.sender == req.query.username) {
           ret.type = "other";
         } else {
@@ -172,13 +172,13 @@ async function getMessages(req, res) {
       {
         firstUser: req.query.myuser,
         secondUser: req.query.username,
-        seen: true
+        seen: true,
       },
       {
         where: {
           firstUser: req.query.myuser,
-          secondUser: req.query.username
-        }
+          secondUser: req.query.username,
+        },
       }
     );
     res.status(200).json(chats);
@@ -187,7 +187,7 @@ async function getMessages(req, res) {
     res.status(500).send("Error");
   }
 }
-module.exports = function(io) {
+module.exports = function (io) {
   io.on("connect", connectHandler);
 
   router.get("/messages", getMessages);
@@ -196,17 +196,17 @@ module.exports = function(io) {
       return res.status("401").json("");
     }
     try {
-      var chats = await db.models.chats
+      let chats = await db.models.chats
         .findAll({
           attributes: ["firstUser", "secondUser", "seen"],
           where: {
-            firstUser: req.query.username
+            firstUser: req.query.username,
           },
-          order: [["updatedAt", "DESC"]]
+          order: [["updatedAt", "DESC"]],
         })
-        .map(value => {
-          var dict = value.dataValues;
-          var ret = { seen: dict.seen };
+        .map((value) => {
+          let dict = value.dataValues;
+          let ret = { seen: dict.seen };
           if (dict.firstUser == req.query.username) {
             ret.name = dict.secondUser;
           } else {
@@ -222,10 +222,10 @@ module.exports = function(io) {
   });
   router.post("/add", async (req, res) => {
     try {
-      var user = await db.models.user.findAll({
+      let user = await db.models.user.findAll({
         where: {
-          username: req.body.username
-        }
+          username: req.body.username,
+        },
       });
       if (user.length < 1) {
         return res.status(401).json({ err: "This other user does not exist" });
@@ -234,11 +234,11 @@ module.exports = function(io) {
         return res.status(401).json({ err: "This is your username" });
       }
 
-      var chat = await db.models.chats.findAll({
+      let chat = await db.models.chats.findAll({
         where: {
           firstUser: req.body.myuser,
-          secondUser: req.body.username
-        }
+          secondUser: req.body.username,
+        },
       });
       if (chat.length > 0) {
         return res
@@ -248,12 +248,12 @@ module.exports = function(io) {
       db.models.chats.create({
         firstUser: req.body.myuser,
         secondUser: req.body.username,
-        seen: false
+        seen: false,
       });
       db.models.chats.create({
         firstUser: req.body.username,
         secondUser: req.body.myuser,
-        seen: false
+        seen: false,
       });
       res.status(200).json({ avatar: user[0].avatar });
     } catch (err) {
@@ -262,7 +262,7 @@ module.exports = function(io) {
     }
   });
 
-  router.get("/messages", async function(req, res) {});
+  router.get("/messages", async function (req, res) {});
 
   return router;
 };

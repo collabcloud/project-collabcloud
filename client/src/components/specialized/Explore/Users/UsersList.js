@@ -5,10 +5,10 @@ import { GoPerson } from "react-icons/go";
 
 import "../../../../css/Users.css";
 
-export const UsersList = props => {
-  var users = [];
+export const UsersList = (props) => {
+  let users = [];
 
-  for (var i = 0; i < props.users.length; i++) {
+  for (let i = 0; i < props.users.length; i++) {
     users.push({ ...props.users[i] });
   }
 
