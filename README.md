@@ -8,7 +8,7 @@
 <div align="center">
 
   
-  [![License](https://img.shields.io/github/license/collabcloud/project-collabcloud)](/LICENSE)
+  [![License](https://img.shields.io/github/license/collabcloud/project-collabcloud?label=GNU)](/LICENSE)
   [![Code Size](https://img.shields.io/github/languages/code-size/collabcloud/project-collabcloud)]()
   [![Open Issues](https://img.shields.io/github/issues-raw/collabcloud/project-collabcloud)]()
   [![Closed Pull Requests](https://img.shields.io/github/issues-pr-closed-raw/collabcloud/project-collabcloud)]()
