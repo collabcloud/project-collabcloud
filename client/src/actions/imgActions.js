@@ -2,11 +2,11 @@ import axios from "axios";
 import { POST_SUCCESSFUL } from "./types";
 import { setAlert } from "./alert";
 
-export const postAvatar = (uid, file) => async dispatch => {
+export const postAvatar = (uid, file) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const url =
@@ -14,12 +14,11 @@ export const postAvatar = (uid, file) => async dispatch => {
     const clientId = "d162fd6f83e78ed";
     const fd = new FormData();
     fd.append("image", file);
-
     //const body = JSON.stringify({ uid: uid, file: file });
     const res = await axios.post(url, fd, {
       headers: {
-        Authorization: "Client-ID " + clientId
-      }
+        Authorization: "Client-ID " + clientId,
+      },
     });
 
     // If success, dispatch the action
@@ -32,7 +31,7 @@ export const postAvatar = (uid, file) => async dispatch => {
 
       const body = {
         uid: uid,
-        image: link
+        image: link,
       };
 
       let response = await axios.put(user_url, body, config);
@@ -40,7 +39,7 @@ export const postAvatar = (uid, file) => async dispatch => {
       if (response) {
         dispatch({
           type: POST_SUCCESSFUL,
-          payload: res.data.data.link
+          payload: res.data.data.link,
         });
       }
     } else {
@@ -51,11 +50,11 @@ export const postAvatar = (uid, file) => async dispatch => {
   }
 };
 
-export const postProject = (pid, file) => async dispatch => {
+export const postProject = (pid, file) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const url =
@@ -65,8 +64,8 @@ export const postProject = (pid, file) => async dispatch => {
     fd.append("image", file);
     const res = await axios.post(url, fd, {
       headers: {
-        Authorization: "Client-ID " + clientId
-      }
+        Authorization: "Client-ID " + clientId,
+      },
     });
 
     // If success, dispatch the action
@@ -79,7 +78,7 @@ export const postProject = (pid, file) => async dispatch => {
 
       const body = {
         pid: pid,
-        image: link
+        image: link,
       };
 
       let response = await axios.put(project_url, body, config);
@@ -87,7 +86,7 @@ export const postProject = (pid, file) => async dispatch => {
       if (response) {
         dispatch({
           type: POST_SUCCESSFUL,
-          payload: res.data.data.link
+          payload: res.data.data.link,
         });
       }
     } else {

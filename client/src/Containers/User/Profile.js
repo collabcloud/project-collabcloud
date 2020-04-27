@@ -6,6 +6,7 @@ import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 import ProjectDisplay from "../../components/specialized/User/ProjectDisplay";
 import { get_user_info } from "../../actions/userActions";
 import { follow_user } from "../../actions/followActions";
+import { postAvatar } from "../../actions/imgActions";
 import { unfollow_user } from "../../actions/unfollowActions";
 import { withRouter, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
@@ -15,16 +16,20 @@ const Profile = withRouter(
     get_user_info,
     follow_user,
     unfollow_user,
+    postAvatar,
     profile,
     followed,
     loggedInUid,
     status,
-    match
+    match,
+    link,
   }) => {
     const history = useHistory();
 
     const [show, setShow] = useState(false);
-    const [img, setImg] = useState("");
+    const [img, setImg] = useState(
+      "https://avatars2.githubusercontent.com/u/45340119?s=400&v=4"
+    );
     const [btnText, setBtnText] = useState("Follow");
     const [btnColour, setBtnColour] = useState("primary");
     const [message, setMessage] = useState("");
@@ -50,7 +55,13 @@ const Profile = withRouter(
       }
     }, [status, history]);
 
-    const onClickprofile = () => setForm(showform => !showform);
+    useEffect(() => {
+      if (link !== "") {
+        setImg(link);
+      }
+    }, [link]);
+
+    const onClickprofile = () => setForm((showform) => !showform);
 
     function followUser() {
       if (!followed && loggedInUid !== uid) {
@@ -74,6 +85,10 @@ const Profile = withRouter(
         setShow(true);
         followed = !followed;
       }
+    }
+
+    function uploadImage(uid, file) {
+      postAvatar(uid, file);
     }
 
     function renderform() {
@@ -103,11 +118,12 @@ const Profile = withRouter(
                 showform={showform}
                 followers={followers}
                 btnText={btnText}
-                img={img}
+                img={link === "" ? img : link}
                 setImg={setImg}
                 get_user_info={get_user_info}
                 uid={uid}
                 btnColour={btnColour}
+                uploadImage={uploadImage}
               />
             </Col>
             {renderform()}
@@ -133,13 +149,14 @@ function mapStateToProps(state) {
     followed: state.follow.followed,
     loggedInUid: state.user.uid,
     profile: state.user.other_profile,
-    status: state.user.status
+    status: state.user.status,
+    link: state.img.link,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    get_user_info: uid => {
+    get_user_info: (uid) => {
       dispatch(get_user_info(uid));
     },
     follow_user: (followee, follower) => {
@@ -147,7 +164,10 @@ function mapDispatchToProps(dispatch) {
     },
     unfollow_user: (followee, follower) => {
       dispatch(unfollow_user(followee, follower));
-    }
+    },
+    postAvatar: (uid, file) => {
+      dispatch(postAvatar(uid, file));
+    },
   };
 }
 

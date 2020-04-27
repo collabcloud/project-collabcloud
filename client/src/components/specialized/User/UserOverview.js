@@ -7,14 +7,13 @@ import {
   Col,
   ListGroup,
   Popover,
-  OverlayTrigger
+  OverlayTrigger,
 } from "react-bootstrap";
 
 import tech_suggestions_array from "../../../utils/techSuggestions";
 import { GoOrganization, GoClock } from "react-icons/go";
 import { FaBuffer } from "react-icons/fa";
 import { MdLocationOn, MdChatBubble } from "react-icons/md";
-import { postAvatar } from "../../../actions/imgActions";
 import { connect } from "react-redux";
 import { Item } from "../../base/Item";
 
@@ -27,8 +26,7 @@ const popover = (
   </Popover>
 );
 
-const UserDetails = ({ uid, postAvatar, link, ...props }) => {
-  const [update, setUpdate] = useState(false);
+const UserDetails = ({ uid, link, uploadImage, ...props }) => {
   const [profile, setProfile] = useState({});
   const fileUpload = useRef(null);
 
@@ -39,23 +37,13 @@ const UserDetails = ({ uid, postAvatar, link, ...props }) => {
     }
   }, [profile, props]);
 
-  useEffect(() => {
-    if (link) {
-      props.setImg(link);
-    }
-  }, [link]);
-
-  useEffect(() => {
-    setUpdate(!update);
-  }, [props.img]);
-
   const onAvatarClick = () => {
     fileUpload.current.click();
   };
 
   async function fileSelectedHandler(e) {
     const file = e.target.files[0];
-    await postAvatar(uid, file);
+    uploadImage(uid, file);
   }
 
   function renderName() {
@@ -208,23 +196,14 @@ UserDetails.defaultProps = {
     firstname: "",
     lastname: "",
     province: "",
-    username: ""
-  }
+    username: "",
+  },
 };
 
 function mapStateToProps(state) {
   return {
-    link: state.img.link,
-    uid: state.user.uid
+    uid: state.user.uid,
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    postAvatar: (uid, file) => {
-      dispatch(postAvatar(uid, file));
-    }
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);
+export default connect(mapStateToProps, [])(UserDetails);
