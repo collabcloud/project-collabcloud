@@ -5,7 +5,7 @@ import {
   Table,
   Button,
   Row,
-  Col
+  Col,
 } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -19,7 +19,7 @@ import ThreadForm from "../../components/specialized/Forum/ThreadForm";
 
 import { get_subforum, get_threads } from "../../actions/forumActions";
 
-const Subforum = props => {
+const Subforum = (props) => {
   const {
     get_subforum,
     get_threads,
@@ -27,7 +27,7 @@ const Subforum = props => {
     threads,
     uid,
     status,
-    match
+    match,
   } = props;
   const history = useHistory();
   const title = match.params.subforum;
@@ -71,14 +71,15 @@ const Subforum = props => {
     if (
       threadsList === null ||
       threadsList === undefined ||
-      threadsList === []
+      threadsList === [] ||
+      threadsList.length === 0
     ) {
-      //do nothing
+      return <p>No data to display</p>;
     } else {
       const thread_overviews = threadsList.map((thread, index) => (
         <ThreadOverview
           key={index}
-          path={generateURL(convertToTitle(title), thread.topic, false)}
+          path={generateURL(convertToTitle(title), thread.id, false)}
           title={thread.topic}
           submitter={thread.username}
           createdAt={timeToDate(thread.createdAt)}
@@ -112,7 +113,6 @@ const Subforum = props => {
       return <p>No data to display</p>;
     }
   }
-  //TODO: props.title, props.description
   return (
     <div>
       <NavigationBar />
@@ -164,24 +164,24 @@ function mapStateToProps(state) {
     threads: state.forum.threads,
     subforum: state.forum.subforum,
     uid: state.user.uid,
-    status: state.forum.status
+    status: state.forum.status,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    get_subforum: sid => {
+    get_subforum: (sid) => {
       dispatch(get_subforum(sid));
     },
-    get_threads: sid => {
+    get_threads: (sid) => {
       dispatch(get_threads(sid));
-    }
+    },
   };
 }
 
 Subforum.propTypes = {
   get_subforum: PropTypes.func.isRequired,
-  get_threads: PropTypes.func.isRequired
+  get_threads: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subforum);

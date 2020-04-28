@@ -67,7 +67,11 @@ function renderMessage(notification, index) {
       <div>
         {renderEmoji(notification)}{" "}
         <Link to={"/user/" + notification.notificationCreator}>{user}</Link>
-        {" " + msgs.splice(1).join(" ")}
+        {` ${msgs[1]} ${msgs[2]} `}
+        <Link to={notification.url}>
+          {msgs.splice(3, msgs.length - 9).join(" ")}
+        </Link>
+        {" " + msgs.splice(msgs.length - 6).join(" ")}
       </div>
     );
   } else if (notification.notificationType === "collaboration_request") {

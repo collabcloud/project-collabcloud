@@ -9,7 +9,7 @@ const db = new Sequelize(
     host: process.env.DB_HOST,
     dialect: "postgres",
     port: process.env.DB_PORT,
-    logging: process.env.DB_LOGGING == "TRUE" ? console.log : false
+    logging: process.env.DB_LOGGING == "TRUE" ? console.log : false,
   }
 );
 
@@ -27,54 +27,54 @@ const User = db.define(
     uid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
-      primaryKey: true
+      primaryKey: true,
     },
     username: {
       allowNull: false,
-      type: DataTypes.STRING(39)
+      type: DataTypes.STRING(39),
     },
     password: {
       allowNull: false,
-      type: DataTypes.STRING(255)
+      type: DataTypes.STRING(255),
     },
     authtoken: {
       allowNull: false,
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(50),
     },
     // If changing this, also need to change technologiesUsed in Project
     interestedTech: {
       type: DataTypes.STRING(200),
-      allowNull: true
+      allowNull: true,
     },
     githubid: {
       allowNull: false,
       unique: true,
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(50),
     },
     firstname: {
       allowNull: true,
-      type: DataTypes.STRING(25)
+      type: DataTypes.STRING(25),
     },
     lastname: {
       allowNull: true,
-      type: DataTypes.STRING(25)
+      type: DataTypes.STRING(25),
     },
     city: {
       allowNull: true,
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(50),
     },
     province: {
       allowNull: true,
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(50),
     },
     description: {
       allowNull: true,
-      type: DataTypes.STRING(1000)
+      type: DataTypes.STRING(1000),
     },
     avatar: {
       allowNull: false,
-      type: DataTypes.STRING(100)
-    }
+      type: DataTypes.STRING(100),
+    },
   },
   {}
 );
@@ -85,23 +85,23 @@ const project = db.define(
     pid: {
       type: Sequelize.UUID,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     projectName: {
       type: DataTypes.STRING(500),
-      allowNull: false
+      allowNull: false,
     },
     ownerId: {
       type: DataTypes.UUID,
       references: {
         model: "users",
-        key: "uid"
+        key: "uid",
       },
-      primaryKey: true
+      primaryKey: true,
     },
     img: {
       allowNull: false,
-      type: DataTypes.STRING(100)
+      type: DataTypes.STRING(100),
     },
     // gitRepoID: {
     //     type: DataTypes.STRING(50),
@@ -109,32 +109,32 @@ const project = db.define(
     // },
     projectDescription: {
       type: DataTypes.STRING(10000),
-      allowNull: false
+      allowNull: false,
     },
     isPrivate: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
     },
     githubStars: {
-      type: DataTypes.STRING(10)
+      type: DataTypes.STRING(10),
     },
     // If changing this, need to also change interestedTech in User
     technologiesUsed: {
       type: DataTypes.STRING(200),
-      allowNull: false
+      allowNull: false,
     },
     githubLink: {
-      type: DataTypes.STRING(2048)
+      type: DataTypes.STRING(2048),
     },
     websiteLink: {
-      type: DataTypes.STRING(2048)
+      type: DataTypes.STRING(2048),
     },
     devpostLink: {
-      type: DataTypes.STRING(2048)
+      type: DataTypes.STRING(2048),
     },
     linkedinLink: {
-      type: DataTypes.STRING(2048)
-    }
+      type: DataTypes.STRING(2048),
+    },
   },
   {}
 );
@@ -147,17 +147,17 @@ user_followers.belongsTo(User, { as: "followee" });
 const Hackathons = db.define("hackathons", {
   name: {
     type: DataTypes.STRING(25),
-    primaryKey: true
+    primaryKey: true,
   },
   date: {
-    type: DataTypes.STRING(25)
+    type: DataTypes.STRING(25),
   },
   location: {
-    type: DataTypes.STRING(25)
+    type: DataTypes.STRING(25),
   },
   link: {
-    type: DataTypes.STRING(50)
-  }
+    type: DataTypes.STRING(50),
+  },
 });
 
 const Subforum = db.define(
@@ -166,16 +166,16 @@ const Subforum = db.define(
     sid: {
       type: Sequelize.UUID,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     title: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
     },
     description: {
       type: DataTypes.STRING(500),
-      allowNull: false
-    }
+      allowNull: false,
+    },
   },
   {}
 );
@@ -184,12 +184,12 @@ const Subforum = db.define(
 const user_follows_project = db.define("user_follows_project", {
   isOwner: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: false,
   },
   username: {
     type: DataTypes.STRING(25),
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 user_follows_project.belongsTo(User, { as: "user" });
 user_follows_project.belongsTo(project, { as: "project" });
@@ -197,60 +197,65 @@ user_follows_project.belongsTo(project, { as: "project" });
 const chats = db.define("chats", {
   firstUser: {
     type: DataTypes.STRING(200),
-    allowNull: false
+    allowNull: false,
   },
   secondUser: {
     type: DataTypes.STRING(200),
-    allowNull: false
+    allowNull: false,
   },
   seen: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 const messages = db.define("messages", {
   sender: {
     type: DataTypes.STRING(200),
-    allowNull: false
+    allowNull: false,
   },
   receiver: {
     type: DataTypes.STRING(200),
-    allowNull: false
+    allowNull: false,
   },
   message: {
     type: DataTypes.STRING(20000),
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 const Thread = db.define(
   "thread",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: false,
+    },
     tid: {
       type: Sequelize.UUID,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     topic: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
     },
     content: {
       type: DataTypes.STRING(500),
-      allowNull: false
+      allowNull: false,
     },
     dateCreated: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.NOW
+      defaultValue: Sequelize.NOW,
     },
     forum_title: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
     },
     username: {
       allowNull: false,
-      type: DataTypes.STRING(25)
-    }
+      type: DataTypes.STRING(25),
+    },
   },
   {}
 );
@@ -264,20 +269,20 @@ const Post = db.define(
     pid: {
       type: Sequelize.UUID,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     content: {
       type: DataTypes.STRING(500),
-      allowNull: false
+      allowNull: false,
     },
     dateCreated: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.NOW
+      defaultValue: Sequelize.NOW,
     },
     username: {
       allowNull: false,
-      type: DataTypes.STRING(25)
-    }
+      type: DataTypes.STRING(25),
+    },
   },
   {}
 );
@@ -295,13 +300,13 @@ const Notification = db.define("notifications", {
   nid: {
     type: Sequelize.UUID,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   // The resource it is referencing
   rid: {
     type: Sequelize.UUID,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   notificationType: {
     type: DataTypes.ENUM(
@@ -313,62 +318,62 @@ const Notification = db.define("notifications", {
       "chat_response"
     ),
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
   },
   notificationCreator: {
     type: Sequelize.UUID,
-    allowNull: false
+    allowNull: false,
   },
   notificationObserver: {
     type: Sequelize.UUID,
-    allowNull: false
+    allowNull: false,
   },
   notificationMessage: {
     type: DataTypes.STRING(2000),
-    allowNull: false
+    allowNull: false,
   },
   submessage: {
     type: DataTypes.STRING(100),
-    allowNull: true
+    allowNull: true,
   },
   url: {
     type: DataTypes.STRING(2000),
-    allowNull: true
-  }
+    allowNull: true,
+  },
 });
 
 // Project requests
 const user_requests = db.define("user_requests", {
   requestee_uid: {
     type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4
+    defaultValue: Sequelize.UUIDV4,
   },
   requester_uid: {
     type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4
+    defaultValue: Sequelize.UUIDV4,
   },
   projectName: {
     type: DataTypes.STRING(500),
-    allowNull: false
+    allowNull: false,
   },
   requesterName: {
     type: DataTypes.STRING(39),
-    allowNull: false
+    allowNull: false,
   },
   requesteeName: {
     type: DataTypes.STRING(39),
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 user_requests.belongsTo(User, { as: "owner" });
 user_requests.belongsTo(project, { as: "project" });
 
 db.sync({ force: false })
-  .then(message => {
+  .then((message) => {
     console.log("Database synced");
   })
-  .catch(function(err) {
+  .catch(function (err) {
     throw err;
   });
 

@@ -20,11 +20,7 @@ const FORUM_IDS_NAMESPACE = process.env.FORUM_IDS_NAMESPACE;
 // @access  Public
 router.get(
   "/",
-  [
-    check("sid", "Subforum ID is required")
-      .not()
-      .isEmpty()
-  ],
+  [check("sid", "Subforum ID is required").not().isEmpty()],
   /*
 		The following async function below handles the full request.
 	*/
@@ -39,8 +35,8 @@ router.get(
 
       const threads = await db.models.thread.findAll({
         where: {
-          subforumSid: req.query.sid
-        }
+          subforumSid: req.query.sid,
+        },
       });
       res.status(200).json(threads);
 
@@ -52,11 +48,11 @@ router.get(
   }
 );
 
-// @route   GET api/forum/thread/:threadName
+// @route   GET api/forum/thread/:id
 // @desc    Retrieve the thread object
 // @access  Public
 router.get(
-  "/:subforum/:threadName",
+  "/:subforum/:id",
   /*
 		The following async function below handles the full request.
 	*/
@@ -71,12 +67,12 @@ router.get(
       }
 
       const subforum = databaseHelpers.convertToTitleCap(req.params.subforum);
-      const topic = databaseHelpers.convertToTitle(req.params.threadName);
+      const id = req.params.id;
       const thread = await db.models.thread.findAll({
         where: {
           forum_title: subforum,
-          topic: { [Op.iLike]: topic }
-        }
+          id: id,
+        },
       });
 
       if (thread.length === 0) {
@@ -100,21 +96,11 @@ router.get(
 router.post(
   "/",
   [
-    check("submitter", "Submitter is required")
-      .not()
-      .isEmpty(),
-    check("subforum", "Subforum name is required")
-      .not()
-      .isEmpty(),
-    check("sid", "sid is required")
-      .not()
-      .isEmpty(),
-    check("topic", "Topic is required")
-      .not()
-      .isEmpty(),
-    check("content", "Content is required")
-      .not()
-      .isEmpty()
+    check("submitter", "Submitter is required").not().isEmpty(),
+    check("subforum", "Subforum name is required").not().isEmpty(),
+    check("sid", "sid is required").not().isEmpty(),
+    check("topic", "Topic is required").not().isEmpty(),
+    check("content", "Content is required").not().isEmpty(),
   ],
   /*
 		The following async function below handles the full request.
@@ -133,16 +119,28 @@ router.post(
 
       let user = await db.models.user.findOne({
         where: {
-          uid: submitter
-        }
+          uid: submitter,
+        },
       });
 
       if (user === null) {
         return res.status(404).json({ status: 404 });
       }
 
-      const submitterName = user.username;
       const sid = req.body.sid;
+
+      let { count } = await db.models.thread.findAndCountAll({
+        where: {
+          subforumSid: sid,
+        },
+      });
+
+      if (count === undefined) {
+        return res.status(404).json({ status: 404 });
+      }
+
+      const submitterName = user.username;
+
       const subforum = req.body.subforum;
       const topic = req.body.topic;
       const content = req.body.content;
@@ -159,17 +157,18 @@ router.post(
           username: submitterName,
           forum_title: subforum,
           topic: topic,
-          content: content
+          content: content,
         },
         defaults: {
+          id: count + 1,
           tid: threadId,
           subforumSid: sid,
           submitterUid: submitter,
           username: submitterName,
           forum_title: subforum,
           topic: topic,
-          content: content
-        }
+          content: content,
+        },
       });
 
       let pid = uuidv5(
@@ -183,7 +182,7 @@ router.post(
         subforumSid: sid,
         username: submitterName,
         submitterUid: submitter,
-        content: content
+        content: content,
       });
 
       await postObject.save();

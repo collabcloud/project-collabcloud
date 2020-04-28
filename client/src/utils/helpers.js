@@ -49,18 +49,13 @@ export function timeToDate(timestamp) {
   return date;
 }
 
-export function generateURL(subforum, title, isParent) {
+export function generateURL(subforum, id, isParent) {
   const subforum_url =
     "/forum/" + subforum.toLowerCase().split(" ").join("-") + "/";
   if (isParent) {
     return subforum_url;
   }
-  const url =
-    subforum_url +
-    title.replace("?", "").toLowerCase().split(" ").join("-") +
-    "/";
-
-  return url;
+  return subforum_url + id;
 }
 
 export function convertToTitle(str) {

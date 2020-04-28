@@ -9,7 +9,7 @@ import NavigationBar from "../../components/specialized/Nav/NavigationBar";
 
 import { get_posts, make_post, get_thread } from "../../actions/forumActions";
 
-const Thread = props => {
+const Thread = (props) => {
   const {
     get_thread,
     thread,
@@ -19,13 +19,14 @@ const Thread = props => {
     uid,
     profile,
     match,
-    status
+    status,
   } = props;
   const history = useHistory();
   const subforum = match.params.subforum;
-  const threadTopic = match.params.thread;
+  const id = match.params.thread;
 
   //Thread Information
+  const [topic, setTopic] = useState("");
   const [threadId, setThreadId] = useState("");
   const [sid, setSid] = useState("");
   const [submitter, setSubmitter] = useState("");
@@ -36,10 +37,10 @@ const Thread = props => {
   const [newPost, setNewPost] = useState("");
 
   useEffect(() => {
-    if (threadTopic !== "") {
-      get_thread(subforum, threadTopic);
+    if (id !== "") {
+      get_thread(subforum, id);
     }
-  }, [get_thread, subforum, threadTopic]);
+  }, [get_thread, subforum, id]);
 
   useEffect(() => {
     if (status === 404) {
@@ -51,8 +52,10 @@ const Thread = props => {
     if (typeof thread.tid !== "undefined") {
       setThreadId(thread.tid);
       setSid(thread.subforumSid);
-      setSubmitter(profile.username);
+      setSubmitter(thread.username);
       setCreatedAt(thread.createdAt);
+      setTopic(thread.topic);
+      // TODO: Fix lol
       get_posts(thread.tid);
       get_posts(thread.tid);
     }
@@ -107,11 +110,13 @@ const Thread = props => {
             </Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item active>
-            {convertToTitle(threadTopic)}
+            {topic !== "" ? convertToTitle(topic) : ""}
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className="d-flex flex-column">
-          <h3 className="text-left">{convertToTitle(threadTopic)}</h3>
+          <h3 className="text-left">
+            {topic !== "" ? convertToTitle(topic) : ""}
+          </h3>
           <h6 className="text-left">
             {"Posted by: " + submitter + " on " + timeToDate(createdAt)}
           </h6>
@@ -152,21 +157,21 @@ function mapStateToProps(state) {
     thread: state.forum.thread,
     uid: state.user.uid,
     status: state.forum.status,
-    profile: state.login.profile
+    profile: state.login.profile,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    get_thread: (subforum, threadTopic) => {
-      dispatch(get_thread(subforum, threadTopic));
+    get_thread: (subforum, id) => {
+      dispatch(get_thread(subforum, id));
     },
-    get_posts: tid => {
+    get_posts: (tid) => {
       dispatch(get_posts(tid));
     },
     make_post: (tid, sid, submitter, submitterUid, content) => {
       dispatch(make_post(tid, sid, submitter, submitterUid, content));
-    }
+    },
   };
 }
 

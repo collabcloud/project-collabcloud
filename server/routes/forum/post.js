@@ -22,11 +22,7 @@ const FORUM_IDS_NAMESPACE = process.env.FORUM_IDS_NAMESPACE;
 // @access  Public
 router.get(
   "/",
-  [
-    check("tid", "Thread ID is required")
-      .not()
-      .isEmpty()
-  ],
+  [check("tid", "Thread ID is required").not().isEmpty()],
   /*
 		The following async function below handles the full request.
 	*/
@@ -42,13 +38,13 @@ router.get(
 
       const posts = await db.models.post.findAll({
         where: {
-          threadTid: req.query.tid
+          threadTid: req.query.tid,
         },
         include: {
           model: db.models.user,
           as: "submitter",
-          required: true
-        }
+          required: true,
+        },
       });
       res.status(200).json(posts);
 
@@ -66,21 +62,11 @@ router.get(
 router.post(
   "/",
   [
-    check("tid", "Thread ID is required")
-      .not()
-      .isEmpty(),
-    check("sid", "Subforum ID is required")
-      .not()
-      .isEmpty(),
-    check("submitter", "Submitter is required")
-      .not()
-      .isEmpty(),
-    check("submitterUid", "Submitter UID is required")
-      .not()
-      .isEmpty(),
-    check("content", "Content is required")
-      .not()
-      .isEmpty()
+    check("tid", "Thread ID is required").not().isEmpty(),
+    check("sid", "Subforum ID is required").not().isEmpty(),
+    check("submitter", "Submitter is required").not().isEmpty(),
+    check("submitterUid", "Submitter UID is required").not().isEmpty(),
+    check("content", "Content is required").not().isEmpty(),
   ],
   /*
 		The following async function below handles the full request.
@@ -105,8 +91,8 @@ router.post(
 
       const thread = await db.models.thread.findOne({
         where: {
-          tid: tid
-        }
+          tid: tid,
+        },
       });
 
       let pid = uuidv5(
@@ -120,7 +106,7 @@ router.post(
         subforumSid: sid,
         username: submitter,
         submitterUid: submitterUid,
-        content: content
+        content: content,
       });
 
       notificationHelpers.addThreadNotification(
@@ -135,7 +121,8 @@ router.post(
           0,
           Math.min(content.length, 45)
         )} ...`,
-        databaseHelpers.generateURL(thread.forum_title, thread.topic, false)
+        `/forum/${thread.forum_title}/${thread.id}`
+        //databaseHelpers.generateURL(thread.forum_title, thread.topic, false)
       );
 
       await postObject.save();
