@@ -11,11 +11,14 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 const tech_suggestions = tech_suggestions_array;
 
+// This component is used in RegisterPage2.js
 const RegisterForm = withRouter(
   ({ register, registered, githubExists, attempted, wrongUser, history }) => {
-    const [tech, setTech] = useState([]);
 
+    const [tech, setTech] = useState([]);
     const [errors, setErrors] = useState([]);
+
+    // Runs whenever any of the variables in the dependency array (second parameter) changes
     useEffect(() => {
       if (githubExists) {
         history.push({
@@ -38,12 +41,12 @@ const RegisterForm = withRouter(
         // TODO: Get these values from an env file
         setTimeout(function() {
           window.location.assign(
-            "https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo"
+            "https://github.com/login/oauth/authorize?client_id=6f0b64a238f52e8c9523&scope=repo"
           );
         }, 2000);
       } else if (attempted) {
         window.location.assign(
-          "https://github.com/login/oauth/authorize?client_id=08f4f6db13802f8cd769&scope=repo"
+          "https://github.com/login/oauth/authorize?client_id=6f0b64a238f52e8c9523&scope=repo"
         );
       }
     }, [
@@ -55,11 +58,12 @@ const RegisterForm = withRouter(
       history,
       errors
     ]);
+
     /*
-            The form data that will be submitted.
-            Simply add more entries on the object to add more
-            entries in the form submission
-        */
+     * The form data that will be submitted. 
+     * Simply add more entries on the object to 
+     * add more entries in the form submission
+     */
     const [formData, setFormData] = useState({
       username: "",
       password: "",
@@ -71,7 +75,6 @@ const RegisterForm = withRouter(
      * Modify the formData when something has been changed
      *
      */
-
     function handleAddition(tag) {
       if (tech.some(tech_tag => tech_tag.id !== tag.id) || tech.length === 0) {
         const technologies = [].concat(tech, tag);
@@ -88,6 +91,7 @@ const RegisterForm = withRouter(
     const onChange = e => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
     /**
      * Submit the form through redux to the server
      *
@@ -241,6 +245,7 @@ function mapStateToProps(state) {
     wrongUser: state.register.wrongUser
   };
 }
+
 /**
  *
  * Standard function that maps Redux action dispatches to the Props of Register2
@@ -252,6 +257,7 @@ function mapDispatchToProps(dispatch) {
     }
   };
 }
+
 /**
  * Standard connect call
  */

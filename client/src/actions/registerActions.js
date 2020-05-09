@@ -17,8 +17,7 @@ export const register = (auth_code, formData) => async dispatch => {
   const body = JSON.stringify({ code: auth_code, ...formData });
 
   // If success, dispatch action
-  // TODO: Check the response for whether or not the user is
-  // already registered on github or not
+  // TODO: Check the response for whether or not the user is already registered on github or not
   axios
     .post(url, body, config)
     .then(response => {

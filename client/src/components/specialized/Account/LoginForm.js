@@ -90,14 +90,20 @@ function LoginForm({ loggedIn, login }) {
           Submit
         </Button>
       </Form>
+
+      <div className="text-center" >
+						Don't have an account yet? <a href="/register">Register</a>
+					</div>
       <div>
-        <img
-          alt=""
-          src={require("../../../logo.png")}
-          width="70"
-          height="35"
-          style={{ marginTop: 40, marginBottom: 20 }}
-        />
+        <a href="/">
+          <img
+            alt="CollabCloud-Logo"
+            src={require("../../../logo.png")}
+            width="70"
+            height="35"
+            style={{ marginTop: 20, marginBottom: 10 }}
+          />
+        </a>
       </div>
     </div>
   );

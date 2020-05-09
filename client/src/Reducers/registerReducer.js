@@ -14,6 +14,7 @@ const initialState = {
   wrongUser: false
 };
 
+// TODO: Return directly here
 export default (state = initialState, action) => {
   switch (action.type) {
     case ATTEMPT:

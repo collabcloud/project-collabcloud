@@ -1,5 +1,6 @@
 **vscode_workspace.code-workspace
 **env
+**package-lock.json
 
 # Logs
 logs
