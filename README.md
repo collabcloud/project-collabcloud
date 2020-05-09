@@ -91,6 +91,12 @@ More to come soon...
 - [@TheRBajaj](https://github.com/TheRBajaj)
 
 ## 🌲Environment Variables<a name = "environment_variables"></a>
+Your environment file in client/.env should be set up like the follow below:
+```
+REACT_APP_GITHUB_CLIENT_ID=
+```
+Note that you will need to restart the Create React App development server after making any modifications to this file.
+
 Your environment file in server/config/.env should be set up like the following below:
 ```
 # DO NOT COMMIT THIS FILE
