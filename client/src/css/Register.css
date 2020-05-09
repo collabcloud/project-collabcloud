@@ -1,0 +1,30 @@
+/* Used in RegisterPage.js */
+.page-title {
+    margin-top: 35px;
+    color: #667EEA;
+    font-size: 40px;
+}
+
+.page-heading {
+    margin-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.page-main {
+    margin-top: 30px;
+    
+}
+
+#tooltip-trigger {
+    background-color: transparent;
+    border: none;
+    color: #0275d8;
+    margin-top: 20px;
+}
+
+#github-button-label {
+    font-weight: bold;
+    font-size: 23px;
+    margin-top: 5px;
+}

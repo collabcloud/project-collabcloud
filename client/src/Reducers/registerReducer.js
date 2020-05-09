@@ -17,37 +17,37 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case ATTEMPT:
-      const obj = {
+      return {
         ...state,
         attempted: true,
         registered: false,
         githubExists: false
       };
-      return obj;
+
     case GET_TOKEN:
-      const obj1 = {
+      return {
         ...state,
         attempted: true,
         registered: true,
         githubExists: false
       };
-      return obj1;
+
+    // This case is when the user already has an account with the same username registered and saved in the CollabCloud database
     case GITHUB_EXISTS:
-      const obj2 = {
+      return {
         ...state,
         attempted: true,
         registered: false,
         githubExists: true
       };
-      return obj2;
+
     case GITHUB_USERNAME_NOMATCH:
-      const obj3 = {
+      return {
         ...state,
         attemped: true,
         registered: false,
         wrongUser: true
       };
-      return obj3;
     default:
       return state;
   }

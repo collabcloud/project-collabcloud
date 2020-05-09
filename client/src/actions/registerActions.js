@@ -17,19 +17,20 @@ export const register = (auth_code, formData) => async dispatch => {
   const body = JSON.stringify({ code: auth_code, ...formData });
 
   // If success, dispatch action
-  // TODO: Check the response for whether or not the user is
-  // already registered on github or not
   axios
     .post(url, body, config)
     .then(response => {
+      // Registration succeeded
       dispatch({
         type: GET_TOKEN,
         payload: response.data
       });
     })
     .catch(err => {
-      console.log(err.response.status);
+      // Registration failed
+      console.log(`Error occurred while registering. Code is ${err.response.status}`);
       if (err.response.status === 301) {
+        // Provided username already exists in database
         dispatch({
           type: GITHUB_EXISTS
         });
@@ -42,6 +43,5 @@ export const register = (auth_code, formData) => async dispatch => {
           type: ATTEMPT
         });
       }
-      console.log("Error occurred while registering");
     });
 };

@@ -1,8 +1,11 @@
+require("dotenv").config({ path: "../config/.env" });
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
-require("../../backend.js")();
+
+const clientID = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
 
 // @route   POST api/users/register
 // @desc    Register User
@@ -21,8 +24,6 @@ router.post(
         return res.status(400).json({ errors: errors.array() });
       }
       const code = req.body.code;
-      const clientID = "08f4f6db13802f8cd769";
-      const clientSecret = "7c01fda97c9ee5d3bbab94dbf1b548bab8e6b6be";
       let response = await axios({
         method: "post",
         url: `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${code}`,

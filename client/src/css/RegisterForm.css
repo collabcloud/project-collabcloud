@@ -14,3 +14,21 @@
 .errors li{
     color: red;
 }
+
+#interested-languages-label {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+#language-tag-input {
+    background-color: transparent;
+}
+
+.react-tags__search-input > input {
+    background-color: transparent !important;
+}
+
+#tos-checkbox {
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
