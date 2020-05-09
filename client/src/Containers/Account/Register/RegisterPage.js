@@ -2,6 +2,8 @@ import React from "react";
 import { Card, Tooltip, OverlayTrigger, Button } from "react-bootstrap";
 import "../../../css/Register.css";
 
+const clientID = process.env.REACT_APP_GITHUB_CLIENT_ID;
+
 // This page allows the user to redirect to GitHub to authorize our app to use their credentials
 const Register = ({ register }) => {
 	function renderTooltip(props) {
@@ -38,7 +40,7 @@ const Register = ({ register }) => {
 						<a
 							className="btn btn-secondary text-center"
 							style={{ width: "320px" }}
-							href="https://github.com/login/oauth/authorize?client_id=6f0b64a238f52e8c9523&scope=repo"
+							href={`https://github.com/login/oauth/authorize?client_id=${clientID}&scope=repo`}
 						>
 							<img
 								src={require("./GitHub-Mark-32px.png")}

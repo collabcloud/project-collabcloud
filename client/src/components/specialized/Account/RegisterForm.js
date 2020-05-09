@@ -11,6 +11,7 @@ import { register } from "../../../actions/registerActions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 const tech_suggestions = tech_suggestions_array;
+const clientID = process.env.REACT_APP_GITHUB_CLIENT_ID;
 
 // This component is used in RegisterPage2.js
 const RegisterForm = withRouter(
@@ -42,12 +43,12 @@ const RegisterForm = withRouter(
         // TODO: Get these values from an env file
         setTimeout(function() {
           window.location.assign(
-            "https://github.com/login/oauth/authorize?client_id=6f0b64a238f52e8c9523&scope=repo"
+            `https://github.com/login/oauth/authorize?client_id=${clientID}&scope=repo`
           );
         }, 2000);
       } else if (attempted) {
         window.location.assign(
-          "https://github.com/login/oauth/authorize?client_id=6f0b64a238f52e8c9523&scope=repo"
+          `https://github.com/login/oauth/authorize?client_id=${clientID}&scope=repo`
         );
       }
     }, [

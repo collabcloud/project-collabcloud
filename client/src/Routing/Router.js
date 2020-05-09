@@ -30,7 +30,6 @@ const Router = () => {
       {/* Public Routes */}
       <Route path="/" component={LandingPage} exact />
       <Route path="/login" component={Login} />
-      {/* <Route path="/register2" component={Register2} /> */}
       <Route path="/register" component={Register} exact />
       <Route path="/register/authenticated" component={Register2} />
       <Route path="/logout" component={Logout} />
