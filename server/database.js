@@ -1,17 +1,18 @@
 require("dotenv").config({ path: "./config/.env" });
 const { Sequelize, DataTypes, Model } = require("sequelize");
 
-const db = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    host: process.env.DB_HOST,
-    dialect: "postgres",
-    port: process.env.DB_PORT,
-    logging: process.env.DB_LOGGING == "TRUE" ? console.log : false,
-  }
-);
+var db_select = process.env.DB_NAME;
+
+if (process.argv[2] === "test") {
+  db_select = process.env.TEST_DB;
+}
+
+const db = new Sequelize(db_select, process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
+  dialect: "postgres",
+  port: process.env.DB_PORT,
+  logging: process.env.DB_LOGGING == "TRUE" ? console.log : false,
+});
 
 try {
   db.authenticate();
@@ -371,7 +372,11 @@ user_requests.belongsTo(project, { as: "project" });
 
 db.sync({ force: false })
   .then((message) => {
-    console.log("Database synced");
+    if (process.argv[2] == "test") {
+      console.log("Test DB synced");
+    } else {
+      console.log("Database synced");
+    }
   })
   .catch(function (err) {
     throw err;

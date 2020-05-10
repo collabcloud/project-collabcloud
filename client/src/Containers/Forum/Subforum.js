@@ -68,14 +68,7 @@ const Subforum = (props) => {
   }
 
   function renderThreads() {
-    if (
-      threadsList === null ||
-      threadsList === undefined ||
-      threadsList === [] ||
-      threadsList.length === 0
-    ) {
-      return <p>No data to display</p>;
-    } else {
+    if (threadsList && threadsList.length > 0) {
       const thread_overviews = threadsList.map((thread, index) => (
         <ThreadOverview
           key={index}
@@ -153,6 +146,7 @@ const Subforum = (props) => {
           <tbody>{renderThreads()}</tbody>
         </Table>
         {renderThreadForm()}
+        {threadsList.length === 0 && <p>No data to display.</p>}
         {renderErrorMessage()}
       </Container>
     </div>
