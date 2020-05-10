@@ -72,7 +72,7 @@ const Thread = (props) => {
 
   function onSubmit(e) {
     e.preventDefault();
-    make_post(threadId, sid, submitter, uid, newPost);
+    make_post(threadId, sid, profile.username, uid, newPost);
     get_posts(threadId);
     get_posts(threadId);
     setNewPost("");
